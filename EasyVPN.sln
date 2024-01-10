@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E17B4BCC-0351-4639-811A-701A73FC12CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Api", "src\EasyVPN.Api\EasyVPN.Api.csproj", "{27F88A06-D984-4DBB-8EB1-799F118EB6B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Application", "src\EasyVPN.Application\EasyVPN.Application.csproj", "{49D6692C-DA39-4C31-BFC8-67BBFE7BF3A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Contracts", "src\EasyVPN.Contracts\EasyVPN.Contracts.csproj", "{7A0EC329-DE71-49E1-9287-F2A3198859B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Domain", "src\EasyVPN.Domain\EasyVPN.Domain.csproj", "{1C055C03-D15E-4645-8A83-FB4C32820448}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Infrastructure", "src\EasyVPN.Infrastructure\EasyVPN.Infrastructure.csproj", "{E492337D-4B83-481B-8763-8CC5CB353CA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EasyVPN.Client", "EasyVPN.Client", "{37FDF4A6-5F74-481F-8213-DB10839841B0}"
+	ProjectSection(SolutionItems) = preProject
+		src\EasyVPN.Client\index.html = src\EasyVPN.Client\index.html
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27F88A06-D984-4DBB-8EB1-799F118EB6B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27F88A06-D984-4DBB-8EB1-799F118EB6B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27F88A06-D984-4DBB-8EB1-799F118EB6B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27F88A06-D984-4DBB-8EB1-799F118EB6B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49D6692C-DA39-4C31-BFC8-67BBFE7BF3A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49D6692C-DA39-4C31-BFC8-67BBFE7BF3A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49D6692C-DA39-4C31-BFC8-67BBFE7BF3A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49D6692C-DA39-4C31-BFC8-67BBFE7BF3A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A0EC329-DE71-49E1-9287-F2A3198859B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A0EC329-DE71-49E1-9287-F2A3198859B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A0EC329-DE71-49E1-9287-F2A3198859B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A0EC329-DE71-49E1-9287-F2A3198859B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C055C03-D15E-4645-8A83-FB4C32820448}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C055C03-D15E-4645-8A83-FB4C32820448}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C055C03-D15E-4645-8A83-FB4C32820448}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C055C03-D15E-4645-8A83-FB4C32820448}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E492337D-4B83-481B-8763-8CC5CB353CA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E492337D-4B83-481B-8763-8CC5CB353CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E492337D-4B83-481B-8763-8CC5CB353CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E492337D-4B83-481B-8763-8CC5CB353CA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{27F88A06-D984-4DBB-8EB1-799F118EB6B6} = {E17B4BCC-0351-4639-811A-701A73FC12CF}
+		{49D6692C-DA39-4C31-BFC8-67BBFE7BF3A3} = {E17B4BCC-0351-4639-811A-701A73FC12CF}
+		{7A0EC329-DE71-49E1-9287-F2A3198859B5} = {E17B4BCC-0351-4639-811A-701A73FC12CF}
+		{1C055C03-D15E-4645-8A83-FB4C32820448} = {E17B4BCC-0351-4639-811A-701A73FC12CF}
+		{E492337D-4B83-481B-8763-8CC5CB353CA7} = {E17B4BCC-0351-4639-811A-701A73FC12CF}
+		{37FDF4A6-5F74-481F-8213-DB10839841B0} = {E17B4BCC-0351-4639-811A-701A73FC12CF}
+	EndGlobalSection
+EndGlobal
