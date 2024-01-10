@@ -3,3 +3,38 @@
 
 # EasyVPN
 Simple VPN + Backend + Frontend application on a single server!
+
+
+
+
+<details>
+	<summary><h2>Prototype of the future site</h2></summary>
+
+
+### Main page
+![Main page](img/prototype/main.jpg)
+
+### Authorization page
+![Authorization page](img/prototype/sign_in.jpg)
+
+### Registration page
+![Registration page](img/prototype/sign_up.jpg)
+
+### User profile
+![User profile](img/prototype/user_profile.jpg)
+
+### Admin profile
+![Admin profile](img/prototype/admin_profile.jpg)
+
+### Connection requests page
+![Connection requests page](img/prototype/connection_tickets.jpg)
+
+### Support requests page
+![Support requests page](img/prototype/support_tickets.jpg)
+
+### User administration page
+![User administration page](img/prototype/administrate_users.jpg)
+
+</details>
+
+-----------------------------------------------------
