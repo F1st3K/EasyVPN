@@ -3,3 +3,46 @@
 
 # EasyVPN
 Простое VPN + Backend + Frontend приложения на одном сервере!
+
+
+
+
+<details>
+	<summary><h2>Прототип будущего сайта</h2></summary>
+
+
+### Главная страница
+
+![Главная страница](img/prototype/main.jpg)
+
+### Страница авторизации
+
+![О нас](img/prototype/sign_in.jpg)
+
+### Страница регистрации
+
+![Продукты](img/prototype/sign_up.jpg)
+
+### Профиль обычного пользователя
+
+![Контакты](img/prototype/user_profile.jpg)
+
+### Профиль администратора
+
+![Контакты](img/prototype/admin_profile.jpg)
+
+
+### Страница заявок на подключение
+
+![Контакты](img/prototype/connection_tickets.jpg)
+
+### Страница заявок потдержки
+
+![Контакты](img/prototype/support_tickets.jpg)
+
+### Страница администрирования пользователей
+
+![Контакты](img/prototype/administrate_users.jpg)
+</details>
+
+-----------------------------------------------------
