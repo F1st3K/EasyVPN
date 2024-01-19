@@ -1,0 +1,16 @@
+{
+    "rest-client.environmentVariables": {
+        "local": {
+            "host": "http://localhost:5057",
+            "token": "L8qq9PZyRg6ieKGEKhZolGC0vJWLw8iEJ88DRdyOg"
+        },
+        "staging": {
+            "host": "http://localhost:3001/api",
+            "token": "eyJhbGciOiJIUzI1NiJ9eyJSb2xlIjoiQWRtaW4if"
+        },
+        "production": {
+            "host": "http://localhost:3002/api",
+            "token": "c3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsI"
+        }
+    }
+}
