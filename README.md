@@ -5,7 +5,69 @@
 Простое VPN + Backend + Frontend приложения на одном сервере!
 
 
+<details>
+	<summary><h2>EasyVPN API</h2></summary>
 
+### Авторизация
+
+##### Запрос регистрации
+
+```http
+POST {{host}}/auth/register
+Content-Type: application/json
+{
+    "firstName": "Freak",
+    "lastName": "Fister",
+    "login": "F1st3K",
+    "password": "fisty123"
+}
+```
+
+##### Ответ регистрации
+
+```http
+200 OK
+```
+```http
+{
+    "id":"88755e3c-e106-4283-bf93-17965b1a"
+    "firstName": "Freak",
+    "lastName": "Fister",
+    "login": "F1st3K",
+    "token":"56be52...e3c7743d"
+}
+```
+
+##### Запрос входа
+
+```http
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+    "login": "F1st3K",
+    "password": "fisty123"
+}
+```
+
+##### Ответ входа
+
+```http
+200 OK
+```
+```http
+{
+    "id":"88755e3c-e106-4283-bf93-17965b1a"
+    "firstName": "Freak",
+    "lastName": "Fister",
+    "login": "F1st3K",
+    "token":"56be52...e3c7743d"
+}
+```
+
+</details>
+
+---
 
 <details>
 	<summary><h2>Прототип будущего сайта</h2></summary>

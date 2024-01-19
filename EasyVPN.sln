@@ -15,11 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Domain", "src\EasyV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Infrastructure", "src\EasyVPN.Infrastructure\EasyVPN.Infrastructure.csproj", "{E492337D-4B83-481B-8763-8CC5CB353CA7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EasyVPN.Client", "EasyVPN.Client", "{37FDF4A6-5F74-481F-8213-DB10839841B0}"
-	ProjectSection(SolutionItems) = preProject
-		src\EasyVPN.Client\index.html = src\EasyVPN.Client\index.html
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +51,5 @@ Global
 		{7A0EC329-DE71-49E1-9287-F2A3198859B5} = {E17B4BCC-0351-4639-811A-701A73FC12CF}
 		{1C055C03-D15E-4645-8A83-FB4C32820448} = {E17B4BCC-0351-4639-811A-701A73FC12CF}
 		{E492337D-4B83-481B-8763-8CC5CB353CA7} = {E17B4BCC-0351-4639-811A-701A73FC12CF}
-		{37FDF4A6-5F74-481F-8213-DB10839841B0} = {E17B4BCC-0351-4639-811A-701A73FC12CF}
 	EndGlobalSection
 EndGlobal
