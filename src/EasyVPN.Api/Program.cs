@@ -1,8 +1,11 @@
-using EasyVPN.Application.Services.Authentication;
+using EasyVPN.Application;
+using EasyVPN.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+    builder.Services
+        .AddApplication()
+        .AddInfrastructure();
     builder.Services.AddControllers();
 }
 
