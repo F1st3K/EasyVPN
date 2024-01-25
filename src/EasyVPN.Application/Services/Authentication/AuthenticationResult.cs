@@ -1,6 +1,6 @@
-namespace EasyVPN.Contracts.Authentication;
+namespace EasyVPN.Application.Services.Authentication;
 
-public record AuthenticationResponse(
+public record AuthenticationResult(
     Guid Id,
     string FirstName,
     string LastName,
