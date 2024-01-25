@@ -1,6 +1,5 @@
 using EasyVPN.Application.Services.Authentication;
 using EasyVPN.Contracts.Authentication;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyVPN.Api.Controllers;
