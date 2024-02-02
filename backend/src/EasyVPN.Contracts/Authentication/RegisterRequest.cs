@@ -5,4 +5,4 @@ public record RegisterRequest(
     string LastName,
     string Login,
     string Password
-);
+    );
