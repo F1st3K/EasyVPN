@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
-namespace EasyVPN.Api.Errors;
+namespace EasyVPN.Api.Common.Errors;
 
 public class ApiProblemsDetailsFactory : ProblemDetailsFactory
 {

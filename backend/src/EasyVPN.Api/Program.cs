@@ -1,4 +1,4 @@
-using EasyVPN.Api.Errors;
+using EasyVPN.Api.Common.Errors;
 using EasyVPN.Application;
 using EasyVPN.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
