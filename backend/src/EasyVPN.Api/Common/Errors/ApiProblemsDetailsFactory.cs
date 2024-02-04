@@ -1,4 +1,6 @@
 using System.Diagnostics;
+using EasyVPN.Api.Http;
+using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -87,11 +89,10 @@ public class ApiProblemsDetailsFactory : ProblemDetailsFactory
 
         var traceId = Activity.Current?.Id ?? httpContext?.TraceIdentifier;
         if (traceId != null)
-        {
             problemDetails.Extensions["traceId"] = traceId;
-        }
 
-        problemDetails.Extensions.Add("errors", "ers");
+        if (httpContext?.Items[HttpContextItemKeys.Errors] is List<Error> errors)
+            problemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code));
         
         _configure?.Invoke(new() { HttpContext = httpContext!, ProblemDetails = problemDetails });
     }

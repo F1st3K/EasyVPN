@@ -41,11 +41,11 @@ public class AuthenticationService : IAuthenticationService
 
     public ErrorOr<AuthenticationResult> Login(string login, string password)
     {
-        if (_userRepository.GetUserByLogin(login) is not User user)
-            throw new Exception("User with given login not exist");
+        if (_userRepository.GetUserByLogin(login) is not { } user)
+            return Errors.Authentication.InvalidCredentials;
 
         if (user.Password != password)
-            throw new Exception("Invalid password");
+            return Errors.Authentication.InvalidCredentials;
         
         var token = _jwtTokenGenerator.GenerateToken(user);
         

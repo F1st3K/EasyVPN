@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyVPN.Api.Controllers;
 
-[ApiController]
 [Route("auth")]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController : ApiController
 {
     private readonly IAuthenticationService _authenticationService;
 
@@ -22,11 +21,22 @@ public class AuthenticationController : ControllerBase
         var authResult = _authenticationService.Register(
             request.FirstName, request.LastName, request.Login, request.Password);
         
-        return authResult.MatchFirst(
+        return authResult.Match(
             result => Ok(MapAuthResult(result)),
-            error => Problem(error.Code));
+            errors => Problem(errors));
     }
 
+    [HttpPost("login")]
+    public IActionResult Login(LoginRequest request)
+    {
+        var authResult = _authenticationService.Login(
+            request.Login, request.Password);
+        
+        return authResult.Match(
+            result => Ok(MapAuthResult(result)),
+            errors => Problem(errors));
+    }
+    
     private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
     {
         var response = new AuthenticationResponse(
@@ -36,18 +46,5 @@ public class AuthenticationController : ControllerBase
             authResult.User.Login,
             authResult.Token);
         return response;
-    }
-
-    [HttpPost("login")]
-    public IActionResult Login(LoginRequest request)
-    {
-        var authResult = _authenticationService.Login(request.Login, request.Password);
-        /*var response = new AuthenticationResponse(
-            authResult.User.Id,
-            authResult.User.FirstName, 
-            authResult.User.LastName,
-            authResult.User.Login,
-            authResult.Token);*/
-        return Ok();
     }
 }
