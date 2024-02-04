@@ -8,10 +8,32 @@ Simple VPN + Backend + Frontend application on a single server!
 <details>
 	<summary><h2>EasyVPN API</h2></summary>
 
-### Auth
+### Errors
+
+#### Errors endpoint
+```http
+{{host}}/error
+```
+
+#### Errors response
+```http
+400 Bad Request
+``` 
+```http
+{
+  "type": "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+  "title": "Invalid login or password",
+  "status": 400,
+  "traceId": "00-ddbb5dae1dcf8a772b1e236a7259f07e-e58fef179b5dd0fb-00",
+  "errorCodes": [
+    "Authentication.InvalidCredentials"
+  ]
+}
+```
+
+### Authentication
 
 ##### Register request
-
 ```http
 POST {{host}}/auth/register
 Content-Type: application/json
@@ -20,21 +42,6 @@ Content-Type: application/json
     "lastName": "Fister",
     "login": "F1st3K",
     "password": "fisty123"
-}
-```
-
-##### Register response
-
-```http
-200 OK
-```
-```http
-{
-    "id":"88755e3c-e106-4283-bf93-17965b1a"
-    "firstName": "Freak",
-    "lastName": "Fister",
-    "login": "F1st3K",
-    "token":"56be52...e3c7743d"
 }
 ```
 
@@ -50,8 +57,7 @@ Content-Type: application/json
 }
 ```
 
-##### Login response
-
+##### Auth response
 ```http
 200 OK
 ```
