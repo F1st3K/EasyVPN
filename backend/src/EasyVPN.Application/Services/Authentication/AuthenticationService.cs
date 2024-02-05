@@ -1,6 +1,8 @@
 using EasyVPN.Application.Common.Interfaces.Authentication;
 using EasyVPN.Application.Common.Interfaces.Persistence;
+using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
+using ErrorOr;
 
 namespace EasyVPN.Application.Services.Authentication;
 
@@ -17,11 +19,11 @@ public class AuthenticationService : IAuthenticationService
         _userRepository = userRepository;
     }
 
-    public AuthenticationResult Register(
+    public ErrorOr<AuthenticationResult> Register(
         string firstName, string lastName, string login, string password)
     {
         if (_userRepository.GetUserByLogin(login) is not null)
-            throw new Exception($"User with given login already exist");
+            return Errors.User.DuplicateLogin;
 
         var user = new User
         {
@@ -37,13 +39,13 @@ public class AuthenticationService : IAuthenticationService
         return new AuthenticationResult(user, token);
     }
 
-    public AuthenticationResult Login(string login, string password)
+    public ErrorOr<AuthenticationResult> Login(string login, string password)
     {
-        if (_userRepository.GetUserByLogin(login) is not User user)
-            throw new Exception("User with given login not exist");
+        if (_userRepository.GetUserByLogin(login) is not { } user)
+            return Errors.Authentication.InvalidCredentials;
 
         if (user.Password != password)
-            throw new Exception("Invalid password");
+            return Errors.Authentication.InvalidCredentials;
         
         var token = _jwtTokenGenerator.GenerateToken(user);
         
