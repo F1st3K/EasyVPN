@@ -1,12 +1,30 @@
-using EasyVPN.Api.Http;
+using EasyVPN.Api.Common.Http;
 using ErrorOr;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers;
+namespace EasyVPN.Api.Controllers.Base;
 
 [ApiController]
-public class ApiController : ControllerBase
+[AllowAnonymous]
+public abstract class ApiController : ControllerBase
 {
+    [Authorize]
+    public class Auth : ApiController
+    { }
+    
+    [Authorize(Roles = "User")]
+    public new class User : ApiController
+    { }
+    
+    [Authorize(Roles = "PaymentReviewer")]
+    public class Reviewer : ApiController
+    { }
+    
+    [Authorize(Roles = "Administrator")]
+    public class Admin : ApiController
+    { }
+    
     protected IActionResult Problem(List<Error> errors)
     {
         HttpContext.Items[HttpContextItemKeys.Errors] = errors;

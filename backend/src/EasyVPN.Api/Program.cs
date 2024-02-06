@@ -1,23 +1,23 @@
-using EasyVPN.Api.Common.Errors;
+using EasyVPN.Api;
+using EasyVPN.Api.Controllers;
 using EasyVPN.Application;
 using EasyVPN.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services
+        .AddPresentation()
         .AddApplication()
         .AddInfrastructure(builder.Configuration);
-    
-    builder.Services.AddControllers();
-
-    builder.Services.AddSingleton<ProblemDetailsFactory, ApiProblemsDetailsFactory>();
 }
 
 var app = builder.Build();
 {
-    app.UseExceptionHandler("/error");
+    app.UseExceptionHandler(ErrorsController.Route);
+    
     app.UseHttpsRedirection();
+    app.UseAuthentication();
+    app.UseAuthorization();
     app.MapControllers();
     app.Run();
 }

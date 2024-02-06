@@ -1,4 +1,4 @@
-namespace EasyVPN.Api.Http;
+namespace EasyVPN.Api.Common.Http;
 
 public static class HttpContextItemKeys
 {
