@@ -29,6 +29,7 @@ public class AuthenticationService
 
         var user = new User
         {
+            Roles = new [] { Roles.User, Roles.Administrator, Roles.PaymentReviewer },
             FirstName = firstName,
             LastName = lastName,
             Login = login,
