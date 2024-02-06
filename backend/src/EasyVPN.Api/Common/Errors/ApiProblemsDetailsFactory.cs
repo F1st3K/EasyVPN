@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using EasyVPN.Api.Http;
+using EasyVPN.Api.Common.Http;
 using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;

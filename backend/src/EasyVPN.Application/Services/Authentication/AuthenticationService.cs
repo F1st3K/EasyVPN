@@ -6,7 +6,7 @@ using ErrorOr;
 
 namespace EasyVPN.Application.Services.Authentication;
 
-public class AuthenticationService : IAuthenticationService
+public class AuthenticationService
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserRepository _userRepository;
@@ -19,9 +19,11 @@ public class AuthenticationService : IAuthenticationService
         _userRepository = userRepository;
     }
 
-    public ErrorOr<AuthenticationResult> Register(
+    public async Task<ErrorOr<AuthenticationResult>> Register(
         string firstName, string lastName, string login, string password)
     {
+        await Task.CompletedTask;
+        
         if (_userRepository.GetUserByLogin(login) is not null)
             return Errors.User.DuplicateLogin;
 
@@ -39,8 +41,10 @@ public class AuthenticationService : IAuthenticationService
         return new AuthenticationResult(user, token);
     }
 
-    public ErrorOr<AuthenticationResult> Login(string login, string password)
+    public async Task<ErrorOr<AuthenticationResult>> Login(string login, string password)
     {
+        await Task.CompletedTask;
+        
         if (_userRepository.GetUserByLogin(login) is not { } user)
             return Errors.Authentication.InvalidCredentials;
 

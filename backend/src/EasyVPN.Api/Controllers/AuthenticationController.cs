@@ -1,24 +1,25 @@
 using EasyVPN.Application.Services.Authentication;
 using EasyVPN.Contracts.Authentication;
-using ErrorOr;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyVPN.Api.Controllers;
 
 [Route("auth")]
+[AllowAnonymous]
 public class AuthenticationController : ApiController
 {
-    private readonly IAuthenticationService _authenticationService;
+    private readonly AuthenticationService _authenticationService;
 
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(AuthenticationService authenticationService)
     {
         _authenticationService = authenticationService;
     }
 
     [HttpPost("register")]
-    public IActionResult Register(RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var authResult = _authenticationService.Register(
+        var authResult = await _authenticationService.Register(
             request.FirstName, request.LastName, request.Login, request.Password);
         
         return authResult.Match(
@@ -27,9 +28,9 @@ public class AuthenticationController : ApiController
     }
 
     [HttpPost("login")]
-    public IActionResult Login(LoginRequest request)
+    public async Task<IActionResult> Login(LoginRequest request)
     {
-        var authResult = _authenticationService.Login(
+        var authResult = await _authenticationService.Login(
             request.Login, request.Password);
         
         return authResult.Match(
