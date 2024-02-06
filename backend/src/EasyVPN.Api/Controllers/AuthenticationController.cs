@@ -1,12 +1,11 @@
+using EasyVPN.Api.Controllers.Base;
 using EasyVPN.Application.Services.Authentication;
 using EasyVPN.Contracts.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyVPN.Api.Controllers;
 
 [Route("auth")]
-[AllowAnonymous]
 public class AuthenticationController : ApiController
 {
     private readonly AuthenticationService _authenticationService;

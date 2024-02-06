@@ -1,11 +1,14 @@
+using EasyVPN.Api.Controllers.Base;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyVPN.Api.Controllers;
 
-public class ErrorsController : ControllerBase
+public class ErrorsController : ApiController
 {
-    [Route("/error")]
+    public const string Route = "/error";
+    
+    [Route(Route)]
     public IActionResult Error()
     {
         Exception? exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
