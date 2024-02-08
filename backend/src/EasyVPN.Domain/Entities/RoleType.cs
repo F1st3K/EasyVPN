@@ -1,8 +1,8 @@
 namespace EasyVPN.Domain.Entities;
 
-public enum Roles
+public enum RoleType
 {
     Administrator,
     PaymentReviewer,
-    User
+    Client
 }
