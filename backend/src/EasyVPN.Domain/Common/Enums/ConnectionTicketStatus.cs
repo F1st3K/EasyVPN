@@ -1,9 +1,8 @@
 namespace EasyVPN.Domain.Common.Enums;
 
-public enum ConnectionStatus
+public enum ConnectionTicketStatus
 {
     Pending,
     Rejected,
-    Active,
-    Expired
+    Confirmed
 }
