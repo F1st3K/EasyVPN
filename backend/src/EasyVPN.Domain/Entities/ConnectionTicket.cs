@@ -9,4 +9,7 @@ public class ConnectionTicket
     public Guid ConnectionId { get; set; }
     public ConnectionTicketStatus Status { get; set; }
     public DateTime CreationTime { get; set; }
+    public float Price { get; set; }
+    public string PaymentImage { get; set; } = null!;
+    public string PaymentDescription { get; set; } = null!;
 }
