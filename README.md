@@ -74,6 +74,29 @@ Content-Type: application/json
 
 ---
 
+
+
+<details>
+	<summary><h2>Логика приложения</h2></summary>
+
+### Для всех
+![Для всех](img/logicMap/anyone.jpg)
+
+### Для авторизованых
+![Для авторизованых](img/logicMap/any_auth.jpg)
+
+### Для клиентов
+![Для клиентов](img/logicMap/client.jpg)
+
+### Для проверяющего оплату
+![Для проверяющего оплату](img/logicMap/payment_reviewer.jpg)
+
+### Для администраторов
+![Для администраторов](img/logicMap/administrator.jpg)
+
+</details>
+
+---
 <details>
 	<summary><h2>Прототип будущего сайта</h2></summary>
 
