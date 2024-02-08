@@ -1,4 +1,4 @@
-namespace EasyVPN.Domain.Entities;
+namespace EasyVPN.Domain.Common.Enums;
 
 public enum RoleType
 {

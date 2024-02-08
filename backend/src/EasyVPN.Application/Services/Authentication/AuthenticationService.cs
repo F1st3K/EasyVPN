@@ -1,5 +1,6 @@
 using EasyVPN.Application.Common.Interfaces.Authentication;
 using EasyVPN.Application.Common.Interfaces.Persistence;
+using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
 using ErrorOr;
@@ -44,11 +45,11 @@ public class AuthenticationService
         {
             Id = Guid.NewGuid(),
             UserId = userId,
-            RoleType = RoleType.Client
+            Type = RoleType.Client
         };
         _roleRepository.Add(role);
         
-        var token = _jwtTokenGenerator.GenerateToken(user, new [] { role.RoleType });
+        var token = _jwtTokenGenerator.GenerateToken(user, new [] { role.Type });
         
         return new AuthenticationResult(user, token);
     }

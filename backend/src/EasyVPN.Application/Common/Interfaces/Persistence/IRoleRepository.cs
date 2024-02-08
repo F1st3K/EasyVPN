@@ -1,3 +1,4 @@
+using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Entities;
 
 namespace EasyVPN.Application.Common.Interfaces.Persistence;

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using EasyVPN.Application.Common.Interfaces.Authentication;
 using EasyVPN.Application.Common.Interfaces.Services;
+using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
