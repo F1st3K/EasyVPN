@@ -6,8 +6,7 @@ public class Connection
 {
     public Guid Id { get; set; }
     public Guid ClientId { get; set; }
+    public Guid ServerId { get; set; }
     public ConnectionStatus Status { get; set; }
     public DateTime ExpirationTime { get; set; }
-    public ConnectionType Type { get; set; }
-    public string Info { get; set; } = null!;
 }

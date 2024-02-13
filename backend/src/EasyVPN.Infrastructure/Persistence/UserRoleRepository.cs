@@ -4,18 +4,18 @@ using EasyVPN.Domain.Entities;
 
 namespace EasyVPN.Infrastructure.Persistence;
 
-public class RoleRepository : IRoleRepository
+public class UserRoleRepository : IUserRoleRepository
 {
-    private static readonly List<Role> _roles = new();
+    private static readonly List<UserRole> _userRoles = new();
     
     public IEnumerable<RoleType> GetRolesByUserId(Guid userId)
     {
-        return _roles.Where(r => r.UserId == userId)
+        return _userRoles.Where(r => r.UserId == userId)
             .Select(r => r.Type);
     }
 
-    public void Add(Role role)
+    public void Add(UserRole userRole)
     {
-        _roles.Add(role);
+        _userRoles.Add(userRole);
     }
 }
