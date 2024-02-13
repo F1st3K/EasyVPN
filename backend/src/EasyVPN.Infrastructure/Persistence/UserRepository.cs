@@ -12,6 +12,11 @@ public class UserRepository : IUserRepository
         return _users.SingleOrDefault(user => user.Login == login);
     }
 
+    public User? GetUserById(Guid id)
+    {
+        return _users.SingleOrDefault(user => user.Id == id);
+    }
+
     public void Add(User user)
     {
         _users.Add(user);
