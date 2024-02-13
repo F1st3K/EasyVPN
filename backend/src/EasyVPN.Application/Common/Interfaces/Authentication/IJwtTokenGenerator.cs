@@ -1,8 +1,9 @@
+using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Entities;
 
 namespace EasyVPN.Application.Common.Interfaces.Authentication;
 
 public interface IJwtTokenGenerator
 {
-    public string GenerateToken(User user);
+    public string GenerateToken(User user, IEnumerable<RoleType> roles);
 }
