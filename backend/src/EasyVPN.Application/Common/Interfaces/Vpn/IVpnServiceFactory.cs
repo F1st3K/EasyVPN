@@ -4,5 +4,5 @@ namespace EasyVPN.Application.Common.Interfaces.Vpn;
 
 public interface IVpnServiceFactory
 {
-    public IVpnService GetVpnService(Server server);
+    public IVpnService? GetVpnService(Server server);
 }

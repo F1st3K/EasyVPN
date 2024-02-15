@@ -5,7 +5,7 @@ namespace EasyVPN.Infrastructure.Vpn;
 
 public class WireGuardService : IVpnService
 {
-    public string? GetConfig(Guid connectionId)
+    public string GetConfig(Guid connectionId)
     {
         throw new NotImplementedException();
     }

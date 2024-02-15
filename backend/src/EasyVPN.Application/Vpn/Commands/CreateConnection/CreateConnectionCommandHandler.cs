@@ -41,6 +41,9 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
         if (_serverRepository.Get(command.ServerId) is not { } server)
             return Errors.Server.NotFound;
 
+        if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
+            return Errors.Server.FailedGetService;
+        
         var connection = new Connection()
         {
             Id = Guid.NewGuid(),
@@ -50,8 +53,7 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
             Status = ConnectionStatus.Pending
         };
         _connectionRepository.Add(connection);
-        _vpnServiceFactory.GetVpnService(server)
-            .CreateClient(connection);
+        vpnService.CreateClient(connection);
         
         return new Success();
     }

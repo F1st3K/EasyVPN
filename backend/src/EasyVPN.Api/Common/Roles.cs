@@ -1,8 +1,8 @@
 namespace EasyVPN.Api.Common;
 
-public class Roles
+public static class Roles
 {
-    public const string User = "User";
+    public const string Client = "Client";
     public const string PaymentReviewer = "PaymentReviewer";
     public const string Administrator = "Administrator";
 }

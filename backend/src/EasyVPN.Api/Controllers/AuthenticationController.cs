@@ -1,4 +1,3 @@
-using EasyVPN.Api.Controllers.Base;
 using EasyVPN.Application.Authentication.Commands.Register;
 using EasyVPN.Application.Authentication.Common;
 using EasyVPN.Application.Authentication.Queries.Login;

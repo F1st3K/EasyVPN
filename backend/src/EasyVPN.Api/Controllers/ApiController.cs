@@ -3,7 +3,7 @@ using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.Base;
+namespace EasyVPN.Api.Controllers;
 
 [ApiController]
 [Authorize]
