@@ -1,0 +1,2 @@
+GET {{host}}/connections/7ba7083e-e0f6-413d-b65f-14084ceee13d/config
+Authorization: Bearer {{adminToken}}

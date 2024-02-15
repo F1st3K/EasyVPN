@@ -4,6 +4,6 @@ using MediatR;
 namespace EasyVPN.Application.Vpn.Commands.CreateConnection;
 
 public record CreateConnectionCommand(
-    Guid UserId,
+    Guid ClientId,
     Guid ServerId,
     int CountDays) : IRequest<ErrorOr<Success>>;

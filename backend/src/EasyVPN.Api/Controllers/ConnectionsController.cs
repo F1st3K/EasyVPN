@@ -1,4 +1,5 @@
 using EasyVPN.Api.Common;
+using EasyVPN.Application.Vpn.Commands.CreateConnection;
 using EasyVPN.Application.Vpn.Queries.GetConfig;
 using EasyVPN.Contracts.Connections;
 using MediatR;
@@ -21,16 +22,26 @@ public class ConnectionsController : ApiController
     [HttpGet("{id:guid}/config")]
     public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid id)
     {
-        var configResult = await _sender.Send(new GetConfigQuery(id));
+        var configResult = 
+            await _sender.Send(new GetConfigQuery(id));
         return configResult.Match(
         result => Ok(new ConnectionConfigResponse(result.ClientId, result.Config)),
         errors => Problem(errors));
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateConnection([FromRoute] Guid id)
+    public async Task<IActionResult> CreateConnection(
+        CreateConnectionRequest request, [FromQuery] Guid clientId)
     {
-        return Ok();
+        var createConnectionResult = 
+            await _sender.Send(new CreateConnectionCommand(
+                clientId,
+                request.ServerId,
+                request.CountDays));
+        
+        return createConnectionResult.Match(
+            _ => Ok(),
+            errors => Problem(errors));
     }
 
 }

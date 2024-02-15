@@ -31,7 +31,7 @@ public class AuthenticationController : ApiController
             errors => Problem(errors));
     }
 
-    [HttpPost("login")]
+    [HttpGet("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
         var query = new LoginQuery(request.Login, request.Password);

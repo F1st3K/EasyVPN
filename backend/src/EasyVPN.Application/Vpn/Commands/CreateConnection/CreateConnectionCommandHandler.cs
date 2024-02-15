@@ -12,6 +12,7 @@ namespace EasyVPN.Application.Vpn.Commands.CreateConnection;
 public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCommand, ErrorOr<Success>>
 {
     private readonly IUserRepository _userRepository;
+    private readonly IUserRoleRepository _userRoleRepository;
     private readonly IServerRepository _serverRepository;
     private readonly IConnectionRepository _connectionRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
@@ -19,12 +20,14 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
 
     public CreateConnectionCommandHandler(
         IUserRepository userRepository,
+        IUserRoleRepository userRoleRepository,
         IServerRepository serverRepository,
         IConnectionRepository connectionRepository,
         IVpnServiceFactory vpnServiceFactory, 
         IDateTimeProvider dateTimeProvider)
     {
         _userRepository = userRepository;
+        _userRoleRepository = userRoleRepository;
         _serverRepository = serverRepository;
         _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;
@@ -35,8 +38,12 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
     {
         await Task.CompletedTask;
         
-        if (_userRepository.GetUserById(command.UserId) is not { } user)
+        if (_userRepository.GetUserById(command.ClientId) is not { } user)
             return Errors.User.NotFound;
+
+        if (_userRoleRepository.GetRolesByUserId(command.ClientId)
+                .Any(r => r == RoleType.Client) == false)
+            return Errors.Access.ClientsOnly;
 
         if (_serverRepository.Get(command.ServerId) is not { } server)
             return Errors.Server.NotFound;
