@@ -7,7 +7,7 @@ public class WireGuardService : IVpnService
 {
     public string GetConfig(Guid connectionId)
     {
-        throw new NotImplementedException();
+        return "password=qwertyi1234567";
     }
 
     public void CreateClient(Connection connection)
