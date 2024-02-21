@@ -2,9 +2,11 @@ using System.Text;
 using EasyVPN.Application.Common.Interfaces.Authentication;
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
+using EasyVPN.Application.Common.Interfaces.Vpn;
 using EasyVPN.Infrastructure.Authentication;
 using EasyVPN.Infrastructure.Persistence;
 using EasyVPN.Infrastructure.Services;
+using EasyVPN.Infrastructure.Vpn;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,7 +25,10 @@ public static class DependencyInjection
         
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+        services.AddScoped<IServerRepository, ServerRepository>();
+        services.AddScoped<IConnectionRepository, ConnectionRepository>();
+        services.AddScoped<IVpnServiceFactory, VpnServiceFactory>();
         
         return services;
     }

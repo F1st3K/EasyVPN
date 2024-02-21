@@ -1,4 +1,3 @@
-using EasyVPN.Api.Controllers.Base;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 

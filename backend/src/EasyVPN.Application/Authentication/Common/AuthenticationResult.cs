@@ -1,6 +1,6 @@
 using EasyVPN.Domain.Entities;
 
-namespace EasyVPN.Application.Services.Authentication;
+namespace EasyVPN.Application.Authentication.Common;
 
 public record AuthenticationResult(
     User User,

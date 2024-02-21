@@ -8,5 +8,9 @@ public static partial class Errors
         public static Error DuplicateLogin => Error.Conflict(
             code: "User.DuplicateLogin",
             description: "Login is already in use");
+        
+        public static Error NotFound => Error.NotFound(
+            code: "User.NotFound",
+            description: "User not found");
     }
 }
