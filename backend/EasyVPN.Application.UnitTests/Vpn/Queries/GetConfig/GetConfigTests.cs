@@ -14,7 +14,7 @@ public class GetConfigTests
     public async Task HandleGetConfigQuery_WhenIsAllValid_Success()
     {
         //Arrange
-        var command = GetConfigUtils.CreateQuery();
+        var query = GetConfigUtils.CreateQuery();
 
         _mocks.ConnectionRepository.Setup(x =>
                 x.Get(Constants.Connection.Id))
@@ -35,7 +35,7 @@ public class GetConfigTests
 
         //Act
         var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(command, CancellationToken.None);
+        var result = await handler.Handle(query, CancellationToken.None);
 
         //Assert
         result.IsError.Should().BeFalse();
@@ -46,7 +46,7 @@ public class GetConfigTests
     public async Task HandleGetConfigQuery_WhenConnectionNotFound_Error()
     {
         //Arrange
-        var command = GetConfigUtils.CreateQuery();
+        var query = GetConfigUtils.CreateQuery();
 
         _mocks.ConnectionRepository.Setup(x =>
                 x.Get(Constants.Connection.Id))
@@ -62,7 +62,7 @@ public class GetConfigTests
 
         //Act
         var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(command, CancellationToken.None);
+        var result = await handler.Handle(query, CancellationToken.None);
 
         //Assert
         result.IsError.Should().BeTrue();
@@ -73,7 +73,7 @@ public class GetConfigTests
     public async Task HandleGetConfigQuery_WhenServerNotFound_Error()
     {
         //Arrange
-        var command = GetConfigUtils.CreateQuery();
+        var query = GetConfigUtils.CreateQuery();
 
         _mocks.ConnectionRepository.Setup(x =>
                 x.Get(Constants.Connection.Id))
@@ -94,7 +94,7 @@ public class GetConfigTests
 
         //Act
         var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(command, CancellationToken.None);
+        var result = await handler.Handle(query, CancellationToken.None);
 
         //Assert
         result.IsError.Should().BeTrue();
@@ -105,7 +105,7 @@ public class GetConfigTests
     public async Task HandleGetConfigQuery_WhenGetVpnServiceFailed_Error()
     {
         //Arrange
-        var command = GetConfigUtils.CreateQuery();
+        var query = GetConfigUtils.CreateQuery();
 
         _mocks.ConnectionRepository.Setup(x =>
                 x.Get(Constants.Connection.Id))
@@ -126,7 +126,7 @@ public class GetConfigTests
 
         //Act
         var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(command, CancellationToken.None);
+        var result = await handler.Handle(query, CancellationToken.None);
 
         //Assert
         result.IsError.Should().BeTrue();
