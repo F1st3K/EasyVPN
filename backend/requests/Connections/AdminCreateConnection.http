@@ -1,0 +1,8 @@
+POST {{host}}/connections?clientId=5da61677-2990-4af8-b80e-1eb186e62afa
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "serverId": "00000000-0000-0000-0000-000000000000",
+  "CountDays": 30
+}

@@ -1,2 +1,0 @@
-GET {{host}}/connections
-Authorization: Bearer {{superToken}}

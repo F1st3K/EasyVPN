@@ -1,4 +1,4 @@
-using EasyVPN.Application.Services.Authentication;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EasyVPN.Application;
@@ -7,7 +7,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<AuthenticationService>();
+        services.AddMediatR(typeof(DependencyInjection).Assembly);
 
         return services;
     }
