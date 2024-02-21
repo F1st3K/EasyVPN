@@ -28,8 +28,4 @@
       <ProjectReference Include="..\src\EasyVPN.Application\EasyVPN.Application.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Vpn\Queries\GetConfigQuery\" />
-    </ItemGroup>
-
 </Project>

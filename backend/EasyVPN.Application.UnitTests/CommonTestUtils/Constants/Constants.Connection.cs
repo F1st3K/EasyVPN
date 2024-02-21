@@ -6,6 +6,7 @@ public static partial class Constants
     {
         public static readonly Guid Id = Guid.NewGuid();
         public static readonly int Days = 30;
+        public static readonly string Config = "configuration";
 
         public static IEnumerable<Guid> GetMoreId(int count)
         {

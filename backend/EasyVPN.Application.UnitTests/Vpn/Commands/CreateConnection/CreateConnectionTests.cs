@@ -17,17 +17,21 @@ public class CreateConnectionTests
         //Arrange
         var command = CreateConnectionUtils.CreateCommand();
 
-        _mocks.MockUserRepository.Setup(x
-                => x.GetUserById(It.IsAny<Guid>()))
+        _mocks.UserRepository.Setup(x
+                => x.GetUserById(Constants.User.Id))
             .Returns(new User() { Id = Constants.User.Id });
 
-        _mocks.MockUserRoleRepository.Setup(x
-                => x.GetRolesByUserId(It.IsAny<Guid>()))
+        _mocks.UserRoleRepository.Setup(x
+                => x.GetRolesByUserId(Constants.User.Id))
             .Returns(new List<RoleType>() { RoleType.Client });
 
-        _mocks.MockServerRepository.Setup(x
-                => x.Get(It.IsAny<Guid>()))
+        _mocks.ServerRepository.Setup(x
+                => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
+
+        _mocks.VpnServiceFactory.Setup(x =>
+                x.GetVpnService(It.IsAny<Server>()))
+            .Returns(_mocks.VpnService.Object);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -36,9 +40,9 @@ public class CreateConnectionTests
         //Assert
         result.IsError.Should().BeFalse();
 
-        _mocks.MockConnectionRepository.Verify(x =>
+        _mocks.ConnectionRepository.Verify(x =>
             x.Add(It.Is<Connection>(connection => connection.IsValid())));
-        _mocks.MockVpnService.Verify(x =>
+        _mocks.VpnService.Verify(x =>
             x.CreateClient(It.Is<Connection>(connection => connection.IsValid())));
     }
 
@@ -48,17 +52,21 @@ public class CreateConnectionTests
         //Arrange
         var command = CreateConnectionUtils.CreateCommand();
 
-        _mocks.MockUserRepository.Setup(x
-                => x.GetUserById(It.IsAny<Guid>()))
+        _mocks.UserRepository.Setup(x
+                => x.GetUserById(Constants.User.Id))
             .Returns(() => null);
 
-        _mocks.MockUserRoleRepository.Setup(x
-                => x.GetRolesByUserId(It.IsAny<Guid>()))
+        _mocks.UserRoleRepository.Setup(x
+                => x.GetRolesByUserId(Constants.User.Id))
             .Returns(new List<RoleType>() { RoleType.Client });
 
-        _mocks.MockServerRepository.Setup(x
-                => x.Get(It.IsAny<Guid>()))
+        _mocks.ServerRepository.Setup(x
+                => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
+
+        _mocks.VpnServiceFactory.Setup(x =>
+                x.GetVpnService(It.IsAny<Server>()))
+            .Returns(_mocks.VpnService.Object);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -75,17 +83,21 @@ public class CreateConnectionTests
         //Arrange
         var command = CreateConnectionUtils.CreateCommand();
 
-        _mocks.MockUserRepository.Setup(x
-                => x.GetUserById(It.IsAny<Guid>()))
+        _mocks.UserRepository.Setup(x
+                => x.GetUserById(Constants.User.Id))
             .Returns(new User() { Id = Constants.User.Id });
 
-        _mocks.MockUserRoleRepository.Setup(x
-                => x.GetRolesByUserId(It.IsAny<Guid>()))
+        _mocks.UserRoleRepository.Setup(x
+                => x.GetRolesByUserId(Constants.User.Id))
             .Returns(Enumerable.Empty<RoleType>());
 
-        _mocks.MockServerRepository.Setup(x
-                => x.Get(It.IsAny<Guid>()))
+        _mocks.ServerRepository.Setup(x
+                => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
+
+        _mocks.VpnServiceFactory.Setup(x =>
+                x.GetVpnService(It.IsAny<Server>()))
+            .Returns(_mocks.VpnService.Object);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -102,17 +114,21 @@ public class CreateConnectionTests
         //Arrange
         var command = CreateConnectionUtils.CreateCommand();
 
-        _mocks.MockUserRepository.Setup(x
-                => x.GetUserById(It.IsAny<Guid>()))
+        _mocks.UserRepository.Setup(x
+                => x.GetUserById(Constants.User.Id))
             .Returns(new User() { Id = Constants.User.Id });
 
-        _mocks.MockUserRoleRepository.Setup(x
-                => x.GetRolesByUserId(It.IsAny<Guid>()))
+        _mocks.UserRoleRepository.Setup(x
+                => x.GetRolesByUserId(Constants.User.Id))
             .Returns(new List<RoleType>() { RoleType.Client });
 
-        _mocks.MockServerRepository.Setup(x
-                => x.Get(It.IsAny<Guid>()))
+        _mocks.ServerRepository.Setup(x
+                => x.Get(Constants.Server.Id))
             .Returns(() => null);
+
+        _mocks.VpnServiceFactory.Setup(x =>
+                x.GetVpnService(It.IsAny<Server>()))
+            .Returns(_mocks.VpnService.Object);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -123,4 +139,34 @@ public class CreateConnectionTests
         result.FirstError.Should().Be(Errors.Server.NotFound);
     }
 
+    [Fact]
+    public async Task HandleCreateConnectionCommand_WhenGetVpnServiceFailed_Error()
+    {
+        //Arrange
+        var command = CreateConnectionUtils.CreateCommand();
+
+        _mocks.UserRepository.Setup(x
+                => x.GetUserById(Constants.User.Id))
+            .Returns(new User() { Id = Constants.User.Id });
+
+        _mocks.UserRoleRepository.Setup(x
+                => x.GetRolesByUserId(Constants.User.Id))
+            .Returns(new List<RoleType>() { RoleType.Client });
+
+        _mocks.ServerRepository.Setup(x
+                => x.Get(Constants.Server.Id))
+            .Returns(new Server() { Id = Constants.Server.Id });
+
+        _mocks.VpnServiceFactory.Setup(x =>
+                x.GetVpnService(It.IsAny<Server>()))
+            .Returns(() => null);
+
+        //Act
+        var handler = _mocks.CreateHandler();
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        //Assert
+        result.IsError.Should().BeTrue();
+        result.FirstError.Should().Be(Errors.Server.FailedGetService);
+    }
 }
