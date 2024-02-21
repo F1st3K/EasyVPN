@@ -37,9 +37,13 @@ public static class DependencyInjection
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
+        var hashSettings = new HashSettings();
+        configuration.Bind(HashSettings.SectionName, hashSettings);
+        services.AddSingleton(Options.Create(hashSettings));
+        services.AddSingleton<IHashGenerator, HashGenerator>();
+        
         var jwtSettings = new JwtSettings();
         configuration.Bind(JwtSettings.SectionName, jwtSettings);
-
         services.AddSingleton(Options.Create(jwtSettings));
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
