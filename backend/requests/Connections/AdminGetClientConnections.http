@@ -1,3 +1,3 @@
-@clientId = 0846af67-d869-45dd-8ecd-34d8fc8e4e4c
-GET {{host}}/client/{{clientId}}/connections
+@clientId = 9a4e906f-7778-4c68-b86d-1c0f7f4370b8
+GET {{host}}/connections?clientId={{clientId}}
 Authorization: Bearer {{adminToken}}

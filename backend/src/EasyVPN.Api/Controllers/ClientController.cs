@@ -9,29 +9,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyVPN.Api.Controllers;
 
-[Route("client/{clientId:guid}/connections")]
+[Route("client")]
 [Authorize(Roles = Roles.Administrator)]
-public class ClientConnectionsController : ApiController
+public class ClientController : ApiController
 {
     private readonly ISender _sender;
 
-    public ClientConnectionsController(ISender sender)
+    public ClientController(ISender sender)
     {
         _sender = sender;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetConnections([FromRoute] Guid clientId)
-    {
-        var getConnectionsResult = 
-            await _sender.Send(new GetConnectionsQuery(clientId));
-        
-        return getConnectionsResult.Match(
-            result => Ok(result),
-            errors => Problem(errors));
-    }
-
-    [HttpPost]
+    [HttpPost("{clientId:guid}/connections")]
     public async Task<IActionResult> CreateConnection(
         CreateConnectionRequest request, [FromRoute] Guid clientId)
     {

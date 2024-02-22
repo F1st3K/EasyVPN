@@ -20,16 +20,15 @@ public class ConnectionsController : ApiController
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetConnections()
+    public async Task<IActionResult> GetConnections([FromQuery] Guid? clientId)
     {
         var getConnectionsResult = 
-            await _sender.Send(new GetConnectionsQuery());
+            await _sender.Send(new GetConnectionsQuery(clientId));
         
         return getConnectionsResult.Match(
             result => Ok(result),
             errors => Problem(errors));
     }
-    
     
     [HttpGet("{connectionId:guid}/config")]
     public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid connectionId)
