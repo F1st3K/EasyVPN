@@ -1,2 +1,3 @@
-GET {{host}}/connections/7a5f8494-5f94-437a-9704-d823f6a39c08/config
+@connectionId = 420fcd00-fbd5-4898-b634-68a8b3d38f3c
+GET {{host}}/connections/{{connectionId}}/config
 Authorization: Bearer {{adminToken}}

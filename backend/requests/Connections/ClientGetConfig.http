@@ -1,2 +1,3 @@
-GET {{host}}/client/connections/00000000-0000-0000-0000-000000000000/config
+@connectionId = 992cdade-d17b-4341-bec8-b2a03e2776d3
+GET {{host}}/my/connections/{{connectionId}}/config
 Authorization: Bearer {{clientToken}}

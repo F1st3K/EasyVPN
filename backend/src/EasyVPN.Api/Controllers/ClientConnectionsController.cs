@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using EasyVPN.Api.Common;
 using EasyVPN.Application.Vpn.Commands.CreateConnection;
 using EasyVPN.Application.Vpn.Queries.GetConfig;
@@ -10,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyVPN.Api.Controllers;
 
-[Route("client/connections")]
-[Authorize(Roles = Roles.Client)]
+[Route("client/{clientId:guid}/connections")]
+[Authorize(Roles = Roles.Administrator)]
 public class ClientConnectionsController : ApiController
 {
     private readonly ISender _sender;
@@ -20,13 +19,10 @@ public class ClientConnectionsController : ApiController
     {
         _sender = sender;
     }
-    
+
     [HttpGet]
-    public async Task<IActionResult> GetConnections()
+    public async Task<IActionResult> GetConnections([FromRoute] Guid clientId)
     {
-        if (GetCurrentId() is not { } clientId)
-            return Forbid();
-        
         var getConnectionsResult = 
             await _sender.Send(new GetConnectionsQuery(clientId));
         
@@ -34,13 +30,11 @@ public class ClientConnectionsController : ApiController
             result => Ok(result),
             errors => Problem(errors));
     }
-    
+
     [HttpPost]
-    public async Task<IActionResult> CreateConnection(CreateConnectionRequest request)
+    public async Task<IActionResult> CreateConnection(
+        CreateConnectionRequest request, [FromRoute] Guid clientId)
     {
-        if (GetCurrentId() is not { } clientId)
-            return Forbid();
-        
         var createConnectionResult = 
             await _sender.Send(new CreateConnectionCommand(
                 clientId,
@@ -50,29 +44,5 @@ public class ClientConnectionsController : ApiController
         return createConnectionResult.Match(
             _ => Ok(),
             errors => Problem(errors));
-    }
-    
-    [HttpGet("{id:guid}/config")]
-    public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid id)
-    {
-        if (GetCurrentId() is not { } clientId)
-            return Forbid();
-        
-        var configResult = await _sender.Send(new GetConfigQuery(id));
-        return configResult.Match(
-            result => result.ClientId == clientId 
-                ? Ok(new ConnectionConfigResponse(result.ClientId, result.Config))
-                : Forbid(),
-            errors => Problem(errors));
-    }
-
-    private Guid? GetCurrentId()
-    {
-        var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        if (id is not null && Guid.TryParse(id, out var guid))
-            return guid;
-        
-        return null;
     }
 }

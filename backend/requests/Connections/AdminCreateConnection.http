@@ -1,4 +1,5 @@
-POST {{host}}/connections?clientId=df119a7a-d110-41c6-9777-eaec91679a10
+@clientId = 0846af67-d869-45dd-8ecd-34d8fc8e4e4c
+POST {{host}}/client/{{clientId}}/connections
 Authorization: Bearer {{adminToken}}
 Content-Type: application/json
 

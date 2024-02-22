@@ -1,6 +1,5 @@
-POST {{host}}/client/connections
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkNGI2MjE4Yy01MmEyLTQ4YmQtYjk4Zi00YWY4NjMxNmQ2MTQiLCJnaXZlbl9uYW1lIjoiRnJlYWsiLCJmYW1pbHlfbmFtZSI6IkZpc3RlciIsImp0aSI6IjUxZTcyMDcwLTVmNTEtNDQ0NC04OWZiLTAwNGY2NzQ4MTc2NCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkNsaWVudCIsImV4cCI6MTcwODYxMTE2NywiaXNzIjoiRWFzeVZQTiIsImF1ZCI6IkVhc3lWUE4ifQ.FyX_JN2qLHea3e2kLgHnkeKfI_OhtQMPLSx7MV94wnI
-//{{clientToken}}
+POST {{host}}/my/connections
+Authorization: Bearer {{clientToken}}
 Content-Type: application/json
 
 {
