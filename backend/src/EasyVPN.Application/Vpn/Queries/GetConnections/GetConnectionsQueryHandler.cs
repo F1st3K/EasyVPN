@@ -7,13 +7,13 @@ using MediatR;
 
 namespace EasyVPN.Application.Vpn.Queries.GetConnections;
 
-public class GetConnectionsHandler : IRequestHandler<GetConnectionsQuery, ErrorOr<List<Connection>>>
+public class GetConnectionsQueryHandler : IRequestHandler<GetConnectionsQuery, ErrorOr<List<Connection>>>
 {
     private readonly IConnectionRepository _connectionRepository;
     private readonly IUserRepository _userRepository;
     private readonly IUserRoleRepository _userRoleRepository;
 
-    public GetConnectionsHandler(
+    public GetConnectionsQueryHandler(
         IConnectionRepository connectionRepository,
         IUserRepository userRepository,
         IUserRoleRepository userRoleRepository)
