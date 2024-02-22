@@ -8,9 +8,9 @@ public static partial class Constants
         public static readonly int Days = 30;
         public static readonly string Config = "configuration";
 
-        public static IEnumerable<Guid> GetMore(int count = 10)
+        public static IEnumerable<Guid> GetMore(int start = 0, int count = 10)
         {
-            for (int i = 0; i < count; i++)
+            for (int i = start; i < count + start; i++)
                 yield return GuidGenerator.GuidByIndex(i, Id);
         }
     }

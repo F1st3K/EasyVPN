@@ -1,7 +1,5 @@
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
 using EasyVPN.Application.Vpn.Queries.GetConnections;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
 using FluentAssertions;
 
@@ -17,10 +15,12 @@ public class GetConnectionsTests
         //Arrange
         var query = new GetConnectionsQuery();
 
-        _mocks.ConnectionRepository.Setup(x =>
-                x.Select())
-            .Returns(Constants.Connection.GetMore(15)
-                    .Select(id => new Connection()).ToList());
+        _mocks.ConnectionRepository.Setup(x => x.GetAll())
+            .Returns(
+                Constants.Connection.GetMore(5).Zip(Constants.User.GetMore(5))
+                    .Select(ids => 
+                        new Connection() { Id = ids.First, ClientId = ids.Second})
+            );
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -28,8 +28,8 @@ public class GetConnectionsTests
 
         //Assert
         result.IsError.Should().BeFalse();
-        result.Value.Validate(Constants.Connection.GetMore(15)
-            .Select(id => new Connection()).ToList());
+        result.Value.Validate(Constants.Connection.GetMore(5).Zip(Constants.User.GetMore(5))
+            .Select(ids => new Connection() { Id = ids.First, ClientId = ids.Second}).ToList());
     }
     
     [Fact]
@@ -38,18 +38,16 @@ public class GetConnectionsTests
         //Arrange
         var query = new GetConnectionsQuery(Constants.User.Id);
         
-        _mocks.ConnectionRepository.Setup(x =>
-                x.Select(Constants.User.Id))
-            .Returns(Constants.Connection.GetMore()
-                .Select(id => new Connection() {Id = id}).ToList());
-
-        _mocks.UserRepository.Setup(x =>
-                x.GetUserById(Constants.User.Id))
-            .Returns(new User() { Id = Constants.User.Id });
-
-        _mocks.UserRoleRepository.Setup(x =>
-                x.GetRolesByUserId(Constants.User.Id))
-            .Returns(new[] { RoleType.Client });
+        _mocks.ConnectionRepository.Setup(x => x.GetAll())
+            .Returns(
+                Constants.Connection.GetMore(5).Zip(Constants.User.GetMore(5))
+                    .Select(ids => 
+                        new Connection() { Id = ids.First, ClientId = ids.Second})
+                    .Concat(Constants.Connection.GetMore(5, 5)
+                        .Select(id => 
+                            new Connection(){Id = id, ClientId = Constants.User.Id})
+                    )
+            );
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -57,61 +55,8 @@ public class GetConnectionsTests
 
         //Assert
         result.IsError.Should().BeFalse();
-        result.Value.Validate(Constants.Connection.GetMore()
-            .Select(id => new Connection() {Id = id}).ToList());
-    }
-    
-    [Fact]
-    public async Task HandleGetConnectionsQuery_WhenClientIdUserNotFound_Error()
-    {
-        //Arrange
-        var query = new GetConnectionsQuery(Constants.User.Id);
-        
-        _mocks.ConnectionRepository.Setup(x =>
-                x.Select(Constants.User.Id))
-            .Returns(Constants.Connection.GetMore()
-                .Select(id => new Connection() {Id = id}).ToList());
-
-        _mocks.UserRepository.Setup(x =>
-                x.GetUserById(Constants.User.Id))
-            .Returns(() => null);
-
-        _mocks.UserRoleRepository.Setup(x =>
-                x.GetRolesByUserId(Constants.User.Id))
-            .Returns(new[] { RoleType.Client });
-
-        //Act
-        var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(query, CancellationToken.None);
-
-        //Assert
-        result.FirstError.Should().Be(Errors.User.NotFound);
-    }
-    
-    [Fact]
-    public async Task HandleGetConnectionsQuery_WhenClientIdIsNotClient_Error()
-    {
-        //Arrange
-        var query = new GetConnectionsQuery(Constants.User.Id);
-        
-        _mocks.ConnectionRepository.Setup(x =>
-                x.Select(Constants.User.Id))
-            .Returns(Constants.Connection.GetMore()
-                .Select(id => new Connection() {Id = id}).ToList());
-
-        _mocks.UserRepository.Setup(x =>
-                x.GetUserById(Constants.User.Id))
-            .Returns(new User() { Id = Constants.User.Id });
-
-        _mocks.UserRoleRepository.Setup(x =>
-                x.GetRolesByUserId(Constants.User.Id))
-            .Returns(Enumerable.Empty<RoleType>());
-
-        //Act
-        var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(query, CancellationToken.None);
-
-        //Assert
-        result.FirstError.Should().Be(Errors.Access.ClientsOnly);
+        result.Value.Validate(Constants.Connection.GetMore(5, 5)
+            .Select(id => 
+                new Connection(){Id = id, ClientId = Constants.User.Id}).ToList());
     }
 }

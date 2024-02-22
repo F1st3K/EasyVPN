@@ -12,14 +12,9 @@ public class ConnectionRepository : IConnectionRepository
         return _connections.SingleOrDefault(c => c.Id == id);
     }
 
-    public List<Connection> Select()
+    public IEnumerable<Connection> GetAll()
     {
-        return _connections.ToList();
-    }
-
-    public List<Connection> Select(Guid clientId)
-    {
-        return _connections.Where(c => c.ClientId == clientId).ToList();
+        return _connections.AsEnumerable();
     }
 
     public void Add(Connection connection)
