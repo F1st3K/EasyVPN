@@ -1,4 +1,4 @@
-POST {{host}}/connections?clientId=5da61677-2990-4af8-b80e-1eb186e62afa
+POST {{host}}/connections?clientId=e9821a33-706e-4d5c-ab16-49141317e784
 Authorization: Bearer {{adminToken}}
 Content-Type: application/json
 
