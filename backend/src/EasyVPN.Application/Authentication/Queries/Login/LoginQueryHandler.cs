@@ -12,12 +12,18 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
     private readonly IUserRepository _userRepository;
     private readonly IUserRoleRepository _userRoleRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IHashGenerator _hashGenerator;
 
-    public LoginQueryHandler(IUserRepository userRepository, IUserRoleRepository userRoleRepository, IJwtTokenGenerator jwtTokenGenerator)
+    public LoginQueryHandler(
+        IUserRepository userRepository,
+        IUserRoleRepository userRoleRepository,
+        IJwtTokenGenerator jwtTokenGenerator,
+        IHashGenerator hashGenerator)
     {
         _userRepository = userRepository;
         _userRoleRepository = userRoleRepository;
         _jwtTokenGenerator = jwtTokenGenerator;
+        _hashGenerator = hashGenerator;
     }
 
     public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
@@ -27,7 +33,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
         if (_userRepository.GetUserByLogin(query.Login) is not { } user)
             return Errors.Authentication.InvalidCredentials;
 
-        if (user.HashPassword != query.Password)
+        if (user.HashPassword != _hashGenerator.Hash(query.Password))
             return Errors.Authentication.InvalidCredentials;
 
         var roles = _userRoleRepository.GetRolesByUserId(user.Id);
