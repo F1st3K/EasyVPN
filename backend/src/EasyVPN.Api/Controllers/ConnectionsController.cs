@@ -20,6 +20,7 @@ public class ConnectionsController : ApiController
         _sender = sender;
     }
 
+    [HttpGet]
     public async Task<IActionResult> GetConnections([FromQuery] Guid? clientId)
     {
         var getConnectionsResult = 

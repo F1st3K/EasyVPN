@@ -1,2 +1,2 @@
-GET {{host}}/connections?clientId=e9821a33-706e-4d5c-ab16-49141317e784
+GET {{host}}/connections
 Authorization: Bearer {{adminToken}}
