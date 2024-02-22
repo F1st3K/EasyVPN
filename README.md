@@ -8,7 +8,7 @@
 <details>
 	<summary><h2>EasyVPN API</h2></summary>
 
-### Ошибки
+### Ошибки:
 
 #### Конечная точка ошибок
 ```http
@@ -31,7 +31,7 @@
 }
 ```
 
-### Авторизация
+### Авторизация:
 
 ##### Запрос регистрации
 ```http
@@ -67,6 +67,74 @@ Content-Type: application/json
     "lastName": "Fister",
     "login": "F1st3K",
     "token":"56be52...e3c7743d"
+}
+```
+### VPN действия клиента:
+
+#### Создание нового подключения
+```http
+POST {{host}}/client/connections
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "serverId": "00000000-0000-0000-0000-000000000000",
+    "CountDays": 30
+}
+```
+##### Ответ
+```http
+200 OK
+```
+
+#### Получение конфигурации для подключения
+```http
+GET {{host}}/client/connections/{id:guid}/config
+Authorization: Bearer {{clientToken}}
+```
+##### Ответ
+```http
+200 OK
+```
+```http
+{
+    "clientId": "00000000-0000-0000-0000-000000000000",
+    "config": "*some configuration*"
+}
+```
+
+### VPN действия администратора:
+
+#### Создание нового подключения
+```http
+POST {{host}}/connections?clientId={id:Guid}
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+    "serverId": "00000000-0000-0000-0000-000000000000",
+    "CountDays": 30
+}
+```
+##### Ответ
+```http
+200 OK
+```
+
+#### Получение конфигурации для подключения
+```http
+GET {{host}}/connections/{id:guid}/config
+Authorization: Bearer {{clientToken}}
+```
+
+##### Ответ
+```http
+200 OK
+```
+```http
+{
+    "clientId": "00000000-0000-0000-0000-000000000000",
+    "config": "*some configuration*"
 }
 ```
 

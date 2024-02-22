@@ -25,7 +25,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\EasyVPN.Application\EasyVPN.Application.csproj" />
+      <ProjectReference Include="..\..\..\src\EasyVPN.Application\EasyVPN.Application.csproj" />
+      <ProjectReference Include="..\..\..\src\EasyVPN.Domain\EasyVPN.Domain.csproj" />
     </ItemGroup>
 
 </Project>
