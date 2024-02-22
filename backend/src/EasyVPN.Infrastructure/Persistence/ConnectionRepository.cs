@@ -12,6 +12,11 @@ public class ConnectionRepository : IConnectionRepository
         return _connections.SingleOrDefault(c => c.Id == id);
     }
 
+    public IEnumerable<Connection> GetAll()
+    {
+        return _connections.AsEnumerable();
+    }
+
     public void Add(Connection connection)
     {
         _connections.Add(connection);

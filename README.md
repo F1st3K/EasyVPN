@@ -73,7 +73,7 @@ Content-Type: application/json
 
 #### Создание нового подключения
 ```http
-POST {{host}}/client/connections
+POST {{host}}/my/connections
 Authorization: Bearer {{clientToken}}
 Content-Type: application/json
 
@@ -87,9 +87,37 @@ Content-Type: application/json
 200 OK
 ```
 
+#### Получение всех подключений
+```http
+GET {{host}}/my/connections
+Authorization: Bearer {{clientToken}}
+```
+##### Ответ
+```http
+200 OK
+```
+```http
+[
+  {
+    "id": "94c370a8-39bd-4fcb-9e18-1a7902a8b783",
+    "clientId": "00000001-0000-0000-0000-000000000000",
+    "serverId": "00000000-0000-0000-0000-000000000000",
+    "status": 0,
+    "expirationTime": "2024-03-23T22:02:22.0869296Z"
+  },
+  {
+    "id": "3167a547-004f-4e1c-add6-ba8d57baf71a",
+    "clientId": "00000001-0000-0000-0000-000000000000",
+    "serverId": "00000000-0000-0000-0000-000000000000",
+    "status": 0,
+    "expirationTime": "2024-03-23T22:02:26.8377408Z"
+  }
+]
+```
+
 #### Получение конфигурации для подключения
 ```http
-GET {{host}}/client/connections/{id:guid}/config
+GET {{host}}/my/connections/{{connectionId}}/config
 Authorization: Bearer {{clientToken}}
 ```
 ##### Ответ
@@ -98,8 +126,8 @@ Authorization: Bearer {{clientToken}}
 ```
 ```http
 {
-    "clientId": "00000000-0000-0000-0000-000000000000",
-    "config": "*some configuration*"
+  "clientId": "00000001-0000-0000-0000-000000000000",
+  "config": "password=qwertyi1234567"
 }
 ```
 
@@ -107,13 +135,13 @@ Authorization: Bearer {{clientToken}}
 
 #### Создание нового подключения
 ```http
-POST {{host}}/connections?clientId={id:Guid}
+POST {{host}}/client/{{clientId}}/connections
 Authorization: Bearer {{adminToken}}
 Content-Type: application/json
 
 {
-    "serverId": "00000000-0000-0000-0000-000000000000",
-    "CountDays": 30
+  "serverId": "00000000-0000-0000-0000-000000000000",
+  "CountDays": 30
 }
 ```
 ##### Ответ
@@ -121,10 +149,50 @@ Content-Type: application/json
 200 OK
 ```
 
+#### Получение всех подключений
+```http
+GET {{host}}/connections
+Authorization: Bearer {{adminToken}}
+```
+#### Получение подключений клиента
+```http
+GET {{host}}/connections?clientId={{clientId}}
+Authorization: Bearer {{adminToken}}
+```
+##### Ответ
+```http
+200 OK
+```
+```http
+[
+  {
+    "id": "94c370a8-39bd-4fcb-9e18-1a7902a8b783",
+    "clientId": "00000001-0000-0000-0000-000000000000",
+    "serverId": "00000000-0000-0000-0000-000000000000",
+    "status": 0,
+    "expirationTime": "2024-03-23T22:02:22.0869296Z"
+  },
+  {
+    "id": "3167a547-004f-4e1c-add6-ba8d57baf71a",
+    "clientId": "00000001-0000-0000-0000-000000000000",
+    "serverId": "00000000-0000-0000-0000-000000000000",
+    "status": 0,
+    "expirationTime": "2024-03-23T22:02:26.8377408Z"
+  },
+  {
+    "id": "2dc7f7f8-b04b-4095-8379-9552b302112c",
+    "clientId": "9a4e906f-7778-4c68-b86d-1c0f7f4370b8",
+    "serverId": "00000000-0000-0000-0000-000000000000",
+    "status": 0,
+    "expirationTime": "2024-03-23T22:04:43.1105199Z"
+  }
+]
+```
+
 #### Получение конфигурации для подключения
 ```http
-GET {{host}}/connections/{id:guid}/config
-Authorization: Bearer {{clientToken}}
+GET {{host}}/connections/{{connectionId}}/config
+Authorization: Bearer {{adminToken}}
 ```
 
 ##### Ответ
@@ -133,8 +201,8 @@ Authorization: Bearer {{clientToken}}
 ```
 ```http
 {
-    "clientId": "00000000-0000-0000-0000-000000000000",
-    "config": "*some configuration*"
+  "clientId": "00000001-0000-0000-0000-000000000000",
+  "config": "password=qwertyi1234567"
 }
 ```
 
