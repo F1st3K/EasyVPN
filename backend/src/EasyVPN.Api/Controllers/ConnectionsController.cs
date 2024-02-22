@@ -1,6 +1,6 @@
 using EasyVPN.Api.Common;
-using EasyVPN.Application.Vpn.Commands.CreateConnection;
 using EasyVPN.Application.Vpn.Queries.GetConfig;
+using EasyVPN.Application.Vpn.Queries.GetConnections;
 using EasyVPN.Contracts.Connections;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -18,30 +18,25 @@ public class ConnectionsController : ApiController
     {
         _sender = sender;
     }
-
-    [HttpGet("{id:guid}/config")]
-    public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid id)
+    
+    [HttpGet]
+    public async Task<IActionResult> GetConnections([FromQuery] Guid? clientId)
     {
-        var configResult = 
-            await _sender.Send(new GetConfigQuery(id));
-        return configResult.Match(
-        result => Ok(new ConnectionConfigResponse(result.ClientId, result.Config)),
-        errors => Problem(errors));
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateConnection(
-        CreateConnectionRequest request, [FromQuery] Guid clientId)
-    {
-        var createConnectionResult = 
-            await _sender.Send(new CreateConnectionCommand(
-                clientId,
-                request.ServerId,
-                request.CountDays));
+        var getConnectionsResult = 
+            await _sender.Send(new GetConnectionsQuery(clientId));
         
-        return createConnectionResult.Match(
-            _ => Ok(),
+        return getConnectionsResult.Match(
+            result => Ok(result),
             errors => Problem(errors));
     }
-
+    
+    [HttpGet("{connectionId:guid}/config")]
+    public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid connectionId)
+    {
+        var configResult = 
+            await _sender.Send(new GetConfigQuery(connectionId));
+        return configResult.Match(
+            result => Ok(new ConnectionConfigResponse(result.ClientId, result.Config)),
+            errors => Problem(errors));
+    }
 }

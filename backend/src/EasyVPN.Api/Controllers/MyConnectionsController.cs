@@ -2,6 +2,7 @@ using System.Security.Claims;
 using EasyVPN.Api.Common;
 using EasyVPN.Application.Vpn.Commands.CreateConnection;
 using EasyVPN.Application.Vpn.Queries.GetConfig;
+using EasyVPN.Application.Vpn.Queries.GetConnections;
 using EasyVPN.Contracts.Connections;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -9,28 +10,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EasyVPN.Api.Controllers;
 
-[Route("client/connections")]
+[Route("my/connections")]
 [Authorize(Roles = Roles.Client)]
-public class ClientConnectionsController : ApiController
+public class MyConnectionsController : ApiController
 {
     private readonly ISender _sender;
 
-    public ClientConnectionsController(ISender sender)
+    public MyConnectionsController(ISender sender)
     {
         _sender = sender;
     }
     
-    [HttpGet("{id:guid}/config")]
-    public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid id)
+    [HttpGet]
+    public async Task<IActionResult> GetConnections()
     {
         if (GetCurrentId() is not { } clientId)
             return Forbid();
         
-        var configResult = await _sender.Send(new GetConfigQuery(id));
-        return configResult.Match(
-            result => result.ClientId == clientId 
-                ? Ok(new ConnectionConfigResponse(result.ClientId, result.Config))
-                : Forbid(),
+        var getConnectionsResult = 
+            await _sender.Send(new GetConnectionsQuery(clientId));
+        
+        return getConnectionsResult.Match(
+            result => Ok(result),
             errors => Problem(errors));
     }
     
@@ -48,6 +49,20 @@ public class ClientConnectionsController : ApiController
         
         return createConnectionResult.Match(
             _ => Ok(),
+            errors => Problem(errors));
+    }
+    
+    [HttpGet("{connectionId:guid}/config")]
+    public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid connectionId)
+    {
+        if (GetCurrentId() is not { } clientId)
+            return Forbid();
+        
+        var configResult = await _sender.Send(new GetConfigQuery(connectionId));
+        return configResult.Match(
+            result => result.ClientId == clientId 
+                ? Ok(new ConnectionConfigResponse(result.ClientId, result.Config))
+                : Forbid(),
             errors => Problem(errors));
     }
 

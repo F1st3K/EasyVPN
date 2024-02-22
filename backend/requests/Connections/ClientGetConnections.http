@@ -1,0 +1,2 @@
+GET {{host}}/my/connections
+Authorization: Bearer {{clientToken}}

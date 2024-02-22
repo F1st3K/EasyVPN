@@ -1,4 +1,4 @@
-POST {{host}}/client/connections
+POST {{host}}/my/connections
 Authorization: Bearer {{clientToken}}
 Content-Type: application/json
 

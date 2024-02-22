@@ -1,0 +1,2 @@
+GET {{host}}/connections
+Authorization: Bearer {{adminToken}}
