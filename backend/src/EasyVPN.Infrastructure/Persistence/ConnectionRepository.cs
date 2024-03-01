@@ -21,4 +21,14 @@ public class ConnectionRepository : IConnectionRepository
     {
         _connections.Add(connection);
     }
+
+    public void Update(Connection connection)
+    {
+        if (_connections.SingleOrDefault(c => c.Id == connection.Id) is not {} stateConnection)
+            return;
+        stateConnection.ClientId = connection.ClientId;
+        stateConnection.ServerId = connection.ServerId;
+        stateConnection.Status = connection.Status;
+        stateConnection.ExpirationTime = connection.ExpirationTime;
+    }
 }

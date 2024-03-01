@@ -9,5 +9,9 @@ public static partial class Errors
         public static Error NotFound => Error.NotFound(
             code: "Connection.NotFound",
             description: "Connection not found");
+        
+        public static Error NotWaitActivation => Error.NotFound(
+            code: "Connection.NotWaitActivation",
+            description: "The connection is not waiting to be activated");
     }
 }
