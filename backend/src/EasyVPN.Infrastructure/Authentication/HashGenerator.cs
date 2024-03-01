@@ -2,16 +2,17 @@ using System.Security.Cryptography;
 using System.Text;
 using EasyVPN.Application.Common.Interfaces.Authentication;
 using Microsoft.Extensions.Options;
+using Options = EasyVPN.Infrastructure.Settings.Options;
 
 namespace EasyVPN.Infrastructure.Authentication;
 
 public class HashGenerator : IHashGenerator
 {
-    private readonly HashSettings _settings;
+    private readonly Options.Hash _hashOptions;
 
-    public HashGenerator(IOptions<HashSettings> settings)
+    public HashGenerator(IOptions<Options.Hash> hashOptions)
     {
-        _settings = settings.Value;
+        _hashOptions = hashOptions.Value;
     }
 
     public string Hash(string value)
@@ -19,7 +20,7 @@ public class HashGenerator : IHashGenerator
         return Encoding.UTF8.GetString(
             Hash(
                 Encoding.UTF8.GetBytes(value),
-                Encoding.UTF8.GetBytes(_settings.Secret)));
+                Encoding.UTF8.GetBytes(_hashOptions.Secret)));
     }
 
     private static byte[] Hash(IEnumerable<byte> value, IEnumerable<byte> salt)

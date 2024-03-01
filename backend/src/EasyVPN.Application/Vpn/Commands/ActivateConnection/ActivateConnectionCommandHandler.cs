@@ -14,19 +14,19 @@ public class ActivateConnectionCommandHandler : IRequestHandler<ActivateConnecti
     private readonly IServerRepository _serverRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly IExpirationTracker _tracker;
+    private readonly IExpirationChecker _checker;
 
     public ActivateConnectionCommandHandler(
         IConnectionRepository connectionRepository, 
         IServerRepository serverRepository,
         IVpnServiceFactory vpnServiceFactory, 
         IDateTimeProvider dateTimeProvider, 
-        IExpirationTracker tracker)
+        IExpirationChecker checker)
     {
         _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;
         _dateTimeProvider = dateTimeProvider;
-        _tracker = tracker;
+        _checker = checker;
         _serverRepository = serverRepository;
     }
     
@@ -52,7 +52,7 @@ public class ActivateConnectionCommandHandler : IRequestHandler<ActivateConnecti
         
         vpnService.EnableClient(connection.Id);
         
-        _tracker.NewExpire(connection.ExpirationTime,
+        _checker.NewExpire(connection.ExpirationTime,
             () => TryConnectionExpire(connection.Id));
         
         return new Success();
