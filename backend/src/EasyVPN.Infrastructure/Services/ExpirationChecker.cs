@@ -18,8 +18,7 @@ public class ExpirationChecker : IExpirationChecker
     {
         _dateTimeProvider = dateTimeProvider;
         _timer = new Timer();
-        _timer.Interval = TimeSpan.FromMinutes(
-            expirationOptions.Value.CheckMinutes).Milliseconds;
+        _timer.Interval = ToMilliseconds(expirationOptions.Value.CheckMinutes);
         _timer.Elapsed += Check;
         _timer.Start();
     }
@@ -39,4 +38,7 @@ public class ExpirationChecker : IExpirationChecker
             return expire.onExpire() == false;
         }).ToList();
     }
+
+    private static int ToMilliseconds(int minutes)
+        => minutes * 60_000;
 }
