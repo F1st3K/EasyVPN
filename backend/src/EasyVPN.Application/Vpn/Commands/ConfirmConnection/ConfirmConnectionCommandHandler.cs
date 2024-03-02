@@ -6,9 +6,9 @@ using EasyVPN.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Vpn.Commands.ActivateConnection;
+namespace EasyVPN.Application.Vpn.Commands.ConfirmConnection;
 
-public class ActivateConnectionCommandHandler : IRequestHandler<ActivateConnectionCommand, ErrorOr<Success>>
+public class ConfirmConnectionCommandHandler : IRequestHandler<ConfirmConnectionCommand, ErrorOr<Success>>
 {
     private readonly IConnectionRepository _connectionRepository;
     private readonly IServerRepository _serverRepository;
@@ -16,7 +16,7 @@ public class ActivateConnectionCommandHandler : IRequestHandler<ActivateConnecti
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IExpirationChecker _checker;
 
-    public ActivateConnectionCommandHandler(
+    public ConfirmConnectionCommandHandler(
         IConnectionRepository connectionRepository, 
         IServerRepository serverRepository,
         IVpnServiceFactory vpnServiceFactory, 
@@ -30,7 +30,7 @@ public class ActivateConnectionCommandHandler : IRequestHandler<ActivateConnecti
         _serverRepository = serverRepository;
     }
     
-    public async Task<ErrorOr<Success>> Handle(ActivateConnectionCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Success>> Handle(ConfirmConnectionCommand command, CancellationToken cancellationToken)
     {   
         await Task.CompletedTask;
 

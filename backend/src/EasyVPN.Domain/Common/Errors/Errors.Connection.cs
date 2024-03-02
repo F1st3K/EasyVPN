@@ -10,7 +10,7 @@ public static partial class Errors
             code: "Connection.NotFound",
             description: "Connection not found");
         
-        public static Error NotWaitActivation => Error.NotFound(
+        public static Error NotWaitActivation => Error.Conflict(
             code: "Connection.NotWaitActivation",
             description: "The connection is not waiting to be activated");
     }
