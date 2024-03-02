@@ -1,0 +1,3 @@
+POST {{host}}/payment/70acd46a-ffb8-41d6-bcdf-f9d60d50b76f/confirm
+Authorization: Bearer {{PaymentToken}}
+Content-Type: application/json

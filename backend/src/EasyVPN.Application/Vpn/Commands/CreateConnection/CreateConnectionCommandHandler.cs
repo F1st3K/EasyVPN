@@ -35,7 +35,7 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
     }
     
     public async Task<ErrorOr<Success>> Handle(CreateConnectionCommand command, CancellationToken cancellationToken)
-    {
+    {   
         await Task.CompletedTask;
         
         if (_userRepository.GetUserById(command.ClientId) is not { } user)
