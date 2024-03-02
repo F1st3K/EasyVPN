@@ -55,7 +55,7 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
         {
             Id = Guid.NewGuid(),
             ClientId = user.Id,
-            ExpirationTime = _dateTimeProvider.UtcNow.AddDays(command.CountDays),
+            ExpirationTime = _dateTimeProvider.UtcNow,
             ServerId = server.Id,
             Status = ConnectionStatus.Pending
         };

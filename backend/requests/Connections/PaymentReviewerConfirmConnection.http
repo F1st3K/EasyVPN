@@ -1,3 +1,4 @@
-POST {{host}}/payment/70acd46a-ffb8-41d6-bcdf-f9d60d50b76f/confirm
+@connectionId = 1918ebaa-48b3-4eb0-998a-7d8f1e19caea
+POST {{host}}/payment/{{connectionId}}/confirm
 Authorization: Bearer {{PaymentToken}}
 Content-Type: application/json
