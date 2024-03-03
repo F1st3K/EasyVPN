@@ -42,7 +42,7 @@ public class ConnectionExpireService : IConnectionExpireService
 
     private ErrorOr<Success> TryConnectionExpire(Guid connectionId)
     {
-        if (_connectionRepository.Get(connectionId) is not {} connection)
+        if (_connectionRepository.Get(connectionId) is not { } connection)
             return Errors.Connection.NotFound;
         
         if (_serverRepository.Get(connection.ServerId) is not { } server)
