@@ -1,4 +1,4 @@
-@connectionId = 1918ebaa-48b3-4eb0-998a-7d8f1e19caea
+@connectionId = 6b72edd2-f150-4024-8fd5-1feeddf86691
 POST {{host}}/payment/{{connectionId}}/confirm
 Authorization: Bearer {{PaymentToken}}
 Content-Type: application/json

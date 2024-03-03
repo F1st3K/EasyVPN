@@ -23,6 +23,7 @@ public class ExpirationChecker : IExpirationChecker
     }
 
     public void Run() => _timer.Start();
+    public void Stop() => _timer.Stop();
 
     public void NewExpire(DateTime expireTime, Func<bool> onExpire)
     {

@@ -1,3 +1,4 @@
+using EasyVPN.Application.Common.Services;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,15 +9,15 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddMediatR(typeof(DependencyInjection).Assembly);
-        services.AddHost();
-        
+        services.AddAppServices();
         return services;
     }
     
-    private static IServiceCollection AddHost(this IServiceCollection services)
+    private static IServiceCollection AddAppServices(this IServiceCollection services)
     {
+        services.AddScoped<ConnectionExpireService>();
+        services.AddHostedService<ConnectionExpireHostService>();
         
-
         return services;
     }
 }
