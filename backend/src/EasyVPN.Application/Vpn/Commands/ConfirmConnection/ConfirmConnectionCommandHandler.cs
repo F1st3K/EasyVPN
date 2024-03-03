@@ -15,14 +15,14 @@ public class ConfirmConnectionCommandHandler : IRequestHandler<ConfirmConnection
     private readonly IServerRepository _serverRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly ConnectionExpireService _expireService;
+    private readonly IConnectionExpireService _expireService;
 
     public ConfirmConnectionCommandHandler(
         IConnectionRepository connectionRepository, 
         IServerRepository serverRepository,
         IVpnServiceFactory vpnServiceFactory, 
         IDateTimeProvider dateTimeProvider,
-        ConnectionExpireService expireService)
+        IConnectionExpireService expireService)
     {
         _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;

@@ -16,7 +16,7 @@ public static class StartupExtensions
     {
         using var scope = app.ApplicationServices.CreateScope();
 
-        var connectionExpireService = scope.ServiceProvider.GetRequiredService<ConnectionExpireService>();
+        var connectionExpireService = scope.ServiceProvider.GetRequiredService<IConnectionExpireService>();
         var expirationChecker = app.ApplicationServices.GetRequiredService<IExpirationChecker>();
         
         connectionExpireService.AddActiveConnectionsToTrackExpire();

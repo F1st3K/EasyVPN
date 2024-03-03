@@ -13,7 +13,7 @@ public class ConfirmConnectionMocks
     public readonly Mock<IConnectionRepository> ConnectionRepository = new();
     public readonly Mock<IVpnServiceFactory> VpnServiceFactory = new();
     public readonly Mock<IVpnService> VpnService = new();
-    public readonly Mock<ConnectionExpireService> ExpireService = new();
+    public readonly Mock<IConnectionExpireService> ExpireService = new();
 
     public ConfirmConnectionCommandHandler CreateHandler()
     {

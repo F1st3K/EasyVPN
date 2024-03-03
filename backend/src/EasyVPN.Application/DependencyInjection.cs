@@ -15,7 +15,7 @@ public static class DependencyInjection
     
     private static IServiceCollection AddAppServices(this IServiceCollection services)
     {
-        services.AddScoped<ConnectionExpireService>();
+        services.AddScoped<IConnectionExpireService, ConnectionExpireService>();
         
         return services;
     }

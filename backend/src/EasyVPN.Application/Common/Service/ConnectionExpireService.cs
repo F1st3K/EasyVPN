@@ -8,7 +8,7 @@ using ErrorOr;
 
 namespace EasyVPN.Application.Common.Service;
 
-public class ConnectionExpireService
+public class ConnectionExpireService : IConnectionExpireService
 {
     private readonly IExpirationChecker _expirationChecker;
     private readonly IConnectionRepository _connectionRepository;

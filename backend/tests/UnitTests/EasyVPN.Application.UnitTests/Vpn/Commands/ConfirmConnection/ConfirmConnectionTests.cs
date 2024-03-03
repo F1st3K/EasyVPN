@@ -41,19 +41,14 @@ public class ConfirmConnectionTests
         //Assert
         result.IsError.Should().BeFalse(result.FirstError.ToString());
         
-            //On confirm
         _mocks.VpnService.Verify(x 
             => x.EnableClient(Constants.Connection.Id));
         _mocks.ConnectionRepository.Verify(x 
             => x.Update(It.Is<Connection>(connection 
-                => connection.IsActiveValid())));
-        
-            //On expire
-        _mocks.VpnService.Verify(x 
-            => x.DisableClient(Constants.Connection.Id));
-        _mocks.ConnectionRepository.Verify(x 
-            => x.Update(It.Is<Connection>(connection 
-                => connection.IsExpireValid())));
+                => connection.IsValid())));
+        _mocks.ExpireService.Verify(x
+            => x.AddTrackExpire(It.Is<Connection>(connection
+                => connection.IsValid())));
     }
     
     [Fact]
