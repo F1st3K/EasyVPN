@@ -2,9 +2,11 @@ using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
 using EasyVPN.Domain.Common.Enums;
+using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
+using ErrorOr;
 
-namespace EasyVPN.Application.Common.Services;
+namespace EasyVPN.Application.Common.Service;
 
 public class ConnectionExpireService
 {
@@ -38,21 +40,21 @@ public class ConnectionExpireService
             () => TryConnectionExpire(connection.Id));
     }
 
-    private bool TryConnectionExpire(Guid connectionId)
+    private ErrorOr<Success> TryConnectionExpire(Guid connectionId)
     {
         if (_connectionRepository.Get(connectionId) is not {} connection)
-            return false;
+            return Errors.Connection.NotFound;
         
         if (_serverRepository.Get(connection.ServerId) is not { } server)
-            return false;
+            return Errors.Server.NotFound;
         
         if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
-            return false;
+            return Errors.Server.FailedGetService;
         
         connection.Status = ConnectionStatus.Expired;
         _connectionRepository.Update(connection);
         vpnService.DisableClient(connection.Id);
         
-        return true;
+        return new Success();
     }
 }

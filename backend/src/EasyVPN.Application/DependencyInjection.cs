@@ -1,4 +1,4 @@
-using EasyVPN.Application.Common.Services;
+using EasyVPN.Application.Common.Service;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +16,6 @@ public static class DependencyInjection
     private static IServiceCollection AddAppServices(this IServiceCollection services)
     {
         services.AddScoped<ConnectionExpireService>();
-        services.AddHostedService<ConnectionExpireHostService>();
         
         return services;
     }
