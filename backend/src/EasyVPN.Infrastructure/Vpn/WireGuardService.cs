@@ -17,16 +17,16 @@ public class WireGuardService : IVpnService
 
     public void EnableClient(Guid connectionId)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void DisableClient(Guid connectionId)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void DeleteClient(Guid connectionId)
     {
-        throw new NotImplementedException();
+        
     }
 }

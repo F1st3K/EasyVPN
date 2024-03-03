@@ -7,17 +7,18 @@ using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Options = EasyVPN.Infrastructure.Settings.Options;
 
 namespace EasyVPN.Infrastructure.Authentication;
 
 public class JwtTokenGenerator : IJwtTokenGenerator
 {
-    private readonly JwtSettings _jwtSettings;
+    private readonly Options.Jwt _jwtSettings;
     private readonly IDateTimeProvider _dateTimeProvider;
 
     public JwtTokenGenerator(
         IDateTimeProvider dateTimeProvider,
-        IOptions<JwtSettings> jwtOptions)
+        IOptions<Options.Jwt> jwtOptions)
     {
         _dateTimeProvider = dateTimeProvider;
         _jwtSettings = jwtOptions.Value;

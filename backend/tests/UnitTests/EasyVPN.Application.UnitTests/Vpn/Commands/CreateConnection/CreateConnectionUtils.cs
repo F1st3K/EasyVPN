@@ -8,11 +8,10 @@ public static class CreateConnectionUtils
 {
     public static CreateConnectionCommand CreateCommand()
         => new (Constants.User.Id,
-            Constants.Server.Id,
-            Constants.Connection.Days);
+            Constants.Server.Id);
 
     public static bool IsValid(this Connection connection)
         => connection.ClientId == Constants.User.Id
            && connection.ServerId == Constants.Server.Id
-           && connection.ExpirationTime == DateTime.MinValue.AddDays(Constants.Connection.Days);
+           && connection.ExpirationTime == Constants.Connection.ExpirationTime;
 }

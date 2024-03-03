@@ -27,8 +27,7 @@ public class ClientController : ApiController
         var createConnectionResult = 
             await _sender.Send(new CreateConnectionCommand(
                 clientId,
-                request.ServerId,
-                request.CountDays));
+                request.ServerId));
         
         return createConnectionResult.Match(
             _ => Ok(),

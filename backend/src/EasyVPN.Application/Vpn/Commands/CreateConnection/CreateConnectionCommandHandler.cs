@@ -35,7 +35,7 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
     }
     
     public async Task<ErrorOr<Success>> Handle(CreateConnectionCommand command, CancellationToken cancellationToken)
-    {
+    {   
         await Task.CompletedTask;
         
         if (_userRepository.GetUserById(command.ClientId) is not { } user)
@@ -55,7 +55,7 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
         {
             Id = Guid.NewGuid(),
             ClientId = user.Id,
-            ExpirationTime = _dateTimeProvider.UtcNow.AddDays(command.CountDays),
+            ExpirationTime = _dateTimeProvider.UtcNow,
             ServerId = server.Id,
             Status = ConnectionStatus.Pending
         };

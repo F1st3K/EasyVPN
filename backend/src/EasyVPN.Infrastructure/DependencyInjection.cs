@@ -21,7 +21,8 @@ public static class DependencyInjection
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        services.AddAuth(configuration);
+        services.AddAuth(configuration)
+                .AddExpirationChecker(configuration);
         
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<IUserRepository, UserRepository>();
@@ -37,13 +38,13 @@ public static class DependencyInjection
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        var hashSettings = new HashSettings();
-        configuration.Bind(HashSettings.SectionName, hashSettings);
+        var hashSettings = new Settings.Options.Hash();
+        configuration.Bind(Settings.Options.Jwt.SectionName, hashSettings);
         services.AddSingleton(Options.Create(hashSettings));
         services.AddSingleton<IHashGenerator, HashGenerator>();
         
-        var jwtSettings = new JwtSettings();
-        configuration.Bind(JwtSettings.SectionName, jwtSettings);
+        var jwtSettings = new Settings.Options.Jwt();
+        configuration.Bind(Settings.Options.Jwt.SectionName, jwtSettings);
         services.AddSingleton(Options.Create(jwtSettings));
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
@@ -59,6 +60,18 @@ public static class DependencyInjection
                 IssuerSigningKey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(jwtSettings.Secret))
             });
+        
+        return services;
+    }
+
+    private static IServiceCollection AddExpirationChecker(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
+    {
+        var expirationSettings = new Settings.Options.Expiration();
+        configuration.Bind(Settings.Options.Expiration.SectionName, expirationSettings);
+        services.AddSingleton(Options.Create(expirationSettings));
+        services.AddSingleton<IExpirationChecker, ExpirationChecker>();
         
         return services;
     }
