@@ -20,8 +20,9 @@ public class ExpirationChecker : IExpirationChecker
         _timer = new Timer();
         _timer.Interval = ToMilliseconds(expirationOptions.Value.CheckMinutes);
         _timer.Elapsed += Check;
-        _timer.Start();
     }
+
+    public void Run() => _timer.Start();
 
     public void NewExpire(DateTime expireTime, Func<bool> onExpire)
     {

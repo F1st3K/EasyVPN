@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Common\HostServices\" />
     <Folder Include="Vpn\Commands\DeleteConnection\" />
     <Folder Include="Vpn\Commands\ExtendConnection\" />
     <Folder Include="Vpn\Common\" />
