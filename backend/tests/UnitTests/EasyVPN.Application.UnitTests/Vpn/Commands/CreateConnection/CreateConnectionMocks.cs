@@ -23,7 +23,7 @@ public class CreateConnectionMocks
             => x.CreateClient(It.IsAny<Connection>()));
         var mockDateTimeProvider = new Mock<IDateTimeProvider>();
         mockDateTimeProvider.Setup(x => x.UtcNow)
-            .Returns(DateTime.MinValue);
+            .Returns(Constants.Connection.ExpirationTime);
         return new CreateConnectionCommandHandler(
             UserRepository.Object,
             UserRoleRepository.Object,

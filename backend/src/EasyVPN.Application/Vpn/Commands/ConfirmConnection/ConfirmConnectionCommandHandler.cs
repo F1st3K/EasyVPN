@@ -1,6 +1,7 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
+using EasyVPN.Application.Common.Service;
 using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Common.Errors;
 using ErrorOr;
@@ -14,19 +15,19 @@ public class ConfirmConnectionCommandHandler : IRequestHandler<ConfirmConnection
     private readonly IServerRepository _serverRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly IExpirationChecker _checker;
+    private readonly IConnectionExpireService _expireService;
 
     public ConfirmConnectionCommandHandler(
         IConnectionRepository connectionRepository, 
         IServerRepository serverRepository,
         IVpnServiceFactory vpnServiceFactory, 
-        IDateTimeProvider dateTimeProvider, 
-        IExpirationChecker checker)
+        IDateTimeProvider dateTimeProvider,
+        IConnectionExpireService expireService)
     {
         _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;
         _dateTimeProvider = dateTimeProvider;
-        _checker = checker;
+        _expireService = expireService;
         _serverRepository = serverRepository;
     }
     
@@ -51,28 +52,8 @@ public class ConfirmConnectionCommandHandler : IRequestHandler<ConfirmConnection
         _connectionRepository.Update(connection);
         
         vpnService.EnableClient(connection.Id);
-        
-        _checker.NewExpire(connection.ExpirationTime,
-            () => TryConnectionExpire(connection.Id));
+        _expireService.AddTrackExpire(connection);
         
         return new Success();
-    }
-
-    private bool TryConnectionExpire(Guid connectionId)
-    {
-        if (_connectionRepository.Get(connectionId) is not {} connection)
-            return false;
-        
-        if (_serverRepository.Get(connection.ServerId) is not { } server)
-            return false;
-        
-        if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
-            return false;
-        
-        connection.Status = ConnectionStatus.Expired;
-        _connectionRepository.Update(connection);
-        vpnService.DisableClient(connection.Id);
-        
-        return true;
     }
 }
