@@ -9,13 +9,6 @@ public static class ConnectionExpireServiceUtils
         {
             Id = Constants.Connection.Id,
             ServerId = Constants.Server.Id,
-            ExpirationTime = Constants.Connection.ExpirationTime,
-            IsActive = false
+            ExpirationTime = Constants.Connection.ExpirationTime
         };
-    
-    public static bool IsValid(this Domain.Entities.Connection connection)
-        => connection.Id == Constants.Connection.Id
-           && connection.ServerId == Constants.Server.Id
-           && connection.ExpirationTime == Constants.Connection.ExpirationTime
-           && connection.IsActive == false;
 }

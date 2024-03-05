@@ -44,11 +44,8 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
         if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
             return Errors.Server.FailedGetService;
 
-        if (connection.IsActive == false)
-        {
-            connection.IsActive = true;
+        if (connection.ExpirationTime < _dateTimeProvider.UtcNow)
             connection.ExpirationTime = _dateTimeProvider.UtcNow;
-        }
         
         connection.ExpirationTime = 
             connection.ExpirationTime.AddDays(command.CountDays);

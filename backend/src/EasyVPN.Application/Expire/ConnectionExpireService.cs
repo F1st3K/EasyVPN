@@ -14,23 +14,26 @@ public class ConnectionExpireService : IExpireService<Connection>
     private readonly IConnectionRepository _connectionRepository;
     private readonly IServerRepository _serverRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
+    private readonly IDateTimeProvider _dateTimeProvider;
 
     public ConnectionExpireService(
         IExpirationChecker expirationChecker,
         IConnectionRepository connectionRepository,
         IServerRepository serverRepository,
-        IVpnServiceFactory vpnServiceFactory)
+        IVpnServiceFactory vpnServiceFactory, 
+        IDateTimeProvider dateTimeProvider)
     {
         _expirationChecker = expirationChecker;
         _connectionRepository = connectionRepository;
         _serverRepository = serverRepository;
         _vpnServiceFactory = vpnServiceFactory;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public void AddAllToTrackExpire()
     {
         _connectionRepository.GetAll().AsParallel()
-            .Where(c => c.IsActive)
+            .Where(c => c.ExpirationTime > _dateTimeProvider.UtcNow)
             .ForAll(AddTrackExpire);
     }
     
@@ -57,8 +60,6 @@ public class ConnectionExpireService : IExpireService<Connection>
         if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
             return Errors.Server.FailedGetService;
         
-        connection.IsActive = false;
-        _connectionRepository.Update(connection);
         vpnService.DisableClient(connection.Id);
         
         return new Success();

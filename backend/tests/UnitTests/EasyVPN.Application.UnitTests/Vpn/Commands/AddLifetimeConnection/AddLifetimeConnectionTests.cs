@@ -23,7 +23,6 @@ public class AddLifetimeConnectionTests
             {
                 Id = Constants.Connection.Id,
                 ServerId = Constants.Server.Id,
-                IsActive = true,
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 
@@ -64,7 +63,6 @@ public class AddLifetimeConnectionTests
             {
                 Id = Constants.Connection.Id,
                 ServerId = Constants.Server.Id,
-                IsActive = false
             });
 
         _mocks.ServerRepository.Setup(x
@@ -130,7 +128,6 @@ public class AddLifetimeConnectionTests
             {
                 Id = Constants.Connection.Id,
                 ServerId = Constants.Server.Id,
-                IsActive = false
             });
 
         _mocks.ServerRepository.Setup(x
@@ -161,7 +158,6 @@ public class AddLifetimeConnectionTests
             {
                 Id = Constants.Connection.Id,
                 ServerId = Constants.Server.Id,
-                IsActive = false
             });
 
         _mocks.ServerRepository.Setup(x
