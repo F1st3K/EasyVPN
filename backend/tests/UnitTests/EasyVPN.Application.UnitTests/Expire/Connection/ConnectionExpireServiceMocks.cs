@@ -1,12 +1,12 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Application.Common.Service;
+using EasyVPN.Application.Expire;
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
 using ErrorOr;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.Common.Services;
+namespace EasyVPN.Application.UnitTests.Expire.Connection;
 
 public class ConnectionExpireServiceMocks
 {
@@ -19,10 +19,11 @@ public class ConnectionExpireServiceMocks
     public ConnectionExpireService Create()
     {
         ExpirationChecker.Setup(x
-                => x.NewExpire(Constants.Connection.ExpirationTime, 
+                => x.NewExpire(Constants.Connection.Id,
+                    Constants.Connection.ExpirationTime, 
                     It.IsAny<Func<ErrorOr<Success>>>()))
-            .Callback(new Action<DateTime, Func<ErrorOr<Success>>>(
-                (expireTime, onExpire) => onExpire()));
+            .Callback(new Action<Guid, DateTime, Func<ErrorOr<Success>>>(
+                (id, expireTime, onExpire) => onExpire()));
         return new ConnectionExpireService(
             ExpirationChecker.Object,
             ConnectionRepository.Object,

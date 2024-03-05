@@ -1,5 +1,6 @@
+using EasyVPN.Application.Common.Interfaces.Expire;
 using EasyVPN.Application.Common.Interfaces.Services;
-using EasyVPN.Application.Common.Service;
+using EasyVPN.Domain.Entities;
 
 namespace EasyVPN.Api;
 
@@ -16,10 +17,10 @@ public static class StartupExtensions
     {
         using var scope = app.ApplicationServices.CreateScope();
 
-        var connectionExpireService = scope.ServiceProvider.GetRequiredService<IConnectionExpireService>();
+        var connectionExpireService = scope.ServiceProvider.GetRequiredService<IExpireService<Connection>>();
         var expirationChecker = app.ApplicationServices.GetRequiredService<IExpirationChecker>();
         
-        connectionExpireService.AddActiveConnectionsToTrackExpire();
+        connectionExpireService.AddAllToTrackExpire();
         expirationChecker.Run();
 
         return app;
