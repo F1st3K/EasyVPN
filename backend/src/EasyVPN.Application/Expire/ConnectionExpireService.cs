@@ -36,10 +36,14 @@ public class ConnectionExpireService : IExpireService<Connection>
     
     public void AddTrackExpire(Connection connection)
     {
-        _expirationChecker.TryRemoveExpire(connection.Id);
         _expirationChecker.NewExpire(connection.Id,
             connection.ExpirationTime,
             () => TryConnectionExpire(connection.Id));
+    }
+
+    public void ResetTrackExpire(Connection connection)
+    {
+        _expirationChecker.TryRemoveExpire(connection.Id);
     }
 
     private ErrorOr<Success> TryConnectionExpire(Guid connectionId)
