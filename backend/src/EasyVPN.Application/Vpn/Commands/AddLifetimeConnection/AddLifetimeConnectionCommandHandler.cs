@@ -52,6 +52,7 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
         _connectionRepository.Update(connection);
         
         vpnService.EnableClient(connection.Id);
+        _expireService.ResetTrackExpire(connection);
         _expireService.AddTrackExpire(connection);
         
         return new Success();

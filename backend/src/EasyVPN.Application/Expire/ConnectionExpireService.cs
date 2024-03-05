@@ -33,6 +33,8 @@ public class ConnectionExpireService : IExpireService<Connection>
     public void AddAllToTrackExpire()
     {
         _connectionRepository.GetAll().AsParallel()
+            .ForAll(ResetTrackExpire);
+        _connectionRepository.GetAll().AsParallel()
             .Where(c => c.ExpirationTime > _dateTimeProvider.UtcNow)
             .ForAll(AddTrackExpire);
     }

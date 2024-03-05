@@ -1,5 +1,4 @@
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
 using FluentAssertions;
@@ -45,6 +44,9 @@ public class AddLifetimeConnectionTests
             => x.EnableClient(Constants.Connection.Id));
         _mocks.ConnectionRepository.Verify(x 
             => x.Update(It.Is<Connection>(connection 
+                => connection.ExtendIsValid())));
+        _mocks.ExpireService.Verify(x
+            => x.ResetTrackExpire(It.Is<Connection>(connection
                 => connection.ExtendIsValid())));
         _mocks.ExpireService.Verify(x
             => x.AddTrackExpire(It.Is<Connection>(connection

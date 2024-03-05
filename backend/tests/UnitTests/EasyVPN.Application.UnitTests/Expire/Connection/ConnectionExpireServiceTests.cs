@@ -63,6 +63,9 @@ public class ConnectionExpireServiceTests
                 Constants.Connection.ExpirationTime,
                 It.IsAny<Func<ErrorOr<Success>>>()),
             Times.Exactly(5));
+        _mocks.ExpirationChecker.Verify(x
+                => x.TryRemoveExpire(It.IsIn(Constants.Connection.GetMore(5, 10))),
+            Times.Exactly(10));
     }
 
     
