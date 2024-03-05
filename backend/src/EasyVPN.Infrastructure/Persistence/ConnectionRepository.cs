@@ -38,6 +38,11 @@ public class ConnectionRepository : IConnectionRepository
         _connections.Add(connection);
     }
 
+    public void Remove(Guid id)
+    {
+        _connections.RemoveAll(c => c.Id == id);
+    }
+
     public void Update(Connection connection)
     {
         if (_connections.SingleOrDefault(c => c.Id == connection.Id) is not {} stateConnection)

@@ -1,5 +1,6 @@
 using EasyVPN.Api.Common;
 using EasyVPN.Application.Vpn.Commands.AddLifetimeConnection;
+using EasyVPN.Application.Vpn.Commands.DeleteConnection;
 using EasyVPN.Application.Vpn.Commands.ResetLifetimeConnection;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -34,6 +35,17 @@ public class PaymentReviewerController : ApiController
     {
         var confirmResult = await _sender.Send(
             new ResetLifetimeConnectionCommand(connectionId));
+        
+        return confirmResult.Match(
+            _ => Ok(), 
+            errors => Problem(errors));
+    }
+    
+    [HttpDelete("{connectionId:guid}/delete")]
+    public async Task<IActionResult> Delete([FromRoute] Guid connectionId)
+    {
+        var confirmResult = await _sender.Send(
+            new DeleteConnectionCommand(connectionId));
         
         return confirmResult.Match(
             _ => Ok(), 
