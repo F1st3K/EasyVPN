@@ -1,5 +1,4 @@
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Entities;
 using ErrorOr;
 using Moq;
@@ -50,13 +49,9 @@ public class ConnectionExpireServiceTests
         _mocks.ConnectionRepository.Setup(x
                 => x.GetAll())
             .Returns(Constants.Connection.GetMore(start: 0, count: 5)
-                .Select(id => new Connection() { Id = id, Status = ConnectionStatus.Active })
+                .Select(id => new Connection() { Id = id, IsActive = true})
                 .Concat(Constants.Connection.GetMore(start: 5, count: 5)
-                .Select(id => new Connection() { Id = id, Status = ConnectionStatus.Expired }))
-                .Concat(Constants.Connection.GetMore(start: 10, count: 5)
-                .Select(id => new Connection() { Id = id, Status = ConnectionStatus.Pending }))
-                .Concat(Constants.Connection.GetMore(start: 15, count: 5)
-                .Select(id => new Connection() { Id = id, Status = ConnectionStatus.Rejected })));
+                .Select(id => new Connection() { Id = id, IsActive = false})));
         
         //Act
         var connectionExpireService = _mocks.Create();

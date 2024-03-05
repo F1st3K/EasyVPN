@@ -1,5 +1,4 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Entities;
 
 namespace EasyVPN.Infrastructure.Persistence;
@@ -14,7 +13,7 @@ public class ConnectionRepository : IConnectionRepository
             ClientId = Guid.Parse("00000001-0000-0000-0000-000000000000"), 
             ServerId = Guid.Empty,
             ExpirationTime = DateTime.MinValue,
-            Status = ConnectionStatus.Active
+            IsActive = true
         },
         new Connection()
         {
@@ -22,7 +21,7 @@ public class ConnectionRepository : IConnectionRepository
         ClientId = Guid.Parse("00000001-0000-0000-0000-000000000000"), 
         ServerId = Guid.Empty,
         ExpirationTime = DateTime.MaxValue,
-        Status = ConnectionStatus.Active
+        IsActive = true
     }
     };
     
@@ -47,7 +46,7 @@ public class ConnectionRepository : IConnectionRepository
             return;
         stateConnection.ClientId = connection.ClientId;
         stateConnection.ServerId = connection.ServerId;
-        stateConnection.Status = connection.Status;
+        stateConnection.IsActive = connection.IsActive;
         stateConnection.ExpirationTime = connection.ExpirationTime;
     }
 }

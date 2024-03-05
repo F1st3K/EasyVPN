@@ -23,7 +23,7 @@ public class ConfirmConnectionTests
             {
                 Id = Constants.Connection.Id,
                 ServerId = Constants.Server.Id,
-                Status = ConnectionStatus.Pending
+                IsActive = false
             });
 
         _mocks.ServerRepository.Setup(x
@@ -78,37 +78,6 @@ public class ConfirmConnectionTests
     }
     
     [Fact]
-    public async Task HandleConfirmConnectionCommand_WhenConnectionNotWaitActivation_Error()
-    {
-        //Arrange
-        var command = ConfirmConnectionUtils.CreateCommand();
-
-        _mocks.ConnectionRepository.Setup(x
-                => x.Get(Constants.Connection.Id))
-            .Returns(() => new Connection()
-            {
-                Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
-                Status = ConnectionStatus.Active
-            });
-
-        _mocks.ServerRepository.Setup(x
-                => x.Get(Constants.Server.Id))
-            .Returns(new Server() { Id = Constants.Server.Id });
-
-        _mocks.VpnServiceFactory.Setup(x
-                => x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
-
-        //Act
-        var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(command, CancellationToken.None);
-
-        //Assert
-        result.FirstError.Should().Be(Errors.Connection.NotWaitActivation);
-    }
-    
-    [Fact]
     public async Task HandleConfirmConnectionCommand_WhenServerNotFound_Error()
     {
         //Arrange
@@ -120,7 +89,7 @@ public class ConfirmConnectionTests
             {
                 Id = Constants.Connection.Id,
                 ServerId = Constants.Server.Id,
-                Status = ConnectionStatus.Pending
+                IsActive = false
             });
 
         _mocks.ServerRepository.Setup(x
@@ -151,7 +120,7 @@ public class ConfirmConnectionTests
             {
                 Id = Constants.Connection.Id,
                 ServerId = Constants.Server.Id,
-                Status = ConnectionStatus.Pending
+                IsActive = false
             });
 
         _mocks.ServerRepository.Setup(x

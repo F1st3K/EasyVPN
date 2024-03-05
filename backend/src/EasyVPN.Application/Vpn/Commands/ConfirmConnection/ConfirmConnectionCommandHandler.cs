@@ -2,7 +2,6 @@ using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
 using EasyVPN.Application.Common.Service;
-using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
@@ -38,16 +37,13 @@ public class ConfirmConnectionCommandHandler : IRequestHandler<ConfirmConnection
         if (_connectionRepository.Get(command.ConnectionId) is not { } connection)
             return Errors.Connection.NotFound;
 
-        if (connection.Status != ConnectionStatus.Pending)
-            return Errors.Connection.NotWaitActivation;
-
         if (_serverRepository.Get(connection.ServerId) is not { } server)
             return Errors.Server.NotFound;
 
         if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
             return Errors.Server.FailedGetService;
         
-        connection.Status = ConnectionStatus.Active;
+        connection.IsActive = true;
         connection.ExpirationTime = _dateTimeProvider.UtcNow.AddDays(command.CountDays);
         _connectionRepository.Update(connection);
         
