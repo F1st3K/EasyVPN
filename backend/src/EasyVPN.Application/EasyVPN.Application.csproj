@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Vpn\Commands\DeleteConnection\" />
-    <Folder Include="Vpn\Commands\ResetLifetimeConnection\" />
     <Folder Include="Vpn\Common\" />
   </ItemGroup>
 

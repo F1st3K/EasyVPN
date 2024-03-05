@@ -14,32 +14,41 @@ public class ConnectionExpireService : IExpireService<Connection>
     private readonly IConnectionRepository _connectionRepository;
     private readonly IServerRepository _serverRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
+    private readonly IDateTimeProvider _dateTimeProvider;
 
     public ConnectionExpireService(
         IExpirationChecker expirationChecker,
         IConnectionRepository connectionRepository,
         IServerRepository serverRepository,
-        IVpnServiceFactory vpnServiceFactory)
+        IVpnServiceFactory vpnServiceFactory, 
+        IDateTimeProvider dateTimeProvider)
     {
         _expirationChecker = expirationChecker;
         _connectionRepository = connectionRepository;
         _serverRepository = serverRepository;
         _vpnServiceFactory = vpnServiceFactory;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public void AddAllToTrackExpire()
     {
         _connectionRepository.GetAll().AsParallel()
-            .Where(c => c.IsActive)
+            .ForAll(ResetTrackExpire);
+        _connectionRepository.GetAll().AsParallel()
+            .Where(c => c.ExpirationTime > _dateTimeProvider.UtcNow)
             .ForAll(AddTrackExpire);
     }
     
     public void AddTrackExpire(Connection connection)
     {
-        _expirationChecker.TryRemoveExpire(connection.Id);
         _expirationChecker.NewExpire(connection.Id,
             connection.ExpirationTime,
             () => TryConnectionExpire(connection.Id));
+    }
+
+    public void ResetTrackExpire(Connection connection)
+    {
+        _expirationChecker.TryRemoveExpire(connection.Id);
     }
 
     private ErrorOr<Success> TryConnectionExpire(Guid connectionId)
@@ -53,8 +62,6 @@ public class ConnectionExpireService : IExpireService<Connection>
         if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
             return Errors.Server.FailedGetService;
         
-        connection.IsActive = false;
-        _connectionRepository.Update(connection);
         vpnService.DisableClient(connection.Id);
         
         return new Success();

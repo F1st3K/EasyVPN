@@ -35,9 +35,6 @@ public class ConnectionExpireServiceTests
         //Assert
         _mocks.VpnService.Verify(x 
             => x.DisableClient(Constants.Connection.Id));
-        _mocks.ConnectionRepository.Verify(x 
-            => x.Update(It.Is<Domain.Entities.Connection>(connection 
-                => connection.IsValid())));
     }
     
     [Fact]
@@ -50,10 +47,10 @@ public class ConnectionExpireServiceTests
                 => x.GetAll())
             .Returns(Constants.Connection.GetMore(start: 0, count: 5)
                 .Select(id => new Domain.Entities.Connection() 
-                    { Id = id, IsActive = true, ExpirationTime = Constants.Connection.ExpirationTime })
+                    { Id = id, ExpirationTime = Constants.Connection.ExpirationTime })
                 .Concat(Constants.Connection.GetMore(start: 5, count: 10)
                 .Select(id => new Domain.Entities.Connection() 
-                    { Id = id, IsActive = false, ExpirationTime = Constants.Connection.ExpirationTime })));
+                    { Id = id, ExpirationTime = Constants.Time.Now })));
         
         //Act
         var connectionExpireService = _mocks.Create();
@@ -66,6 +63,9 @@ public class ConnectionExpireServiceTests
                 Constants.Connection.ExpirationTime,
                 It.IsAny<Func<ErrorOr<Success>>>()),
             Times.Exactly(5));
+        _mocks.ExpirationChecker.Verify(x
+                => x.TryRemoveExpire(It.IsIn(Constants.Connection.GetMore(5, 10))),
+            Times.Exactly(10));
     }
 
     

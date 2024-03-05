@@ -1,0 +1,4 @@
+@connectionId = 00000002-0000-0000-0000-000000000000
+DELETE {{host}}/payment/{{connectionId}}/delete
+Authorization: Bearer {{PaymentToken}}
+Content-Type: application/json

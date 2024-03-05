@@ -7,9 +7,9 @@ using EasyVPN.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Vpn.Commands.AddLifetimeConnection;
+namespace EasyVPN.Application.Vpn.Commands.ResetLifetimeConnection;
 
-public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeConnectionCommand, ErrorOr<Success>>
+public class ResetLifetimeConnectionCommandHandler : IRequestHandler<ResetLifetimeConnectionCommand, ErrorOr<Success>>
 {
     private readonly IConnectionRepository _connectionRepository;
     private readonly IServerRepository _serverRepository;
@@ -17,7 +17,7 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IExpireService<Connection> _expireService;
 
-    public AddLifetimeConnectionCommandHandler(
+    public ResetLifetimeConnectionCommandHandler(
         IConnectionRepository connectionRepository, 
         IServerRepository serverRepository,
         IVpnServiceFactory vpnServiceFactory, 
@@ -31,7 +31,7 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
         _serverRepository = serverRepository;
     }
     
-    public async Task<ErrorOr<Success>> Handle(AddLifetimeConnectionCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Success>> Handle(ResetLifetimeConnectionCommand command, CancellationToken cancellationToken)
     {   
         await Task.CompletedTask;
 
@@ -44,16 +44,12 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
         if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
             return Errors.Server.FailedGetService;
 
-        if (connection.ExpirationTime < _dateTimeProvider.UtcNow)
-            connection.ExpirationTime = _dateTimeProvider.UtcNow;
+        connection.ExpirationTime = _dateTimeProvider.UtcNow;
         
-        connection.ExpirationTime = 
-            connection.ExpirationTime.AddDays(command.CountDays);
+        _expireService.ResetTrackExpire(connection);
         _connectionRepository.Update(connection);
         
-        vpnService.EnableClient(connection.Id);
-        _expireService.ResetTrackExpire(connection);
-        _expireService.AddTrackExpire(connection);
+        vpnService.DisableClient(connection.Id);
         
         return new Success();
     }

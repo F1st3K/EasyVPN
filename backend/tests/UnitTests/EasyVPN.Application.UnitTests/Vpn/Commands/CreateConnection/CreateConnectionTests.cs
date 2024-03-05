@@ -73,7 +73,6 @@ public class CreateConnectionTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         //Assert
-        result.IsError.Should().BeTrue();
         result.FirstError.Should().Be(Errors.User.NotFound);
     }
 
@@ -104,7 +103,6 @@ public class CreateConnectionTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         //Assert
-        result.IsError.Should().BeTrue();
         result.FirstError.Should().Be(Errors.Access.ClientsOnly);
     }
 
@@ -135,7 +133,6 @@ public class CreateConnectionTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         //Assert
-        result.IsError.Should().BeTrue();
         result.FirstError.Should().Be(Errors.Server.NotFound);
     }
 
@@ -166,7 +163,6 @@ public class CreateConnectionTests
         var result = await handler.Handle(command, CancellationToken.None);
 
         //Assert
-        result.IsError.Should().BeTrue();
         result.FirstError.Should().Be(Errors.Server.FailedGetService);
     }
 }
