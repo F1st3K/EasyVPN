@@ -49,9 +49,11 @@ public class ConnectionExpireServiceTests
         _mocks.ConnectionRepository.Setup(x
                 => x.GetAll())
             .Returns(Constants.Connection.GetMore(start: 0, count: 5)
-                .Select(id => new Connection() { Id = id, IsActive = true})
+                .Select(id => new Connection() 
+                    { Id = id, IsActive = true, ExpirationTime = Constants.Connection.ExpirationTime })
                 .Concat(Constants.Connection.GetMore(start: 5, count: 5)
-                .Select(id => new Connection() { Id = id, IsActive = false})));
+                .Select(id => new Connection() 
+                    { Id = id, IsActive = false, ExpirationTime = Constants.Connection.ExpirationTime })));
         
         //Act
         var connectionExpireService = _mocks.Create();

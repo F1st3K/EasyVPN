@@ -2,12 +2,13 @@ using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
 using EasyVPN.Application.Common.Service;
+using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
 using EasyVPN.Application.Vpn.Commands.AddLifetimeConnection;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.Vpn.Commands.ConfirmConnection;
+namespace EasyVPN.Application.UnitTests.Vpn.Commands.AddLifetimeConnection;
 
-public class ConfirmConnectionMocks
+public class AddLifetimeConnectionMocks
 {
     public readonly Mock<IServerRepository> ServerRepository = new();
     public readonly Mock<IConnectionRepository> ConnectionRepository = new();
@@ -20,7 +21,7 @@ public class ConfirmConnectionMocks
         
         var mockDateTimeProvider = new Mock<IDateTimeProvider>();
         mockDateTimeProvider.Setup(x => x.UtcNow)
-            .Returns(DateTime.MinValue);
+            .Returns(Constants.Time.Now);
         return new AddLifetimeConnectionCommandHandler(
             ConnectionRepository.Object,
             ServerRepository.Object,
