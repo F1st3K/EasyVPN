@@ -44,9 +44,9 @@ public class ResetLifetimeConnectionCommandHandler : IRequestHandler<ResetLifeti
         if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
             return Errors.Server.FailedGetService;
 
-        _expireService.ResetTrackExpire(connection);
-        
         connection.ExpirationTime = _dateTimeProvider.UtcNow;
+        
+        _expireService.ResetTrackExpire(connection);
         _connectionRepository.Update(connection);
         
         vpnService.DisableClient(connection.Id);
