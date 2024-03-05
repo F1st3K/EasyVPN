@@ -1,5 +1,5 @@
 using EasyVPN.Api.Common;
-using EasyVPN.Application.Vpn.Commands.ConfirmConnection;
+using EasyVPN.Application.Vpn.Commands.AddLifetimeConnection;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +21,7 @@ public class PaymentReviewerController : ApiController
     public async Task<IActionResult> Confirm([FromRoute] Guid connectionId)
     {
         var confirmResult = await _sender.Send(
-            new ConfirmConnectionCommand(connectionId, 0));
+            new AddLifetimeConnectionCommand(connectionId, 0));
         
         return confirmResult.Match(
             _ => Ok(), 

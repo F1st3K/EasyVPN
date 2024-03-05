@@ -1,7 +1,6 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
 using ErrorOr;
@@ -30,7 +29,7 @@ public class ConnectionExpireService : IConnectionExpireService
     public void AddActiveConnectionsToTrackExpire()
     {
         _connectionRepository.GetAll().AsParallel()
-            .Where(c => c.Status == ConnectionStatus.Active)
+            .Where(c => c.IsActive)
             .ForAll(AddTrackExpire);
     }
     
@@ -51,7 +50,7 @@ public class ConnectionExpireService : IConnectionExpireService
         if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
             return Errors.Server.FailedGetService;
         
-        connection.Status = ConnectionStatus.Expired;
+        connection.IsActive = false;
         _connectionRepository.Update(connection);
         vpnService.DisableClient(connection.Id);
         
