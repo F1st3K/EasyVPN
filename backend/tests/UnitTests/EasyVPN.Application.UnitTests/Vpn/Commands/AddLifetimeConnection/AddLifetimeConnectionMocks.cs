@@ -1,7 +1,6 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Application.Common.Service;
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
 using EasyVPN.Application.Vpn.Commands.AddLifetimeConnection;
 using Moq;
@@ -14,7 +13,7 @@ public class AddLifetimeConnectionMocks
     public readonly Mock<IConnectionRepository> ConnectionRepository = new();
     public readonly Mock<IVpnServiceFactory> VpnServiceFactory = new();
     public readonly Mock<IVpnService> VpnService = new();
-    public readonly Mock<IConnectionExpireService> ExpireService = new();
+    public readonly Mock<IExpireService> ExpireService = new();
 
     public AddLifetimeConnectionCommandHandler CreateHandler()
     {

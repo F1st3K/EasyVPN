@@ -1,8 +1,9 @@
+using EasyVPN.Application.Common.Interfaces.Expire;
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Application.Common.Service;
 using EasyVPN.Domain.Common.Errors;
+using EasyVPN.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
@@ -14,14 +15,14 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
     private readonly IServerRepository _serverRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly IConnectionExpireService _expireService;
+    private readonly IExpireService<Connection> _expireService;
 
     public AddLifetimeConnectionCommandHandler(
         IConnectionRepository connectionRepository, 
         IServerRepository serverRepository,
         IVpnServiceFactory vpnServiceFactory, 
         IDateTimeProvider dateTimeProvider,
-        IConnectionExpireService expireService)
+        IExpireService<Connection> expireService)
     {
         _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;

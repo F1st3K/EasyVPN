@@ -28,11 +28,9 @@ public class ExpirationChecker : IExpirationChecker
         _timer.Start();
     }
 
-    public Guid NewExpire(DateTime expireTime, Func<ErrorOr<Success>> onExpire)
+    public void NewExpire(Guid expireId, DateTime expireTime, Func<ErrorOr<Success>> onExpire)
     {
-        var expireId = Guid.NewGuid();
         _expires.Add(expireId, (expireTime, onExpire));
-        return expireId;
     }
 
     public bool TryRemoveExpire(Guid expireId) => _expires.Remove(expireId);

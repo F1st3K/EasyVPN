@@ -1,7 +1,7 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Application.Common.Service;
+using EasyVPN.Application.Expire;
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
 using ErrorOr;
 using Moq;

@@ -57,7 +57,7 @@ public class ConnectionExpireServiceTests
         
         //Act
         var connectionExpireService = _mocks.Create();
-        connectionExpireService.AddActiveConnectionsToTrackExpire();
+        connectionExpireService.AddAllToTrackExpire();
 
         //Assert
         _mocks.ConnectionRepository.Verify();
