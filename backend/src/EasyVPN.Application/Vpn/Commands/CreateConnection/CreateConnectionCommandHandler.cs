@@ -57,7 +57,7 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
             ClientId = user.Id,
             ExpirationTime = _dateTimeProvider.UtcNow,
             ServerId = server.Id,
-            Status = ConnectionStatus.Pending
+            IsActive = false
         };
         _connectionRepository.Add(connection);
         vpnService.CreateClient(connection);

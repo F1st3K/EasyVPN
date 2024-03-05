@@ -1,28 +1,28 @@
+using EasyVPN.Application.Common.Interfaces.Expire;
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Application.Common.Service;
-using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Common.Errors;
+using EasyVPN.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Vpn.Commands.ConfirmConnection;
+namespace EasyVPN.Application.Vpn.Commands.AddLifetimeConnection;
 
-public class ConfirmConnectionCommandHandler : IRequestHandler<ConfirmConnectionCommand, ErrorOr<Success>>
+public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeConnectionCommand, ErrorOr<Success>>
 {
     private readonly IConnectionRepository _connectionRepository;
     private readonly IServerRepository _serverRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly IConnectionExpireService _expireService;
+    private readonly IExpireService<Connection> _expireService;
 
-    public ConfirmConnectionCommandHandler(
+    public AddLifetimeConnectionCommandHandler(
         IConnectionRepository connectionRepository, 
         IServerRepository serverRepository,
         IVpnServiceFactory vpnServiceFactory, 
         IDateTimeProvider dateTimeProvider,
-        IConnectionExpireService expireService)
+        IExpireService<Connection> expireService)
     {
         _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;
@@ -31,24 +31,27 @@ public class ConfirmConnectionCommandHandler : IRequestHandler<ConfirmConnection
         _serverRepository = serverRepository;
     }
     
-    public async Task<ErrorOr<Success>> Handle(ConfirmConnectionCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Success>> Handle(AddLifetimeConnectionCommand command, CancellationToken cancellationToken)
     {   
         await Task.CompletedTask;
 
         if (_connectionRepository.Get(command.ConnectionId) is not { } connection)
             return Errors.Connection.NotFound;
 
-        if (connection.Status != ConnectionStatus.Pending)
-            return Errors.Connection.NotWaitActivation;
-
         if (_serverRepository.Get(connection.ServerId) is not { } server)
             return Errors.Server.NotFound;
 
         if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
             return Errors.Server.FailedGetService;
+
+        if (connection.IsActive == false)
+        {
+            connection.IsActive = true;
+            connection.ExpirationTime = _dateTimeProvider.UtcNow;
+        }
         
-        connection.Status = ConnectionStatus.Active;
-        connection.ExpirationTime = _dateTimeProvider.UtcNow.AddDays(command.CountDays);
+        connection.ExpirationTime = 
+            connection.ExpirationTime.AddDays(command.CountDays);
         _connectionRepository.Update(connection);
         
         vpnService.EnableClient(connection.Id);
