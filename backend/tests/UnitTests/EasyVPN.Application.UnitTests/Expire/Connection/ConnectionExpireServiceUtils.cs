@@ -1,11 +1,10 @@
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Entities;
 
-namespace EasyVPN.Application.UnitTests.Common.Services;
+namespace EasyVPN.Application.UnitTests.Expire.Connection;
 
 public static class ConnectionExpireServiceUtils
 {
-    public static Connection GetConnection()
+    public static Domain.Entities.Connection GetConnection()
         => new()
         {
             Id = Constants.Connection.Id,
@@ -14,7 +13,7 @@ public static class ConnectionExpireServiceUtils
             IsActive = false
         };
     
-    public static bool IsValid(this Connection connection)
+    public static bool IsValid(this Domain.Entities.Connection connection)
         => connection.Id == Constants.Connection.Id
            && connection.ServerId == Constants.Server.Id
            && connection.ExpirationTime == Constants.Connection.ExpirationTime
