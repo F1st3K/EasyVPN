@@ -10,12 +10,10 @@ public static class AddLifetimeConnectionUtils
         => new (Constants.Connection.Id, Constants.Connection.Days);
 
     public static bool ExtendIsValid(this Connection connection)
-        => connection.IsActive
-           && connection.ServerId == Constants.Server.Id
+        => connection.ServerId == Constants.Server.Id
            && connection.ExpirationTime == Constants.Connection.ExpirationTime.AddDays(Constants.Connection.Days);
     
     public static bool ActivateIsValid(this Connection connection)
-        => connection.IsActive
-           && connection.ServerId == Constants.Server.Id
+        => connection.ServerId == Constants.Server.Id
            && connection.ExpirationTime == Constants.Time.Now.AddDays(Constants.Connection.Days);
 }

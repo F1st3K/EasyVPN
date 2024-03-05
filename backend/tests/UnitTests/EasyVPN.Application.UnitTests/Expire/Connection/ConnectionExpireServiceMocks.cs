@@ -24,11 +24,15 @@ public class ConnectionExpireServiceMocks
                     It.IsAny<Func<ErrorOr<Success>>>()))
             .Callback(new Action<Guid, DateTime, Func<ErrorOr<Success>>>(
                 (id, expireTime, onExpire) => onExpire()));
+        var dateTimeProvider = new Mock<IDateTimeProvider>();
+        dateTimeProvider.Setup(x => x.UtcNow)
+            .Returns(Constants.Time.Now);
         return new ConnectionExpireService(
             ExpirationChecker.Object,
             ConnectionRepository.Object,
             ServerRepository.Object,
-            VpnServiceFactory.Object
+            VpnServiceFactory.Object,
+            dateTimeProvider.Object
             );
     }
 }

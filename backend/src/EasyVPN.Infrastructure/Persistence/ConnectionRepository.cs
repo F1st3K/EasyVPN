@@ -12,16 +12,14 @@ public class ConnectionRepository : IConnectionRepository
             Id = Guid.Parse("00000001-0000-0000-0000-000000000000"), 
             ClientId = Guid.Parse("00000001-0000-0000-0000-000000000000"), 
             ServerId = Guid.Empty,
-            ExpirationTime = DateTime.MinValue,
-            IsActive = true
+            ExpirationTime = DateTime.MinValue
         },
         new Connection()
         {
         Id = Guid.Parse("00000002-0000-0000-0000-000000000000"), 
         ClientId = Guid.Parse("00000001-0000-0000-0000-000000000000"), 
         ServerId = Guid.Empty,
-        ExpirationTime = DateTime.MaxValue,
-        IsActive = true
+        ExpirationTime = DateTime.MaxValue
     }
     };
     
@@ -46,7 +44,6 @@ public class ConnectionRepository : IConnectionRepository
             return;
         stateConnection.ClientId = connection.ClientId;
         stateConnection.ServerId = connection.ServerId;
-        stateConnection.IsActive = connection.IsActive;
         stateConnection.ExpirationTime = connection.ExpirationTime;
     }
 }
