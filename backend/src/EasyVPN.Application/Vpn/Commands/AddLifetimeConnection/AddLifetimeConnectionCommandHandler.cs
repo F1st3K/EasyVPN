@@ -6,9 +6,9 @@ using EasyVPN.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Vpn.Commands.ConfirmConnection;
+namespace EasyVPN.Application.Vpn.Commands.AddLifetimeConnection;
 
-public class ConfirmConnectionCommandHandler : IRequestHandler<ConfirmConnectionCommand, ErrorOr<Success>>
+public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeConnectionCommand, ErrorOr<Success>>
 {
     private readonly IConnectionRepository _connectionRepository;
     private readonly IServerRepository _serverRepository;
@@ -16,7 +16,7 @@ public class ConfirmConnectionCommandHandler : IRequestHandler<ConfirmConnection
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IConnectionExpireService _expireService;
 
-    public ConfirmConnectionCommandHandler(
+    public AddLifetimeConnectionCommandHandler(
         IConnectionRepository connectionRepository, 
         IServerRepository serverRepository,
         IVpnServiceFactory vpnServiceFactory, 
@@ -30,7 +30,7 @@ public class ConfirmConnectionCommandHandler : IRequestHandler<ConfirmConnection
         _serverRepository = serverRepository;
     }
     
-    public async Task<ErrorOr<Success>> Handle(ConfirmConnectionCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Success>> Handle(AddLifetimeConnectionCommand command, CancellationToken cancellationToken)
     {   
         await Task.CompletedTask;
 
@@ -42,9 +42,15 @@ public class ConfirmConnectionCommandHandler : IRequestHandler<ConfirmConnection
 
         if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
             return Errors.Server.FailedGetService;
+
+        if (connection.IsActive == false)
+        {
+            connection.IsActive = true;
+            connection.ExpirationTime = _dateTimeProvider.UtcNow;
+        }
         
-        connection.IsActive = true;
-        connection.ExpirationTime = _dateTimeProvider.UtcNow.AddDays(command.CountDays);
+        connection.ExpirationTime = 
+            connection.ExpirationTime.AddDays(command.CountDays);
         _connectionRepository.Update(connection);
         
         vpnService.EnableClient(connection.Id);
