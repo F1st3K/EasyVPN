@@ -9,13 +9,13 @@ public static class CreateConnectionTicketUtils
 {
     public static CreateConnectionTicketCommand CreateCommand()
         => new (Constants.Connection.Id,
-            Constants.ConnectionTicket.Price,
+            Constants.ConnectionTicket.Days,
             Constants.ConnectionTicket.Description);
 
     public static bool IsValid(this ConnectionTicket connectionTicket)
         => connectionTicket.ConnectionId == Constants.Connection.Id
            && connectionTicket.Status == ConnectionTicketStatus.Pending
            && connectionTicket.CreationTime == Constants.Time.Now
-           && Math.Abs(connectionTicket.Price - Constants.ConnectionTicket.Price) < 0.001f
+           && connectionTicket.Days == Constants.ConnectionTicket.Days
            && connectionTicket.PaymentDescription == Constants.ConnectionTicket.Description;
 }

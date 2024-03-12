@@ -52,7 +52,7 @@ public class MyConnectionsController : ApiController
         var createTicketResult =
             await _sender.Send(new CreateConnectionTicketCommand(
                 createConnectionResult.Value,
-                request.Price,
+                request.Days,
                 request.Description));
         
         return createTicketResult.Match(
