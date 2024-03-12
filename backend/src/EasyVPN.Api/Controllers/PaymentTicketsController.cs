@@ -52,26 +52,4 @@ public class PaymentTicketsController : ApiController
             _ => Ok(), 
             errors => Problem(errors));
     }
-    
-    /*[HttpPut("{connectionId:guid}/reset")]
-    public async Task<IActionResult> Reset([FromRoute] Guid connectionId)
-    {
-        var confirmResult = await _sender.Send(
-            new ResetLifetimeConnectionCommand(connectionId));
-        
-        return confirmResult.Match(
-            _ => Ok(), 
-            errors => Problem(errors));
-    }
-    
-    [HttpDelete("{connectionId:guid}/delete")]
-    public async Task<IActionResult> Delete([FromRoute] Guid connectionId)
-    {
-        var confirmResult = await _sender.Send(
-            new DeleteConnectionCommand(connectionId));
-        
-        return confirmResult.Match(
-            _ => Ok(), 
-            errors => Problem(errors));
-    }*/
 }

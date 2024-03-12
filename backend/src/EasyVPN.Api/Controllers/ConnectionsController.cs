@@ -1,4 +1,5 @@
 using EasyVPN.Api.Common;
+using EasyVPN.Application.Connections.Commands.ResetLifetimeConnection;
 using EasyVPN.Application.Connections.Queries.GetConfig;
 using EasyVPN.Application.Connections.Queries.GetConnections;
 using EasyVPN.Contracts.Connections;
@@ -37,6 +38,17 @@ public class ConnectionsController : ApiController
             await _sender.Send(new GetConfigQuery(connectionId));
         return configResult.Match(
             result => Ok(new ConnectionConfigResponse(result.ClientId, result.Config)),
+            errors => Problem(errors));
+    }
+    
+    [HttpPut("{connectionId:guid}/reset")]
+    public async Task<IActionResult> Reset([FromRoute] Guid connectionId)
+    {
+        var confirmResult = await _sender.Send(
+            new ResetLifetimeConnectionCommand(connectionId));
+
+        return confirmResult.Match(
+            _ => Ok(),
             errors => Problem(errors));
     }
 }
