@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <Folder Include="Connections\Common\" />
+    <Folder Include="ConnectionTickets\Common\" />
+    <Folder Include="ConnectionTickets\Queries\" />
   </ItemGroup>
 
 </Project>
