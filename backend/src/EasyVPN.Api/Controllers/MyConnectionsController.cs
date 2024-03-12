@@ -3,6 +3,7 @@ using EasyVPN.Api.Common;
 using EasyVPN.Application.Connections.Commands.CreateConnection;
 using EasyVPN.Application.Connections.Queries.GetConfig;
 using EasyVPN.Application.Connections.Queries.GetConnections;
+using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
 using EasyVPN.Contracts.Connections;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -45,9 +46,18 @@ public class MyConnectionsController : ApiController
             await _sender.Send(new CreateConnectionCommand(
                 clientId,
                 request.ServerId));
+        if (createConnectionResult.IsError)
+            return Problem(createConnectionResult.ErrorsOrEmptyList);
         
-        return createConnectionResult.Match(
-            _ => Ok(),
+        var createTicketResult =
+            await _sender.Send(new CreateConnectionTicketCommand(
+                createConnectionResult.Value,
+                request.Price,
+                request.Description));
+        
+        
+        return createTicketResult.Match(
+            _ => Ok(), 
             errors => Problem(errors));
     }
     

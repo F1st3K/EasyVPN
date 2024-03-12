@@ -1,5 +1,7 @@
 namespace EasyVPN.Contracts.Connections;
 
 public record CreateConnectionRequest(
-    Guid ServerId
+    Guid ServerId,
+    float Price,
+    string Description
     );
