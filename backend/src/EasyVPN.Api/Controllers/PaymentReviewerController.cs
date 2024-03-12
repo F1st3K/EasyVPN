@@ -1,7 +1,7 @@
 using EasyVPN.Api.Common;
-using EasyVPN.Application.Vpn.Commands.AddLifetimeConnection;
-using EasyVPN.Application.Vpn.Commands.DeleteConnection;
-using EasyVPN.Application.Vpn.Commands.ResetLifetimeConnection;
+using EasyVPN.Application.Connections.Commands.AddLifetimeConnection;
+using EasyVPN.Application.Connections.Commands.DeleteConnection;
+using EasyVPN.Application.Connections.Commands.ResetLifetimeConnection;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

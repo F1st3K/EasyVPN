@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Vpn\Common\" />
+    <Folder Include="Connections\Common\" />
   </ItemGroup>
 
 </Project>

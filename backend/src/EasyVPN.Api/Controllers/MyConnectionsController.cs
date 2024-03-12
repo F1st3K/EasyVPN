@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using EasyVPN.Api.Common;
-using EasyVPN.Application.Vpn.Commands.CreateConnection;
-using EasyVPN.Application.Vpn.Queries.GetConfig;
-using EasyVPN.Application.Vpn.Queries.GetConnections;
+using EasyVPN.Application.Connections.Commands.CreateConnection;
+using EasyVPN.Application.Connections.Queries.GetConfig;
+using EasyVPN.Application.Connections.Queries.GetConnections;
 using EasyVPN.Contracts.Connections;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
