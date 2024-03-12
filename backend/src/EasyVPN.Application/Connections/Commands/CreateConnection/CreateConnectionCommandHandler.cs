@@ -9,7 +9,7 @@ using MediatR;
 
 namespace EasyVPN.Application.Connections.Commands.CreateConnection;
 
-public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCommand, ErrorOr<Success>>
+public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCommand, ErrorOr<Guid>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserRoleRepository _userRoleRepository;
@@ -34,7 +34,7 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
         _dateTimeProvider = dateTimeProvider;
     }
     
-    public async Task<ErrorOr<Success>> Handle(CreateConnectionCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Guid>> Handle(CreateConnectionCommand command, CancellationToken cancellationToken)
     {   
         await Task.CompletedTask;
         
@@ -61,6 +61,6 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
         _connectionRepository.Add(connection);
         vpnService.CreateClient(connection);
         
-        return new Success();
+        return connection.Id;
     }
 }

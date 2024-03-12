@@ -1,8 +1,10 @@
 using System.Security.Claims;
 using EasyVPN.Api.Common;
 using EasyVPN.Application.Connections.Commands.CreateConnection;
+using EasyVPN.Application.Connections.Commands.DeleteConnection;
 using EasyVPN.Application.Connections.Queries.GetConfig;
 using EasyVPN.Application.Connections.Queries.GetConnections;
+using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
 using EasyVPN.Contracts.Connections;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -45,9 +47,39 @@ public class MyConnectionsController : ApiController
             await _sender.Send(new CreateConnectionCommand(
                 clientId,
                 request.ServerId));
+        if (createConnectionResult.IsError)
+            return Problem(createConnectionResult.ErrorsOrEmptyList);
         
-        return createConnectionResult.Match(
-            _ => Ok(),
+        var createTicketResult =
+            await _sender.Send(new CreateConnectionTicketCommand(
+                createConnectionResult.Value,
+                request.Days,
+                request.Description));
+        
+        return createTicketResult.Match(
+            _ => Ok(), 
+            errors => Problem(errors));
+    }
+    
+    [HttpDelete("{connectionId:guid}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid connectionId)
+    {
+        if (GetCurrentId() is not { } clientId)
+            return Forbid();
+        
+        var getConnectionsResult = 
+            await _sender.Send(new GetConnectionsQuery(clientId));
+        if (getConnectionsResult.IsError)
+            return Problem(getConnectionsResult.ErrorsOrEmptyList);
+
+        if (!getConnectionsResult.Value.Exists(c => c.Id == connectionId))
+            return NotFound();
+        
+        var confirmResult = await _sender.Send(
+            new DeleteConnectionCommand(connectionId));
+        
+        return confirmResult.Match(
+            _ => Ok(), 
             errors => Problem(errors));
     }
     

@@ -87,6 +87,16 @@ Content-Type: application/json
 200 OK
 ```
 
+#### Удаление истекшего подключения
+```http
+DELETE {{host}}/my/connections/{{connectionId}}
+Authorization: Bearer {{clientToken}}
+```
+##### Ответ
+```http
+200 OK
+```
+
 #### Получение всех подключений
 ```http
 GET {{host}}/my/connections
@@ -131,6 +141,7 @@ Authorization: Bearer {{clientToken}}
 }
 ```
 
+
 ### VPN действия администратора:
 
 #### Создание нового подключения
@@ -143,6 +154,16 @@ Content-Type: application/json
   "serverId": "00000000-0000-0000-0000-000000000000",
   "CountDays": 30
 }
+```
+##### Ответ
+```http
+200 OK
+```
+
+#### Сброс времени жизни подключения
+```http
+PUT {{host}}/connections/{{connectionId}}/reset
+Authorization: Bearer {{adminToken}}
 ```
 ##### Ответ
 ```http
@@ -204,6 +225,29 @@ Authorization: Bearer {{adminToken}}
   "clientId": "00000001-0000-0000-0000-000000000000",
   "config": "password=qwertyi1234567"
 }
+```
+
+
+### VPN действия проверяющего платежи:
+
+#### Подтвердить платеж по заявке подключения
+```http
+PUT {{host}}/payment/{{connectionId}}/confirm
+Authorization: Bearer {{PaymentToken}}
+```
+##### Ответ
+```http
+200 OK
+```
+
+#### Отклонить заявку оплаты на подключение
+```http
+PUT {{host}}/payment/{{connectionId}}/reject
+Authorization: Bearer {{PaymentToken}}
+```
+##### Ответ
+```http
+200 OK
 ```
 
 </details>

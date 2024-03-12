@@ -22,6 +22,9 @@ public class RejectConnectionTicketCommandHandler : IRequestHandler<RejectConnec
 
         if (_connectionTicketRepository.Get(command.Id) is not { } ticket)
             return Errors.ConnectionTicket.NotFound;
+        
+        if (ticket.Status != ConnectionTicketStatus.Pending)
+            return Errors.ConnectionTicket.AlreadyProcessed;
 
         ticket.Status = ConnectionTicketStatus.Rejected;
         _connectionTicketRepository.Update(ticket);

@@ -37,7 +37,7 @@ public class CreateConnectionTicketCommandHandler : IRequestHandler<CreateConnec
             ConnectionId = connection.Id,
             Status = ConnectionTicketStatus.Pending,
             CreationTime = _dateTimeProvider.UtcNow,
-            Price = command.Price,
+            Days = command.Days,
             PaymentDescription = command.Description
         };
         _connectionTicketRepository.Add(ticket);

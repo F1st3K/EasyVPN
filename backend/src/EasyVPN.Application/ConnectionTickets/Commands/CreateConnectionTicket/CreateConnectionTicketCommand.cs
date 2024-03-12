@@ -5,5 +5,5 @@ namespace EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
 
 public record CreateConnectionTicketCommand(
     Guid ConnectionId,
-    float Price,
+    int Days,
     string Description) : IRequest<ErrorOr<Success>>;

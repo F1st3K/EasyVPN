@@ -4,5 +4,6 @@ Content-Type: application/json
 
 {
     "serverId": "00000000-0000-0000-0000-000000000000",
-    "CountDays": 30
+    "Days": 30,
+    "Description": "I am payment this"
 }

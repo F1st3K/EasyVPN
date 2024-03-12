@@ -1,0 +1,4 @@
+@connectionId = 00000002-0000-0000-0000-000000000000
+DELETE {{host}}/my/connections/{{connectionId}}
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json

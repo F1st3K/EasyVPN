@@ -1,4 +1,5 @@
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
+using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
 using FluentAssertions;
@@ -18,7 +19,11 @@ public class ConfirmConnectionTicketTests
 
         _mocks.ConnectionTicketRepository.Setup(x
                 => x.Get(Constants.ConnectionTicket.Id))
-            .Returns(new ConnectionTicket() { Id = Constants.ConnectionTicket.Id });
+            .Returns(new ConnectionTicket()
+            {
+                Id = Constants.ConnectionTicket.Id,
+                Status = ConnectionTicketStatus.Pending
+            });
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -48,4 +53,25 @@ public class ConfirmConnectionTicketTests
         result.FirstError.Should().Be(Errors.ConnectionTicket.NotFound);
     }
 
+    [Fact]
+    public async Task HandleConfirmConnectionTicketCommand_WhenConnectionTicketAlreadyProcessed_Error()
+    {
+        //Arrange
+        var command = ConfirmConnectionTicketUtils.CreateCommand();
+
+        _mocks.ConnectionTicketRepository.Setup(x
+                => x.Get(Constants.ConnectionTicket.Id))
+            .Returns(new ConnectionTicket()
+            {
+                Id = Constants.ConnectionTicket.Id,
+                Status = ConnectionTicketStatus.Rejected
+            });
+        
+        //Act
+        var handler = _mocks.CreateHandler();
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        //Assert
+        result.FirstError.Should().Be(Errors.ConnectionTicket.AlreadyProcessed);
+    }
 }
