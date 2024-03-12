@@ -23,6 +23,9 @@ public class ConfirmConnectionTicketCommandHandler : IRequestHandler<ConfirmConn
         if (_connectionTicketRepository.Get(command.Id) is not { } ticket)
             return Errors.ConnectionTicket.NotFound;
 
+        if (ticket.Status != ConnectionTicketStatus.Pending)
+            return Errors.ConnectionTicket.AlreadyProcessed;
+
         ticket.Status = ConnectionTicketStatus.Confirmed;
         _connectionTicketRepository.Update(ticket);
 

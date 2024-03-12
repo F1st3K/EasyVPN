@@ -55,7 +55,6 @@ public class MyConnectionsController : ApiController
                 request.Price,
                 request.Description));
         
-        
         return createTicketResult.Match(
             _ => Ok(), 
             errors => Problem(errors));
