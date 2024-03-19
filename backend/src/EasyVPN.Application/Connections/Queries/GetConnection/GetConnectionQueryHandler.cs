@@ -19,7 +19,7 @@ public class GetConnectionQueryHandler : IRequestHandler<GetConnectionQuery, Err
     {
         await Task.CompletedTask;
 
-        if (_connectionRepository.Get(query.ConnectionTicketId) is not { } connection)
+        if (_connectionRepository.Get(query.ConnectionId) is not { } connection)
             return Errors.Connection.NotFound;
 
         return connection;

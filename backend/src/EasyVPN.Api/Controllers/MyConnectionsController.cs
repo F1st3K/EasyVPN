@@ -3,6 +3,7 @@ using EasyVPN.Api.Common;
 using EasyVPN.Application.Connections.Commands.CreateConnection;
 using EasyVPN.Application.Connections.Commands.DeleteConnection;
 using EasyVPN.Application.Connections.Queries.GetConfig;
+using EasyVPN.Application.Connections.Queries.GetConnection;
 using EasyVPN.Application.Connections.Queries.GetConnections;
 using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
 using EasyVPN.Contracts.Connections;
@@ -26,7 +27,7 @@ public class MyConnectionsController : ApiController
     [HttpGet]
     public async Task<IActionResult> GetConnections()
     {
-        if (GetCurrentId() is not { } clientId)
+        if (User.GetCurrentId() is not { } clientId)
             return Forbid();
         
         var getConnectionsResult = 
@@ -42,7 +43,7 @@ public class MyConnectionsController : ApiController
     [HttpPost]
     public async Task<IActionResult> CreateConnection(CreateConnectionRequest request)
     {
-        if (GetCurrentId() is not { } clientId)
+        if (User.GetCurrentId() is not { } clientId)
             return Forbid();
         
         var createConnectionResult = 
@@ -66,15 +67,15 @@ public class MyConnectionsController : ApiController
     [HttpPost("extend")]
     public async Task<IActionResult> CreateExtendConnectionTicket(ExtendConnectionRequest request)
     {
-        if (GetCurrentId() is not { } clientId)
+        if (User.GetCurrentId() is not { } clientId)
             return Forbid();
-        
-        var getConnectionsResult = 
-            await _sender.Send(new GetConnectionsQuery(clientId));
-        if (getConnectionsResult.IsError)
-            return Problem(getConnectionsResult.ErrorsOrEmptyList);
 
-        if (!getConnectionsResult.Value.Exists(c => c.Id == request.ConnectionId))
+        var getConnectionResult =
+            await _sender.Send(new GetConnectionQuery(request.ConnectionId));
+        if (getConnectionResult.IsError)
+            return Problem(getConnectionResult.ErrorsOrEmptyList);
+
+        if (getConnectionResult.Value.ClientId != clientId)
             return NotFound();
         
         var createTicketResult =
@@ -91,15 +92,15 @@ public class MyConnectionsController : ApiController
     [HttpDelete("{connectionId:guid}")]
     public async Task<IActionResult> DeleteConnection([FromRoute] Guid connectionId)
     {
-        if (GetCurrentId() is not { } clientId)
+        if (User.GetCurrentId() is not { } clientId)
             return Forbid();
         
-        var getConnectionsResult = 
-            await _sender.Send(new GetConnectionsQuery(clientId));
-        if (getConnectionsResult.IsError)
-            return Problem(getConnectionsResult.ErrorsOrEmptyList);
+        var getConnectionResult =
+            await _sender.Send(new GetConnectionQuery(connectionId));
+        if (getConnectionResult.IsError)
+            return Problem(getConnectionResult.ErrorsOrEmptyList);
 
-        if (!getConnectionsResult.Value.Exists(c => c.Id == connectionId))
+        if (getConnectionResult.Value.ClientId != clientId)
             return NotFound();
         
         var confirmResult = await _sender.Send(
@@ -113,7 +114,7 @@ public class MyConnectionsController : ApiController
     [HttpGet("{connectionId:guid}/config")]
     public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid connectionId)
     {
-        if (GetCurrentId() is not { } clientId)
+        if (User.GetCurrentId() is not { } clientId)
             return Forbid();
         
         var configResult = await _sender.Send(new GetConfigQuery(connectionId));
@@ -123,8 +124,8 @@ public class MyConnectionsController : ApiController
                 : Forbid(),
             errors => Problem(errors));
     }
-
-    private Guid? GetCurrentId()
+    
+    public  Guid? UserGetCurrentId()
     {
         var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 

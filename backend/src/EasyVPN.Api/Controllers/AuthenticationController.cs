@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using EasyVPN.Application.Authentication.Commands.Register;
 using EasyVPN.Application.Authentication.Common;
 using EasyVPN.Application.Authentication.Queries.Login;
@@ -52,4 +53,6 @@ public class AuthenticationController : ApiController
             authResult.Token);
         return response;
     }
+    
+    
 }

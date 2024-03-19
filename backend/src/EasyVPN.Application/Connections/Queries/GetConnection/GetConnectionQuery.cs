@@ -5,5 +5,5 @@ using MediatR;
 namespace EasyVPN.Application.Connections.Queries.GetConnection;
 
 public record GetConnectionQuery(
-    Guid ConnectionTicketId
+    Guid ConnectionId
     ) : IRequest<ErrorOr<Connection>>;
