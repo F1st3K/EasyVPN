@@ -64,6 +64,6 @@ public class ConnectionExpireService : IExpireService<Connection>
         
         vpnService.DisableClient(connection.Id);
         
-        return new Success();
+        return Result.Success;
     }
 }

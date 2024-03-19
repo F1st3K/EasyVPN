@@ -9,7 +9,7 @@ using MediatR;
 
 namespace EasyVPN.Application.Connections.Commands.AddLifetimeConnection;
 
-public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeConnectionCommand, ErrorOr<Success>>
+public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeConnectionCommand, ErrorOr<Updated>>
 {
     private readonly IConnectionRepository _connectionRepository;
     private readonly IServerRepository _serverRepository;
@@ -31,7 +31,7 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
         _serverRepository = serverRepository;
     }
     
-    public async Task<ErrorOr<Success>> Handle(AddLifetimeConnectionCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Updated>> Handle(AddLifetimeConnectionCommand command, CancellationToken cancellationToken)
     {   
         await Task.CompletedTask;
 
@@ -55,6 +55,6 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
         _expireService.ResetTrackExpire(connection);
         _expireService.AddTrackExpire(connection);
         
-        return new Success();
+        return Result.Updated;
     }
 }

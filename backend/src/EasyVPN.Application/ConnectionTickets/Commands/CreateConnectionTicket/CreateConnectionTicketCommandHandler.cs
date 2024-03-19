@@ -8,7 +8,7 @@ using MediatR;
 
 namespace EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
 
-public class CreateConnectionTicketCommandHandler : IRequestHandler<CreateConnectionTicketCommand, ErrorOr<Success>>
+public class CreateConnectionTicketCommandHandler : IRequestHandler<CreateConnectionTicketCommand, ErrorOr<Created>>
 {
     private readonly IConnectionRepository _connectionRepository;
     private readonly IConnectionTicketRepository _connectionTicketRepository;
@@ -24,7 +24,7 @@ public class CreateConnectionTicketCommandHandler : IRequestHandler<CreateConnec
         _connectionTicketRepository = connectionTicketRepository;
     }
     
-    public async Task<ErrorOr<Success>> Handle(CreateConnectionTicketCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Created>> Handle(CreateConnectionTicketCommand command, CancellationToken cancellationToken)
     {   
         await Task.CompletedTask;
 
@@ -42,6 +42,6 @@ public class CreateConnectionTicketCommandHandler : IRequestHandler<CreateConnec
         };
         _connectionTicketRepository.Add(ticket);
 
-        return new Success();
+        return Result.Created;
     }
 }

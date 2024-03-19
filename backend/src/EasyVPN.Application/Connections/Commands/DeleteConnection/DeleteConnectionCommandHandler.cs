@@ -7,7 +7,7 @@ using MediatR;
 
 namespace EasyVPN.Application.Connections.Commands.DeleteConnection;
 
-public class DeleteConnectionCommandHandler : IRequestHandler<DeleteConnectionCommand, ErrorOr<Success>>
+public class DeleteConnectionCommandHandler : IRequestHandler<DeleteConnectionCommand, ErrorOr<Deleted>>
 {
     private readonly IServerRepository _serverRepository;
     private readonly IConnectionRepository _connectionRepository;
@@ -26,7 +26,7 @@ public class DeleteConnectionCommandHandler : IRequestHandler<DeleteConnectionCo
         _dateTimeProvider = dateTimeProvider;
     }
     
-    public async Task<ErrorOr<Success>> Handle(DeleteConnectionCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Deleted>> Handle(DeleteConnectionCommand command, CancellationToken cancellationToken)
     {   
         await Task.CompletedTask;
         
@@ -45,6 +45,6 @@ public class DeleteConnectionCommandHandler : IRequestHandler<DeleteConnectionCo
         vpnService.DeleteClient(connection.Id);
         _connectionRepository.Remove(connection.Id);
         
-        return new Success();
+        return Result.Deleted;
     }
 }
