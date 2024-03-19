@@ -33,7 +33,9 @@ public class MyConnectionsController : ApiController
             await _sender.Send(new GetConnectionsQuery(clientId));
         
         return getConnectionsResult.Match(
-            result => Ok(result),
+            result => Ok(
+                result.Select(c => new ConnectionResponse(
+                    c.Id, c.ClientId, c.ServerId, c.ExpirationTime))),
             errors => Problem(errors));
     }
     
@@ -52,7 +54,7 @@ public class MyConnectionsController : ApiController
         
         var createTicketResult =
             await _sender.Send(new CreateConnectionTicketCommand(
-                createConnectionResult.Value,
+                createConnectionResult.Value.Id,
                 request.Days,
                 request.Description));
         
