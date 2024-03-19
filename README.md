@@ -5,8 +5,7 @@
 Простое VPN + Backend + Frontend приложения на одном сервере!
 
 
-<details>
-	<summary><h2>EasyVPN API</h2></summary>
+## EasyVPN API
 
 ### Ошибки:
 
@@ -79,7 +78,25 @@ Content-Type: application/json
 
 {
     "serverId": "00000000-0000-0000-0000-000000000000",
-    "CountDays": 30
+    "Days": 30,
+    "Description": "I am payment this"
+}
+```
+##### Ответ
+```http
+200 OK
+```
+
+#### Создание заявки на продление подключения
+```http
+POST {{host}}/my/connections/extend
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "connectionId": "00000000-0000-0000-0000-000000000000",
+    "Days": 30,
+    "Description": "I am payment this"
 }
 ```
 ##### Ответ
@@ -250,14 +267,12 @@ Authorization: Bearer {{PaymentToken}}
 200 OK
 ```
 
-</details>
-
 ---
 
 
 
 <details>
-	<summary><h2>Логика приложения</h2></summary>
+	<summary>Логика приложения</summary>
 
 ### Для всех
 ![Для всех](img/logicMap/anyone.jpg)
@@ -278,7 +293,7 @@ Authorization: Bearer {{PaymentToken}}
 
 ---
 <details>
-	<summary><h2>Прототип будущего сайта</h2></summary>
+	<summary>Прототип будущего сайта</summary>
 
 
 ### Главная страница
