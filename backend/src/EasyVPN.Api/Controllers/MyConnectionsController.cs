@@ -63,8 +63,33 @@ public class MyConnectionsController : ApiController
             errors => Problem(errors));
     }
     
+    [HttpPost("extend")]
+    public async Task<IActionResult> CreateExtendConnectionTicket(ExtendConnectionRequest request)
+    {
+        if (GetCurrentId() is not { } clientId)
+            return Forbid();
+        
+        var getConnectionsResult = 
+            await _sender.Send(new GetConnectionsQuery(clientId));
+        if (getConnectionsResult.IsError)
+            return Problem(getConnectionsResult.ErrorsOrEmptyList);
+
+        if (!getConnectionsResult.Value.Exists(c => c.Id == request.ConnectionId))
+            return NotFound();
+        
+        var createTicketResult =
+            await _sender.Send(new CreateConnectionTicketCommand(
+                request.ConnectionId,
+                request.Days,
+                request.Description));
+        
+        return createTicketResult.Match(
+            _ => Ok(), 
+            errors => Problem(errors));
+    }
+    
     [HttpDelete("{connectionId:guid}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid connectionId)
+    public async Task<IActionResult> DeleteConnection([FromRoute] Guid connectionId)
     {
         if (GetCurrentId() is not { } clientId)
             return Forbid();
