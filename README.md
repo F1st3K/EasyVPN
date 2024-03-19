@@ -5,8 +5,7 @@
 Простое VPN + Backend + Frontend приложения на одном сервере!
 
 
-<details>
-	<summary><h2>EasyVPN API</h2></summary>
+## EasyVPN API
 
 ### Ошибки:
 
@@ -79,7 +78,25 @@ Content-Type: application/json
 
 {
     "serverId": "00000000-0000-0000-0000-000000000000",
-    "CountDays": 30
+    "Days": 30,
+    "Description": "I am payment this"
+}
+```
+##### Ответ
+```http
+200 OK
+```
+
+#### Создание заявки на продление подключения
+```http
+POST {{host}}/my/connections/extend
+Authorization: Bearer {{clientToken}}
+Content-Type: application/json
+
+{
+    "connectionId": "00000000-0000-0000-0000-000000000000",
+    "Days": 30,
+    "Description": "I am payment this"
 }
 ```
 ##### Ответ
@@ -109,18 +126,48 @@ Authorization: Bearer {{clientToken}}
 ```http
 [
   {
-    "id": "94c370a8-39bd-4fcb-9e18-1a7902a8b783",
+    "id": "00000001-0000-0000-0000-000000000000",
     "clientId": "00000001-0000-0000-0000-000000000000",
     "serverId": "00000000-0000-0000-0000-000000000000",
-    "status": 0,
-    "expirationTime": "2024-03-23T22:02:22.0869296Z"
+    "validUntil": "0001-01-01T00:00:00"
   },
   {
-    "id": "3167a547-004f-4e1c-add6-ba8d57baf71a",
+    "id": "00000002-0000-0000-0000-000000000000",
     "clientId": "00000001-0000-0000-0000-000000000000",
     "serverId": "00000000-0000-0000-0000-000000000000",
-    "status": 0,
-    "expirationTime": "2024-03-23T22:02:26.8377408Z"
+    "validUntil": "9999-12-31T23:59:59.9999999"
+  }
+]
+```
+
+#### Получение всех заявок подключений
+```http
+GET {{host}}/my/tickets
+Authorization: Bearer {{clientToken}}
+```
+##### Ответ
+```http
+200 OK
+```
+```http
+[
+  {
+    "id": "c0e8b84f-4314-41bb-ac31-70c46114495d",
+    "connectionId": "c21f18d2-2c52-4422-8e6d-5ce4d075337e",
+    "clientId": "00000001-0000-0000-0000-000000000000",
+    "status": "Pending",
+    "creationTime": "2024-03-19T14:20:21.7572023Z",
+    "days": 30,
+    "paymentDescription": "I am payment this"
+  },
+  {
+    "id": "0fb632e3-0bbd-411c-9da9-815e30579dc9",
+    "connectionId": "c2c96b40-1276-4209-b477-39e6b1e8eb3f",
+    "clientId": "00000001-0000-0000-0000-000000000000",
+    "status": "Pending",
+    "creationTime": "2024-03-19T14:20:22.2159667Z",
+    "days": 30,
+    "paymentDescription": "I am payment this"
   }
 ]
 ```
@@ -187,28 +234,26 @@ Authorization: Bearer {{adminToken}}
 ```http
 [
   {
-    "id": "94c370a8-39bd-4fcb-9e18-1a7902a8b783",
-    "clientId": "00000001-0000-0000-0000-000000000000",
+    "id": "00000001-0000-0000-0000-000000000000",
+    "clientId": "00000002-0000-0000-0000-000000000000",
     "serverId": "00000000-0000-0000-0000-000000000000",
-    "status": 0,
-    "expirationTime": "2024-03-23T22:02:22.0869296Z"
+    "validUntil": "0001-01-01T00:00:00"
   },
   {
-    "id": "3167a547-004f-4e1c-add6-ba8d57baf71a",
+    "id": "00000002-0000-0000-0000-000000000000",
     "clientId": "00000001-0000-0000-0000-000000000000",
     "serverId": "00000000-0000-0000-0000-000000000000",
-    "status": 0,
-    "expirationTime": "2024-03-23T22:02:26.8377408Z"
+    "validUntil": "9999-12-31T23:59:59.9999999"
   },
   {
-    "id": "2dc7f7f8-b04b-4095-8379-9552b302112c",
-    "clientId": "9a4e906f-7778-4c68-b86d-1c0f7f4370b8",
+    "id": "c21f18d2-2c52-4422-8e6d-5ce4d075337e",
+    "clientId": "00000001-0000-0000-0000-000000000000",
     "serverId": "00000000-0000-0000-0000-000000000000",
-    "status": 0,
-    "expirationTime": "2024-03-23T22:04:43.1105199Z"
+    "validUntil": "2024-03-19T14:20:21.7442087Z"
   }
 ]
 ```
+
 
 #### Получение конфигурации для подключения
 ```http
@@ -250,14 +295,58 @@ Authorization: Bearer {{PaymentToken}}
 200 OK
 ```
 
-</details>
+#### Получение всех заявок на подключение
+```http
+GET {{host}}/payment/tickets
+Authorization: Bearer {{PaymentToken}}
+```
+#### Получение всех заявок на подключение клиента
+```http
+GET {{host}}/payment/tickets?clientId={{clientId}}
+Authorization: Bearer {{PaymentToken}}
+```
+##### Ответ
+```http
+200 OK
+```
+```http
+[
+  {
+    "id": "c0e8b84f-4314-41bb-ac31-70c46114495d",
+    "connectionId": "c21f18d2-2c52-4422-8e6d-5ce4d075337e",
+    "clientId": "00000001-0000-0000-0000-000000000000",
+    "status": "Pending",
+    "creationTime": "2024-03-19T14:20:21.7572023Z",
+    "days": 30,
+    "paymentDescription": "I am payment this"
+  },
+  {
+    "id": "0fb632e3-0bbd-411c-9da9-815e30579dc9",
+    "connectionId": "c2c96b40-1276-4209-b477-39e6b1e8eb3f",
+    "clientId": "00000001-0000-0000-0000-000000000000",
+    "status": "Pending",
+    "creationTime": "2024-03-19T14:20:22.2159667Z",
+    "days": 30,
+    "paymentDescription": "I am payment this"
+  },
+  {
+    "id": "f461d641-0ac0-49fe-b9e4-f6e44e2dd58e",
+    "connectionId": "b63e2180-3dff-4b28-be31-a127a233ad05",
+    "clientId": "a9ba4de4-de78-46e4-bcb4-e024a4128d7a",
+    "status": "Pending",
+    "creationTime": "2024-03-19T14:29:11.6537823Z",
+    "days": 30,
+    "paymentDescription": "I am payment this"
+  }
+]
+```
 
 ---
 
 
 
 <details>
-	<summary><h2>Логика приложения</h2></summary>
+	<summary>Логика приложения</summary>
 
 ### Для всех
 ![Для всех](img/logicMap/anyone.jpg)
@@ -278,7 +367,7 @@ Authorization: Bearer {{PaymentToken}}
 
 ---
 <details>
-	<summary><h2>Прототип будущего сайта</h2></summary>
+	<summary>Прототип будущего сайта</summary>
 
 
 ### Главная страница

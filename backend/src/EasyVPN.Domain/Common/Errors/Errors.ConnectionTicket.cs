@@ -10,7 +10,7 @@ public static partial class Errors
             code: "ConnectionTicket.NotFound",
             description: "ConnectionTicket not found");
         
-        public static Error AlreadyProcessed => Error.NotFound(
+        public static Error AlreadyProcessed => Error.Conflict(
             code: "ConnectionTicket.AlreadyProcessed",
             description: "ConnectionTicket cannot be processed again");
 

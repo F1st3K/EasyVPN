@@ -1,0 +1,2 @@
+GET {{host}}/payment/tickets
+Authorization: Bearer {{PaymentToken}}

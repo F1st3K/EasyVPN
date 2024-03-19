@@ -6,11 +6,11 @@ using MediatR;
 
 namespace EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTicket;
 
-public class GetConfigQueryHandler : IRequestHandler<GetConnectionTicketQuery, ErrorOr<ConnectionTicket>>
+public class GetConnectionTicketQueryHandler : IRequestHandler<GetConnectionTicketQuery, ErrorOr<ConnectionTicket>>
 {
     private readonly IConnectionTicketRepository _connectionTicketRepository;
 
-    public GetConfigQueryHandler(IConnectionTicketRepository connectionTicketRepository)
+    public GetConnectionTicketQueryHandler(IConnectionTicketRepository connectionTicketRepository)
     {
         _connectionTicketRepository = connectionTicketRepository;
     }

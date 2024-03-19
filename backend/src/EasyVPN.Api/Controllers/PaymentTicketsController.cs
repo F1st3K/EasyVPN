@@ -3,13 +3,15 @@ using EasyVPN.Application.Connections.Commands.AddLifetimeConnection;
 using EasyVPN.Application.ConnectionTickets.Commands.ConfirmConnectionTicket;
 using EasyVPN.Application.ConnectionTickets.Commands.RejectConnectionTicket;
 using EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTicket;
+using EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTickets;
+using EasyVPN.Contracts.ConnectionTickets;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EasyVPN.Api.Controllers;
 
-[Route("payment")]
+[Route("payment/tickets")]
 [Authorize(Roles = Roles.PaymentReviewer)]
 public class PaymentTicketsController : ApiController
 {
@@ -18,6 +20,24 @@ public class PaymentTicketsController : ApiController
     public PaymentTicketsController(ISender sender)
     {
         _sender = sender;
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetConnectionTickets([FromQuery] Guid? clientId)
+    {
+        var getConnectionsResult = 
+            await _sender.Send(new GetConnectionTicketsQuery(clientId));
+        
+        return getConnectionsResult.Match(
+            result => Ok(result.Select(c =>
+                new ConnectionTicketResponse(c.Id,
+                    c.ConnectionId,
+                    c.ClientId,
+                    c.Status.ToString(),
+                    c.CreationTime,
+                    c.Days,
+                    c.PaymentDescription))),
+            errors => Problem(errors));
     }
     
     [HttpPut("{connectionTicketId:guid}/confirm")]
