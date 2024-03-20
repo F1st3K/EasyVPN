@@ -11,7 +11,14 @@ public class UserRepository : IUserRepository
         new User(){ Id = Guid.Parse("00000002-0000-0000-0000-000000000000"), FirstName = "FreakPayment", LastName = "Fister"},
         new User(){ Id = Guid.Parse("00000003-0000-0000-0000-000000000000"), FirstName = "FreakAdmin", LastName = "Fister"}
     };
-    
+
+    private readonly EasyVpnDbContext _dbContext;
+
+    public UserRepository(EasyVpnDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
     public User? GetUserByLogin(string login)
     {
         return _users.SingleOrDefault(user => user.Login == login);
@@ -25,5 +32,8 @@ public class UserRepository : IUserRepository
     public void Add(User user)
     {
         _users.Add(user);
+        
+        _dbContext.Add(user);
+        _dbContext.SaveChanges();
     }
 }
