@@ -21,7 +21,7 @@ public class UserRepository : IUserRepository
 
     public User? GetUserByLogin(string login)
     {
-        return _users.SingleOrDefault(user => user.Login == login);
+        return _dbContext.Users.SingleOrDefault(user => user.Login == login);
     }
 
     public User? GetUserById(Guid id)
@@ -33,7 +33,7 @@ public class UserRepository : IUserRepository
     {
         _users.Add(user);
         
-        _dbContext.Add(user);
+        _dbContext.Users.Add(user);
         _dbContext.SaveChanges();
     }
 }

@@ -34,7 +34,7 @@ public static class DependencyInjection
         ConfigurationManager configuration)
     {
         services.AddDbContext<EasyVpnDbContext>(options => 
-            options.UseNpgsql());
+            options.UseNpgsql("User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;"));
         
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<IUserRepository, UserRepository>();
