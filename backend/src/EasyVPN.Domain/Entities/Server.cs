@@ -7,5 +7,5 @@ public class Server
 {
     public Guid Id { get; set; }
     public VpnType Type { get; set; }
-    public string Host { get; set; } = null!;
+    public string ConnectionString { get; set; } = null!;
 }
