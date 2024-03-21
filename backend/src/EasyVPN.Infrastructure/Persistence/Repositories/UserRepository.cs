@@ -1,7 +1,7 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Domain.Entities;
 
-namespace EasyVPN.Infrastructure.Persistence;
+namespace EasyVPN.Infrastructure.Persistence.Repositories;
 
 public class UserRepository : IUserRepository
 {

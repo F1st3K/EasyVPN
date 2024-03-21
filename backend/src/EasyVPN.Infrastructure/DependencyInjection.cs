@@ -5,6 +5,7 @@ using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
 using EasyVPN.Infrastructure.Authentication;
 using EasyVPN.Infrastructure.Persistence;
+using EasyVPN.Infrastructure.Persistence.Repositories;
 using EasyVPN.Infrastructure.Services;
 using EasyVPN.Infrastructure.Vpn;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
 
 namespace EasyVPN.Infrastructure;
 
@@ -33,7 +35,8 @@ public static class DependencyInjection
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        services.AddDbContext<EasyVpnDbContext>(options => 
+        // TODO: replace this to configuration
+        services.AddDbContext<EasyVpnDbContext>(options =>
             options.UseNpgsql("User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;"));
         
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
