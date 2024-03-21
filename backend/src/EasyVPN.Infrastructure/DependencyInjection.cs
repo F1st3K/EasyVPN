@@ -5,9 +5,11 @@ using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
 using EasyVPN.Infrastructure.Authentication;
 using EasyVPN.Infrastructure.Persistence;
+using EasyVPN.Infrastructure.Persistence.Repositories;
 using EasyVPN.Infrastructure.Services;
 using EasyVPN.Infrastructure.Vpn;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -21,8 +23,22 @@ public static class DependencyInjection
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        services.AddAuth(configuration)
+        services.AddPersistence(configuration)
+                .AddAuth(configuration)
                 .AddExpirationChecker(configuration);
+        
+        return services;
+    }
+    
+    private static IServiceCollection AddPersistence(
+        this IServiceCollection services,
+        ConfigurationManager configuration)
+    {
+        var connectionStrings = new Settings.Options.ConnectionStrings();
+        configuration.Bind(Settings.Options.ConnectionStrings.SectionName, connectionStrings);
+        
+        services.AddDbContext<EasyVpnDbContext>(options =>
+            options.UseNpgsql(connectionStrings.Postgres));
         
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<IUserRepository, UserRepository>();
