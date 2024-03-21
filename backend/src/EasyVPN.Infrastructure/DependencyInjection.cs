@@ -14,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using Npgsql;
 
 namespace EasyVPN.Infrastructure;
 
@@ -35,9 +34,11 @@ public static class DependencyInjection
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
-        // TODO: replace this to configuration
+        var connectionStrings = new Settings.Options.ConnectionStrings();
+        configuration.Bind(Settings.Options.ConnectionStrings.SectionName, connectionStrings);
+        
         services.AddDbContext<EasyVpnDbContext>(options =>
-            options.UseNpgsql("User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;"));
+            options.UseNpgsql(connectionStrings.Postgres));
         
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<IUserRepository, UserRepository>();
