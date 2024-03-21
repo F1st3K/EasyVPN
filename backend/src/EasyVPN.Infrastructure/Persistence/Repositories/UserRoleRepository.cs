@@ -1,6 +1,7 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Entities;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EasyVPN.Infrastructure.Persistence.Repositories;
 
@@ -28,14 +29,27 @@ public class UserRoleRepository : IUserRoleRepository
         },
     };
     
+    private readonly EasyVpnDbContext _dbContext;
+
+    public UserRoleRepository(EasyVpnDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
     public IEnumerable<RoleType> GetRolesByUserId(Guid userId)
     {
-        return _userRoles.Where(r => r.UserId == userId)
+        // TODO: remove this later
+        if (_userRoles.Where(r => r.UserId == userId).IsNullOrEmpty() == false)
+            return _userRoles.Where(r => r.UserId == userId)
+                .Select(r => r.Type);
+        
+        return _dbContext.UserRoles.Where(r => r.UserId == userId)
             .Select(r => r.Type);
     }
 
     public void Add(UserRole userRole)
     {
-        _userRoles.Add(userRole);
+        _dbContext.UserRoles.Add(userRole);
+        _dbContext.SaveChanges();
     }
 }

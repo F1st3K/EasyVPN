@@ -26,13 +26,14 @@ public class UserRepository : IUserRepository
 
     public User? GetUserById(Guid id)
     {
-        return _users.SingleOrDefault(user => user.Id == id);
+        // TODO: remove this later
+        if (_users.SingleOrDefault(user => user.Id == id) is { } su)
+            return su;
+        return _dbContext.Users.SingleOrDefault(user => user.Id == id);
     }
 
     public void Add(User user)
     {
-        _users.Add(user);
-        
         _dbContext.Users.Add(user);
         _dbContext.SaveChanges();
     }

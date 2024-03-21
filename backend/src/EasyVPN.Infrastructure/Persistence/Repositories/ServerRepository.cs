@@ -6,13 +6,15 @@ namespace EasyVPN.Infrastructure.Persistence.Repositories;
 
 public class ServerRepository : IServerRepository
 {
-    private static readonly List<Server> _servers = new()
+    private readonly EasyVpnDbContext _dbContext;
+
+    public ServerRepository(EasyVpnDbContext dbContext)
     {
-        new Server { ConnectionString = "localhost:54034", Id = Guid.Empty, Type = VpnType.WireGuard}
-    };
-    
+        _dbContext = dbContext;
+    }
+
     public Server? Get(Guid id)
     {
-        return _servers.SingleOrDefault(s => s.Id == id);
+        return _dbContext.Servers.SingleOrDefault(s => s.Id == id);
     }
 }

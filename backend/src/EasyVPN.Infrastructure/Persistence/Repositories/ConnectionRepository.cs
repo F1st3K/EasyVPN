@@ -5,50 +5,48 @@ namespace EasyVPN.Infrastructure.Persistence.Repositories;
 
 public class ConnectionRepository : IConnectionRepository
 {
-    private static readonly List<Connection> _connections = new()
+    private readonly EasyVpnDbContext _dbContext;
+
+    public ConnectionRepository(EasyVpnDbContext dbContext)
     {
-        new Connection()
-        {
-            Id = Guid.Parse("00000001-0000-0000-0000-000000000000"), 
-            ClientId = Guid.Parse("00000001-0000-0000-0000-000000000000"), 
-            ServerId = Guid.Empty,
-            ExpirationTime = DateTime.MinValue
-        },
-        new Connection()
-        {
-        Id = Guid.Parse("00000002-0000-0000-0000-000000000000"), 
-        ClientId = Guid.Parse("00000001-0000-0000-0000-000000000000"), 
-        ServerId = Guid.Empty,
-        ExpirationTime = DateTime.MaxValue
+        _dbContext = dbContext;
     }
-    };
-    
+
     public Connection? Get(Guid id)
     {
-        return _connections.SingleOrDefault(c => c.Id == id);
+        return _dbContext.Connections.SingleOrDefault(c => c.Id == id);
     }
 
     public IEnumerable<Connection> GetAll()
     {
-        return _connections.AsEnumerable();
+        return _dbContext.Connections;
     }
 
     public void Add(Connection connection)
     {
-        _connections.Add(connection);
+        _dbContext.Connections.Add(connection);
+        _dbContext.SaveChanges();
     }
 
     public void Remove(Guid id)
     {
-        _connections.RemoveAll(c => c.Id == id);
+        if (_dbContext.Connections.SingleOrDefault(ct => ct.Id == id)
+            is not {} connection)
+            return;
+        
+        _dbContext.Connections.Remove(connection);
+        _dbContext.SaveChanges();
     }
 
     public void Update(Connection connection)
     {
-        if (_connections.SingleOrDefault(c => c.Id == connection.Id) is not {} stateConnection)
+        if (_dbContext.Connections.SingleOrDefault(c => c.Id == connection.Id) is not {} stateConnection)
             return;
+        
         stateConnection.ClientId = connection.ClientId;
         stateConnection.ServerId = connection.ServerId;
         stateConnection.ExpirationTime = connection.ExpirationTime;
+        _dbContext.Connections.Update(stateConnection);
+        _dbContext.SaveChanges();
     }
 }
