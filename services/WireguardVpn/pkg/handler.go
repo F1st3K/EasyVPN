@@ -7,8 +7,13 @@ import (
 type Handler struct {
 }
 
-func (h *Handler) InitRoutes() *gin.Engine {
+func (h *Handler) InitRoutes(user string, password string) *gin.Engine {
 	router := gin.New()
+
+	router.Use(func(ctx *gin.Context) {
+		auth := Auth{Username: user, Password: password}
+		auth.CheckBasicAuth(ctx)
+	})
 
 	connections := router.Group("/connections")
 	{

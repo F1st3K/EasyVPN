@@ -1,7 +1,6 @@
 package wireguardvpn
 
 import (
-	wireguardvpn "WireguardVpn/pkg"
 	"context"
 	"net/http"
 	"time"
@@ -11,9 +10,7 @@ type Server struct {
 	httpServer *http.Server
 }
 
-func (s *Server) Run(port string) error {
-	handler := new(wireguardvpn.Handler).InitRoutes()
-
+func (s *Server) Run(port string, handler http.Handler) error {
 	s.httpServer = &http.Server{
 		Addr:           ":" + port,
 		Handler:        handler,

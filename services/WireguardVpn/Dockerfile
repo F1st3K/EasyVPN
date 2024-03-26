@@ -12,5 +12,8 @@ RUN go build -o ./bin/app cmd/main.go
 
 FROM alpine AS runner
 
+RUN apk --no-cache add wireguard-tools
+
 COPY --from=builder /usr/local/src/bin/app /
+COPY cmd/config.yaml /
 CMD ["/app"]
