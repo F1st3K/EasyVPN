@@ -15,6 +15,7 @@ public class WireGuardService : IVpnService
     
     public string GetConfig(Guid connectionId)
     {
+        
         return "password=qwertyi1234567";
     }
 
