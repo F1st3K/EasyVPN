@@ -10,9 +10,9 @@ type Handler struct {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
-	client := router.Group("/connection")
+	connections := router.Group("/connections")
 	{
-		client.GET("/config", h.getConnectionConfig)
+		connections.GET("/config", h.getConnectionConfig)
 	}
 
 	return router
