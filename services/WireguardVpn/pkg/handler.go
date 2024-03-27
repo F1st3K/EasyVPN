@@ -15,9 +15,19 @@ func (h *Handler) InitRoutes(user string, password string) *gin.Engine {
 		auth.CheckBasicAuth(ctx)
 	})
 
+	router.GET("/", func(ctx *gin.Context) { ctx.Status(200) })
+
 	connections := router.Group("/connections")
 	{
-		connections.GET("/config", h.getConnectionConfig)
+		connections.GET("/:id/config", h.GetConnectionConfig)
+
+		connections.POST("", h.CreateConnection)
+
+		connections.PUT("/:id/enable", h.EnableConnection)
+
+		connections.PUT("/:id/disable", h.DisableConnection)
+
+		connections.DELETE("/:id", h.DeleteConnection)
 	}
 
 	return router
