@@ -17,25 +17,14 @@ const PRIVATE_KEY = "/privatekey"
 const PUBLIC_KEY = "/publickey"
 const IP = "/ip"
 
+var Port string
+
 func StartUp(port string) {
+	Port = port
 	tryCreateKeys(WG_DIR+PRIVATE_KEY, WG_DIR+PUBLIC_KEY)
 
-	buildServerConfiguration(port)
+	buildServerConfiguration()
 	wgUp()
-}
-
-func CreateClient(uname string) {
-	client := DIS_CLIENTS + "/" + uname
-	_ = os.MkdirAll(client, os.ModeAppend)
-
-	tryCreateKeys(client+PRIVATE_KEY, client+PUBLIC_KEY)
-
-	_, err := os.Stat(client + IP)
-	if os.IsNotExist(err) {
-		f, _ := os.Create(client + IP)
-		f.WriteString(getNextAllowedIp())
-		f.Close()
-	}
 }
 
 func tryCreateKeys(privateKey string, publicKey string) {
@@ -51,7 +40,7 @@ func tryCreateKeys(privateKey string, publicKey string) {
 	tryExecCommand("chmod 600 " + privateKey)
 }
 
-func buildServerConfiguration(port string) {
+func buildServerConfiguration() {
 	private, _ := os.ReadFile(WG_DIR + PRIVATE_KEY)
 
 	serverConf := fmt.Sprintf(`
@@ -61,7 +50,8 @@ func buildServerConfiguration(port string) {
 	ListenPort = %s
 	PostUp = iptables -A FORWARD -i %%i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 	PostDown = iptables -D FORWARD -i %%i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-	`, string(private), port)
+	
+	`, string(private), Port)
 
 	clients, _ := os.ReadDir(CLIENTS)
 	for i := 0; i < len(clients); i++ {
@@ -69,15 +59,16 @@ func buildServerConfiguration(port string) {
 			continue
 		}
 
-		client := clients[i].Name()
+		client := CLIENTS + "/" + clients[i].Name()
 		public, _ := os.ReadFile(client + PUBLIC_KEY)
 		ip, _ := os.ReadFile(client + IP)
 
-		serverConf += fmt.Sprintf(`
+		serverConf += fmt.Sprintf(`#%s
 		[Peer]
 		PublicKey = %s
 		AllowedIPs = %s
-		#%s`, string(public), string(ip), client)
+		
+		`, client, string(public), string(ip))
 	}
 
 	os.WriteFile(WG_CONFIG_PATH, []byte(serverConf), os.ModeAppend)
