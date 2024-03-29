@@ -14,8 +14,10 @@ func main() {
 	srv := new(wireguardvpn.Server)
 	handler := new(wireguardvpn.Handler).InitRoutes(config.Username, config.Password)
 
-	log.Printf("WireguardVpn api http server started on port: %s", config.Port)
-	if err := srv.Run(config.Port, handler); err != nil {
+	wireguardvpn.StartUp(config.WgPort)
+
+	log.Printf("WireguardVpn api http server started on port: %s", config.ApiPort)
+	if err := srv.Run(config.ApiPort, handler); err != nil {
 		log.Fatalf("Error while ocurated http server: %s", err.Error())
 	}
 
@@ -38,14 +40,16 @@ func loadConfig() *Config {
 }
 
 type Config struct {
-	Port     string `yaml:"port"`
+	ApiPort  string `yaml:"api_port"`
+	WgPort   string `yaml:"wg_port"`
 	Username string `yaml:"user"`
 	Password string `yaml:"password"`
 }
 
 func NewConfig() *Config {
 	return &Config{
-		Port:     "0",
+		ApiPort:  "0",
+		WgPort:   "0",
 		Username: "",
 		Password: "",
 	}

@@ -16,7 +16,8 @@ func (h *Handler) GetConnectionConfig(c *gin.Context) {
 
 func (h *Handler) CreateConnection(c *gin.Context) {
 	id := c.Query("id")
-	strings.Split(id, "")
+
+	CreateClient(id)
 
 	c.Status(201) // Created
 }
