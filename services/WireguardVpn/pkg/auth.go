@@ -9,7 +9,7 @@ type Auth struct {
 	Password string
 }
 
-func (auth *Auth) CheckBasicAuth(c *gin.Context) {
+func (auth Auth) CheckBasicAuth(c *gin.Context) {
 	// Get the Basic Authentication credentials
 	user, password, hasAuth := c.Request.BasicAuth()
 	if !hasAuth || user != auth.Username || password != auth.Password {

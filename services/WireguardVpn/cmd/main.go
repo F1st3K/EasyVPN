@@ -2,6 +2,7 @@ package main
 
 import (
 	wireguardvpn "WireguardVpn/pkg"
+	"WireguardVpn/pkg/utils"
 	"log"
 	"os"
 
