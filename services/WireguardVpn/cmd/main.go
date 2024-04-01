@@ -2,6 +2,7 @@ package main
 
 import (
 	wireguardvpn "WireguardVpn/pkg"
+	"WireguardVpn/pkg/repositories"
 	"WireguardVpn/pkg/utils"
 	"log"
 	"os"
@@ -9,16 +10,31 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+const (
+	CLILENTS_PATH = utils.WG_DIR + "/clients"
+	ADDRESS_PATH  = utils.WG_DIR + "/address"
+)
+
 func main() {
 	config := loadConfig()
+	host := os.Getenv("HOST")
 
+	os.MkdirAll(CLILENTS_PATH, os.ModeAppend)
+	clientRepository := *repositories.NewClientRepoitory(CLILENTS_PATH)
+
+	os.MkdirAll(ADDRESS_PATH, os.ModeAppend)
+	address := *utils.NewAddressManager(ADDRESS_PATH)
+
+	wg := *utils.NewWgManager(host, config.WgPort,
+		clientRepository.GetAllClients())
+
+	handler := wireguardvpn.NewHandler(clientRepository, wg, address)
+
+	h := handler.InitRoutes(config.Username, config.Password)
 	srv := new(wireguardvpn.Server)
-	handler := new(wireguardvpn.Handler).InitRoutes(config.Username, config.Password)
-
-	wireguardvpn.StartUp(config.WgPort)
 
 	log.Printf("WireguardVpn api http server started on port: %s", config.ApiPort)
-	if err := srv.Run(config.ApiPort, handler); err != nil {
+	if err := srv.Run(config.ApiPort, h); err != nil {
 		log.Fatalf("Error while ocurated http server: %s", err.Error())
 	}
 

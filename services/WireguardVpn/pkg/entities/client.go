@@ -4,6 +4,6 @@ type Client struct {
 	Id         string
 	PublicKey  string
 	PrivateKey string
-	AllowedIPs string
+	Address    string
 	IsEnabled  bool
 }

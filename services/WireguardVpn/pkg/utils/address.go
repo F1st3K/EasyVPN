@@ -9,12 +9,12 @@ import (
 
 const IP = "/lastip"
 
-type IpManager struct {
+type AddressManager struct {
 	BasePath string
 }
 
-func NewIpManager(basePath string) *IpManager {
-	ip := IpManager{BasePath: basePath}
+func NewAddressManager(basePath string) *AddressManager {
+	ip := AddressManager{BasePath: basePath}
 
 	_, err := os.Stat(ip.BasePath)
 	if os.IsNotExist(err) {
@@ -31,7 +31,7 @@ func NewIpManager(basePath string) *IpManager {
 	return &ip
 }
 
-func (ip IpManager) GetNextAllowedIp() string {
+func (ip AddressManager) GetNextAllowedIp() string {
 	li, _ := os.ReadFile(ip.BasePath + IP)
 
 	lastIp, _ := strconv.Atoi(string(li))

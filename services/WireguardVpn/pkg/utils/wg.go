@@ -18,11 +18,12 @@ const (
 )
 
 type WgManager struct {
-	Port string
+	Address string
+	Port    string
 }
 
-func NewWgManager(port string, initClients []entities.Client) *WgManager {
-	wg := WgManager{Port: port}
+func NewWgManager(address string, port string, initClients []entities.Client) *WgManager {
+	wg := WgManager{Port: port, Address: address}
 
 	_, err := os.Stat(WG_DIR)
 	if os.IsNotExist(err) {
@@ -60,41 +61,45 @@ func (wg WgManager) CreateKeys() (privateKey string, publicKey string) {
 func (wg WgManager) BuildServerConfiguration(clients []entities.Client) {
 	private, _ := os.ReadFile(SERVER_PRIVATE_KEY)
 
-	serverConf := fmt.Sprintf(`
-	[Interface]
-	PrivateKey = %s
-	Address = 10.0.0.1/24
-	ListenPort = %s
-	PostUp = iptables -A FORWARD -i %%i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-	PostDown = iptables -D FORWARD -i %%i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-	
-	`, string(private), wg.Port)
+	serverConf := fmt.Sprintf(`[Interface]
+PrivateKey = %s
+Address = 10.0.0.1/24
+ListenPort = %s
+PostUp = iptables -A FORWARD -i %%i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i %%i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+`, string(private), wg.Port)
 
 	for i := 0; i < len(clients); i++ {
 		client := clients[i]
+		if !client.IsEnabled {
+			continue
+		}
 		serverConf += fmt.Sprintf(`#%s
-		[Peer]
-		PublicKey = %s
-		AllowedIPs = %s
-		
-		`, client.Id, client.PublicKey, client.AllowedIPs)
+	[Peer]
+	PublicKey = %s
+	AllowedIPs = %s
+
+`, client.Id, client.PublicKey, client.Address)
 	}
 
 	os.WriteFile(WG_CONFIG_PATH, []byte(serverConf), os.ModeAppend)
 }
 
 func (wg WgManager) GetClientConfiguration(client entities.Client) string {
-	return `
-	[Interface]
-PrivateKey = <CLIENT-PRIVATE-KEY>
-Address = 10.0.0.2/32
-DNS = 8.8.8.8
+	public, _ := os.ReadFile(SERVER_PRIVATE_KEY)
+
+	return fmt.Sprintf(`
+[Interface]
+PrivateKey = %s
+Address = %s
+DNS = 1.1.1.1
 
 [Peer]
-PublicKey = <SERVER-PUBKEY>
-Endpoint = <SERVER-IP>:51830
+PublicKey = %s
+Endpoint = %s:%s
 AllowedIPs = 0.0.0.0/0
-	`
+`, client.PrivateKey, client.Address, string(public), wg.Address, wg.Port)
 }
 
 func (wg WgManager) Restart() {

@@ -47,7 +47,7 @@ func (r ClientRepository) GetClient(id string) entities.Client {
 		Id:         id,
 		PublicKey:  string(public),
 		PrivateKey: string(private),
-		AllowedIPs: string(ip),
+		Address:    string(ip),
 		IsEnabled:  isEnabled,
 	}
 }
@@ -80,7 +80,7 @@ func (r ClientRepository) CreateClient(client entities.Client) {
 	f, _ = os.Create(clientPath + PRIVATE_KEY)
 	f.WriteString(client.PrivateKey)
 	f, _ = os.Create(clientPath + IP)
-	f.WriteString(client.AllowedIPs)
+	f.WriteString(client.Address)
 	f, _ = os.Create(clientPath + ENABLED)
 	var enabled string
 	if client.IsEnabled {
@@ -95,17 +95,24 @@ func (r ClientRepository) CreateClient(client entities.Client) {
 
 func (r ClientRepository) UpdateClient(client entities.Client) {
 	clientPath := r.BasePath + "/" + client.Id
-	err := os.RemoveAll(clientPath)
+	_, err := os.Stat(clientPath)
 	if os.IsNotExist(err) {
 		log.Println("ClientRepository: update: client not found: " + clientPath)
 	}
 
-	f, _ := os.OpenFile(clientPath+PUBLIC_KEY, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
-	f.WriteString(client.PublicKey)
-	f, _ = os.OpenFile(clientPath+PRIVATE_KEY, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
-	f.WriteString(client.PrivateKey)
-	f, _ = os.OpenFile(clientPath+IP, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
-	f.WriteString(client.AllowedIPs)
+	var f *os.File
+	if client.PublicKey != "" {
+		f, _ = os.OpenFile(clientPath+PUBLIC_KEY, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
+		f.WriteString(client.PublicKey)
+	}
+	if client.PrivateKey != "" {
+		f, _ = os.OpenFile(clientPath+PRIVATE_KEY, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
+		f.WriteString(client.PrivateKey)
+	}
+	if client.Address != "" {
+		f, _ = os.OpenFile(clientPath+IP, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
+		f.WriteString(client.Address)
+	}
 	f, _ = os.OpenFile(clientPath+ENABLED, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
 	var enabled string
 	if client.IsEnabled {
