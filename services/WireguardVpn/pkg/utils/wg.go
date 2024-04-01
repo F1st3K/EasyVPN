@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"WireguardVpn/pkg/repositories"
+	"WireguardVpn/pkg/entities"
 	"fmt"
 	"log"
 	"os"
@@ -9,24 +9,25 @@ import (
 	"strings"
 )
 
-const WG = "wg"
-const WG_DIR = "/etc/wireguard"
-const WG_IPCOUTN = WG_DIR + "/ipcount"
-const WG_CONFIG_PATH = WG_DIR + "/" + WG + ".conf"
-const CLIENTS = WG_DIR + "/clients"
-const DIS_CLIENTS = WG_DIR + "/disabled"
-const SERVER_PRIVATE_KEY = WG_DIR + "/privatekey"
-const SERVER_PUBLIC_KEY = WG_DIR + "/publickey"
-const IP = "/ip"
+const (
+	WG                 = "wg"
+	WG_DIR             = "/etc/wireguard"
+	WG_CONFIG_PATH     = WG_DIR + "/" + WG + ".conf"
+	SERVER_PRIVATE_KEY = WG_DIR + "/privatekey"
+	SERVER_PUBLIC_KEY  = WG_DIR + "/publickey"
+)
 
-type Wg struct {
-	Port             string
-	ClientRepository repositories.ClientRepository
+type WgManager struct {
+	Port string
 }
 
-var Port string
+func NewWgManager(port string, initClients []entities.Client) *WgManager {
+	wg := WgManager{Port: port}
 
-func (wg Wg) StartUp() {
+	_, err := os.Stat(WG_DIR)
+	if os.IsNotExist(err) {
+		log.Fatalf("Failed to create wg manager: %s", err.Error())
+	}
 
 	_, privErr := os.Stat(SERVER_PRIVATE_KEY)
 	_, pubErr := os.Stat(SERVER_PUBLIC_KEY)
@@ -40,11 +41,13 @@ func (wg Wg) StartUp() {
 		defer f.Close()
 	}
 
-	wg.BuildServerConfiguration()
-	wgUp()
+	wg.BuildServerConfiguration(initClients)
+	tryExecCommand("wg-quick up " + WG)
+
+	return &wg
 }
 
-func (wg Wg) CreateKeys() (privateKey string, publicKey string) {
+func (wg WgManager) CreateKeys() (privateKey string, publicKey string) {
 	tryExecCommand("ls")
 	tryExecCommand("umask 077")
 	private_public := tryExecCommand(`privatekey=$(wg genkey) && echo -n "$privatekey;" && wg pubkey <<< "$privatekey"`)
@@ -54,7 +57,7 @@ func (wg Wg) CreateKeys() (privateKey string, publicKey string) {
 	return keys[0], keys[1]
 }
 
-func (wg Wg) BuildServerConfiguration() {
+func (wg WgManager) BuildServerConfiguration(clients []entities.Client) {
 	private, _ := os.ReadFile(SERVER_PRIVATE_KEY)
 
 	serverConf := fmt.Sprintf(`
@@ -65,9 +68,8 @@ func (wg Wg) BuildServerConfiguration() {
 	PostUp = iptables -A FORWARD -i %%i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 	PostDown = iptables -D FORWARD -i %%i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 	
-	`, string(private), Port)
+	`, string(private), wg.Port)
 
-	clients := wg.ClientRepository.GetAllClients()
 	for i := 0; i < len(clients); i++ {
 		client := clients[i]
 		serverConf += fmt.Sprintf(`#%s
@@ -81,16 +83,23 @@ func (wg Wg) BuildServerConfiguration() {
 	os.WriteFile(WG_CONFIG_PATH, []byte(serverConf), os.ModeAppend)
 }
 
-func wgUp() {
-	tryExecCommand("wg-quick up " + WG)
+func (wg WgManager) GetClientConfiguration(client entities.Client) string {
+	return `
+	[Interface]
+PrivateKey = <CLIENT-PRIVATE-KEY>
+Address = 10.0.0.2/32
+DNS = 8.8.8.8
+
+[Peer]
+PublicKey = <SERVER-PUBKEY>
+Endpoint = <SERVER-IP>:51830
+AllowedIPs = 0.0.0.0/0
+	`
 }
 
-func wgDown() {
+func (wg WgManager) Restart() {
 	tryExecCommand("wg-quick down " + WG)
-}
-
-func getNextAllowedIp() string {
-	return "10.0.0.2/32"
+	tryExecCommand("wg-quick up " + WG)
 }
 
 func tryExecCommand(command string) string {

@@ -14,11 +14,17 @@ const (
 )
 
 type ClientRepository struct {
-	basePath string
+	BasePath string
+}
+
+func NewClientRepoitory(basePath string) *ClientRepository {
+	r := ClientRepository{BasePath: basePath}
+
+	return &r
 }
 
 func (r ClientRepository) GetClient(id string) entities.Client {
-	client := r.basePath + "/" + id
+	client := r.BasePath + "/" + id
 	s, err := os.Stat(client)
 	if os.IsNotExist(err) || !s.IsDir() {
 		log.Println("ClientRepository: get: client not found: " + client)
@@ -49,7 +55,7 @@ func (r ClientRepository) GetClient(id string) entities.Client {
 func (r ClientRepository) GetAllClients() []entities.Client {
 	var clients []entities.Client
 
-	clientIds, _ := os.ReadDir(r.basePath)
+	clientIds, _ := os.ReadDir(r.BasePath)
 	for i := 0; i < len(clientIds); i++ {
 		if !clientIds[i].IsDir() {
 			continue
@@ -63,7 +69,7 @@ func (r ClientRepository) GetAllClients() []entities.Client {
 }
 
 func (r ClientRepository) CreateClient(client entities.Client) {
-	clientPath := r.basePath + "/" + client.Id
+	clientPath := r.BasePath + "/" + client.Id
 	err := os.MkdirAll(clientPath, os.ModeAppend)
 	if os.IsExist(err) {
 		log.Println("ClientRepository: create: client already exist: " + clientPath)
@@ -88,7 +94,7 @@ func (r ClientRepository) CreateClient(client entities.Client) {
 }
 
 func (r ClientRepository) UpdateClient(client entities.Client) {
-	clientPath := r.basePath + "/" + client.Id
+	clientPath := r.BasePath + "/" + client.Id
 	err := os.RemoveAll(clientPath)
 	if os.IsNotExist(err) {
 		log.Println("ClientRepository: update: client not found: " + clientPath)
@@ -113,7 +119,7 @@ func (r ClientRepository) UpdateClient(client entities.Client) {
 }
 
 func (r ClientRepository) RemoveClient(id string) {
-	clientPath := r.basePath + "/" + id
+	clientPath := r.BasePath + "/" + id
 	err := os.RemoveAll(clientPath)
 	if os.IsNotExist(err) {
 		log.Println("ClientRepository: remove: client not found: " + clientPath)
