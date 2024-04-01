@@ -59,7 +59,7 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
             ServerId = server.Id
         };
         _connectionRepository.Add(connection);
-        vpnService.CreateClient(connection);
+        vpnService.CreateClient(connection.Id);
         
         return connection;
     }

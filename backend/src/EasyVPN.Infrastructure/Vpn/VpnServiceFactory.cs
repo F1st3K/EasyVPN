@@ -6,12 +6,13 @@ namespace EasyVPN.Infrastructure.Vpn;
 
 public class VpnServiceFactory : IVpnServiceFactory
 {
-    public IVpnService GetVpnService(Server server)
+    public IVpnService? GetVpnService(Server server)
     {
         return server.Type switch
         {
-            VpnType.WireGuard => new WireGuardService(),
-            _ => throw new NotImplementedException()
+            VpnType.WireGuard => WireGuardService.GetService(server.ConnectionString),
+            _ => throw new NotSupportedException(
+                $"Unsupported {nameof(VpnType)}: {server.Type.ToString()}")
         };
     }
 }

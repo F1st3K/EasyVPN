@@ -1,3 +1,3 @@
-@connectionId = 94c370a8-39bd-4fcb-9e18-1a7902a8b783
+@connectionId = 931e0a69-57cc-4cfe-b8c3-5f621c67aceb
 GET {{host}}/my/connections/{{connectionId}}/config
 Authorization: Bearer {{clientToken}}

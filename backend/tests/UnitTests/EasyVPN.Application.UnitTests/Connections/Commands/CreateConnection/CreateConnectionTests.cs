@@ -43,7 +43,7 @@ public class CreateConnectionTests
         _mocks.ConnectionRepository.Verify(x =>
             x.Add(It.Is<Connection>(connection => connection.IsValid())));
         _mocks.VpnService.Verify(x =>
-            x.CreateClient(It.Is<Connection>(connection => connection.IsValid())));
+            x.CreateClient(It.IsAny<Guid>()));
     }
 
     [Fact]

@@ -1,0 +1,4 @@
+api_port: "8080"
+wg_port: "51830"
+user: "user"
+password: "passwd"
