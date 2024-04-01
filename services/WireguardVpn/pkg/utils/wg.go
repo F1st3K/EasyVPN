@@ -76,9 +76,9 @@ PostDown = iptables -D FORWARD -i %%i -j ACCEPT; iptables -t nat -D POSTROUTING 
 			continue
 		}
 		serverConf += fmt.Sprintf(`#%s
-	[Peer]
-	PublicKey = %s
-	AllowedIPs = %s
+[Peer]
+PublicKey = %s
+AllowedIPs = %s
 
 `, client.Id, client.PublicKey, client.Address)
 	}
@@ -87,7 +87,7 @@ PostDown = iptables -D FORWARD -i %%i -j ACCEPT; iptables -t nat -D POSTROUTING 
 }
 
 func (wg WgManager) GetClientConfiguration(client entities.Client) string {
-	public, _ := os.ReadFile(SERVER_PRIVATE_KEY)
+	public, _ := os.ReadFile(SERVER_PUBLIC_KEY)
 
 	return fmt.Sprintf(`
 [Interface]
