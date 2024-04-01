@@ -20,7 +20,7 @@ public class CreateConnectionMocks
     public CreateConnectionCommandHandler CreateHandler()
     {
         VpnService.Setup(x
-            => x.CreateClient(It.IsAny<Connection>()));
+            => x.CreateClient(It.IsAny<Guid>()));
         var mockDateTimeProvider = new Mock<IDateTimeProvider>();
         mockDateTimeProvider.Setup(x => x.UtcNow)
             .Returns(Constants.Time.Now);
