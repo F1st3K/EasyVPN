@@ -14,13 +14,7 @@ RUN go build -o ./bin/WireguardVpn cmd/main.go
 FROM alpine AS runner
 
 RUN apk --no-cache add wireguard-tools iptables
-WORKDIR /etc/wireguard
-
-#? Startup wireguard:
-# RUN umask 077
-# RUN wg genkey > privatekey
-# RUN wg pubkey < privatekey > publickey
-# RUN chmod 600 privatekey
+WORKDIR /usr/local/src
 
 # Run WierguardVpn service:
 COPY --from=builder /usr/local/src/bin/WireguardVpn ./
