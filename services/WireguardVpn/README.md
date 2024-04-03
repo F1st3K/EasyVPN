@@ -86,7 +86,7 @@ Authorization: Basic {{Username}} {{Password}}
 ## WireguardVpn Конфигурация
 Конфигурация сервиса находится в [config.yaml](./cmd/config.yaml):
 
-`api_port: "8080"` - порт на котором будет работать http-api
+`api_port: "8000"` - порт на котором будет работать http-api
 
 `wg_port: "51820"` - порт через который устанавливается WireGuard соединение
 
