@@ -35,5 +35,18 @@ services:
     networks:
       - easy-vpn
 
+  easy-vpn-frontend:
+    image: easyvpn/frontend:local
+    depends_on:
+      - easy-vpn-backend
+    container_name: easy-vpn-frontend
+    ports:
+      - "3000:3000"
+    build:
+      context: frontend/
+      dockerfile: Dockerfile
+    networks:
+      - easy-vpn
+
 volumes:
   database_data:

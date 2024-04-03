@@ -102,7 +102,7 @@ Authorization: Basic {{Username}} {{Password}}
 docker run -d \
   -e HOST=89.191.226.158 `#your server ip` \
   -p 51840:51820/udp `#wireguard port` \
-  -p 8080:8080/tcp `#http-api port` \
+  -p 8000:8000/tcp `#http-api port` \
   -v ~/.WireguardVpn:/etc/wireguard \
   --cap-add=NET_ADMIN \
   --cap-add=SYS_MODULE \

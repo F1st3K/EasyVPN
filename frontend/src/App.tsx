@@ -5,16 +5,18 @@ function App() {
     const [info, setInfo] = React.useState<any>();
 
     React.useEffect(() => {
-        fetch("http://localhost:5057/auth/login", {
+        fetch("http://easy-vpn-backend:80/auth/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: `{
+            "firstName": "Freak",
+            "lastName": "Fister",
             "login": "F1st3K",
             "password": "fisty123"
         }`,
-    }).then(response => response.json().then(t => setInfo(t.login)));
+    }).then(response => response.json().then(t => setInfo(t.title)));
     }, [])
     return (
         <div className="App">
