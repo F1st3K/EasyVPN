@@ -10,9 +10,7 @@ RUN dotnet publish src/EasyVPN.Api/*.csproj -c Release -o build --no-restore
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runner
 
-WORKDIR /usr/local/src/EasyVPN.backend
+WORKDIR /usr/local/src/EasyVPN.Api
 COPY --from=builder /app/build .
-
-RUN cat appsettings.json
 
 ENTRYPOINT ["dotnet", "EasyVPN.Api.dll"]

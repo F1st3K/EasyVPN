@@ -12,15 +12,15 @@ public static class StartupExtensions
     {
         using var scope = app.ApplicationServices.CreateScope();
         using var appContext = scope.ServiceProvider.GetRequiredService<EasyVpnDbContext>();
+        
         appContext.Database.Migrate();
 
-        return app;
+        return app; 
     }
 
     public static IApplicationBuilder StartExpireService(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();
-
         var connectionExpireService = scope.ServiceProvider.GetRequiredService<IExpireService<Connection>>();
         var expirationChecker = app.ApplicationServices.GetRequiredService<IExpirationChecker>();
         

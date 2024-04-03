@@ -1,0 +1,39 @@
+version: '3.4'
+
+networks:
+  easy-vpn:
+    driver: bridge
+
+services:
+  easy-vpn-database:
+    image: postgres:latest
+    container_name: easy-vpn-database
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+    ports:
+      - "5432"
+    restart: always
+    volumes:
+      - database_data:/var/lib/postgresql/data
+    networks:
+      - easy-vpn
+
+  easy-vpn-backend:
+    image: easyvpn/backend:local
+    depends_on:
+      - easy-vpn-database
+    container_name: easy-vpn-backend
+    ports:
+      - "8080:80"
+    build:
+      context: backend/
+      dockerfile: Dockerfile
+    environment:
+      - ConnectionStrings__Postgres=User ID=postgres;Password=mysecretpassword;Host=easy-vpn-database;Port=5432;
+      - ASPNETCORE_URLS=http://+:80
+    networks:
+      - easy-vpn
+
+volumes:
+  database_data:
