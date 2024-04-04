@@ -7,7 +7,7 @@ networks:
 services:
   easy-vpn-database:
     image: postgres:latest
-    container_name: easy-vpn-database
+    container_name: database
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=mysecretpassword
@@ -23,14 +23,14 @@ services:
     image: easyvpn/backend:local
     depends_on:
       - easy-vpn-database
-    container_name: easy-vpn-backend
+    container_name: backend
     ports:
-      - "8080:80"
+      - "80"
     build:
       context: backend/
       dockerfile: Dockerfile
     environment:
-      - ConnectionStrings__Postgres=User ID=postgres;Password=mysecretpassword;Host=easy-vpn-database;Port=5432;
+      - ConnectionStrings__Postgres=User ID=postgres;Password=mysecretpassword;Host=database;Port=5432;
       - ASPNETCORE_URLS=http://+:80
     networks:
       - easy-vpn
@@ -39,12 +39,25 @@ services:
     image: easyvpn/frontend:local
     depends_on:
       - easy-vpn-backend
-    container_name: easy-vpn-frontend
+    container_name: frontend
     ports:
-      - "3000:3000"
+      - "3000"
     build:
       context: frontend/
       dockerfile: Dockerfile
+    networks:
+      - easy-vpn
+
+  easy-vpn-proxy:
+    image: nginx:mainline
+    depends_on:
+      - easy-vpn-backend
+      - easy-vpn-frontend
+    container_name: proxy
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
     networks:
       - easy-vpn
 

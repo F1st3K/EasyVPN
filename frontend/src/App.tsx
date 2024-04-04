@@ -1,22 +1,21 @@
 import React from 'react';
+import config from './config.json'
 import './App.css';
 
 function App() {
     const [info, setInfo] = React.useState<any>();
 
     React.useEffect(() => {
-        fetch("http://easy-vpn-backend:80/auth/register", {
+        fetch(`${config.ApiUrl}/auth/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: `{
-            "firstName": "Freak",
-            "lastName": "Fister",
             "login": "F1st3K",
             "password": "fisty123"
         }`,
-    }).then(response => response.json().then(t => setInfo(t.title)));
+    }).then(response => response.json().then(t => setInfo(t.lastName)));
     }, [])
     return (
         <div className="App">
