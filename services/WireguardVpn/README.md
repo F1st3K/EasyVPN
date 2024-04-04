@@ -83,7 +83,7 @@ Authorization: Basic {{Username}} {{Password}}
 ```
 
 
-## WireguardVpn Конфигурация
+## Configuration
 Конфигурация сервиса находится в [config.yaml](./cmd/config.yaml):
 
 `api_port: "8000"` - порт на котором будет работать http-api
@@ -96,7 +96,11 @@ Authorization: Basic {{Username}} {{Password}}
 `$HOST=192.0.0.1` или `$HOST=localhost`
 
 
-## WireguardVpn Docker
+## Deploy (docker)
+Сборка докер-образа:
+```bash
+docker build -t wireguardvpn:local ./
+```
 Для запуска сервиса в докер-контейнере используйте следующую команду:
 ```bash
 docker run -d \

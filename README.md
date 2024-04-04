@@ -1,11 +1,46 @@
-[![en](https://img.shields.io/badge/lang-English%20%F0%9F%87%AC%F0%9F%87%A7-white)](README-EN.md)
-[![ru](https://img.shields.io/badge/%D1%8F%D0%B7%D1%8B%D0%BA-%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9%20%F0%9F%87%B7%F0%9F%87%BA-white)](README.md)
-
 # EasyVPN
 Простое VPN + Backend + Frontend приложения на одном сервере!
 
+## Deploy
+Для развертывания `EasyVPN` на одном единственном сервере используйте `Docker Compose` :
+```bash
+docker-compose up --build
+```
+> `Важно:` При таком варианте развертывания убедитесь что в frontend-конфигурации [config.json](./frontend/src/config.json), указано `"ApiUrl": "api"` для правильного перенаправления запросов к api.
 
-## EasyVPN API
+Так же для независимого развертывания компонентов web-приложения `EasyVPN`, можно воспользоваться `Docker-контейнерами` :
+
+##### `Для Postgres DB:`
+```bash
+docker run -d \
+  --name database \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=mysecretpassword \
+  -p 5432:5432 \
+  -v ~/postgresql/:/var/lib/postgresql/data \
+  postgres:latest
+```
+
+##### `Для Backend API:`
+```bash
+docker build -t easyvpn/backend:local ./backend/ && \
+docker run -d \
+  --name backend \
+  -p 80:80 \
+  easyvpn/backend:local
+```
+
+##### `Для Frontend WEB-UI:`
+```bash
+docker build -t easyvpn/frontend:local ./frontend/ && \
+docker run -d \
+  --name frontend \
+  -p 3000:3000 \
+  easyvpn/frontend:local
+```
+> Помните о конфигурациях [`appsettings.json`](./backend/src/EasyVPN.Api/appsettings.json) и [`config.json`](./frontend/src/config.json)
+
+## Backend API
 
 ### Ошибки:
 
