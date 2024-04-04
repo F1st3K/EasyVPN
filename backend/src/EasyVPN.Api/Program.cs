@@ -19,7 +19,9 @@ var app = builder.Build();
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
-    app.UseOnRun();
+
+    app.MigrateDatabase();
+    app.StartExpireService();
     
     app.Run();
 }
