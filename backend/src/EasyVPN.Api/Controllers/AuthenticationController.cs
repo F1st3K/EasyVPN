@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using EasyVPN.Application.Authentication.Commands.Register;
 using EasyVPN.Application.Authentication.Common;
 using EasyVPN.Application.Authentication.Queries.Login;
@@ -32,7 +31,7 @@ public class AuthenticationController : ApiController
             errors => Problem(errors));
     }
 
-    [HttpGet("login")]
+    [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
         var query = new LoginQuery(request.Login, request.Password);
@@ -53,6 +52,4 @@ public class AuthenticationController : ApiController
             authResult.Token);
         return response;
     }
-    
-    
 }

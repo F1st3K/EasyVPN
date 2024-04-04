@@ -1,11 +1,12 @@
 import React from 'react';
+import config from './config.json'
 import './App.css';
 
 function App() {
     const [info, setInfo] = React.useState<any>();
 
     React.useEffect(() => {
-        fetch("http://localhost:5057/auth/login", {
+        fetch(`${config.ApiUrl}/auth/login`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -14,7 +15,7 @@ function App() {
             "login": "F1st3K",
             "password": "fisty123"
         }`,
-    }).then(response => response.json().then(t => setInfo(t.login)));
+    }).then(response => response.json().then(t => setInfo(t.lastName)));
     }, [])
     return (
         <div className="App">
