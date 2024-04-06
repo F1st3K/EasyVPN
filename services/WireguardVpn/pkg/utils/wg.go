@@ -10,11 +10,11 @@ import (
 )
 
 const (
-	WG                 = "wg"
-	WG_DIR             = "/etc/wireguard"
-	WG_CONFIG_PATH     = WG_DIR + "/" + WG + ".conf"
-	SERVER_PRIVATE_KEY = WG_DIR + "/privatekey"
-	SERVER_PUBLIC_KEY  = WG_DIR + "/publickey"
+	Wg               = "wg"
+	WgDir            = "/etc/wireguard"
+	WgConfigPath     = WgDir + "/" + Wg + ".conf"
+	ServerPrivateKey = WgDir + "/privatekey"
+	ServerPublicKey  = WgDir + "/publickey"
 )
 
 type WgManager struct {
@@ -25,25 +25,25 @@ type WgManager struct {
 func NewWgManager(address string, port string, initClients []entities.Client) *WgManager {
 	wg := WgManager{Port: port, Address: address}
 
-	_, err := os.Stat(WG_DIR)
+	_, err := os.Stat(WgDir)
 	if os.IsNotExist(err) {
 		log.Fatalf("Failed to create wg manager: %s", err.Error())
 	}
 
-	_, privErr := os.Stat(SERVER_PRIVATE_KEY)
-	_, pubErr := os.Stat(SERVER_PUBLIC_KEY)
+	_, privErr := os.Stat(ServerPrivateKey)
+	_, pubErr := os.Stat(ServerPublicKey)
 	if os.IsNotExist(privErr) || os.IsNotExist(pubErr) {
 		private, public := wg.CreateKeys()
-		f, _ := os.OpenFile(SERVER_PRIVATE_KEY, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
+		f, _ := os.OpenFile(ServerPrivateKey, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
 		f.WriteString(private)
-		f, _ = os.OpenFile(SERVER_PUBLIC_KEY, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
+		f, _ = os.OpenFile(ServerPublicKey, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
 		f.WriteString(public)
 
 		defer f.Close()
 	}
 
 	wg.BuildServerConfiguration(initClients)
-	tryExecCommand("wg-quick up " + WG)
+	tryExecCommand("wg-quick up " + Wg)
 
 	return &wg
 }
@@ -59,7 +59,7 @@ func (wg WgManager) CreateKeys() (privateKey string, publicKey string) {
 }
 
 func (wg WgManager) BuildServerConfiguration(clients []entities.Client) {
-	private, _ := os.ReadFile(SERVER_PRIVATE_KEY)
+	private, _ := os.ReadFile(ServerPrivateKey)
 
 	serverConf := fmt.Sprintf(`[Interface]
 PrivateKey = %s
@@ -83,11 +83,11 @@ AllowedIPs = %s
 `, client.Id, client.PublicKey, client.Address)
 	}
 
-	os.WriteFile(WG_CONFIG_PATH, []byte(serverConf), os.ModeAppend)
+	os.WriteFile(WgConfigPath, []byte(serverConf), os.ModeAppend)
 }
 
 func (wg WgManager) GetClientConfiguration(client entities.Client) string {
-	public, _ := os.ReadFile(SERVER_PUBLIC_KEY)
+	public, _ := os.ReadFile(ServerPublicKey)
 
 	return fmt.Sprintf(`
 [Interface]
@@ -103,8 +103,8 @@ AllowedIPs = 0.0.0.0/0
 }
 
 func (wg WgManager) Restart() {
-	tryExecCommand("wg-quick down " + WG)
-	tryExecCommand("wg-quick up " + WG)
+	tryExecCommand("wg-quick down " + Wg)
+	tryExecCommand("wg-quick up " + Wg)
 }
 
 func tryExecCommand(command string) string {
