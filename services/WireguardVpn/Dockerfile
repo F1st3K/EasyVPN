@@ -16,7 +16,7 @@ FROM alpine AS runner
 RUN apk --no-cache add wireguard-tools iptables
 WORKDIR /usr/local/src
 
-# Run WierguardVpn service:
+# Run WireguardVpn service:
 COPY --from=builder /usr/local/src/bin/WireguardVpn ./
-COPY cmd/config.yaml ./
+COPY cmd/config.yml cmd/.env.example ./
 CMD ["./WireguardVpn"]
