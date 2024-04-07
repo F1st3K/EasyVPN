@@ -84,16 +84,17 @@ Authorization: Basic {{Username}} {{Password}}
 
 
 ## Configuration
-Конфигурация сервиса находится в [config.yaml](./cmd/config.yaml):
+> Конфигурация сервиса находится в [config.yaml](./cmd/config.yaml):
 
-`api_port: "8000"` - порт на котором будет работать http-api
+`api: port: "8000"` - порт на котором будет работать http-api
 
-`wg_port: "51820"` - порт через который устанавливается WireGuard соединение
+`wg: port: "51820"` - порт через который устанавливается WireGuard соединение
 
-`user: "user"` и `password: "passwd"` - логин и пароль для доступа к запросам http-api
+> Так же дополнительно для работы сервиса необходима enviroment переменные, перечечисленные в [.env.example](./cmd/.env.example):
 
-> Так же дополнительно для работы сервиса необходима enviroment переменная $HOST в которую необходимо поместить ip-адресс по которому и будет доступен сервис:
-`$HOST=192.0.0.1` или `$HOST=localhost`
+`SERVICE_HOST` - адрес хоста на котором будет запущен сервис
+
+`SERVICE_USER` и `SERVICE_PASSWORD` - имя пользователя и пароль для basic auth к http-api
 
 
 ## Deploy (docker)
@@ -104,7 +105,10 @@ docker build -t wireguardvpn:local ./
 Для запуска сервиса в докер-контейнере используйте следующую команду:
 ```bash
 docker run -d \
-  -e HOST=89.191.226.158 `#your server ip` \
+  --name wireguardvpn-sevice \
+  -e SERVICE_HOST=89.191.226.158 `#your host address` \
+  -e SERVICE_USER=user `#your user name for auth` \
+  -e SERVICE_PASSWORD=passwd `#your password for auth` \
   -p 51840:51820/udp `#wireguard port` \
   -p 8000:8000/tcp `#http-api port` \
   -v ~/.WireguardVpn:/etc/wireguard \

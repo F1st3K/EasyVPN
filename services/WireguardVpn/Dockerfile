@@ -18,5 +18,5 @@ WORKDIR /usr/local/src
 
 # Run WireguardVpn service:
 COPY --from=builder /usr/local/src/bin/WireguardVpn ./
-COPY cmd/config.yaml ./
+COPY cmd/config.yml cmd/.env.example ./
 CMD ["./WireguardVpn"]
