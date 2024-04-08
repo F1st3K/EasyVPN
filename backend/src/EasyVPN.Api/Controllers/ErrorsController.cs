@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ public class ErrorsController : ApiController
 {
     public const string Route = "/error";
     
+    [AllowAnonymous]
     [Route(Route)]
     public IActionResult Error()
     {
