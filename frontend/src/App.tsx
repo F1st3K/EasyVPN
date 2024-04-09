@@ -1,40 +1,25 @@
-import useRequest from './hooks/useRequest';
-import { AxiosError, AxiosResponse } from 'axios';
-import EasyVpn, { ApiError, User } from './api';
-
+import { useContext, useEffect } from "react";
+import { Context } from ".";
+import AuthPage from "./pages/AuthPage";
+import { observer } from "mobx-react-lite";
 
 
 function App() {
-    const [data, loading, error] = 
-        useRequest<AxiosResponse<User>, AxiosError<ApiError>>(() =>
-            EasyVpn.auth.login("F1st3K", "fisty123"))
+    const store = useContext(Context)
 
-    if (loading)
-        return (<>Loading...</>)
+    useEffect(() => {
+        store.Auth.checkAuth();
+    }, [])
 
-    if (error != null) {
-        console.error(error)
-        return (<>{error.response?.data.title}</>)
-    }
+    if (store.Auth.isAuth === false)
+        return (<AuthPage/>);
 
     return (
-        <div className="App">
-        <header className="App-header">
-            <p>
-                Edit <code>src/App.tsx</code> and save to reload.
-            </p>
-            {data?.data.firstName}
-            <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            >
-                Learn React
-            </a>
-        </header>
-        </div>
+        <>
+            Привет человек {store.Auth.user.firstName} {store.Auth.roles[0]}
+            <button onClick={() => store.Auth.logout()}>Выйти</button>
+        </>
     );
 }
 
-export default App;
+export default observer(App);

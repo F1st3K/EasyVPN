@@ -13,11 +13,23 @@ const EasyVpn = {
     auth: {
         login: (login: string, password: string) => {
             return api.post<AuthResponse>("/auth/login", {
-                login: login,
-                password: password
+                login,
+                password
+            })
+        },
+        check: (token: string) => {
+            return api.get<AuthResponse>("/auth/check", {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+        },
+        register: (firstName: string, lastName: string, login: string, password: string) => {
+            return api.post<AuthResponse>("/auth/register", {
+                firstName,
+                lastName,
+                login,
+                password
             })
         }
-        
     }
 }
 
