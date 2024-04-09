@@ -24,7 +24,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         _jwtSettings = jwtOptions.Value;
     }
 
-    public string GenerateToken(User user, IEnumerable<RoleType> roles)
+    public string GenerateToken(User user)
     {
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(
@@ -37,7 +37,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
             new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        }.Union(roles.Select(role => new Claim(ClaimTypes.Role, role.ToString())));
+        }.Union(user.Roles.Select(role => new Claim(ClaimTypes.Role, role.ToString())));
 
         var securityToken = new JwtSecurityToken(
             issuer: _jwtSettings.Issuer,

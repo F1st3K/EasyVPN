@@ -19,6 +19,8 @@
   <ItemGroup>
     <Folder Include="Connections\Common\" />
     <Folder Include="ConnectionTickets\Common\" />
+    <Folder Include="Users\Commands\" />
+    <Folder Include="Users\Common\" />
   </ItemGroup>
 
 </Project>

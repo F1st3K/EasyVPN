@@ -11,7 +11,6 @@ namespace EasyVPN.Application.UnitTests.Connections.Commands.CreateConnection;
 public class CreateConnectionMocks
 {
     public readonly Mock<IUserRepository> UserRepository = new();
-    public readonly Mock<IUserRoleRepository> UserRoleRepository = new();
     public readonly Mock<IServerRepository> ServerRepository = new();
     public readonly Mock<IConnectionRepository> ConnectionRepository = new();
     public readonly Mock<IVpnServiceFactory> VpnServiceFactory = new();
@@ -26,7 +25,6 @@ public class CreateConnectionMocks
             .Returns(Constants.Time.Now);
         return new CreateConnectionCommandHandler(
             UserRepository.Object,
-            UserRoleRepository.Object,
             ServerRepository.Object,
             ConnectionRepository.Object,
             VpnServiceFactory.Object,

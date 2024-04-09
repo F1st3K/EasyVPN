@@ -11,21 +11,19 @@ namespace EasyVPN.Application.UnitTests.Authentication.Commands.Register;
 public class RegisterMocks
 {
     public readonly Mock<IUserRepository> UserRepository = new();
-    public readonly Mock<IUserRoleRepository> UserRoleRepository = new();
     public readonly Mock<IJwtTokenGenerator> JwtTokenGenerator  = new();
     public readonly Mock<IHashGenerator> HashGenerator  = new();
     
     public RegisterCommandHandler CreateHandler()
     {
         JwtTokenGenerator.Setup(x =>
-                x.GenerateToken(It.IsAny<User>(), It.IsAny<IEnumerable<RoleType>>()))
+                x.GenerateToken(It.IsAny<User>()))
             .Returns(Constants.User.Token);
         HashGenerator.Setup(x => 
                 x.Hash(It.IsAny<string>()))
             .Returns(Constants.User.HashPassword);
         return new RegisterCommandHandler(
             UserRepository.Object,
-            UserRoleRepository.Object,
             JwtTokenGenerator.Object,
             HashGenerator.Object);
     }

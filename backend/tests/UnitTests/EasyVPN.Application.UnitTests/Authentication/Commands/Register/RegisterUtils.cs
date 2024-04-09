@@ -19,7 +19,9 @@ public static class RegisterUtils
            && result.Token == Constants.User.Token;
 
     public static bool IsValid(this User user)
-        => user.FirstName == Constants.User.FirstName
+        => user.Roles.Any(r => r == Constants.User.Role)
+           && user.Roles.Count() == 1 
+           && user.FirstName == Constants.User.FirstName
            && user.LastName == Constants.User.LastName
            && user.Login == Constants.User.Login
            && user.HashPassword == Constants.User.HashPassword;

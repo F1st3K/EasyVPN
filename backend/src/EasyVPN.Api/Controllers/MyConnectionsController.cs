@@ -124,14 +124,4 @@ public class MyConnectionsController : ApiController
                 : Forbid(),
             errors => Problem(errors));
     }
-    
-    public  Guid? UserGetCurrentId()
-    {
-        var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-        if (id is not null && Guid.TryParse(id, out var guid))
-            return guid;
-        
-        return null;
-    }
 }
