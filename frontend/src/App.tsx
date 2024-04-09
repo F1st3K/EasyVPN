@@ -1,26 +1,20 @@
-import React from 'react';
-import config from './config.json'
 import useRequest from './hooks/useRequest';
-import ApiError from './api/types/ApiError'
-import axios, { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
+import EasyVpn, { ApiError, User } from './api';
 
-type Planet = {
-    name: string
-}
+
 
 function App() {
-    const [data, loading, error] = useRequest<Planet, AxiosError<ApiError>>(() => axios.post("http://localhost:80/auth/login", {
-            login: "F1st3K",
-            password: "fisty1234"
-        }))
+    const [data, loading, error] = 
+        useRequest<AxiosResponse<User>, AxiosError<ApiError>>(() =>
+            EasyVpn.auth.login("F1st3K", "fisty123"))
 
     if (loading)
         return (<>Loading...</>)
 
     if (error != null) {
-        
         console.error(error)
-        return (<>Ошибка</>)
+        return (<>{error.response?.data.title}</>)
     }
 
     return (
@@ -29,7 +23,7 @@ function App() {
             <p>
                 Edit <code>src/App.tsx</code> and save to reload.
             </p>
-            {data?.name}
+            {data?.data.firstName}
             <a
             className="App-link"
             href="https://reactjs.org"
