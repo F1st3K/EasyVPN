@@ -13,4 +13,10 @@ public static class Utils
         
         return null;
     }
+
+    public static string? GetCurrentToken(this HttpRequest request)
+    {
+        var token = request.Headers.Authorization;
+        return token.ToString().Split(' ').Last();
+    }
 }

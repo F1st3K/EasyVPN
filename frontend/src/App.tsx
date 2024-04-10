@@ -1,40 +1,25 @@
-import React from 'react';
-import config from './config.json'
-import './App.css';
+import { useContext, useEffect } from "react";
+import { Context } from ".";
+import AuthPage from "./pages/AuthPage";
+import { observer } from "mobx-react-lite";
+
 
 function App() {
-    const [info, setInfo] = React.useState<any>();
+    const store = useContext(Context)
 
-    React.useEffect(() => {
-        fetch(`${config.ApiUrl}/auth/login`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: `{
-            "login": "F1st3K",
-            "password": "fisty123"
-        }`,
-    }).then(response => response.json().then(t => setInfo(t.lastName)));
+    useEffect(() => {
+        store.Auth.checkAuth();
     }, [])
+
+    if (store.Auth.isAuth === false)
+        return (<AuthPage/>);
+
     return (
-        <div className="App">
-        <header className="App-header">
-            <p>
-                Edit <code>src/App.tsx</code> and save to reload.
-            </p>
-            {info}
-            <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            >
-                Learn React
-            </a>
-        </header>
-        </div>
+        <>
+            Привет человек {store.Auth.user.firstName} {store.Auth.roles[0]}
+            <button onClick={() => store.Auth.logout()}>Выйти</button>
+        </>
     );
 }
 
-export default App;
+export default observer(App);

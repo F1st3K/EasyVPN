@@ -1,4 +1,5 @@
 using EasyVPN.Domain.Entities;
+using EasyVPN.Domain.Common.Enums;
 
 namespace EasyVPN.Application.Authentication.Common;
 

@@ -17,7 +17,7 @@ public class RegisterTests
         var command = RegisterUtils.CreateCommand();
 
         _mocks.UserRepository.Setup(x =>
-                x.GetUserByLogin(Constants.User.Login))
+                x.GetByLogin(Constants.User.Login))
             .Returns(() => null);
 
         //Act
@@ -30,8 +30,6 @@ public class RegisterTests
         
         _mocks.UserRepository.Verify(x => 
             x.Add(It.Is<User>(u => u.IsValid())));
-        _mocks.UserRoleRepository.Verify(x =>
-            x.Add(It.IsAny<UserRole>()));
     }
     
     [Fact]
@@ -41,7 +39,7 @@ public class RegisterTests
         var command = RegisterUtils.CreateCommand();
 
         _mocks.UserRepository.Setup(x =>
-                x.GetUserByLogin(Constants.User.Login))
+                x.GetByLogin(Constants.User.Login))
             .Returns(new User());
 
         //Act
