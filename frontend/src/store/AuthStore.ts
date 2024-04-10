@@ -1,7 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import User from "../api/types/User";
-import EasyVpn from "../api";
-import { Role } from "../api/types/Roles";
+import EasyVpn, { Auth, Register, Role, User } from "../api";
 
 export default class AuthStore {
     private readonly tokenName = "token";
@@ -13,25 +11,25 @@ export default class AuthStore {
         makeAutoObservable(this);
     }
 
+    async register(info: Register) {
+        var auth = (await EasyVpn.auth.register(info)).data;
+        localStorage.setItem(this.tokenName, auth.token);
+        this.setAuth(auth);
+    }
+
     async login(username: string, password: string) {
         var auth = (await EasyVpn.auth.login(username, password)).data;
         localStorage.setItem(this.tokenName, auth.token);
-        this.user = auth;
-        this.roles = auth.roles;
-        this.isAuth = true;
+        this.setAuth(auth);
     }
 
     async logout() {
         localStorage.removeItem(this.tokenName)
-        this.user = {} as User;
-        this.roles = [] as Role[];
-        this.isAuth = false;
+        this.resetAuth();
     }
 
     async checkAuth() {
-        this.user = {} as User;
-        this.roles = [] as Role[];
-        this.isAuth = false;
+        this.resetAuth();
 
         var token = localStorage.getItem(this.tokenName);
         if (token === null)
@@ -39,10 +37,18 @@ export default class AuthStore {
 
         var auth = (await EasyVpn.auth.check(token)).data;
         
-        localStorage.setItem(this.tokenName, auth.token);
+        this.setAuth(auth);
+    }
+
+    private setAuth(auth: Auth) {
         this.user = auth;
         this.roles = auth.roles;
         this.isAuth = true;
     }
 
+    private resetAuth() {
+        this.user = {} as User;
+        this.roles = [] as Role[];
+        this.isAuth = false;
+    }
 }

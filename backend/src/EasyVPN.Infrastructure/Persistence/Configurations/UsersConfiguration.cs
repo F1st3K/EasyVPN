@@ -18,8 +18,8 @@ public class UsersConfiguration : IEntityTypeConfiguration<User>
                     string.Join(';', role
                         .Select(r => r.ToString())),
                 str => 
-                    str.Split(";", StringSplitOptions.RemoveEmptyEntries)
-                        .Select(s => Enum.Parse<RoleType>(s)));
+                    str.Split(";", StringSplitOptions.None)
+                        .Select(Enum.Parse<RoleType>));
         
         /*builder.OwnsMany(u => u.Roles, dib =>
         {
