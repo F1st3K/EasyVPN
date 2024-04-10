@@ -90,17 +90,26 @@ Content-Type: application/json
 }
 ```
 
+##### Запрос проверки токена
+```http
+GET {{host}}/auth/check
+Authorization: Bearer {{token}}
+```
+
 ##### Ответ авторизации
 ```http
 200 OK
 ```
 ```http
 {
-    "id":"88755e3c-e106-4283-bf93-17965b1a"
-    "firstName": "Freak",
-    "lastName": "Fister",
-    "login": "F1st3K",
-    "token":"56be52...e3c7743d"
+  "id": "a125f63a-5919-4e91-ab80-625b75ef76c8",
+  "firstName": "Freak",
+  "lastName": "Fister",
+  "login": "F1st3K",
+  "roles": [
+    "Client"
+  ],
+  "token": "eyJhbGciOiJ...DnzD4pvOcVo"
 }
 ```
 ### VPN действия клиента:

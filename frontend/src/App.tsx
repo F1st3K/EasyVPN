@@ -1,46 +1,25 @@
-import React from 'react';
-import config from './config.json'
-import useRequest from './hooks/useRequest';
-import ApiError from './api/types/ApiError'
-import axios, { AxiosError } from 'axios';
+import { useContext, useEffect } from "react";
+import { Context } from ".";
+import AuthPage from "./pages/AuthPage";
+import { observer } from "mobx-react-lite";
 
-type Planet = {
-    name: string
-}
 
 function App() {
-    const [data, loading, error] = useRequest<Planet, AxiosError<ApiError>>(() => axios.post("http://localhost:80/auth/login", {
-            login: "F1st3K",
-            password: "fisty1234"
-        }))
+    const store = useContext(Context)
 
-    if (loading)
-        return (<>Loading...</>)
+    useEffect(() => {
+        store.Auth.checkAuth();
+    }, [])
 
-    if (error != null) {
-        
-        console.error(error)
-        return (<>Ошибка</>)
-    }
+    if (store.Auth.isAuth === false)
+        return (<AuthPage/>);
 
     return (
-        <div className="App">
-        <header className="App-header">
-            <p>
-                Edit <code>src/App.tsx</code> and save to reload.
-            </p>
-            {data?.name}
-            <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            >
-                Learn React
-            </a>
-        </header>
-        </div>
+        <>
+            Привет человек {store.Auth.user.firstName} {store.Auth.roles[0]}
+            <button onClick={() => store.Auth.logout()}>Выйти</button>
+        </>
     );
 }
 
-export default App;
+export default observer(App);

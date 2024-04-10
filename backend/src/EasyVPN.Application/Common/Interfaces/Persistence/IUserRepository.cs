@@ -4,7 +4,7 @@ namespace EasyVPN.Application.Common.Interfaces.Persistence;
 
 public interface IUserRepository
 {
-    public User? GetUserByLogin(string login);
-    public User? GetUserById(Guid id);
+    public User? GetByLogin(string login);
+    public User? GetById(Guid id);
     public void Add(User user);
 }

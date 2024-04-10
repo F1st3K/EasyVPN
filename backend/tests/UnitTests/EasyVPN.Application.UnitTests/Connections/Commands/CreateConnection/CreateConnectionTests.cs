@@ -18,12 +18,13 @@ public class CreateConnectionTests
         var command = CreateConnectionUtils.CreateCommand();
 
         _mocks.UserRepository.Setup(x
-                => x.GetUserById(Constants.User.Id))
-            .Returns(new User() { Id = Constants.User.Id });
+                => x.GetById(Constants.User.Id))
+            .Returns(new User()
+            {
+                Id = Constants.User.Id,
+                Roles = new [] { RoleType.Client },
+            });
 
-        _mocks.UserRoleRepository.Setup(x
-                => x.GetRolesByUserId(Constants.User.Id))
-            .Returns(new List<RoleType>() { RoleType.Client });
 
         _mocks.ServerRepository.Setup(x
                 => x.Get(Constants.Server.Id))
@@ -53,12 +54,8 @@ public class CreateConnectionTests
         var command = CreateConnectionUtils.CreateCommand();
 
         _mocks.UserRepository.Setup(x
-                => x.GetUserById(Constants.User.Id))
+                => x.GetById(Constants.User.Id))
             .Returns(() => null);
-
-        _mocks.UserRoleRepository.Setup(x
-                => x.GetRolesByUserId(Constants.User.Id))
-            .Returns(new List<RoleType>() { RoleType.Client });
 
         _mocks.ServerRepository.Setup(x
                 => x.Get(Constants.Server.Id))
@@ -83,12 +80,12 @@ public class CreateConnectionTests
         var command = CreateConnectionUtils.CreateCommand();
 
         _mocks.UserRepository.Setup(x
-                => x.GetUserById(Constants.User.Id))
-            .Returns(new User() { Id = Constants.User.Id });
-
-        _mocks.UserRoleRepository.Setup(x
-                => x.GetRolesByUserId(Constants.User.Id))
-            .Returns(Enumerable.Empty<RoleType>());
+                => x.GetById(Constants.User.Id))
+            .Returns(new User()
+            {
+                Id = Constants.User.Id,
+                Roles = Enumerable.Empty<RoleType>(),
+            });
 
         _mocks.ServerRepository.Setup(x
                 => x.Get(Constants.Server.Id))
@@ -113,12 +110,12 @@ public class CreateConnectionTests
         var command = CreateConnectionUtils.CreateCommand();
 
         _mocks.UserRepository.Setup(x
-                => x.GetUserById(Constants.User.Id))
-            .Returns(new User() { Id = Constants.User.Id });
-
-        _mocks.UserRoleRepository.Setup(x
-                => x.GetRolesByUserId(Constants.User.Id))
-            .Returns(new List<RoleType>() { RoleType.Client });
+                => x.GetById(Constants.User.Id))
+            .Returns(new User()
+            {
+                Id = Constants.User.Id,
+                Roles = new [] { RoleType.Client },
+            });
 
         _mocks.ServerRepository.Setup(x
                 => x.Get(Constants.Server.Id))
@@ -143,12 +140,12 @@ public class CreateConnectionTests
         var command = CreateConnectionUtils.CreateCommand();
 
         _mocks.UserRepository.Setup(x
-                => x.GetUserById(Constants.User.Id))
-            .Returns(new User() { Id = Constants.User.Id });
-
-        _mocks.UserRoleRepository.Setup(x
-                => x.GetRolesByUserId(Constants.User.Id))
-            .Returns(new List<RoleType>() { RoleType.Client });
+                => x.GetById(Constants.User.Id))
+            .Returns(new User()
+            {
+                Id = Constants.User.Id,
+                Roles = new [] { RoleType.Client },
+            });
 
         _mocks.ServerRepository.Setup(x
                 => x.Get(Constants.Server.Id))

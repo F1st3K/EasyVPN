@@ -1,4 +1,5 @@
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
+using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
 using FluentAssertions;
@@ -17,10 +18,11 @@ public class LoginTests
         var query = LoginUtils.CreateQuery();
 
         _mocks.UserRepository.Setup(x =>
-                x.GetUserByLogin(Constants.User.Login))
+                x.GetByLogin(Constants.User.Login))
             .Returns(new User
             {
                 Id = Constants.User.Id,
+                Roles = new [] { RoleType.Client },
                 FirstName = Constants.User.FirstName,
                 LastName = Constants.User.LastName,
                 Login = Constants.User.Login,
@@ -46,7 +48,7 @@ public class LoginTests
         var query = LoginUtils.CreateQuery();
 
         _mocks.UserRepository.Setup(x =>
-                x.GetUserByLogin(Constants.User.Login))
+                x.GetByLogin(Constants.User.Login))
             .Returns(() => null);
         
         _mocks.HashGenerator.Setup(x => x.Hash(It.IsAny<string>()))
@@ -68,10 +70,11 @@ public class LoginTests
         var query = LoginUtils.CreateQuery();
 
         _mocks.UserRepository.Setup(x =>
-                x.GetUserByLogin(Constants.User.Login))
+                x.GetByLogin(Constants.User.Login))
             .Returns(new User
             {
                 Id = Constants.User.Id,
+                Roles = new [] { RoleType.Client },
                 FirstName = Constants.User.FirstName,
                 LastName = Constants.User.LastName,
                 Login = Constants.User.Login,

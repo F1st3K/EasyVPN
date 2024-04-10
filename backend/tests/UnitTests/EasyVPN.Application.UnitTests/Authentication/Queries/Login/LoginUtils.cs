@@ -15,7 +15,9 @@ public static class LoginUtils
            && result.Token == Constants.User.Token;
 
     public static bool IsValid(this User user)
-        => user.Id == Constants.User.Id
+        => user.Id == Constants.User.Id 
+           && user.Roles.Any(r => r == Constants.User.Role) 
+           && user.Roles.Count() == 1 
            && user.FirstName == Constants.User.FirstName
            && user.LastName == Constants.User.LastName
            && user.Login == Constants.User.Login
