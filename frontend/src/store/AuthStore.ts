@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
-import EasyVpn, { Auth, Register, Role, User } from "../api";
+import EasyVpn, { ApiError, Auth, Register, Role, User } from "../api";
+import { AxiosResponse } from "axios";
 
 export default class AuthStore {
     private readonly tokenName = "token";
@@ -24,7 +25,7 @@ export default class AuthStore {
     }
 
     async logout() {
-        localStorage.removeItem(this.tokenName)
+        localStorage.removeItem(this.tokenName);
         this.resetAuth();
     }
 
@@ -34,9 +35,16 @@ export default class AuthStore {
         var token = localStorage.getItem(this.tokenName);
         if (token === null)
             return;
-
-        var auth = (await EasyVpn.auth.check(token)).data;
         
+        var auth = await EasyVpn.auth.check(token)
+            .then(r => r.data)
+            .catch((e: ApiError) => {
+                if (e.response?.data)
+                    localStorage.removeItem(this.tokenName);
+                throw e;
+            });
+
+        localStorage.setItem(this.tokenName, auth.token);
         this.setAuth(auth);
     }
 

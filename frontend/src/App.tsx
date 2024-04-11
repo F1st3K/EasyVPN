@@ -8,7 +8,7 @@ function App() {
     const store = useContext(Context)
 
     useEffect(() => {
-        store.Auth.checkAuth();
+        store.Auth.checkAuth().catch(e => {});
     }, [])
 
     if (store.Auth.isAuth === false)
