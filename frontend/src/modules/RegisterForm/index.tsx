@@ -20,7 +20,7 @@ const RegisterForm: FC = () => {
 
     function registerHandler() {
         setLoading(true)
-        store.Auth.login(login, password)
+        store.Auth.register({firstName, lastName, login, password})
             .catch(e => {setError(e); console.log(e)})
             .finally(() => setLoading(false))
     }
