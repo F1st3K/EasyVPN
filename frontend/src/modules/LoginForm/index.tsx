@@ -25,13 +25,13 @@ const LoginForm: FC = () => {
 
     return (  
 <Box className="login-form">
-    <TextField 
+    <TextField sx={{width: "25ch"}}
         label="Login" 
         variant="filled"
         onChange={e => setLogin(e.target.value)}
         value={login}
     />
-    <SecretFilledField
+    <SecretFilledField sx={{width: "25ch"}}
         label="Password"
         onChange={e => setPassword(e.target.value)}
         value={password}
@@ -42,11 +42,13 @@ const LoginForm: FC = () => {
         onClick={loginHandler}
         loading={loading}
     >
-        Login
+        Sign In
     </LoadingButton>
-    { error
-    ? <Alert severity="error">{error.response?.data.title}</Alert>
-    : null }
+    {error? 
+        <Alert severity="error" sx={{width: "25ch"}}>
+            {error.response?.data.title ?? error.message}
+        </Alert>
+    :null}
 </Box>
     );
 }
