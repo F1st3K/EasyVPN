@@ -1,29 +1,25 @@
-import { Theme } from "@emotion/react";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { FilledInput, SxProps } from "@mui/material";
+import { FilledInput, FilledInputProps, SxProps } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import InputLabel from "@mui/material/InputLabel";
 import { FC, useState } from "react";
 
-interface SecretFieldProps {
+interface SecretFieldProps extends FilledInputProps {
     label?: string
-    value?: unknown
-    onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined
     sx?: SxProps
     error?: boolean
 }
  
-const SecretFilledField: FC<SecretFieldProps> = (props: SecretFieldProps) => {
+const SecretFilledField: FC<SecretFieldProps> = ({label, sx, error, ...props}: SecretFieldProps) => {
     const [show, setShow] = useState(false)
 
     return ( 
-<FormControl variant="filled" sx={props.sx} error={props.error}>
-    <InputLabel>{props.label}</InputLabel>
+<FormControl variant="filled" sx={sx} error={error}>
+    <InputLabel>{label}</InputLabel>
     <FilledInput
-    value={props.value}
-    onChange={props.onChange}
+    {...props}
     type={show ? 'text' : 'password'}
     endAdornment={
         <InputAdornment position="end" >
