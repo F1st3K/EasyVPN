@@ -9,16 +9,17 @@ import { ApiError } from "../../api";
 import LoadingButton from "@mui/lab/LoadingButton";
  
 const LoginForm: FC = () => {
+    const { Auth } = useContext(Context)
+    
     const [login, setLogin] = useState<string>("")
     const [password, setPassword] = useState<string>("")
-    const store = useContext(Context)
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
 
     function loginHandler() {
         setLoading(true)
-        store.Auth.login(login, password)
+        Auth.login(login, password)
             .catch(e => {setError(e); console.log(e)})
             .finally(() => setLoading(false))
     }

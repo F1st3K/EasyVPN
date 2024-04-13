@@ -26,7 +26,7 @@ function App() {
 
     return (
         <>
-            <Header auth={store.Auth}/>
+            <Header/>
             Привет человек {store.Auth.user.firstName} {store.Auth.roles[0]}
             <button onClick={() => store.Auth.logout()}>Выйти</button>
         </>
