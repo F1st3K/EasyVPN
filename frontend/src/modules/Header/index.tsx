@@ -1,50 +1,84 @@
-import { Box, AppBar, Toolbar, Typography, Button, IconButton } from "@mui/material";
-import { FC, useContext } from "react";
+import { Box, AppBar, Toolbar, Typography, Button, IconButton, MenuItem } from "@mui/material";
+import { FC, useContext, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Context } from "../..";
-import { AccountCircle } from "@mui/icons-material";
+import { AccountCircle, AdminPanelSettings, SupportAgent, VpnKey } from "@mui/icons-material";
 import { Role } from "../../api";
-
+import PopUpMenu from "../../components/PopUpMenu";
  
 const Header: FC = () => {
     const { Auth } = useContext(Context);
+    const Is = (role: Role) => Auth.roles.includes(role);
+
+    const [anchorTickets, setAnchorTickets] = useState<null | HTMLElement>(null);
+    const [anchorAdmin, setAnchorAdmin] = useState<null | HTMLElement>(null);
 
     return ( 
 <Box sx={{ flexGrow: 1 }}>
-    <AppBar position="static">
+    <AppBar>
         <Toolbar>
-            <Typography variant="h6" component="div" sx={{m:"1ch"}}>
-                EasyVPN
-            </Typography>
-            <Box sx={{ flexGrow: 1, textTransform:"none", display: { xs: 'none', md: 'flex' } }}>
-                {Auth.roles.includes(Role.Administrator) && <>
-                <Button
+            <Button
+                size="large"
+                color="inherit"
+                sx={{ textTransform:"none" }}
+            >
+                <Typography fontSize="18pt" component="div">
+                    EasyVPN
+                </Typography>
+            </Button>
+            <Box sx={{ flexGrow: 1 }}>
+                {Is(Role.Administrator) && <>
+                <IconButton 
                     size="large"
                     color="inherit"
+                    onClick={e => setAnchorAdmin(e.currentTarget)}
                 >
-                    Administrate
-                </Button>
-                <Button
-                    size="large"
-                    color="inherit"
+                    <AdminPanelSettings/>
+                </IconButton>
+                <PopUpMenu 
+                    anchorEl={anchorAdmin}
+                    onClose={() => setAnchorAdmin(null)}
                 >
-                    Support Tickets
-                </Button>
+                    <MenuItem>
+                        Users
+                    </MenuItem>
+                    <MenuItem>
+                        Connections
+                    </MenuItem>
+                    <MenuItem>
+                        Servers
+                    </MenuItem>
+                </PopUpMenu>
                 </>}
-                {Auth.roles.includes(Role.PaymentReviewer) && 
+                {(Is(Role.PaymentReviewer) || Is(Role.Administrator)) && <>
+                <IconButton
+                    size="large"
+                    color="inherit"
+                    onClick={e => setAnchorTickets(e.currentTarget)}
+                >
+                    <SupportAgent/>
+                </IconButton>
+                <PopUpMenu 
+                    anchorEl={anchorTickets}
+                    onClose={() => setAnchorTickets(null)}
+                >
+                    {Is(Role.PaymentReviewer) && 
+                    <MenuItem>
+                        Connection Tickets
+                    </MenuItem>}
+                    {Is(Role.Administrator) && 
+                    <MenuItem>
+                        Support Tickets
+                    </MenuItem>}
+                </PopUpMenu>
+                </>}
+                {Auth.roles.includes(Role.Client) &&
                 <Button
                     size="large"
                     color="inherit"
+                    startIcon={<VpnKey/>}
                 >
-                    Connection Tickets
-                </Button>
-                }
-                {Auth.roles.includes(Role.Client) && 
-                <Button
-                    size="large"
-                    color="inherit"
-                >
-                    My Connections
+                    Connections
                 </Button>
                 }
             </Box>
@@ -72,6 +106,7 @@ const Header: FC = () => {
             }
         </Toolbar>
     </AppBar>
+    <Toolbar/>
 </Box>
     );
 }

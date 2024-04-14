@@ -9,6 +9,8 @@ const AuthPage: FC = () => {
             <Header/>
             <LoginForm/>
             <RegisterForm/>
+            <RegisterForm/>
+            <RegisterForm/>
         </>
      );
 }
