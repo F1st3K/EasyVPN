@@ -3,10 +3,13 @@ import { FC } from "react";
 
 const Footer: FC = () => {
     return ( 
-<Paper sx={{marginTop: 'calc(10% + 60px)',
+<Paper sx={{
         width: '100%',
         position: 'static',
         bottom: 0,
+        borderBottom: 'none',
+        borderLeft: 'none',
+        borderRight: 'none',
     }} component={"footer"} square variant="outlined">
     
     <Container sx={{ p: 4 }} maxWidth="sm">

@@ -2,11 +2,11 @@ import { FC, useContext, useState } from "react";
 import { Context } from "../..";
 import { observer } from "mobx-react-lite";
 import TextField from "@mui/material/TextField";
-import SecretFilledField from "../../components/SecretFilledField";
 import "./style.css"
 import { Alert, Box } from "@mui/material";
 import { ApiError } from "../../api";
 import LoadingButton from "@mui/lab/LoadingButton";
+import SecretOutlinedField from "../../components/SecretOutlinedField"
  
 const LoginForm: FC = () => {
     const { Auth } = useContext(Context)
@@ -26,18 +26,18 @@ const LoginForm: FC = () => {
 
     return (  
 <Box className="login-form">
-    <TextField sx={{width: "25ch"}}
+    <TextField sx={{width: "25ch", my:1 }}
         label="Login" 
-        variant="filled"
+        variant="outlined"
         onChange={e => setLogin(e.target.value)}
         value={login}
     />
-    <SecretFilledField sx={{width: "25ch"}}
+    <SecretOutlinedField sx={{width: "25ch", my:1 }}
         label="Password"
         onChange={e => setPassword(e.target.value)}
         value={password}
     />
-    <LoadingButton 
+    <LoadingButton sx={{ my:1 }}
         variant="contained" 
         size="large"
         onClick={loginHandler}

@@ -1,25 +1,22 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { FilledInput, FilledInputProps, SxProps } from "@mui/material";
-import FormControl from "@mui/material/FormControl";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import InputLabel from "@mui/material/InputLabel";
+import { Label, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Box, FilledInputProps, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Paper, SxProps, Typography } from "@mui/material";
 import { FC, useState } from "react";
 
-interface SecretFieldProps extends FilledInputProps {
+interface SecretOutlinedProps extends FilledInputProps {
     label?: string
     sx?: SxProps
     error?: boolean
 }
  
-const SecretOutlinedField: FC<SecretFieldProps> = ({label, sx, error, ...props}: SecretFieldProps) => {
+const SecretOutlinedField: FC<SecretOutlinedProps> = ({label, sx, error, ...props}: SecretOutlinedProps) => {
     const [show, setShow] = useState(false)
 
     return ( 
-<FormControl variant="filled" sx={sx} error={error}>
-    <InputLabel>{label}</InputLabel>
-    <FilledInput
+<FormControl variant="outlined" sx={sx} error={error}>
+    <InputLabel sx={{background:""}} variant="outlined">{label}</InputLabel>
+    <OutlinedInput
     {...props}
+    label={label}
     type={show ? 'text' : 'password'}
     endAdornment={
         <InputAdornment position="end" >
