@@ -7,6 +7,9 @@ const Footer: FC = () => {
         width: '100%',
         position: 'static',
         bottom: 0,
+        borderBottom: 'none',
+        borderLeft: 'none',
+        borderRight: 'none',
     }} component={"footer"} square variant="outlined">
     
     <Container sx={{ p: 4 }} maxWidth="sm">

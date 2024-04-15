@@ -67,7 +67,7 @@ const RegisterForm: FC = () => {
         Sign Up
     </LoadingButton>
     {error? 
-        <Alert severity="error" sx={{width: "25ch", height:"30pt"}}>
+        <Alert severity="error" sx={{width: "25ch"}}>
             {error.response?.data.title ?? error.message}
         </Alert>
     :null}

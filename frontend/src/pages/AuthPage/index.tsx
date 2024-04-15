@@ -16,12 +16,13 @@ const AuthPage: FC = (props: AuthPageProps) => {
     return ( 
         <>
             <Header/>
-            <Container component="main" maxWidth="xs" sx={{ display:"flex", width:"100vw", height:"77vh", justifyContent:"center", alignItems: "center" }}>
+            <Container component="main" maxWidth="xs" sx={{ display:"flex", justifyContent:"center", alignItems: "center" }}>
                 <Box
                     sx={{
                     boxShadow: 3,
                     borderRadius: 2,
-                    py: 2,
+                    marginTop:"8vh",
+                    marginBottom:"8vh",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
