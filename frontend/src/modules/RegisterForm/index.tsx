@@ -3,7 +3,7 @@ import { Context } from "../..";
 import { observer } from "mobx-react-lite";
 import { LoadingButton } from "@mui/lab";
 import { Box, TextField, Alert } from "@mui/material";
-import SecretFilledField from "../../components/SecretFilledField";
+import SecretOutlinedField from "../../components/SecretOutlinedField";
 import { ApiError } from "../../api";
 import "./style.css"
  
@@ -28,36 +28,36 @@ const RegisterForm: FC = () => {
     return (  
        
 <Box className="register-form">
-    <TextField sx={{width: "25ch"}}
+    <TextField sx={{width: "25ch" }}
         label="First name" 
-        variant="filled"
+        variant="outlined"
         onChange={e => setFirstName(e.target.value)}
         value={firstName}
     />
-    <TextField sx={{width: "25ch"}}
+    <TextField sx={{width: "25ch", my:1 }}
         label="Last name" 
-        variant="filled"
+        variant="outlined"
         onChange={e => setLastName(e.target.value)}
         value={lastName}
     />
-    <TextField sx={{width: "25ch"}}
+    <TextField sx={{width: "25ch" }}
         label="Login" 
-        variant="filled"
+        variant="outlined"
         onChange={e => setLogin(e.target.value)}
         value={login}
     />
-    <SecretFilledField sx={{width: "25ch"}}
+    <SecretOutlinedField sx={{width: "25ch", my:1 }}
         label="Password"
         onChange={e => setPassword(e.target.value)}
         value={password}
     />
-    <SecretFilledField sx={{width: "25ch"}}
+    <SecretOutlinedField sx={{width: "25ch" }}
         error={remPassword !== password}
-        label="Remember password"
+        label="Repit password"
         onChange={e => setRemPassword(e.target.value)}
         value={remPassword}
     />
-    <LoadingButton
+    <LoadingButton sx={{ my:1 }}
         disabled={remPassword !== password}
         variant="contained" 
         size="large"
@@ -67,7 +67,7 @@ const RegisterForm: FC = () => {
         Sign Up
     </LoadingButton>
     {error? 
-        <Alert severity="error" sx={{width: "25ch"}}>
+        <Alert severity="error" sx={{width: "25ch", height:"30pt"}}>
             {error.response?.data.title ?? error.message}
         </Alert>
     :null}

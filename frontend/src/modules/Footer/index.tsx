@@ -3,7 +3,7 @@ import { FC } from "react";
 
 const Footer: FC = () => {
     return ( 
-<Paper sx={{marginTop: 'calc(10% + 60px)',
+<Paper sx={{
         width: '100%',
         position: 'static',
         bottom: 0,
