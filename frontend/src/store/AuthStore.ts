@@ -12,19 +12,21 @@ export default class AuthStore {
     }
 
     async register(info: Register) {
-        var auth = (await EasyVpn.auth.register(info)).data;
+        var auth = await EasyVpn.auth.register(info)
+            .then(r => r.data);
         localStorage.setItem(this.tokenName, auth.token);
         this.setAuth(auth);
     }
 
     async login(username: string, password: string) {
-        var auth = (await EasyVpn.auth.login(username, password)).data;
+        var auth = await EasyVpn.auth.login(username, password)
+            .then(r => r.data);
         localStorage.setItem(this.tokenName, auth.token);
         this.setAuth(auth);
     }
 
     async logout() {
-        localStorage.removeItem(this.tokenName)
+        localStorage.removeItem(this.tokenName);
         this.resetAuth();
     }
 
@@ -34,9 +36,11 @@ export default class AuthStore {
         var token = localStorage.getItem(this.tokenName);
         if (token === null)
             return;
-
-        var auth = (await EasyVpn.auth.check(token)).data;
         
+        var auth = await EasyVpn.auth.check(token)
+            .then(r => r.data);
+
+        localStorage.setItem(this.tokenName, auth.token);
         this.setAuth(auth);
     }
 
