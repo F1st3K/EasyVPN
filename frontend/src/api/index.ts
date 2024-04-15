@@ -35,10 +35,14 @@ export default EasyVpn
 export type {
     ApiError,
     Auth,
-    Role,
     User
 }
 
+
 export type {
     Register
+}
+
+export {
+    Role
 }
