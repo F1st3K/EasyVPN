@@ -8,6 +8,7 @@ import { HttpStatusCode } from "axios";
 import { LinearProgress } from "@mui/material";
 import "./App.css"
 import Header from "./modules/Header";
+import Footer from "./modules/Footer";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Header/>
             Привет человек {store.Auth.user.firstName} {store.Auth.roles[0]}
             <button onClick={() => store.Auth.logout()}>Выйти</button>
+            <Footer/>
         </>
     );
 }
