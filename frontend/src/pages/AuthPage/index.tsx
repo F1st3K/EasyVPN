@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import LoginForm from "../../modules/LoginForm";
 import RegisterForm from "../../modules/RegisterForm";
 import { Paper, Tab, Tabs } from "@mui/material";
@@ -13,10 +13,8 @@ type AuthPageProps = {
 
 const AuthPage: FC<AuthPageProps> = (props: AuthPageProps) => {
     const navigate = useNavigate();
-    const [tab, setTab] = useState<AuthPageTabs>(props.tab ?? "login");
     
     const handleChangeTab = (_: any, newValue: any) => {
-        setTab(newValue);
         navigate(`/auth/${newValue}`);
     };
 
@@ -31,8 +29,8 @@ const AuthPage: FC<AuthPageProps> = (props: AuthPageProps) => {
         alignItems: "center",
         }}
     >
-        <TabContext value={tab}>
-            <Tabs onChange={handleChangeTab} value={tab} aria-label="basic tabs example">
+        <TabContext value={props.tab ?? "login"}>
+            <Tabs onChange={handleChangeTab} value={props.tab ?? "login"} aria-label="basic tabs example">
                 <Tab label="Sign In" value={"login"} />
                 <Tab label="Sign Up" value={"register"} />
             </Tabs>

@@ -14,7 +14,7 @@ const Footer: FC = () => {
     
     <Container sx={{ p: 4 }} maxWidth="sm">
         <Typography variant="body2" color="text.secondary" align="center">
-            {"Made by "}
+            {"Made by · "}
             <Link href="https://github.com/F1st3K" color="text.secondary" underline="hover">
                 Nikita Kostin
             </Link>{" · "}

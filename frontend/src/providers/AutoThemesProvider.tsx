@@ -1,4 +1,4 @@
-import { useMediaQuery, createTheme, ThemeProvider } from "@mui/material";
+import { useMediaQuery, createTheme, ThemeProvider, CssBaseline } from "@mui/material";
 import { blue, lightBlue } from "@mui/material/colors";
 import { FC, useMemo } from "react";
 
@@ -19,6 +19,7 @@ const AutoThemeProvider: FC<AutoThemeProviderProps> = (props: AutoThemeProviderP
 
     return (
         <ThemeProvider theme={theme}>
+            <CssBaseline/>
             {props.children}
         </ThemeProvider>
         );

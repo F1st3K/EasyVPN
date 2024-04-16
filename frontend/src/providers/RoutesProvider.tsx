@@ -9,33 +9,33 @@ import { Context } from "..";
 import { observer } from "mobx-react-lite";
 import { Role } from "../api";
 
-interface OnProps {
-    children?: ReactElement
+interface ForProps {
+    for: ReactElement
 }
 
-interface OnAuthProps extends OnProps {
-    role?: Role
+interface ForWithProps<T> extends ForProps {
+    with?: T
 }
 
-const OnUnauth: FC<OnProps> = observer((props: OnProps) => {
+const Unauth: FC<ForProps> = observer((props: ForProps) => {
     const { Auth } = useContext(Context);
     
     if (Auth.isAuth)
         return (<Navigate to={"/"}/>);
     
-    return (<>{props.children}</>)
+    return (<>{props.for}</>)
 });
 
-const OnAuth: FC<OnAuthProps> = observer((props: OnAuthProps) => {
+const Auth: FC<ForWithProps<Role>> = observer((props: ForWithProps<Role>) => {
     const { Auth } = useContext(Context);
     
     if (Auth.isAuth === false)
         return (<Navigate to={"/auth/login"}/>);
 
-    if (props.role && Auth.roles.includes(props.role) === false)
+    if (props.with && Auth.roles.includes(props.with) === false)
         return (<NotFoundPage/>);
     
-    return (<>{props.children}</>)
+    return (<>{props.for}</>)
 });
  
 const RoutesProvider: FC = () => {
@@ -46,15 +46,12 @@ const RoutesProvider: FC = () => {
             <Route path="auth/">
                 <Route index element={<Navigate to={"login"}/>}/>
                 <Route path="login" element={
-                    <OnUnauth><AuthPage tab="login"/></OnUnauth>
-                }/>
+                    <Unauth for={<AuthPage tab="login"/>}/>}/>
                 <Route path="register" element={
-                    <OnUnauth><AuthPage tab="register"/></OnUnauth>
-                }/>
+                    <Unauth for={<AuthPage tab="register"/>}/>}/>
             </Route>
             <Route path="profile" element={
-                <OnAuth><ProfilePage/></OnAuth>
-            }/>
+                <Auth for={<ProfilePage/>}/>}/>
             <Route path="*" element={<NotFoundPage/>}/>
         </Route>
     </Routes>

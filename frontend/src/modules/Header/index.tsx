@@ -16,7 +16,7 @@ const Header: FC = () => {
     const [anchorAdmin, setAnchorAdmin] = useState<null | HTMLElement>(null);
 
     return ( 
-<Box sx={{ flexGrow: 1 }}>
+<Box sx={{ flexGrow: 1, marginBottom:"10ch" }} >
     <AppBar>
         <Toolbar>
             <Button onClick={() => navigate("/")}
@@ -109,7 +109,6 @@ const Header: FC = () => {
             }
         </Toolbar>
     </AppBar>
-    <Toolbar/>
 </Box>
     );
 }
