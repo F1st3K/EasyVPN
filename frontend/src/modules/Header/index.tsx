@@ -5,9 +5,11 @@ import { Context } from "../..";
 import { AccountCircle, AdminPanelSettings, SupportAgent, VpnKey } from "@mui/icons-material";
 import { Role } from "../../api";
 import PopUpMenu from "../../components/PopUpMenu";
+import { useNavigate } from "react-router-dom";
  
 const Header: FC = () => {
     const { Auth } = useContext(Context);
+    const navigate = useNavigate();
     const Is = (role: Role) => Auth.roles.includes(role);
 
     const [anchorTickets, setAnchorTickets] = useState<null | HTMLElement>(null);
@@ -17,7 +19,7 @@ const Header: FC = () => {
 <Box sx={{ flexGrow: 1 }}>
     <AppBar>
         <Toolbar>
-            <Button
+            <Button onClick={() => navigate("/")}
                 size="large"
                 color="inherit"
                 sx={{ textTransform:"none" }}
@@ -90,7 +92,8 @@ const Header: FC = () => {
                 sx={{ textTransform:"none"}}
                 endIcon={<AccountCircle/>}
             >
-                <Box sx={{ flexDirection:"column", textAlign:"right" }}>
+                <Box onClick={() => navigate("/profile")}
+                    sx={{ flexDirection:"column", textAlign:"right" }}>
                     <Typography fontSize="14pt">
                         {Auth.user.firstName} {Auth.user.lastName}
                     </Typography >
@@ -100,7 +103,7 @@ const Header: FC = () => {
                 </Box>
             </Button>
             :   
-            <Button color="inherit">
+            <Button onClick={() => navigate("/auth/login")} color="inherit">
                 Sign In
             </Button>
             }
