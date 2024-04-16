@@ -9,30 +9,28 @@ import { LinearProgress } from "@mui/material";
 import "./App.css"
 import Header from "./modules/Header";
 import Footer from "./modules/Footer";
+import RoutesProvider from "./providers/RoutesProvider";
 
 
 function App() {
-    const store = useContext(Context)
-    const [_, loading, error] = useRequest<void, ApiError>(
-        () => store.Auth.checkAuth());
+    // const store = useContext(Context)
+    // const [_, loading, error] = useRequest<void, ApiError>(
+    //     () => store.Auth.checkAuth());
 
-    if (loading)
-        return (<LinearProgress />);
+    // if (loading)
+    //     return (<LinearProgress />);
     
-    if (error?.response?.data.status === HttpStatusCode.Unauthorized)
-        store.Auth.logout();
+    // if (error?.response?.data.status === HttpStatusCode.Unauthorized)
+    //     store.Auth.logout();
 
-    if (store.Auth.isAuth === false)
-        return (<AuthPage/>);
+    // if (store.Auth.isAuth === false)
+    //     return (<AuthPage/>);
 
     return (
-        <>
-            <Header/>
-            Привет человек {store.Auth.user.firstName} {store.Auth.roles[0]}
-            <button onClick={() => store.Auth.logout()}>Выйти</button>
-            <Footer/>
-        </>
+    <>
+        <RoutesProvider/>
+    </>
     );
 }
 
-export default observer(App);
+export default App;
