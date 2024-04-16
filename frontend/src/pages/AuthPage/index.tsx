@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import LoginForm from "../../modules/LoginForm";
 import RegisterForm from "../../modules/RegisterForm";
-import { Box, Tab, Tabs } from "@mui/material";
+import { Paper, Tab, Tabs } from "@mui/material";
 import { TabContext, TabPanel } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
  
@@ -21,9 +21,8 @@ const AuthPage: FC<AuthPageProps> = (props: AuthPageProps) => {
     };
 
     return ( 
-    <Box
+    <Paper elevation={3}
         sx={{
-        boxShadow: 3,
         borderRadius: 2,
         marginTop:"8vh",
         marginBottom:"8vh",
@@ -45,7 +44,7 @@ const AuthPage: FC<AuthPageProps> = (props: AuthPageProps) => {
             </TabPanel>
         </TabContext>
         
-    </Box>
+    </Paper>
      );
 }
  

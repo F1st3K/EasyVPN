@@ -21,9 +21,6 @@ const AuthProvider: FC<AuthProviderProps> = (props: AuthProviderProps) => {
     if (error?.response?.data.status === HttpStatusCode.Unauthorized)
         store.Auth.logout();
 
-    if (store.Auth.isAuth)
-        return ( <>{props.children}</> );
-
     return ( <>{props.children}</> );
 }
  
