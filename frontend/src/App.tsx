@@ -10,6 +10,7 @@ import "./App.css"
 import Header from "./modules/Header";
 import Footer from "./modules/Footer";
 import RoutesProvider from "./providers/RoutesProvider";
+import AuthProvider from "./providers/AuthProvider";
 
 
 function App() {
@@ -28,7 +29,9 @@ function App() {
 
     return (
     <>
-        <RoutesProvider/>
+        <AuthProvider>
+            <RoutesProvider/>
+        </AuthProvider>
     </>
     );
 }

@@ -14,10 +14,10 @@ const store = {
 export const Context = createContext<Store>(store)
 
 root.render(
-    <BrowserRouter>
-        <Context.Provider value={store}>
+    <Context.Provider value={store}>
+        <BrowserRouter>
             <App />
-        </Context.Provider>
-    </BrowserRouter>
+        </BrowserRouter>
+    </Context.Provider>
 );
 
