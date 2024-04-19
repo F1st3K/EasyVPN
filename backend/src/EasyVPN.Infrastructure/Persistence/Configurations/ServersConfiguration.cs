@@ -13,13 +13,14 @@ public class ServersConfiguration : IEntityTypeConfiguration<Server>
 
         builder.HasKey(s => s.Id);
         
-        builder.Property(s => s.Type)
+        builder.Property(s => s.Version)
             .HasConversion(
-                vtype => vtype.ToString(), 
-                s => Enum.Parse<VpnType>(s))
+                v => v.ToString(), 
+                s => Enum.Parse<VpnVersion>(s))
             .HasMaxLength(32);
         
         builder.Property(s => s.ConnectionString)
             .HasMaxLength(200);
+
     }
 }

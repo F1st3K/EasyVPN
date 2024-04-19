@@ -11,4 +11,5 @@ public class ConnectionTicket
     public DateTime CreationTime { get; set; }
     public int Days { get; set; }
     public string PaymentDescription { get; set; } = null!;
+    public IEnumerable<string> Images { get; set; } = null!;
 }

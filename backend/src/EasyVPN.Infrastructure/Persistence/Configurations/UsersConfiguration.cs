@@ -20,23 +20,6 @@ public class UsersConfiguration : IEntityTypeConfiguration<User>
                 str => 
                     str.Split(";", StringSplitOptions.None)
                         .Select(Enum.Parse<RoleType>));
-        
-        /*builder.OwnsMany(u => u.Roles, dib =>
-        {
-            dib.ToTable("UserRoles");
-
-            dib.WithOwner().HasForeignKey("UserId");
-
-            dib.HasKey("Id");
-
-            dib.Property(r => r.Value)
-                .HasColumnName("Role")
-                .HasConversion(
-                    role => role.ToString(),
-                    s => Enum.Parse<RoleType>(s))
-                .HasMaxLength(32);
-
-        });*/
 
         builder.Property(u => u.FirstName)
             .HasMaxLength(50);
