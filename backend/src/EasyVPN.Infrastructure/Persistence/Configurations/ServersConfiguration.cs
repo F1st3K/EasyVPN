@@ -15,11 +15,12 @@ public class ServersConfiguration : IEntityTypeConfiguration<Server>
         
         builder.Property(s => s.Version)
             .HasConversion(
-                vtype => vtype.ToString(), 
+                v => v.ToString(), 
                 s => Enum.Parse<VpnVersion>(s))
             .HasMaxLength(32);
         
         builder.Property(s => s.ConnectionString)
             .HasMaxLength(200);
+
     }
 }

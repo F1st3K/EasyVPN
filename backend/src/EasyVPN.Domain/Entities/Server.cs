@@ -1,4 +1,3 @@
-using System.Net;
 using EasyVPN.Domain.Common.Enums;
 
 namespace EasyVPN.Domain.Entities;

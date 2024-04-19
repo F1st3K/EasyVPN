@@ -7,6 +7,7 @@ public class EasyVpnDbContext : DbContext
 {
     public DbSet<User> Users { get; private set; } = null!;
     public DbSet<Server> Servers { get; private set; } = null!;
+    public DbSet<Protocol> Protocols { get; private set; } = null!;
     public DbSet<Connection> Connections { get; private set; } = null!;
     public DbSet<ConnectionTicket> ConnectionTickets { get; private set; } = null!;
 
