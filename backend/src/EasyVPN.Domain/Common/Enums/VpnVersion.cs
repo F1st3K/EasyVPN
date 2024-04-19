@@ -1,6 +1,6 @@
 namespace EasyVPN.Domain.Common.Enums;
 
-public enum VpnType
+public enum VpnVersion
 {
-    WireGuard
+    HttpV1
 }

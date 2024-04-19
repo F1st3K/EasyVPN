@@ -2,6 +2,7 @@ using EasyVPN.Api.Common;
 using EasyVPN.Application.Authentication.Commands.Register;
 using EasyVPN.Application.Authentication.Common;
 using EasyVPN.Application.Authentication.Queries.Login;
+using EasyVPN.Application.Servers.Queries.GetServer;
 using EasyVPN.Application.Users.Queries.GetUser;
 using EasyVPN.Contracts.Authentication;
 using MediatR;
@@ -38,7 +39,7 @@ public class AuthenticationController : ApiController
     {
         var query = new LoginQuery(request.Login, request.Password);
         var authResult = await _sender.Send(query);
-        
+
         return authResult.Match(
             result => Ok(MapAuthResult(result)),
             errors => Problem(errors));

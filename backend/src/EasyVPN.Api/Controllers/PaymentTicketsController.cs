@@ -41,7 +41,7 @@ public class PaymentTicketsController : ApiController
     }
     
     [HttpPut("{connectionTicketId:guid}/confirm")]
-    public async Task<IActionResult> Confirm([FromRoute] Guid connectionTicketId)
+    public async Task<IActionResult> Confirm([FromRoute] Guid connectionTicketId, [FromQuery] int? days)
     {
         var confirmTicketResult =
             await _sender.Send(new ConfirmConnectionTicketCommand(connectionTicketId));
@@ -55,7 +55,7 @@ public class PaymentTicketsController : ApiController
         
         var confirmResult = 
             await _sender.Send(new AddLifetimeConnectionCommand(
-                ticketResult.Value.ConnectionId, ticketResult.Value.Days));
+                ticketResult.Value.ConnectionId, days ?? ticketResult.Value.Days));
         
         return confirmResult.Match(
             _ => Ok(), 

@@ -1,4 +1,5 @@
 using EasyVPN.Application.Common.Interfaces.Expire;
+using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Domain.Entities;
 using EasyVPN.Infrastructure.Persistence;

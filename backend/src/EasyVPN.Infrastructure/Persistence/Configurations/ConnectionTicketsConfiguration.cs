@@ -28,5 +28,12 @@ public class ConnectionTicketsConfiguration : IEntityTypeConfiguration<Connectio
             .HasMaxLength(28);
         builder.Property(с => с.Days);
         builder.Property(ct => ct.PaymentDescription);
+        
+        builder.Property(ct => ct.Images).
+            HasConversion(image =>
+                    string.Join(';', image
+                        .Select(i => i.ToString())),
+                str => 
+                    str.Split(";", StringSplitOptions.None));
     }
 }
