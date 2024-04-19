@@ -8,11 +8,11 @@ public class VpnServiceFactory : IVpnServiceFactory
 {
     public IVpnService? GetVpnService(Server server)
     {
-        return server.Type switch
+        return server.Version switch
         {
-            VpnType.WireGuard => WireGuardService.GetService(server.ConnectionString),
+            VpnVersion.HttpV1 => HttpV1.GetService(server.ConnectionString),
             _ => throw new NotSupportedException(
-                $"Unsupported {nameof(VpnType)}: {server.Type.ToString()}")
+                $"Unsupported {nameof(VpnVersion)}: {server.Version.ToString()}")
         };
     }
 }

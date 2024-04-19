@@ -4,26 +4,33 @@ using EasyVPN.Application.Common.Interfaces.Vpn;
 
 namespace EasyVPN.Infrastructure.Vpn;
 
-public class WireGuardService : IVpnService
+public class HttpV1 : IVpnService
 {
-    public static WireGuardService? GetService(string connectionString)
+    public static HttpV1? GetService(string connectionString)
     {
-        var (uri, auth) = connectionString.ParseConnectionString();
-        
-        var client = new HttpClient(){ BaseAddress = new Uri(uri)};
-        var basicAuth = new AuthenticationHeaderValue("Basic",
-            Convert.ToBase64String(Encoding.UTF8.GetBytes(auth)));
-        
-        var request = new HttpRequestMessage(HttpMethod.Get, "/");
-        request.Headers.Authorization = basicAuth;
-        var test = client.Send(request);
-        return test.IsSuccessStatusCode ? new WireGuardService(client, basicAuth) : null;
+        try
+        {
+            var (uri, auth) = connectionString.ParseConnectionString();
+            
+            var client = new HttpClient(){ BaseAddress = new Uri(uri)};
+            var basicAuth = new AuthenticationHeaderValue("Basic",
+                Convert.ToBase64String(Encoding.UTF8.GetBytes(auth)));
+            
+            var request = new HttpRequestMessage(HttpMethod.Get, "/");
+            request.Headers.Authorization = basicAuth;
+            var test = client.Send(request);
+            return test.IsSuccessStatusCode ? new HttpV1(client, basicAuth) : null;
+        }
+        catch (Exception)
+        {
+            return null;
+        }
     }
 
     private readonly HttpClient _client;
     private readonly AuthenticationHeaderValue _auth;
 
-    private WireGuardService(HttpClient client, AuthenticationHeaderValue auth)
+    private HttpV1(HttpClient client, AuthenticationHeaderValue auth)
     {
         _client = client;
         _auth = auth;
