@@ -9,7 +9,8 @@ public class GetConnectionsQueryHandler : IRequestHandler<GetConnectionsQuery, E
 {
     private readonly IConnectionRepository _connectionRepository;
 
-    public GetConnectionsQueryHandler(IConnectionRepository connectionRepository)
+    public GetConnectionsQueryHandler(
+        IConnectionRepository connectionRepository)
     {
         _connectionRepository = connectionRepository;
     }

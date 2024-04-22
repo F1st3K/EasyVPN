@@ -35,8 +35,7 @@ public class MyConnectionsController : ApiController
         
         return getConnectionsResult.Match(
             result => Ok(
-                result.Select(c => new ConnectionResponse(
-                    c.Id, c.ClientId, c.ServerId, c.ExpirationTime))),
+                result.Select(c => new ConnectionResponse(c.Id, c.ClientId, c.ServerId, c.ExpirationTime))),
             errors => Problem(errors));
     }
     
