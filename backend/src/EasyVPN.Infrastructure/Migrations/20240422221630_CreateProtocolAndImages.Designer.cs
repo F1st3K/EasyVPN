@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EasyVPN.Infrastructure.Migrations
 {
     [DbContext(typeof(EasyVpnDbContext))]
-    [Migration("20240419120940_CreateProtocolAndImages")]
+    [Migration("20240422221630_CreateProtocolAndImages")]
     partial class CreateProtocolAndImages
     {
         /// <inheritdoc />
@@ -128,6 +128,9 @@ namespace EasyVPN.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProtocolId")
+                        .IsUnique();
+
                     b.ToTable("Servers", (string)null);
                 });
 
@@ -165,6 +168,17 @@ namespace EasyVPN.Infrastructure.Migrations
                     b.HasIndex("Login");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("EasyVPN.Domain.Entities.Server", b =>
+                {
+                    b.HasOne("EasyVPN.Domain.Entities.Protocol", "Protocol")
+                        .WithOne()
+                        .HasForeignKey("EasyVPN.Domain.Entities.Server", "ProtocolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Protocol");
                 });
 #pragma warning restore 612, 618
         }

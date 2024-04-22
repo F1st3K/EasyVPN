@@ -22,6 +22,16 @@ public class AuthenticationController : ApiController
         _sender = sender;
     }
 
+    [HttpGet("server/{id:guid}")]
+    public async Task<IActionResult> GetServer([FromRoute] Guid id)
+    {
+        var server = await _sender.Send(new GetServerQuery(id));
+
+        return server.Match(
+            r => Ok(r),
+            e => Problem(e));
+    }
+
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {

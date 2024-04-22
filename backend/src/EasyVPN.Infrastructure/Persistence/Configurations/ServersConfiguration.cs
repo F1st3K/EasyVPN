@@ -1,4 +1,5 @@
 using EasyVPN.Domain.Common.Enums;
+using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -18,6 +19,12 @@ public class ServersConfiguration : IEntityTypeConfiguration<Server>
                 v => v.ToString(), 
                 s => Enum.Parse<VpnVersion>(s))
             .HasMaxLength(32);
+
+        
+        builder
+            .HasOne(s => s.Protocol)
+            .WithOne()
+            .HasForeignKey<Server>("ProtocolId");
         
         builder.Property(s => s.ConnectionString)
             .HasMaxLength(200);

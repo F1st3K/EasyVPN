@@ -43,6 +43,7 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IServerRepository, ServerRepository>();
+        services.AddScoped<IProtocolRepository, ProtocolRepository>();
         services.AddScoped<IConnectionRepository, ConnectionRepository>();
         services.AddScoped<IConnectionTicketRepository, ConnectionTicketRepository>();
         services.AddScoped<IVpnServiceFactory, VpnServiceFactory>();
