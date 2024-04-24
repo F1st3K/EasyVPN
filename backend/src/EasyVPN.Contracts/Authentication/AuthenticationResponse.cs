@@ -1,3 +1,5 @@
+using EasyVPN.Contracts.Users;
+
 namespace EasyVPN.Contracts.Authentication;
 
 public record AuthenticationResponse(
@@ -7,4 +9,4 @@ public record AuthenticationResponse(
     string Login,
     string[] Roles,
     string Token
-    );
+    ) : UserResponse(Id, FirstName, LastName, Login, Roles);

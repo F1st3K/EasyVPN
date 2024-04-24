@@ -1,4 +1,3 @@
-@connectionId = 00000001-0000-0000-0000-000000000000
+@connectionId = 0d83108d-e9ed-4bc0-80c1-456146c982e0
 PUT {{host}}/connections/{{connectionId}}/reset
 Authorization: Bearer {{adminToken}}
-Content-Type: application/json

@@ -1,10 +1,13 @@
+using EasyVPN.Contracts.Users;
+
 namespace EasyVPN.Contracts.ConnectionTickets;
 
 public record ConnectionTicketResponse(
     Guid Id,
     Guid ConnectionId,
-    Guid ClientId,
+    UserResponse Client,
     string Status,
     DateTime CreationTime,
     int Days,
-    string PaymentDescription);
+    string PaymentDescription,
+    string[] Images);

@@ -10,11 +10,12 @@ public static class CreateConnectionTicketUtils
     public static CreateConnectionTicketCommand CreateCommand()
         => new (Constants.Connection.Id,
             Constants.ConnectionTicket.Days,
-            Constants.ConnectionTicket.Description);
+            Constants.ConnectionTicket.Description,
+            Constants.ConnectionTicket.Images);
 
     public static bool IsValid(this ConnectionTicket connectionTicket)
         => connectionTicket.ConnectionId == Constants.Connection.Id
-           && connectionTicket.ClientId == Constants.User.Id
+           && connectionTicket.Client.Id == Constants.User.Id
            && connectionTicket.Status == ConnectionTicketStatus.Pending
            && connectionTicket.CreationTime == Constants.Time.Now
            && connectionTicket.Days == Constants.ConnectionTicket.Days

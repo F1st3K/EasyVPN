@@ -18,6 +18,13 @@ public class ServersConfiguration : IEntityTypeConfiguration<Server>
                 v => v.ToString(), 
                 s => Enum.Parse<VpnVersion>(s))
             .HasMaxLength(32);
+
+        
+        builder
+            .HasOne(s => s.Protocol)
+            .WithMany()
+            .HasForeignKey("ProtocolId")
+            .IsRequired();
         
         builder.Property(s => s.ConnectionString)
             .HasMaxLength(200);

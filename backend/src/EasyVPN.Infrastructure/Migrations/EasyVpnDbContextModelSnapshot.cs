@@ -29,7 +29,6 @@ namespace EasyVPN.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ClientId")
-                        .HasMaxLength(32)
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("ExpirationTime")
@@ -37,10 +36,13 @@ namespace EasyVPN.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("ServerId")
-                        .HasMaxLength(32)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("ServerId");
 
                     b.ToTable("Connections", (string)null);
                 });
@@ -52,11 +54,9 @@ namespace EasyVPN.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ClientId")
-                        .HasMaxLength(32)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ConnectionId")
-                        .HasMaxLength(32)
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreationTime")
@@ -80,6 +80,10 @@ namespace EasyVPN.Infrastructure.Migrations
                         .HasColumnType("character varying(32)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("ConnectionId");
 
                     b.ToTable("ConnectionTickets", (string)null);
                 });
@@ -125,6 +129,8 @@ namespace EasyVPN.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProtocolId");
+
                     b.ToTable("Servers", (string)null);
                 });
 
@@ -162,6 +168,53 @@ namespace EasyVPN.Infrastructure.Migrations
                     b.HasIndex("Login");
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("EasyVPN.Domain.Entities.Connection", b =>
+                {
+                    b.HasOne("EasyVPN.Domain.Entities.User", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EasyVPN.Domain.Entities.Server", "Server")
+                        .WithMany()
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("EasyVPN.Domain.Entities.ConnectionTicket", b =>
+                {
+                    b.HasOne("EasyVPN.Domain.Entities.User", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EasyVPN.Domain.Entities.Connection", null)
+                        .WithMany()
+                        .HasForeignKey("ConnectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("EasyVPN.Domain.Entities.Server", b =>
+                {
+                    b.HasOne("EasyVPN.Domain.Entities.Protocol", "Protocol")
+                        .WithMany()
+                        .HasForeignKey("ProtocolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Protocol");
                 });
 #pragma warning restore 612, 618
         }

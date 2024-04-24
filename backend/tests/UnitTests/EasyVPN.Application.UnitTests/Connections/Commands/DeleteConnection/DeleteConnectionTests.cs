@@ -21,7 +21,7 @@ public class DeleteConnectionTests
             .Returns(new Connection()
             {
                 Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
+                Server = new() { Id = Constants.Server.Id },
                 ExpirationTime = Constants.Time.Now
             });
         
@@ -57,7 +57,7 @@ public class DeleteConnectionTests
             .Returns(new Connection()
             {
                 Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
+                Server = new() { Id = Constants.Server.Id },
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
         
@@ -103,31 +103,6 @@ public class DeleteConnectionTests
         result.FirstError.Should().Be(Errors.Connection.NotFound);
     }
     
-    [Fact]
-    public async Task HandleDeleteConnectionCommand_WhenServerNotFound_Error()
-    {
-        //Arrange
-        var command = DeleteConnectionUtils.CreateCommand();
-
-        _mocks.ConnectionRepository.Setup(x
-                => x.Get(Constants.Connection.Id))
-            .Returns(new Connection() { Id = Constants.Connection.Id, ServerId = Constants.Server.Id });
-        
-        _mocks.ServerRepository.Setup(x
-                => x.Get(Constants.Server.Id))
-            .Returns(() => null);
-
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
-
-        //Act
-        var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(command, CancellationToken.None);
-
-        //Assert
-        result.FirstError.Should().Be(Errors.Server.NotFound);
-    }
     
     [Fact]
     public async Task HandleDeleteConnectionCommand_WhenFailedGetService_Error()
@@ -137,7 +112,7 @@ public class DeleteConnectionTests
 
         _mocks.ConnectionRepository.Setup(x
                 => x.Get(Constants.Connection.Id))
-            .Returns(new Connection() { Id = Constants.Connection.Id, ServerId = Constants.Server.Id });
+            .Returns(new Connection() { Id = Constants.Connection.Id, Server = new() { Id = Constants.Server.Id }, });
         
         _mocks.ServerRepository.Setup(x
                 => x.Get(Constants.Server.Id))

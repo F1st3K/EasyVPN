@@ -11,6 +11,6 @@ public static class ResetLifetimeConnectionUtils
 
     public static bool IsValid(this Connection connection)
         => connection.Id == Constants.Connection.Id
-           && connection.ServerId == Constants.Server.Id
+           && connection.Server.Id == Constants.Server.Id
            && connection.ExpirationTime == Constants.Time.Now;
 }

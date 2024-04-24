@@ -22,12 +22,12 @@ public class ClientController : ApiController
 
     [HttpPost("{clientId:guid}/connections")]
     public async Task<IActionResult> CreateConnection(
-        CreateConnectionRequest request, [FromRoute] Guid clientId)
+        [FromQuery] Guid serverId, [FromRoute] Guid clientId)
     {
         var createConnectionResult = 
             await _sender.Send(new CreateConnectionCommand(
                 clientId,
-                request.ServerId));
+                serverId));
         
         return createConnectionResult.Match(
             _ => Ok(),
