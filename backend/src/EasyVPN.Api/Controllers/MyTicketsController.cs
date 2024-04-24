@@ -42,7 +42,8 @@ public class MyTicketsController : ApiController
                     c.Status.ToString(),
                     c.CreationTime,
                     c.Days,
-                    c.PaymentDescription))),
+                    c.PaymentDescription,
+                    c.Images.ToArray()))),
             errors => Problem(errors));
     }
 }

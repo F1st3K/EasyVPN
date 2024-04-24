@@ -102,14 +102,16 @@ Authorization: Bearer {{token}}
 ```
 ```http
 {
-  "id": "a125f63a-5919-4e91-ab80-625b75ef76c8",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cC...GuPiBb8xTszyr8V60WKzNlk",
+  "id": "7673b7c8-e583-4e28-aa6a-11e06822a48c",
   "firstName": "Freak",
-  "lastName": "Fister",
-  "login": "F1st3K",
+  "lastName": "God",
+  "login": "god",
   "roles": [
+    "Administrator",
+    "PaymentReviewer",
     "Client"
-  ],
-  "token": "eyJhbGciOiJ...DnzD4pvOcVo"
+  ]
 }
 ```
 ### VPN действия клиента:
@@ -123,7 +125,12 @@ Content-Type: application/json
 {
     "serverId": "00000000-0000-0000-0000-000000000000",
     "Days": 30,
-    "Description": "I am payment this"
+    "Description": "I am payment this",
+    "Images" : [
+      "image1",
+      "image2",
+      "image3"
+    ]
 }
 ```
 ##### Ответ
@@ -138,9 +145,14 @@ Authorization: Bearer {{clientToken}}
 Content-Type: application/json
 
 {
-    "connectionId": "00000000-0000-0000-0000-000000000000",
+    "connectionId": "00000001-0000-0000-0000-000000000000",
     "Days": 30,
-    "Description": "I am payment this"
+    "Description": "I am payment this",
+    "Images": [
+      "image1",
+      "image2",
+      "image3"
+    ]
 }
 ```
 ##### Ответ
@@ -170,16 +182,48 @@ Authorization: Bearer {{clientToken}}
 ```http
 [
   {
-    "id": "00000001-0000-0000-0000-000000000000",
-    "clientId": "00000001-0000-0000-0000-000000000000",
-    "serverId": "00000000-0000-0000-0000-000000000000",
-    "validUntil": "0001-01-01T00:00:00"
+    "id": "1b116808-90d7-4618-8ab9-cdeaa479f1de",
+    "client": {
+      "id": "b145847c-944b-469d-b07c-3c2555c5180f",
+      "firstName": "Freak",
+      "lastName": "Client",
+      "login": "client",
+      "roles": [
+        "Client"
+      ]
+    },
+    "server": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "protocolResponse": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "WireGuard",
+        "icon": "data:image/svg+xml;base64,PHN2ZyB4...MDQxLS4zNjkuMDQxIi8+PC9zdmc+"
+      },
+      "version": "HttpV1"
+    },
+    "validUntil": "2024-04-24T09:13:16.828142Z"
   },
   {
-    "id": "00000002-0000-0000-0000-000000000000",
-    "clientId": "00000001-0000-0000-0000-000000000000",
-    "serverId": "00000000-0000-0000-0000-000000000000",
-    "validUntil": "9999-12-31T23:59:59.9999999"
+    "id": "4dc25868-48fc-45c0-b469-4e4626fab087",
+    "client": {
+      "id": "b145847c-944b-469d-b07c-3c2555c5180f",
+      "firstName": "Freak",
+      "lastName": "Client",
+      "login": "client",
+      "roles": [
+        "Client"
+      ]
+    },
+    "server": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "protocolResponse": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "WireGuard",
+        "icon": "data:image/svg+xml;base64,PHN2ZyB4...MDQxLS4zNjkuMDQxIi8+PC9zdmc+"
+      },
+      "version": "HttpV1"
+    },
+    "validUntil": "2024-04-24T09:13:26.732671Z"
   }
 ]
 ```
@@ -196,22 +240,48 @@ Authorization: Bearer {{clientToken}}
 ```http
 [
   {
-    "id": "c0e8b84f-4314-41bb-ac31-70c46114495d",
-    "connectionId": "c21f18d2-2c52-4422-8e6d-5ce4d075337e",
-    "clientId": "00000001-0000-0000-0000-000000000000",
-    "status": "Pending",
-    "creationTime": "2024-03-19T14:20:21.7572023Z",
+    "id": "cb63d996-b46c-4403-bc3e-bd66ff2b827e",
+    "connectionId": "4dc25868-48fc-45c0-b469-4e4626fab087",
+    "client": {
+      "id": "b145847c-944b-469d-b07c-3c2555c5180f",
+      "firstName": "Freak",
+      "lastName": "Client",
+      "login": "client",
+      "roles": [
+        "Client"
+      ]
+    },
+    "status": "Rejected",
+    "creationTime": "2024-04-24T09:13:28.732586Z",
     "days": 30,
-    "paymentDescription": "I am payment this"
+    "paymentDescription": "I am payment this",
+    "images": [
+      "image1",
+      "image2",
+      "image3"
+    ]
   },
   {
-    "id": "0fb632e3-0bbd-411c-9da9-815e30579dc9",
-    "connectionId": "c2c96b40-1276-4209-b477-39e6b1e8eb3f",
-    "clientId": "00000001-0000-0000-0000-000000000000",
-    "status": "Pending",
-    "creationTime": "2024-03-19T14:20:22.2159667Z",
+    "id": "9529b5bf-28d4-48d8-93ec-192e88266ad5",
+    "connectionId": "0d83108d-e9ed-4bc0-80c1-456146c982e0",
+    "client": {
+      "id": "b145847c-944b-469d-b07c-3c2555c5180f",
+      "firstName": "Freak",
+      "lastName": "Client",
+      "login": "client",
+      "roles": [
+        "Client"
+      ]
+    },
+    "status": "Confirmed",
+    "creationTime": "2024-04-24T15:21:53.548129Z",
     "days": 30,
-    "paymentDescription": "I am payment this"
+    "paymentDescription": "I am payment this",
+    "images": [
+      "image1",
+      "image2",
+      "image3"
+    ]
   }
 ]
 ```
@@ -227,8 +297,8 @@ Authorization: Bearer {{clientToken}}
 ```
 ```http
 {
-  "clientId": "00000001-0000-0000-0000-000000000000",
-  "config": "password=qwertyi1234567"
+  "clientId": "b145847c-944b-469d-b07c-3c2555c5180f",
+  "config": "\n[Interface]\nPrivateKey = ABwSjmQW+D8zjJqpn4sQLmKWvBSGtFWWbmTtqp+MlV0=\nAddress = 10.0.0.36/32\nDNS = 1.1.1.1\n\n[Peer]\nPublicKey = eiHywAHmOLFrMvmfAU/tyrV4lpt9D7OQpp0QlVPsPy8=\n\nEndpoint = 89.191.226.158:51820\nAllowedIPs = 0.0.0.0/0\n"
 }
 ```
 
@@ -237,14 +307,8 @@ Authorization: Bearer {{clientToken}}
 
 #### Создание нового подключения
 ```http
-POST {{host}}/client/{{clientId}}/connections
+POST {{host}}/client/{{clientId}}/connections?serverId={{serverId}}
 Authorization: Bearer {{adminToken}}
-Content-Type: application/json
-
-{
-  "serverId": "00000000-0000-0000-0000-000000000000",
-  "CountDays": 30
-}
 ```
 ##### Ответ
 ```http
@@ -278,22 +342,50 @@ Authorization: Bearer {{adminToken}}
 ```http
 [
   {
-    "id": "00000001-0000-0000-0000-000000000000",
-    "clientId": "00000002-0000-0000-0000-000000000000",
-    "serverId": "00000000-0000-0000-0000-000000000000",
-    "validUntil": "0001-01-01T00:00:00"
+    "id": "35274436-5de6-4f03-b0bd-d8c64d9d6afc",
+    "client": {
+      "id": "7673b7c8-e583-4e28-aa6a-11e06822a48c",
+      "firstName": "Freak",
+      "lastName": "God",
+      "login": "god",
+      "roles": [
+        "Administrator",
+        "PaymentReviewer",
+        "Client"
+      ]
+    },
+    "server": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "protocolResponse": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "WireGuard",
+        "icon": "data:image/svg+xml;base64,PHN2ZyB4...MDQxLS4zNjkuMDQxIi8+PC9zdmc+"
+      },
+      "version": "HttpV1"
+    },
+    "validUntil": "2024-04-24T15:22:33.617239Z"
   },
   {
-    "id": "00000002-0000-0000-0000-000000000000",
-    "clientId": "00000001-0000-0000-0000-000000000000",
-    "serverId": "00000000-0000-0000-0000-000000000000",
-    "validUntil": "9999-12-31T23:59:59.9999999"
-  },
-  {
-    "id": "c21f18d2-2c52-4422-8e6d-5ce4d075337e",
-    "clientId": "00000001-0000-0000-0000-000000000000",
-    "serverId": "00000000-0000-0000-0000-000000000000",
-    "validUntil": "2024-03-19T14:20:21.7442087Z"
+    "id": "0d83108d-e9ed-4bc0-80c1-456146c982e0",
+    "client": {
+      "id": "b145847c-944b-469d-b07c-3c2555c5180f",
+      "firstName": "Freak",
+      "lastName": "Client",
+      "login": "client",
+      "roles": [
+        "Client"
+      ]
+    },
+    "server": {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "protocolResponse": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "WireGuard",
+        "icon": "data:image/svg+xml;base64,PHN2ZyB4...MDQxLS4zNjkuMDQxIi8+PC9zdmc+"
+      },
+      "version": "HttpV1"
+    },
+    "validUntil": "2024-04-24T15:26:00.380088Z"
   }
 ]
 ```
@@ -311,8 +403,8 @@ Authorization: Bearer {{adminToken}}
 ```
 ```http
 {
-  "clientId": "00000001-0000-0000-0000-000000000000",
-  "config": "password=qwertyi1234567"
+  "clientId": "b145847c-944b-469d-b07c-3c2555c5180f",
+  "config": "\n[Interface]\nPrivateKey = OLKznNRtkpu8zStcE0V+/LNXf0pOt8yF0V9nPoMZxEA=\nAddress = 10.0.0.39/32\nDNS = 1.1.1.1\n\n[Peer]\nPublicKey = eiHywAHmOLFrMvmfAU/tyrV4lpt9D7OQpp0QlVPsPy8=\n\nEndpoint = 89.191.226.158:51820\nAllowedIPs = 0.0.0.0/0\n"
 }
 ```
 
@@ -321,7 +413,7 @@ Authorization: Bearer {{adminToken}}
 
 #### Подтвердить платеж по заявке подключения
 ```http
-PUT {{host}}/payment/{{connectionId}}/confirm
+PUT {{host}}/payment/tickets/{{connectionTicketId}}/confirm
 Authorization: Bearer {{PaymentToken}}
 ```
 ##### Ответ
@@ -331,7 +423,7 @@ Authorization: Bearer {{PaymentToken}}
 
 #### Отклонить заявку оплаты на подключение
 ```http
-PUT {{host}}/payment/{{connectionId}}/reject
+PUT {{host}}/payment/tickets/{{connectionTicketId}}/reject
 Authorization: Bearer {{PaymentToken}}
 ```
 ##### Ответ
@@ -356,31 +448,50 @@ Authorization: Bearer {{PaymentToken}}
 ```http
 [
   {
-    "id": "c0e8b84f-4314-41bb-ac31-70c46114495d",
-    "connectionId": "c21f18d2-2c52-4422-8e6d-5ce4d075337e",
-    "clientId": "00000001-0000-0000-0000-000000000000",
-    "status": "Pending",
-    "creationTime": "2024-03-19T14:20:21.7572023Z",
+    "id": "29c8b492-883e-4eb0-a829-9788ad07fd4e",
+    "connectionId": "35274436-5de6-4f03-b0bd-d8c64d9d6afc",
+    "client": {
+      "id": "7673b7c8-e583-4e28-aa6a-11e06822a48c",
+      "firstName": "Freak",
+      "lastName": "God",
+      "login": "god",
+      "roles": [
+        "Administrator",
+        "PaymentReviewer",
+        "Client"
+      ]
+    },
+    "status": "Rejected",
+    "creationTime": "2024-04-24T15:22:33.978444Z",
     "days": 30,
-    "paymentDescription": "I am payment this"
+    "paymentDescription": "I am payment this",
+    "images": [
+      "image1",
+      "image2",
+      "image3"
+    ]
   },
   {
-    "id": "0fb632e3-0bbd-411c-9da9-815e30579dc9",
-    "connectionId": "c2c96b40-1276-4209-b477-39e6b1e8eb3f",
-    "clientId": "00000001-0000-0000-0000-000000000000",
-    "status": "Pending",
-    "creationTime": "2024-03-19T14:20:22.2159667Z",
+    "id": "9529b5bf-28d4-48d8-93ec-192e88266ad5",
+    "connectionId": "0d83108d-e9ed-4bc0-80c1-456146c982e0",
+    "client": {
+      "id": "b145847c-944b-469d-b07c-3c2555c5180f",
+      "firstName": "Freak",
+      "lastName": "Client",
+      "login": "client",
+      "roles": [
+        "Client"
+      ]
+    },
+    "status": "Confirmed",
+    "creationTime": "2024-04-24T15:21:53.548129Z",
     "days": 30,
-    "paymentDescription": "I am payment this"
-  },
-  {
-    "id": "f461d641-0ac0-49fe-b9e4-f6e44e2dd58e",
-    "connectionId": "b63e2180-3dff-4b28-be31-a127a233ad05",
-    "clientId": "a9ba4de4-de78-46e4-bcb4-e024a4128d7a",
-    "status": "Pending",
-    "creationTime": "2024-03-19T14:29:11.6537823Z",
-    "days": 30,
-    "paymentDescription": "I am payment this"
+    "paymentDescription": "I am payment this",
+    "images": [
+      "image1",
+      "image2",
+      "image3"
+    ]
   }
 ]
 ```
