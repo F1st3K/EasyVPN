@@ -6,6 +6,7 @@ using EasyVPN.Application.Connections.Queries.GetConfig;
 using EasyVPN.Application.Connections.Queries.GetConnection;
 using EasyVPN.Application.Connections.Queries.GetConnections;
 using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
+using EasyVPN.Contracts.Authentication;
 using EasyVPN.Contracts.Connections;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -35,7 +36,16 @@ public class MyConnectionsController : ApiController
         
         return getConnectionsResult.Match(
             result => Ok(
-                result.Select(c => new ConnectionResponse(c.Id, c.ClientId, c.ServerId, c.ExpirationTime))),
+                result.Select(c => new ConnectionResponse(
+                    c.Id, 
+                    new (
+                        c.Client.Id,
+                        c.Client.FirstName,
+                        c.Client.LastName,
+                        c.Client.Login,
+                        c.Client.Roles.Select(r => r.ToString()).ToArray()),
+                    c.ServerId,
+                    c.ExpirationTime))),
             errors => Problem(errors));
     }
     
@@ -56,7 +66,8 @@ public class MyConnectionsController : ApiController
             await _sender.Send(new CreateConnectionTicketCommand(
                 createConnectionResult.Value.Id,
                 request.Days,
-                request.Description));
+                request.Description,
+                request.Images));
         
         return createTicketResult.Match(
             _ => Ok(), 
@@ -74,14 +85,15 @@ public class MyConnectionsController : ApiController
         if (getConnectionResult.IsError)
             return Problem(getConnectionResult.ErrorsOrEmptyList);
 
-        if (getConnectionResult.Value.ClientId != clientId)
+        if (getConnectionResult.Value.Client.Id != clientId)
             return NotFound();
         
         var createTicketResult =
             await _sender.Send(new CreateConnectionTicketCommand(
                 request.ConnectionId,
                 request.Days,
-                request.Description));
+                request.Description,
+                request.Images));
         
         return createTicketResult.Match(
             _ => Ok(), 
@@ -99,7 +111,7 @@ public class MyConnectionsController : ApiController
         if (getConnectionResult.IsError)
             return Problem(getConnectionResult.ErrorsOrEmptyList);
 
-        if (getConnectionResult.Value.ClientId != clientId)
+        if (getConnectionResult.Value.Client.Id != clientId)
             return NotFound();
         
         var confirmResult = await _sender.Send(

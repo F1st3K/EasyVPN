@@ -36,6 +36,6 @@ public class GetConfigQueryHandler : IRequestHandler<GetConfigQuery, ErrorOr<Get
             return Errors.Server.FailedGetService;
 
         var config = vpnService.GetConfig(query.ConnectionId);
-        return new GetConfigResult(connection.ClientId, config);
+        return new GetConfigResult(connection.Client.Id, config);
     }
 }

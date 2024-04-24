@@ -10,7 +10,8 @@ public static class CreateConnectionTicketUtils
     public static CreateConnectionTicketCommand CreateCommand()
         => new (Constants.Connection.Id,
             Constants.ConnectionTicket.Days,
-            Constants.ConnectionTicket.Description);
+            Constants.ConnectionTicket.Description,
+            Constants.ConnectionTicket.Images);
 
     public static bool IsValid(this ConnectionTicket connectionTicket)
         => connectionTicket.ConnectionId == Constants.Connection.Id

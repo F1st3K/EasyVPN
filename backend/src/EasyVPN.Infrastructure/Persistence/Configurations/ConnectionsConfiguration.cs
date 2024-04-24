@@ -13,9 +13,14 @@ public class ConnectionsConfiguration : IEntityTypeConfiguration<Connection>
         builder.ToTable("Connections");
 
         builder.HasKey(c => c.Id);
+
         
-        builder.Property(c => c.ClientId)
-            .HasMaxLength(32);
+        builder
+            .HasOne(c => c.Client)
+            .WithMany()
+            .HasForeignKey("ClientId")
+            .IsRequired();
+        
         builder.Property(c => c.ServerId)
             .HasMaxLength(32);
 

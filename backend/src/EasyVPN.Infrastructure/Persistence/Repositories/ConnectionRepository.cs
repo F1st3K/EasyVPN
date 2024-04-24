@@ -1,5 +1,6 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyVPN.Infrastructure.Persistence.Repositories;
 
@@ -19,7 +20,8 @@ public class ConnectionRepository : IConnectionRepository
 
     public IEnumerable<Connection> GetAll()
     {
-        return _dbContext.Connections;
+        return _dbContext.Connections
+            .Include(c => c.Client);
     }
 
     public void Add(Connection connection)
@@ -40,10 +42,12 @@ public class ConnectionRepository : IConnectionRepository
 
     public void Update(Connection connection)
     {
-        if (_dbContext.Connections.SingleOrDefault(c => c.Id == connection.Id) is not {} stateConnection)
+        if (_dbContext.Connections
+                .Include(c => c.Client)
+                .SingleOrDefault(c => c.Id == connection.Id) is not {} stateConnection)
             return;
         
-        stateConnection.ClientId = connection.ClientId;
+        stateConnection.Client = connection.Client;
         stateConnection.ServerId = connection.ServerId;
         stateConnection.ExpirationTime = connection.ExpirationTime;
         _dbContext.Connections.Update(stateConnection);

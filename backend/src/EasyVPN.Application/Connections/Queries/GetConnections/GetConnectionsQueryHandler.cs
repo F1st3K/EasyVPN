@@ -21,9 +21,18 @@ public class GetConnectionsQueryHandler : IRequestHandler<GetConnectionsQuery, E
 
         var connections = _connectionRepository.GetAll();
 
-        if (query.ClientId is { } clientId)
-            connections = connections.Where(c => c.ClientId == clientId);
+        var list = new List<Connection>();
+        foreach (var connection in connections)
+        {
+            if (query.ClientId is { } clientId
+                && connection.Client.Id != clientId)
+                continue;
+            list.Add(connection);
+            Console.WriteLine(list.Last().Client);
+        }
+        
             
-        return connections.ToList();
+        
+        return list;
     }
 }

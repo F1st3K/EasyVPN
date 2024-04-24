@@ -29,7 +29,15 @@ public class ConnectionsController : ApiController
         return getConnectionsResult.Match(
             result => Ok(
                 result.Select(c => new ConnectionResponse(
-                c.Id, c.ClientId, c.ServerId, c.ExpirationTime))),
+                    c.Id, 
+                    new (
+                        c.Client.Id,
+                        c.Client.FirstName,
+                        c.Client.LastName,
+                        c.Client.Login,
+                        c.Client.Roles.Select(r => r.ToString()).ToArray()),
+                    c.ServerId,
+                    c.ExpirationTime))),
             errors => Problem(errors));
     }
     

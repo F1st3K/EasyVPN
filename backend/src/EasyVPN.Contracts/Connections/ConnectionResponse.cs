@@ -1,7 +1,9 @@
+using EasyVPN.Contracts.Users;
+
 namespace EasyVPN.Contracts.Connections;
 
 public record ConnectionResponse(
     Guid Id,
-    Guid ClientId,
+    UserResponse Client,
     Guid ServerId,
     DateTime ValidUntil);
