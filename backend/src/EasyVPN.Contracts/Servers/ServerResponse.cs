@@ -2,5 +2,5 @@ namespace EasyVPN.Contracts.Servers;
 
 public record ServerResponse(
     Guid Id,
-    ProtocolResponse ProtocolResponse,
+    ProtocolResponse Protocol,
     string Version);
