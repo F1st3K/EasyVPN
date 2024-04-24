@@ -54,11 +54,9 @@ namespace EasyVPN.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ClientId")
-                        .HasMaxLength(32)
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("ConnectionId")
-                        .HasMaxLength(32)
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreationTime")
@@ -82,6 +80,10 @@ namespace EasyVPN.Infrastructure.Migrations
                         .HasColumnType("character varying(32)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("ConnectionId");
 
                     b.ToTable("ConnectionTickets", (string)null);
                 });
@@ -185,6 +187,23 @@ namespace EasyVPN.Infrastructure.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("EasyVPN.Domain.Entities.ConnectionTicket", b =>
+                {
+                    b.HasOne("EasyVPN.Domain.Entities.User", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EasyVPN.Domain.Entities.Connection", null)
+                        .WithMany()
+                        .HasForeignKey("ConnectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("EasyVPN.Domain.Entities.Server", b =>

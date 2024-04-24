@@ -20,6 +20,16 @@ namespace EasyVPN.Infrastructure.Migrations
                 column: "ProtocolId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ConnectionTickets_ClientId",
+                table: "ConnectionTickets",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ConnectionTickets_ConnectionId",
+                table: "ConnectionTickets",
+                column: "ConnectionId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Connections_ClientId",
                 table: "Connections",
                 column: "ClientId");
@@ -44,6 +54,22 @@ namespace EasyVPN.Infrastructure.Migrations
                 principalTable: "Users",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ConnectionTickets_Connections_ConnectionId",
+                table: "ConnectionTickets",
+                column: "ConnectionId",
+                principalTable: "Connections",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_ConnectionTickets_Users_ClientId",
+                table: "ConnectionTickets",
+                column: "ClientId",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
@@ -57,9 +83,25 @@ namespace EasyVPN.Infrastructure.Migrations
                 name: "FK_Connections_Users_ClientId",
                 table: "Connections");
 
+            migrationBuilder.DropForeignKey(
+                name: "FK_ConnectionTickets_Connections_ConnectionId",
+                table: "ConnectionTickets");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_ConnectionTickets_Users_ClientId",
+                table: "ConnectionTickets");
+
             migrationBuilder.DropIndex(
                 name: "IX_Servers_ProtocolId",
                 table: "Servers");
+
+            migrationBuilder.DropIndex(
+                name: "IX_ConnectionTickets_ClientId",
+                table: "ConnectionTickets");
+
+            migrationBuilder.DropIndex(
+                name: "IX_ConnectionTickets_ConnectionId",
+                table: "ConnectionTickets");
 
             migrationBuilder.DropIndex(
                 name: "IX_Connections_ClientId",

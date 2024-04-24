@@ -35,7 +35,7 @@ public class CreateConnectionTicketCommandHandler : IRequestHandler<CreateConnec
         {
             Id = Guid.NewGuid(),
             ConnectionId = connection.Id,
-            ClientId = connection.Client.Id,
+            Client = connection.Client,
             Status = ConnectionTicketStatus.Pending,
             CreationTime = _dateTimeProvider.UtcNow,
             Days = command.Days,
