@@ -21,7 +21,7 @@ public class GetConnectionTicketsQueryHandler : IRequestHandler<GetConnectionTic
         var connectionTickets = _connectionTicketRepository.GetAll();
 
         if (query.ClientId is { } clientId)
-            connectionTickets = connectionTickets.Where(c => c.ClientId == clientId);
+            connectionTickets = connectionTickets.Where(c => c.Client.Id == clientId);
             
         return connectionTickets.ToList();
     }

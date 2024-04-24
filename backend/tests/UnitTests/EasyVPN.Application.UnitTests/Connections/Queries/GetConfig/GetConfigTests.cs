@@ -21,8 +21,8 @@ public class GetConfigTests
             .Returns(new Connection()
             {
                 Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
-                ClientId = Constants.User.Id
+                Server = new() { Id = Constants.Server.Id },
+                Client = new User() {Id = Constants.User.Id }
             });
 
         _mocks.ServerRepository.Setup(x =>
@@ -70,38 +70,6 @@ public class GetConfigTests
     }
     
     [Fact]
-    public async Task HandleGetConfigQuery_WhenServerNotFound_Error()
-    {
-        //Arrange
-        var query = GetConfigUtils.CreateQuery();
-
-        _mocks.ConnectionRepository.Setup(x =>
-                x.Get(Constants.Connection.Id))
-            .Returns(new Connection()
-            {
-                Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
-                ClientId = Constants.User.Id
-            });
-
-        _mocks.ServerRepository.Setup(x =>
-                x.Get(Constants.Server.Id))
-            .Returns(() => null);
-        
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
-
-        //Act
-        var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(query, CancellationToken.None);
-
-        //Assert
-        result.IsError.Should().BeTrue();
-        result.FirstError.Should().Be(Errors.Server.NotFound);
-    }
-    
-    [Fact]
     public async Task HandleGetConfigQuery_WhenGetVpnServiceFailed_Error()
     {
         //Arrange
@@ -112,8 +80,8 @@ public class GetConfigTests
             .Returns(new Connection()
             {
                 Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
-                ClientId = Constants.User.Id
+                Server = new() { Id = Constants.Server.Id },
+                Client = new User() {Id = Constants.User.Id }
             });
 
         _mocks.ServerRepository.Setup(x =>

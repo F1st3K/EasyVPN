@@ -21,7 +21,7 @@ public class AddLifetimeConnectionTests
             .Returns(() => new Connection()
             {
                 Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
+                Server = new() { Id = Constants.Server.Id },
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 
@@ -64,7 +64,7 @@ public class AddLifetimeConnectionTests
             .Returns(() => new Connection()
             {
                 Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
+                Server = new() { Id = Constants.Server.Id },
             });
 
         _mocks.ServerRepository.Setup(x
@@ -119,36 +119,6 @@ public class AddLifetimeConnectionTests
     }
     
     [Fact]
-    public async Task HandleAddLifetimeConnectionCommand_WhenServerNotFound_Error()
-    {
-        //Arrange
-        var command = AddLifetimeConnectionUtils.CreateCommand();
-
-        _mocks.ConnectionRepository.Setup(x
-                => x.Get(Constants.Connection.Id))
-            .Returns(() => new Connection()
-            {
-                Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
-            });
-
-        _mocks.ServerRepository.Setup(x
-                => x.Get(Constants.Server.Id))
-            .Returns(() => null);
-
-        _mocks.VpnServiceFactory.Setup(x
-                => x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
-
-        //Act
-        var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(command, CancellationToken.None);
-
-        //Assert
-        result.FirstError.Should().Be(Errors.Server.NotFound);
-    }
-    
-    [Fact]
     public async Task HandleAddLifetimeConnectionCommand_WhenFailedGetService_Success()
     {
         //Arrange
@@ -159,7 +129,7 @@ public class AddLifetimeConnectionTests
             .Returns(() => new Connection()
             {
                 Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
+                Server = new() { Id = Constants.Server.Id },
             });
 
         _mocks.ServerRepository.Setup(x

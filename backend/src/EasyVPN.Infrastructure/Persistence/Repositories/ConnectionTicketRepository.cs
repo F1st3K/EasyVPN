@@ -1,5 +1,6 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace EasyVPN.Infrastructure.Persistence.Repositories;
 
@@ -14,12 +15,15 @@ public class ConnectionTicketRepository : IConnectionTicketRepository
 
     public ConnectionTicket? Get(Guid id)
     {
-        return _dbContext.ConnectionTickets.SingleOrDefault(c => c.Id == id);
+        return _dbContext.ConnectionTickets
+            .Include(ct => ct.Client)
+            .SingleOrDefault(c => c.Id == id);
     }
 
     public IEnumerable<ConnectionTicket> GetAll()
     {
-        return _dbContext.ConnectionTickets;
+        return _dbContext.ConnectionTickets
+            .Include(ct => ct.Client);
     }
 
     public void Add(ConnectionTicket connection)

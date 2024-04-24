@@ -1,4 +1,3 @@
-@connectionId = 8bff3489-28d5-4792-8e37-ea4a638131b5
+@connectionId = 1bc094cd-8254-40b3-ad5c-9e4df5b6883b
 DELETE {{host}}/my/connections/{{connectionId}}
 Authorization: Bearer {{clientToken}}
-Content-Type: application/json

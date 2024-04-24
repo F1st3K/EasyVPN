@@ -8,7 +8,7 @@ public static class ConnectionExpireServiceUtils
         => new()
         {
             Id = Constants.Connection.Id,
-            ServerId = Constants.Server.Id,
+            Server = new() { Id = Constants.Server.Id },
             ExpirationTime = Constants.Connection.ExpirationTime
         };
 }

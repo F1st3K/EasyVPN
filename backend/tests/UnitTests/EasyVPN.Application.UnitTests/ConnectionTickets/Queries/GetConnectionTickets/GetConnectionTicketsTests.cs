@@ -19,7 +19,7 @@ public class GetConnectionTicketsTests
             .Returns(
                 Constants.ConnectionTicket.GetMore(5).Zip(Constants.User.GetMore(5))
                     .Select(ids => 
-                        new ConnectionTicket() { Id = ids.First, ClientId = ids.Second})
+                        new ConnectionTicket() { Id = ids.First, Client = new (){ Id = ids.Second } })
             );
 
         //Act
@@ -29,7 +29,7 @@ public class GetConnectionTicketsTests
         //Assert
         result.IsError.Should().BeFalse();
         result.Value.Validate(Constants.ConnectionTicket.GetMore(5).Zip(Constants.User.GetMore(5))
-            .Select(ids => new ConnectionTicket() { Id = ids.First, ClientId = ids.Second}).ToList());
+            .Select(ids => new ConnectionTicket() { Id = ids.First, Client = new (){ Id = ids.Second } }).ToList());
     }
     
     [Fact]
@@ -42,10 +42,10 @@ public class GetConnectionTicketsTests
             .Returns(
                 Constants.ConnectionTicket.GetMore(5).Zip(Constants.User.GetMore(5))
                     .Select(ids => 
-                        new ConnectionTicket() { Id = ids.First, ClientId = ids.Second})
+                        new ConnectionTicket() { Id = ids.First, Client = new (){ Id = ids.Second } })
                     .Concat(Constants.ConnectionTicket.GetMore(5, 5)
                         .Select(id => 
-                            new ConnectionTicket(){Id = id, ClientId = Constants.User.Id})
+                            new ConnectionTicket(){Id = id, Client = new (){ Id = Constants.User.Id } })
                     )
             );
 
@@ -57,6 +57,6 @@ public class GetConnectionTicketsTests
         result.IsError.Should().BeFalse();
         result.Value.Validate(Constants.ConnectionTicket.GetMore(5, 5)
             .Select(id => 
-                new ConnectionTicket(){Id = id, ClientId = Constants.User.Id}).ToList());
+                new ConnectionTicket(){Id = id, Client = new (){ Id = Constants.User.Id } }).ToList());
     }
 }

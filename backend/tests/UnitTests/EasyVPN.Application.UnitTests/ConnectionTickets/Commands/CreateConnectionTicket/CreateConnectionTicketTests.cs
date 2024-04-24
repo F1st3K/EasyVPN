@@ -19,7 +19,7 @@ public class CreateConnectionTicketTests
 
         _mocks.ConnectionRepository.Setup(x
                 => x.Get(Constants.Connection.Id))
-            .Returns(new Connection() { Id = Constants.Connection.Id, ClientId = Constants.User.Id });
+            .Returns(new Connection() { Id = Constants.Connection.Id, Client = new User() {Id = Constants.User.Id } });
 
         //Act
         var handler = _mocks.CreateHandler();

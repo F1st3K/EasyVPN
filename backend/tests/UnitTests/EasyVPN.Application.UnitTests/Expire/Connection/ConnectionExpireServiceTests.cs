@@ -100,36 +100,6 @@ public class ConnectionExpireServiceTests
     }
     
     [Fact]
-    public async Task AddTrackExpire_WhenServerNotFound_Nothing()
-    {
-        await Task.CompletedTask;
-        //Arrange
-        
-        _mocks.ConnectionRepository.Setup(x
-                => x.Get(Constants.Connection.Id))
-            .Returns(ConnectionExpireServiceUtils.GetConnection);
-
-        _mocks.ServerRepository.Setup(x
-                => x.Get(Constants.Server.Id))
-            .Returns(() => null);
-
-        _mocks.VpnServiceFactory.Setup(x
-                => x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
-
-        //Act
-        var connectionExpireService = _mocks.Create();
-        connectionExpireService.AddTrackExpire(
-            ConnectionExpireServiceUtils.GetConnection());
-
-        //Assert
-        _mocks.VpnService.Verify(x 
-            => x.DisableClient(It.IsAny<Guid>()), Times.Never);
-        _mocks.ConnectionRepository.Verify(x 
-            => x.Update(It.IsAny<Domain.Entities.Connection>()), Times.Never);
-    }
-    
-    [Fact]
     public async Task AddTrackExpire_WhenFailedGetVpnService_Nothing()
     {
         await Task.CompletedTask;

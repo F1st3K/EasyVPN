@@ -21,7 +21,7 @@ public class ResetLifetimeConnectionTests
             .Returns(() => new Connection()
             {
                 Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
+                Server = new() { Id = Constants.Server.Id },
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 
@@ -77,37 +77,6 @@ public class ResetLifetimeConnectionTests
     }
     
     [Fact]
-    public async Task HandleResetLifetimeConnectionCommand_WhenServerNotFound_Error()
-    {
-        //Arrange
-        var command = ResetLifetimeConnectionUtils.CreateCommand();
-
-        _mocks.ConnectionRepository.Setup(x
-                => x.Get(Constants.Connection.Id))
-            .Returns(() => new Connection()
-            {
-                Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
-                ExpirationTime = Constants.Connection.ExpirationTime
-            });
-
-        _mocks.ServerRepository.Setup(x
-                => x.Get(Constants.Server.Id))
-            .Returns((() => null));
-
-        _mocks.VpnServiceFactory.Setup(x
-                => x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
-
-        //Act
-        var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(command, CancellationToken.None);
-
-        //Assert
-        result.FirstError.Should().Be(Errors.Server.NotFound);
-    }
-    
-    [Fact]
     public async Task HandleResetLifetimeConnectionCommand_WhenFailedGetService_Error()
     {
         //Arrange
@@ -118,7 +87,7 @@ public class ResetLifetimeConnectionTests
             .Returns(() => new Connection()
             {
                 Id = Constants.Connection.Id,
-                ServerId = Constants.Server.Id,
+                Server = new() { Id = Constants.Server.Id },
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 

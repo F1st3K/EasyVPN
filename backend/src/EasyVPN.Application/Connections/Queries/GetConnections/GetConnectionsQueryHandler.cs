@@ -9,7 +9,8 @@ public class GetConnectionsQueryHandler : IRequestHandler<GetConnectionsQuery, E
 {
     private readonly IConnectionRepository _connectionRepository;
 
-    public GetConnectionsQueryHandler(IConnectionRepository connectionRepository)
+    public GetConnectionsQueryHandler(
+        IConnectionRepository connectionRepository)
     {
         _connectionRepository = connectionRepository;
     }
@@ -21,7 +22,7 @@ public class GetConnectionsQueryHandler : IRequestHandler<GetConnectionsQuery, E
         var connections = _connectionRepository.GetAll();
 
         if (query.ClientId is { } clientId)
-            connections = connections.Where(c => c.ClientId == clientId);
+            connections = connections.Where(c => c.Client.Id == clientId);
             
         return connections.ToList();
     }

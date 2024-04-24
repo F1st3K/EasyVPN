@@ -35,11 +35,12 @@ public class CreateConnectionTicketCommandHandler : IRequestHandler<CreateConnec
         {
             Id = Guid.NewGuid(),
             ConnectionId = connection.Id,
-            ClientId = connection.ClientId,
+            Client = connection.Client,
             Status = ConnectionTicketStatus.Pending,
             CreationTime = _dateTimeProvider.UtcNow,
             Days = command.Days,
-            PaymentDescription = command.Description
+            PaymentDescription = command.Description,
+            Images = command.Images
         };
         _connectionTicketRepository.Add(ticket);
 
