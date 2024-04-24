@@ -3,6 +3,8 @@ using EasyVPN.Application.Connections.Commands.ResetLifetimeConnection;
 using EasyVPN.Application.Connections.Queries.GetConfig;
 using EasyVPN.Application.Connections.Queries.GetConnections;
 using EasyVPN.Contracts.Connections;
+using EasyVPN.Contracts.Servers;
+using EasyVPN.Contracts.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,13 +32,19 @@ public class ConnectionsController : ApiController
             result => Ok(
                 result.Select(c => new ConnectionResponse(
                     c.Id, 
-                    new (
+                    new UserResponse(
                         c.Client.Id,
                         c.Client.FirstName,
                         c.Client.LastName,
                         c.Client.Login,
                         c.Client.Roles.Select(r => r.ToString()).ToArray()),
-                    c.ServerId,
+                    new ServerResponse(
+                        c.Server.Id,
+                        new ProtocolResponse(
+                            c.Server.Protocol.Id,
+                            c.Server.Protocol.Name,
+                            c.Server.Protocol.Icon),
+                        c.Server.Version.ToString()),
                     c.ExpirationTime))),
             errors => Problem(errors));
     }

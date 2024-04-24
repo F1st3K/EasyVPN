@@ -12,6 +12,6 @@ public static class CreateConnectionUtils
 
     public static bool IsValid(this Connection connection)
         => connection.Client.Id == Constants.User.Id
-           && connection.ServerId == Constants.Server.Id
+           && connection.Server.Id == Constants.Server.Id
            && connection.ExpirationTime == Constants.Time.Now;
 }

@@ -9,7 +9,6 @@ namespace EasyVPN.Application.Connections.Commands.DeleteConnection;
 
 public class DeleteConnectionCommandHandler : IRequestHandler<DeleteConnectionCommand, ErrorOr<Deleted>>
 {
-    private readonly IServerRepository _serverRepository;
     private readonly IConnectionRepository _connectionRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
@@ -20,7 +19,6 @@ public class DeleteConnectionCommandHandler : IRequestHandler<DeleteConnectionCo
         IVpnServiceFactory vpnServiceFactory, 
         IDateTimeProvider dateTimeProvider)
     {
-        _serverRepository = serverRepository;
         _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;
         _dateTimeProvider = dateTimeProvider;
@@ -35,11 +33,8 @@ public class DeleteConnectionCommandHandler : IRequestHandler<DeleteConnectionCo
 
         if (connection.ExpirationTime > _dateTimeProvider.UtcNow)
             return Errors.Connection.NotExpired;
-        
-        if (_serverRepository.Get(connection.ServerId) is not { } server)
-            return Errors.Server.NotFound;
 
-        if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
+        if (_vpnServiceFactory.GetVpnService(connection.Server) is not { } vpnService)
             return Errors.Server.FailedGetService;
         
         vpnService.DeleteClient(connection.Id);

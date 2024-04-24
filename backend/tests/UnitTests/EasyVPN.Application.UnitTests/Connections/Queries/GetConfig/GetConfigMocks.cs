@@ -20,7 +20,6 @@ public class GetConfigMocks
                 x.GetConfig(It.IsAny<Guid>()))
             .Returns(Constants.Connection.Config);
         return new GetConfigQueryHandler(
-            ServerRepository.Object,
             ConnectionRepository.Object,
             VpnServiceFactory.Object);
     }

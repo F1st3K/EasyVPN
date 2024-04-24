@@ -52,7 +52,7 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
             Id = Guid.NewGuid(),
             Client = user,
             ExpirationTime = _dateTimeProvider.UtcNow,
-            ServerId = server.Id
+            Server = server
         };
         _connectionRepository.Add(connection);
         vpnService.CreateClient(connection.Id);

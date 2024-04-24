@@ -12,20 +12,17 @@ public class ConnectionExpireService : IExpireService<Connection>
 {
     private readonly IExpirationChecker _expirationChecker;
     private readonly IConnectionRepository _connectionRepository;
-    private readonly IServerRepository _serverRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
 
     public ConnectionExpireService(
         IExpirationChecker expirationChecker,
         IConnectionRepository connectionRepository,
-        IServerRepository serverRepository,
         IVpnServiceFactory vpnServiceFactory, 
         IDateTimeProvider dateTimeProvider)
     {
         _expirationChecker = expirationChecker;
         _connectionRepository = connectionRepository;
-        _serverRepository = serverRepository;
         _vpnServiceFactory = vpnServiceFactory;
         _dateTimeProvider = dateTimeProvider;
     }
@@ -56,10 +53,7 @@ public class ConnectionExpireService : IExpireService<Connection>
         if (_connectionRepository.Get(connectionId) is not { } connection)
             return Errors.Connection.NotFound;
         
-        if (_serverRepository.Get(connection.ServerId) is not { } server)
-            return Errors.Server.NotFound;
-        
-        if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
+        if (_vpnServiceFactory.GetVpnService(connection.Server) is not { } vpnService)
             return Errors.Server.FailedGetService;
         
         vpnService.DisableClient(connection.Id);

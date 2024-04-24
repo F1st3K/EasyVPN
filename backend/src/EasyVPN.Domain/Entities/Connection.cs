@@ -4,6 +4,6 @@ public class Connection
 {
     public Guid Id { get; set; }
     public User Client { get; set; } = null!;
-    public Guid ServerId { get; set; }
+    public Server Server { get; set; } = null!;
     public DateTime ExpirationTime { get; set; }
 }

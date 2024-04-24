@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EasyVPN.Infrastructure.Migrations
 {
     [DbContext(typeof(EasyVpnDbContext))]
-    [Migration("20240424071050_LinkConnections")]
+    [Migration("20240424080447_LinkConnections")]
     partial class LinkConnections
     {
         /// <inheritdoc />
@@ -39,12 +39,13 @@ namespace EasyVPN.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("ServerId")
-                        .HasMaxLength(32)
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("ServerId");
 
                     b.ToTable("Connections", (string)null);
                 });
@@ -178,7 +179,15 @@ namespace EasyVPN.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("EasyVPN.Domain.Entities.Server", "Server")
+                        .WithMany()
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Client");
+
+                    b.Navigation("Server");
                 });
 
             modelBuilder.Entity("EasyVPN.Domain.Entities.Server", b =>

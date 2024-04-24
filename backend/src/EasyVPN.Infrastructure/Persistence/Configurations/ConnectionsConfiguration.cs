@@ -21,8 +21,11 @@ public class ConnectionsConfiguration : IEntityTypeConfiguration<Connection>
             .HasForeignKey("ClientId")
             .IsRequired();
         
-        builder.Property(c => c.ServerId)
-            .HasMaxLength(32);
+        builder
+            .HasOne(c => c.Server)
+            .WithMany()
+            .HasForeignKey("ServerId")
+            .IsRequired();
 
         builder.Property(с => с.ExpirationTime)
             .HasMaxLength(28);

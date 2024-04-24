@@ -25,7 +25,6 @@ public class AddLifetimeConnectionMocks
             .Returns(Constants.Time.Now);
         return new AddLifetimeConnectionCommandHandler(
             ConnectionRepository.Object,
-            ServerRepository.Object,
             VpnServiceFactory.Object,
             mockDateTimeProvider.Object,
             ExpireService.Object

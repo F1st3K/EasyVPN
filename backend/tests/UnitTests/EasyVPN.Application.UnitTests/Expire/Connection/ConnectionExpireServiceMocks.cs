@@ -30,7 +30,6 @@ public class ConnectionExpireServiceMocks
         return new ConnectionExpireService(
             ExpirationChecker.Object,
             ConnectionRepository.Object,
-            ServerRepository.Object,
             VpnServiceFactory.Object,
             dateTimeProvider.Object
             );

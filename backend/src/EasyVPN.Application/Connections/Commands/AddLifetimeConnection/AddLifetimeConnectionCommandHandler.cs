@@ -12,14 +12,12 @@ namespace EasyVPN.Application.Connections.Commands.AddLifetimeConnection;
 public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeConnectionCommand, ErrorOr<Updated>>
 {
     private readonly IConnectionRepository _connectionRepository;
-    private readonly IServerRepository _serverRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
     private readonly IExpireService<Connection> _expireService;
 
     public AddLifetimeConnectionCommandHandler(
-        IConnectionRepository connectionRepository, 
-        IServerRepository serverRepository,
+        IConnectionRepository connectionRepository,
         IVpnServiceFactory vpnServiceFactory, 
         IDateTimeProvider dateTimeProvider,
         IExpireService<Connection> expireService)
@@ -28,7 +26,6 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
         _vpnServiceFactory = vpnServiceFactory;
         _dateTimeProvider = dateTimeProvider;
         _expireService = expireService;
-        _serverRepository = serverRepository;
     }
     
     public async Task<ErrorOr<Updated>> Handle(AddLifetimeConnectionCommand command, CancellationToken cancellationToken)
@@ -38,10 +35,7 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
         if (_connectionRepository.Get(command.ConnectionId) is not { } connection)
             return Errors.Connection.NotFound;
 
-        if (_serverRepository.Get(connection.ServerId) is not { } server)
-            return Errors.Server.NotFound;
-
-        if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
+        if (_vpnServiceFactory.GetVpnService(connection.Server) is not { } vpnService)
             return Errors.Server.FailedGetService;
 
         if (connection.ExpirationTime < _dateTimeProvider.UtcNow)

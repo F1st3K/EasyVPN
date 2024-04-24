@@ -8,6 +8,8 @@ using EasyVPN.Application.Connections.Queries.GetConnections;
 using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
 using EasyVPN.Contracts.Authentication;
 using EasyVPN.Contracts.Connections;
+using EasyVPN.Contracts.Servers;
+using EasyVPN.Contracts.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,13 +40,19 @@ public class MyConnectionsController : ApiController
             result => Ok(
                 result.Select(c => new ConnectionResponse(
                     c.Id, 
-                    new (
+                    new UserResponse(
                         c.Client.Id,
                         c.Client.FirstName,
                         c.Client.LastName,
                         c.Client.Login,
                         c.Client.Roles.Select(r => r.ToString()).ToArray()),
-                    c.ServerId,
+                    new ServerResponse(
+                        c.Server.Id,
+                        new ProtocolResponse(
+                            c.Server.Protocol.Id,
+                            c.Server.Protocol.Name,
+                            c.Server.Protocol.Icon),
+                        c.Server.Version.ToString()),
                     c.ExpirationTime))),
             errors => Problem(errors));
     }

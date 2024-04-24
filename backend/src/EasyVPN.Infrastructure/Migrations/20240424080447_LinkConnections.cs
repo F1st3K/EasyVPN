@@ -24,6 +24,19 @@ namespace EasyVPN.Infrastructure.Migrations
                 table: "Connections",
                 column: "ClientId");
 
+            migrationBuilder.CreateIndex(
+                name: "IX_Connections_ServerId",
+                table: "Connections",
+                column: "ServerId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Connections_Servers_ServerId",
+                table: "Connections",
+                column: "ServerId",
+                principalTable: "Servers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+
             migrationBuilder.AddForeignKey(
                 name: "FK_Connections_Users_ClientId",
                 table: "Connections",
@@ -37,6 +50,10 @@ namespace EasyVPN.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
+                name: "FK_Connections_Servers_ServerId",
+                table: "Connections");
+
+            migrationBuilder.DropForeignKey(
                 name: "FK_Connections_Users_ClientId",
                 table: "Connections");
 
@@ -46,6 +63,10 @@ namespace EasyVPN.Infrastructure.Migrations
 
             migrationBuilder.DropIndex(
                 name: "IX_Connections_ClientId",
+                table: "Connections");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Connections_ServerId",
                 table: "Connections");
 
             migrationBuilder.CreateIndex(
