@@ -194,7 +194,7 @@ Authorization: Bearer {{clientToken}}
     },
     "server": {
       "id": "00000000-0000-0000-0000-000000000000",
-      "protocolResponse": {
+      "protocol": {
         "id": "00000000-0000-0000-0000-000000000000",
         "name": "WireGuard",
         "icon": "data:image/svg+xml;base64,PHN2ZyB4...MDQxLS4zNjkuMDQxIi8+PC9zdmc+"
@@ -216,7 +216,7 @@ Authorization: Bearer {{clientToken}}
     },
     "server": {
       "id": "00000000-0000-0000-0000-000000000000",
-      "protocolResponse": {
+      "protocol": {
         "id": "00000000-0000-0000-0000-000000000000",
         "name": "WireGuard",
         "icon": "data:image/svg+xml;base64,PHN2ZyB4...MDQxLS4zNjkuMDQxIi8+PC9zdmc+"
@@ -356,7 +356,7 @@ Authorization: Bearer {{adminToken}}
     },
     "server": {
       "id": "00000000-0000-0000-0000-000000000000",
-      "protocolResponse": {
+      "protocol": {
         "id": "00000000-0000-0000-0000-000000000000",
         "name": "WireGuard",
         "icon": "data:image/svg+xml;base64,PHN2ZyB4...MDQxLS4zNjkuMDQxIi8+PC9zdmc+"
@@ -378,7 +378,7 @@ Authorization: Bearer {{adminToken}}
     },
     "server": {
       "id": "00000000-0000-0000-0000-000000000000",
-      "protocolResponse": {
+      "protocol": {
         "id": "00000000-0000-0000-0000-000000000000",
         "name": "WireGuard",
         "icon": "data:image/svg+xml;base64,PHN2ZyB4...MDQxLS4zNjkuMDQxIi8+PC9zdmc+"
