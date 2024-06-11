@@ -1,5 +1,3 @@
-import useRequest from "./useRequest";
+import useRequest from './useRequest';
 
-export {
-    useRequest
-}
+export { useRequest };

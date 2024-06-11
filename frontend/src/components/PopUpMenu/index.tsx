@@ -1,14 +1,14 @@
-import { Menu } from "@mui/material";
-import { FC } from "react";
+import { Menu } from '@mui/material';
+import React, { FC } from 'react';
 
 interface PopUpMenuProps {
-    anchorEl?: HTMLElement | null
+    anchorEl?: HTMLElement | null;
     children?: React.ReactNode;
-    onClose?: (event: {}, reason: "backdropClick" | "escapeKeyDown") => void;
+    onClose?: (event: {}, reason: 'backdropClick' | 'escapeKeyDown') => void;
 }
- 
+
 const PopUpMenu: FC<PopUpMenuProps> = (props: PopUpMenuProps) => {
-    return ( 
+    return (
         <Menu
             id="menu-appbar"
             anchorEl={props.anchorEl}
@@ -26,7 +26,7 @@ const PopUpMenu: FC<PopUpMenuProps> = (props: PopUpMenuProps) => {
         >
             {props.children}
         </Menu>
-     );
-}
- 
+    );
+};
+
 export default PopUpMenu;
