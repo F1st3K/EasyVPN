@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 
-
 export default function useRequest<TResponse = object, TError = Error>(request: () => Promise<TResponse>) 
     : [data: TResponse | null, loading: boolean, error: TError | null] {
     const [data, setData] = useState<TResponse | null>(null);
@@ -13,6 +12,7 @@ export default function useRequest<TResponse = object, TError = Error>(request: 
             .catch(e => setError(e))
             .finally(() => setLoading(false))
     }, []);
+
 
     return [data, loading, error];
 }

@@ -1,5 +1,5 @@
 import { Menu } from "@mui/material";
-import { FC } from "react";
+import React, { FC } from "react";
 
 interface PopUpMenuProps {
     anchorEl?: HTMLElement | null

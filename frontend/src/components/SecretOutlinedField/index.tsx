@@ -1,5 +1,5 @@
-import { Label, Visibility, VisibilityOff } from "@mui/icons-material";
-import { Box, FilledInputProps, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Paper, SxProps, Typography } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { FilledInputProps, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, SxProps } from "@mui/material";
 import { FC, useState } from "react";
 
 interface SecretOutlinedProps extends FilledInputProps {
