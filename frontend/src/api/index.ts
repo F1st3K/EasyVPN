@@ -1,48 +1,39 @@
-import axios from "axios"
-import config from "../config.json"
-import Register from "./requests/Register"
-import Auth from "./responses/Auth"
-import ApiError from "./responses/ApiError"
-import { Role } from "./responses/Roles"
-import User from "./responses/User"
+import axios from 'axios';
 
+import config from '../config.json';
+import Register from './requests/Register';
+import ApiError from './responses/ApiError';
+import Auth from './responses/Auth';
+import { Role } from './responses/Roles';
+import User from './responses/User';
 
 const api = axios.create({
-    baseURL: config.ApiUrl
-})
+    baseURL: config.ApiUrl,
+});
 
 const EasyVpn = {
     auth: {
         login: (login: string, password: string) => {
-            return api.post<Auth>("/auth/login", {
+            return api.post<Auth>('/auth/login', {
                 login,
-                password
-            })
+                password,
+            });
         },
         check: (token: string) => {
-            return api.get<Auth>("/auth/check", {
-                headers: {Authorization: `Bearer ${token}`}
-            })
+            return api.get<Auth>('/auth/check', {
+                headers: { Authorization: `Bearer ${token}` },
+            });
         },
         register: (request: Register) => {
-            return api.post<Auth>("/auth/register", request)
-        }
-    }
-}
+            return api.post<Auth>('/auth/register', request);
+        },
+    },
+};
 
-export default EasyVpn
+export default EasyVpn;
 
-export type {
-    ApiError,
-    Auth,
-    User
-}
+export type { ApiError, Auth, User };
 
+export type { Register };
 
-export type {
-    Register
-}
-
-export {
-    Role
-}
+export { Role };

@@ -1,9 +1,7 @@
-import AuthStore from "./AuthStore";
+import AuthStore from './AuthStore';
 
 export default interface Store {
-    Auth: AuthStore
+    Auth: AuthStore;
 }
 
-export {
-    AuthStore
-}
+export { AuthStore };
