@@ -1,4 +1,5 @@
 import { createTheme, CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
+import React from 'react';
 import { FC, useMemo } from 'react';
 
 interface AutoThemeProviderProps {

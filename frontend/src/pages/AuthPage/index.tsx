@@ -15,7 +15,7 @@ type AuthPageProps = {
 const AuthPage: FC<AuthPageProps> = (props: AuthPageProps) => {
     const navigate = useNavigate();
 
-    const handleChangeTab = (_: any, newValue: any) => {
+    const handleChangeTab = (_: unknown, newValue: string) => {
         navigate(`/auth/${newValue}`);
     };
 
