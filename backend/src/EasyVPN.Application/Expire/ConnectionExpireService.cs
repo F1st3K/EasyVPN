@@ -29,13 +29,11 @@ public class ConnectionExpireService : IExpireService<Connection>
 
     public void AddAllToTrackExpire()
     {
-        foreach (var c in _connectionRepository.GetAll())
-        {
-            ResetTrackExpire(c);
-
-            if (c.ExpirationTime > _dateTimeProvider.UtcNow)
-                AddTrackExpire(c);
-        }
+        _connectionRepository.GetAll().AsParallel()
+            .ForAll(ResetTrackExpire);
+        _connectionRepository.GetAll().AsParallel()
+            .Where(c => c.ExpirationTime > _dateTimeProvider.UtcNow)
+            .ForAll(AddTrackExpire);
     }
     
     public void AddTrackExpire(Connection connection)
