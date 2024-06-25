@@ -65,11 +65,14 @@ const Header: FC = () => {
                     </Box>
 
                     {Auth.isAuth ? (
-                        <Button size="large" color="inherit" sx={{ textTransform: 'none' }} endIcon={<AccountCircle />}>
-                            <Box
-                                onClick={() => navigate('/profile')}
-                                sx={{ flexDirection: 'column', textAlign: 'right' }}
-                            >
+                        <Button
+                            onClick={() => navigate('/profile')}
+                            size="large"
+                            color="inherit"
+                            sx={{ textTransform: 'none' }}
+                            endIcon={<AccountCircle />}
+                        >
+                            <Box sx={{ flexDirection: 'column', textAlign: 'right' }}>
                                 <Typography fontSize="14pt">
                                     {Auth.user.firstName} {Auth.user.lastName}
                                 </Typography>
