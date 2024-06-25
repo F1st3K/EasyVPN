@@ -19,7 +19,7 @@ public class ExpirationChecker : IExpirationChecker
         _dateTimeProvider = dateTimeProvider;
         _timer = new Timer();
         _timer.Interval = ToMilliseconds(expirationOptions.Value.CheckMinutes);
-        _timer.Elapsed += (sender, e) => Check();
+        _timer.Elapsed += (_, _) => Check();
     }
 
     public void Run()
