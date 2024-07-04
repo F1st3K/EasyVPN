@@ -47,6 +47,11 @@ const RoutesProvider: FC = () => {
                     <Route path="login" element={<Unauth for={<AuthPage tab="login" />} />} />
                     <Route path="register" element={<Unauth for={<AuthPage tab="register" />} />} />
                 </Route>
+                <Route path="my/">
+                    <Route index element={<Navigate to={'profile'} />} />
+                    <Route path="profile" element={<Auth for={<></>} />} />
+                    <Route path="connections" element={<Auth for={<></>} with={Role.Client} />} />
+                </Route>
                 <Route path="profile" element={<Auth for={<ProfilePage />} />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Route>

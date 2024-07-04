@@ -58,7 +58,12 @@ const Header: FC = () => {
                             </>
                         )}
                         {Auth.roles.includes(Role.Client) && (
-                            <Button size="large" color="inherit" startIcon={<VpnKey />}>
+                            <Button
+                                size="large"
+                                color="inherit"
+                                startIcon={<VpnKey />}
+                                onClick={() => navigate('/my/connections')}
+                            >
                                 Connections
                             </Button>
                         )}
@@ -66,7 +71,7 @@ const Header: FC = () => {
 
                     {Auth.isAuth ? (
                         <Button
-                            onClick={() => navigate('/profile')}
+                            onClick={() => navigate('/my/profile')}
                             size="large"
                             color="inherit"
                             sx={{ textTransform: 'none' }}
