@@ -36,9 +36,9 @@ const Header: FC = () => {
                                     <AdminPanelSettings />
                                 </IconButton>
                                 <PopUpMenu anchorEl={anchorAdmin} onClose={() => setAnchorAdmin(null)}>
-                                    <MenuItem>Users</MenuItem>
-                                    <MenuItem>Connections</MenuItem>
-                                    <MenuItem>Servers</MenuItem>
+                                    <MenuItem onClick={() => navigate('/control/connections')}>Connections</MenuItem>
+                                    <MenuItem onClick={() => navigate('/control/users')}>Users</MenuItem>
+                                    <MenuItem onClick={() => navigate('/control/servers')}>Servers</MenuItem>
                                 </PopUpMenu>
                             </>
                         )}
@@ -52,8 +52,16 @@ const Header: FC = () => {
                                     <SupportAgent />
                                 </IconButton>
                                 <PopUpMenu anchorEl={anchorTickets} onClose={() => setAnchorTickets(null)}>
-                                    {Is(Role.PaymentReviewer) && <MenuItem>Connection Tickets</MenuItem>}
-                                    {Is(Role.Administrator) && <MenuItem>Support Tickets</MenuItem>}
+                                    {Is(Role.Administrator) && (
+                                        <MenuItem onClick={() => navigate('/tickets/support')}>
+                                            Support Tickets
+                                        </MenuItem>
+                                    )}
+                                    {Is(Role.PaymentReviewer) && (
+                                        <MenuItem onClick={() => navigate('/tickets/payment')}>
+                                            Payment Tickets
+                                        </MenuItem>
+                                    )}
                                 </PopUpMenu>
                             </>
                         )}
@@ -62,7 +70,7 @@ const Header: FC = () => {
                                 size="large"
                                 color="inherit"
                                 startIcon={<VpnKey />}
-                                onClick={() => navigate('/my/connections')}
+                                onClick={() => navigate('/connections')}
                             >
                                 Connections
                             </Button>
@@ -71,7 +79,7 @@ const Header: FC = () => {
 
                     {Auth.isAuth ? (
                         <Button
-                            onClick={() => navigate('/my/profile')}
+                            onClick={() => navigate('/profile')}
                             size="large"
                             color="inherit"
                             sx={{ textTransform: 'none' }}
@@ -85,7 +93,7 @@ const Header: FC = () => {
                             </Box>
                         </Button>
                     ) : (
-                        <Button onClick={() => navigate('/auth/login')} color="inherit">
+                        <Button onClick={() => navigate('/auth')} color="inherit">
                             Sign In
                         </Button>
                     )}

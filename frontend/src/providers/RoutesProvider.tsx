@@ -6,6 +6,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Context } from '..';
 import { Role } from '../api';
 import AuthPage from '../pages/AuthPage';
+import ForbiddenPage from '../pages/ForbiddenPage';
 import MainPage from '../pages/MainPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import ProfilePage from '../pages/ProfilePage';
@@ -30,9 +31,9 @@ const Unauth: FC<ForProps> = observer((props: ForProps) => {
 const Auth: FC<ForWithProps<Role>> = observer((props: ForWithProps<Role>) => {
     const { Auth } = useContext(Context);
 
-    if (Auth.isAuth === false) return <Navigate to={'/auth/login'} />;
+    if (Auth.isAuth === false) return <Navigate to={'/auth'} />;
 
-    if (props.with && Auth.roles.includes(props.with) === false) return <NotFoundPage />;
+    if (props.with && Auth.roles.includes(props.with) === false) return <ForbiddenPage />;
 
     return <>{props.for}</>;
 });
@@ -47,12 +48,22 @@ const RoutesProvider: FC = () => {
                     <Route path="login" element={<Unauth for={<AuthPage tab="login" />} />} />
                     <Route path="register" element={<Unauth for={<AuthPage tab="register" />} />} />
                 </Route>
-                <Route path="my/">
-                    <Route index element={<Navigate to={'profile'} />} />
-                    <Route path="profile" element={<Auth for={<></>} />} />
-                    <Route path="connections" element={<Auth for={<></>} with={Role.Client} />} />
+                <Route path="control/">
+                    <Route index element={<Navigate to={'connections'} />} />
+                    <Route
+                        path="connections"
+                        element={<Auth with={Role.Administrator} for={<>control connections</>} />}
+                    />
+                    <Route path="users" element={<Auth with={Role.Administrator} for={<>control users</>} />} />
+                    <Route path="servers" element={<Auth with={Role.Administrator} for={<>control servers</>} />} />
+                </Route>
+                <Route path="tickets/">
+                    <Route index element={<Navigate to={'support'} />} />
+                    <Route path="support" element={<Auth with={Role.Administrator} for={<>support tickets</>} />} />
+                    <Route path="payment" element={<Auth with={Role.PaymentReviewer} for={<>payments tickets</>} />} />
                 </Route>
                 <Route path="profile" element={<Auth for={<ProfilePage />} />} />
+                <Route path="connections" element={<Auth with={Role.Client} for={<>my connections</>} />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Route>
         </Routes>
