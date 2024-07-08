@@ -6,6 +6,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Context } from '..';
 import { Role } from '../api';
 import AuthPage from '../pages/AuthPage';
+import ClientConnectionsPage from '../pages/ClientConnectionsPage';
 import ForbiddenPage from '../pages/ForbiddenPage';
 import MainPage from '../pages/MainPage';
 import NotFoundPage from '../pages/NotFoundPage';
@@ -63,7 +64,7 @@ const RoutesProvider: FC = () => {
                     <Route path="payment" element={<Auth with={Role.PaymentReviewer} for={<>payments tickets</>} />} />
                 </Route>
                 <Route path="profile" element={<Auth for={<ProfilePage />} />} />
-                <Route path="connections" element={<Auth with={Role.Client} for={<>my connections</>} />} />
+                <Route path="connections" element={<Auth with={Role.Client} for={<ClientConnectionsPage />} />} />
                 <Route path="*" element={<NotFoundPage />} />
             </Route>
         </Routes>
