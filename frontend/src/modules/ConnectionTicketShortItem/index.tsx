@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 
 import { ConnectionTicket } from '../../api';
 
-const ConnectionTicketItem: FC<ConnectionTicket> = (ticket: ConnectionTicket) => {
+const ConnectionTicketShortItem: FC<ConnectionTicket> = (ticket: ConnectionTicket) => {
     return (
         <ListItem>
             <ListItemText
@@ -19,4 +19,4 @@ const ConnectionTicketItem: FC<ConnectionTicket> = (ticket: ConnectionTicket) =>
     );
 };
 
-export default ConnectionTicketItem;
+export default ConnectionTicketShortItem;
