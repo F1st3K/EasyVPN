@@ -15,7 +15,21 @@ const ColapsedListItem: FC<ColapsedListItemProps> = (props: ColapsedListItemProp
         <>
             <ListItem>
                 {props.item}
-                <Tooltip title={props.listTooltip}>
+                <Tooltip
+                    title={props.listTooltip}
+                    slotProps={{
+                        popper: {
+                            modifiers: [
+                                {
+                                    name: 'offset',
+                                    options: {
+                                        offset: [0, -8],
+                                    },
+                                },
+                            ],
+                        },
+                    }}
+                >
                     <IconButton onClick={() => SetIsOpen(!isOpen)}>
                         {isOpen ? <ExpandLess /> : <ExpandMore />}
                     </IconButton>

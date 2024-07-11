@@ -12,7 +12,6 @@ const Root: FC = () => {
             <Header />
             <Container
                 component="main"
-                maxWidth="xs"
                 sx={{
                     display: 'flex',
                     justifyContent: 'center',
