@@ -36,7 +36,7 @@ const ColapsedListItem: FC<ColapsedListItemProps> = (props: ColapsedListItemProp
                 </Tooltip>
             </ListItem>
             <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
+                <List sx={{ marginLeft: 8 }} component="div" disablePadding>
                     {props.children}
                 </List>
             </Collapse>
