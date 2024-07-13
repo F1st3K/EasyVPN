@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import React from 'react';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -10,16 +10,9 @@ const Root: FC = () => {
     return (
         <>
             <Header />
-            <Container
-                component="main"
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
+            <Box component="main">
                 <Outlet />
-            </Container>
+            </Box>
             <Footer />
         </>
     );

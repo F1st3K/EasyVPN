@@ -1,10 +1,10 @@
 import { Alert, CircularProgress, LinearProgress } from '@mui/material';
-import Box from '@mui/material/Box';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext } from 'react';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError, Connection, ConnectionTicket } from '../../api';
+import CenterBox from '../../components/CenterBox';
 import CollapsedListItem from '../../components/CollapsedListItem';
 import { useRequest } from '../../hooks';
 import ConnectionShortItem from '../../modules/ConnectionShortItem';
@@ -20,19 +20,16 @@ const ClientConnectionsPage: FC = () => {
         EasyVpn.my.tickets(store.Auth.getToken() ?? '').then((v) => v.data),
     );
 
+    if (loading) return <LinearProgress />;
+
     return (
-        <Box width="100%" alignContent={'center'}>
-            {loading && <LinearProgress />}
-            {error && (
-                <Alert severity="error" sx={{ width: '25ch' }}>
-                    {error.response?.data.title ?? error.message}
-                </Alert>
-            )}
-            {loading == false &&
-                error == null &&
+        <CenterBox>
+            {error ? (
+                <Alert severity="error">{error.response?.data.title ?? error.message}</Alert>
+            ) : (
                 data?.map((c) => (
                     <CollapsedListItem key={c.id} item={<ConnectionShortItem connection={c} />} listTooltip="Tickets">
-                        {tloading && <CircularProgress sx={{ marginLeft: '30%' }} />}
+                        {tloading && <CircularProgress sx={{ marginLeft: 4 }} />}
                         {terror && (
                             <Alert severity="error" sx={{ width: '25ch' }}>
                                 {terror.response?.data.title ?? terror.message}
@@ -44,8 +41,9 @@ const ClientConnectionsPage: FC = () => {
                                 ?.filter((t) => t.connectionId == c.id)
                                 .map((t) => <ConnectionTicketShortItem key={t.id} ticket={t} />)}
                     </CollapsedListItem>
-                ))}
-        </Box>
+                ))
+            )}
+        </CenterBox>
     );
 };
 

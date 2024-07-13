@@ -17,89 +17,75 @@ const Header: FC = () => {
     const [anchorAdmin, setAnchorAdmin] = useState<null | HTMLElement>(null);
 
     return (
-        <Box sx={{ flexGrow: 1, marginBottom: '10ch' }}>
-            <AppBar>
-                <Toolbar>
-                    <Button onClick={() => navigate('/')} size="large" color="inherit" sx={{ textTransform: 'none' }}>
-                        <Typography fontSize="18pt" component="div">
-                            EasyVPN
-                        </Typography>
-                    </Button>
-                    <Box sx={{ flexGrow: 1 }}>
-                        {Is(Role.Administrator) && (
-                            <>
-                                <IconButton
-                                    size="large"
-                                    color="inherit"
-                                    onClick={(e) => setAnchorAdmin(e.currentTarget)}
-                                >
-                                    <AdminPanelSettings />
-                                </IconButton>
-                                <PopUpMenu anchorEl={anchorAdmin} onClose={() => setAnchorAdmin(null)}>
-                                    <MenuItem onClick={() => navigate('/control/connections')}>Connections</MenuItem>
-                                    <MenuItem onClick={() => navigate('/control/users')}>Users</MenuItem>
-                                    <MenuItem onClick={() => navigate('/control/servers')}>Servers</MenuItem>
-                                </PopUpMenu>
-                            </>
-                        )}
-                        {(Is(Role.PaymentReviewer) || Is(Role.Administrator)) && (
-                            <>
-                                <IconButton
-                                    size="large"
-                                    color="inherit"
-                                    onClick={(e) => setAnchorTickets(e.currentTarget)}
-                                >
-                                    <SupportAgent />
-                                </IconButton>
-                                <PopUpMenu anchorEl={anchorTickets} onClose={() => setAnchorTickets(null)}>
-                                    {Is(Role.Administrator) && (
-                                        <MenuItem onClick={() => navigate('/tickets/support')}>
-                                            Support Tickets
-                                        </MenuItem>
-                                    )}
-                                    {Is(Role.PaymentReviewer) && (
-                                        <MenuItem onClick={() => navigate('/tickets/payment')}>
-                                            Payment Tickets
-                                        </MenuItem>
-                                    )}
-                                </PopUpMenu>
-                            </>
-                        )}
-                        {Auth.roles.includes(Role.Client) && (
-                            <Button
-                                size="large"
-                                color="inherit"
-                                startIcon={<VpnKey />}
-                                onClick={() => navigate('/connections')}
-                            >
-                                Connections
-                            </Button>
-                        )}
-                    </Box>
-
-                    {Auth.isAuth ? (
+        <AppBar position="sticky">
+            <Toolbar>
+                <Button onClick={() => navigate('/')} size="large" color="inherit" sx={{ textTransform: 'none' }}>
+                    <Typography fontSize="18pt" component="div">
+                        EasyVPN
+                    </Typography>
+                </Button>
+                <Box sx={{ flexGrow: 1 }}>
+                    {Is(Role.Administrator) && (
+                        <>
+                            <IconButton size="large" color="inherit" onClick={(e) => setAnchorAdmin(e.currentTarget)}>
+                                <AdminPanelSettings />
+                            </IconButton>
+                            <PopUpMenu anchorEl={anchorAdmin} onClose={() => setAnchorAdmin(null)}>
+                                <MenuItem onClick={() => navigate('/control/connections')}>Connections</MenuItem>
+                                <MenuItem onClick={() => navigate('/control/users')}>Users</MenuItem>
+                                <MenuItem onClick={() => navigate('/control/servers')}>Servers</MenuItem>
+                            </PopUpMenu>
+                        </>
+                    )}
+                    {(Is(Role.PaymentReviewer) || Is(Role.Administrator)) && (
+                        <>
+                            <IconButton size="large" color="inherit" onClick={(e) => setAnchorTickets(e.currentTarget)}>
+                                <SupportAgent />
+                            </IconButton>
+                            <PopUpMenu anchorEl={anchorTickets} onClose={() => setAnchorTickets(null)}>
+                                {Is(Role.Administrator) && (
+                                    <MenuItem onClick={() => navigate('/tickets/support')}>Support Tickets</MenuItem>
+                                )}
+                                {Is(Role.PaymentReviewer) && (
+                                    <MenuItem onClick={() => navigate('/tickets/payment')}>Payment Tickets</MenuItem>
+                                )}
+                            </PopUpMenu>
+                        </>
+                    )}
+                    {Auth.roles.includes(Role.Client) && (
                         <Button
-                            onClick={() => navigate('/profile')}
                             size="large"
                             color="inherit"
-                            sx={{ textTransform: 'none' }}
-                            endIcon={<AccountCircle />}
+                            startIcon={<VpnKey />}
+                            onClick={() => navigate('/connections')}
                         >
-                            <Box sx={{ flexDirection: 'column', textAlign: 'right' }}>
-                                <Typography fontSize="14pt">
-                                    {Auth.user.firstName} {Auth.user.lastName}
-                                </Typography>
-                                <Typography fontSize="9pt">{Auth.user.login}</Typography>
-                            </Box>
-                        </Button>
-                    ) : (
-                        <Button onClick={() => navigate('/auth')} color="inherit">
-                            Sign In
+                            Connections
                         </Button>
                     )}
-                </Toolbar>
-            </AppBar>
-        </Box>
+                </Box>
+
+                {Auth.isAuth ? (
+                    <Button
+                        onClick={() => navigate('/profile')}
+                        size="large"
+                        color="inherit"
+                        sx={{ textTransform: 'none' }}
+                        endIcon={<AccountCircle />}
+                    >
+                        <Box sx={{ flexDirection: 'column', textAlign: 'right' }}>
+                            <Typography fontSize="14pt">
+                                {Auth.user.firstName} {Auth.user.lastName}
+                            </Typography>
+                            <Typography fontSize="9pt">{Auth.user.login}</Typography>
+                        </Box>
+                    </Button>
+                ) : (
+                    <Button onClick={() => navigate('/auth')} color="inherit">
+                        Sign In
+                    </Button>
+                )}
+            </Toolbar>
+        </AppBar>
     );
 };
 
