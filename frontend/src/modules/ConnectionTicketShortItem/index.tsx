@@ -4,14 +4,19 @@ import React, { FC } from 'react';
 
 import { ConnectionTicket, ConnectionTicketStatus } from '../../api';
 
-const ConnectionTicketShortItem: FC<ConnectionTicket> = (ticket: ConnectionTicket) => {
-    const crtt = new Date(ticket.creationTime);
+interface ConnectionTicketShortItemProps {
+    ticket: ConnectionTicket;
+    onGetMoreInfo?: (t: ConnectionTicket) => void;
+}
+
+const ConnectionTicketShortItem: FC<ConnectionTicketShortItemProps> = (props: ConnectionTicketShortItemProps) => {
+    const crtt = new Date(props.ticket.creationTime);
     return (
         <ListItem sx={{ maxWidth: 450 }}>
             <Box display="flex" flexDirection="row" alignItems="center">
                 <ListItemText
                     sx={{ marginRight: 1 }}
-                    primary={<>For {ticket.days} day extension</>}
+                    primary={<>For {props.ticket.days} day extension</>}
                     secondary={
                         <>
                             from {crtt.toDateString()} at {crtt.getHours().toString().padStart(2, '0')}:
@@ -19,17 +24,20 @@ const ConnectionTicketShortItem: FC<ConnectionTicket> = (ticket: ConnectionTicke
                         </>
                     }
                 />
-                {ticket.status == ConnectionTicketStatus.Pending && (
+                {props.ticket.status == ConnectionTicketStatus.Pending && (
                     <Chip variant="outlined" label="Pending..." icon={<CircularProgress disableShrink size={20} />} />
                 )}
-                {ticket.status == ConnectionTicketStatus.Rejected && (
+                {props.ticket.status == ConnectionTicketStatus.Rejected && (
                     <Chip variant="outlined" label="Rejected" color="error" icon={<HighlightOff />} />
                 )}
-                {ticket.status == ConnectionTicketStatus.Confirmed && (
+                {props.ticket.status == ConnectionTicketStatus.Confirmed && (
                     <Chip variant="outlined" label="Confirmed" color="success" icon={<CheckCircleOutline />} />
                 )}
             </Box>
-            <IconButton sx={{ marginLeft: 'auto' }} onClick={() => console.log('More clicked')}>
+            <IconButton
+                sx={{ marginLeft: 'auto' }}
+                onClick={() => props.onGetMoreInfo && props.onGetMoreInfo(props.ticket)}
+            >
                 <MoreHoriz />
             </IconButton>
         </ListItem>

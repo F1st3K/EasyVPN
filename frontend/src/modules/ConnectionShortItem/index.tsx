@@ -4,17 +4,24 @@ import React, { FC } from 'react';
 
 import { Connection } from '../../api';
 
-const ConnectionShortItem: FC<Connection> = (connection: Connection) => {
-    const expt = new Date(connection.validUntil);
+interface ConnectionShortItemProps {
+    connection: Connection;
+    onGetConfig?: (c: Connection) => void;
+    onExtend?: (c: Connection) => void;
+    onDelete?: (c: Connection) => void;
+}
+
+const ConnectionShortItem: FC<ConnectionShortItemProps> = (props: ConnectionShortItemProps) => {
+    const expt = new Date(props.connection.validUntil);
     const wart = new Date(new Date(expt).setDate(expt.getDate() - 3));
     return (
         <Box display="flex" flexDirection="row" flexWrap="wrap" alignItems="center" gap={2} width={'100%'}>
             <Box display="flex" flexDirection="row" alignItems="center">
                 <ListItemAvatar>
-                    <Avatar src={connection.server.protocol.icon} />
+                    <Avatar src={props.connection.server.protocol.icon} />
                 </ListItemAvatar>
                 <ListItemText
-                    primary={connection.server.protocol.name}
+                    primary={props.connection.server.protocol.name}
                     secondary={
                         <Chip
                             label={
@@ -37,14 +44,14 @@ const ConnectionShortItem: FC<Connection> = (connection: Connection) => {
                         label="Config"
                         icon={<ContentPasteSearch />}
                         color="info"
-                        onClick={() => console.log('Get config clicked')}
+                        onClick={() => props.onGetConfig && props.onGetConfig(props.connection)}
                     />
                     <Chip
                         variant="filled"
                         label="Extend"
                         icon={<PostAdd />}
                         color="success"
-                        onClick={() => console.log('Extend clicked')}
+                        onClick={() => props.onExtend && props.onExtend(props.connection)}
                     />
                 </Box>
                 <IconButton
@@ -54,7 +61,7 @@ const ConnectionShortItem: FC<Connection> = (connection: Connection) => {
                         marginX: 1,
                     }}
                     color="error"
-                    onClick={() => console.log('Delete clicked')}
+                    onClick={() => props.onDelete && props.onDelete(props.connection)}
                 >
                     <DeleteForever />
                 </IconButton>

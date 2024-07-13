@@ -1,3 +1,4 @@
+import { Alert, CircularProgress, LinearProgress } from '@mui/material';
 import Box from '@mui/material/Box';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext } from 'react';
@@ -19,23 +20,31 @@ const ClientConnectionsPage: FC = () => {
         EasyVpn.my.tickets(store.Auth.getToken() ?? '').then((v) => v.data),
     );
 
-    if (loading) return <>Loading...</>;
-
-    if (error) return <>Is Error</>;
-
-    if (tloading) return <>tLoading...</>;
-
-    if (terror) return <>tIs Error</>;
-
     return (
-        <Box>
-            {data?.map((c) => (
-                <CollapsedListItem key={c.id} item={<ConnectionShortItem {...c} />} listTooltip="Tickets">
-                    {tdata
-                        ?.filter((t) => t.connectionId == c.id)
-                        .map((t) => <ConnectionTicketShortItem key={t.id} {...t} />)}
-                </CollapsedListItem>
-            ))}
+        <Box width="100%" alignContent={'center'}>
+            {loading && <LinearProgress />}
+            {error && (
+                <Alert severity="error" sx={{ width: '25ch' }}>
+                    {error.response?.data.title ?? error.message}
+                </Alert>
+            )}
+            {loading == false &&
+                error == null &&
+                data?.map((c) => (
+                    <CollapsedListItem key={c.id} item={<ConnectionShortItem connection={c} />} listTooltip="Tickets">
+                        {tloading && <CircularProgress sx={{ marginLeft: '30%' }} />}
+                        {terror && (
+                            <Alert severity="error" sx={{ width: '25ch' }}>
+                                {terror.response?.data.title ?? terror.message}
+                            </Alert>
+                        )}
+                        {tloading == false &&
+                            terror == null &&
+                            tdata
+                                ?.filter((t) => t.connectionId == c.id)
+                                .map((t) => <ConnectionTicketShortItem key={t.id} ticket={t} />)}
+                    </CollapsedListItem>
+                ))}
         </Box>
     );
 };
