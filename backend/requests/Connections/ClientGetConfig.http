@@ -1,3 +1,116 @@
-@connectionId = 4dc25868-48fc-45c0-b469-4e4626fab087
+@connectionId = 6d3dc7fb-abf1-4bc2-9b1b-1c011747afb5
 GET {{host}}/my/connections/{{connectionId}}/config
 Authorization: Bearer {{clientToken}}
+
+#[
+#  {
+#    "id": "9fbe0c0b-3774-428a-8771-9c367a40a43a",
+#    "connectionId": "eba34758-74aa-4c7f-bd74-c855ed2a9b51",
+#    "client": {
+#      "id": "b145847c-944b-469d-b07c-3c2555c5180f",
+#      "firstName": "Freak",
+#      "lastName": "Client",
+#      "login": "client",
+#      "roles": [
+#        "Client"
+#      ]
+#    },
+#    "status": "Confirmed",
+#    "creationTime": "2024-06-29T11:14:33.173926Z",
+#    "days": 90,
+#    "paymentDescription": "I am",
+#    "images": [
+#      "image1",
+#      "image2",
+#      "image3"
+#    ]
+#  },
+#  {
+#    "id": "d47e6803-86db-4251-b7c0-163f57cd1e46",
+#    "connectionId": "14020809-7321-419c-b84c-64636f2dca91",
+#    "client": {
+#      "id": "b145847c-944b-469d-b07c-3c2555c5180f",
+#      "firstName": "Freak",
+#      "lastName": "Client",
+#      "login": "client",
+#      "roles": [
+#        "Client"
+#      ]
+#    },
+#    "status": "Confirmed",
+#    "creationTime": "2024-06-29T11:23:22.985779Z",
+#    "days": 90,
+#    "paymentDescription": "Kate",
+#    "images": [
+#      "image1",
+#      "image2",
+#      "image3"
+#    ]
+#  },
+#  {
+#    "id": "db707bfa-fd9a-4402-8c37-f2de80f51538",
+#    "connectionId": "a862cab9-d717-40cf-a226-199c953fb58f",
+#    "client": {
+#      "id": "b145847c-944b-469d-b07c-3c2555c5180f",
+#      "firstName": "Freak",
+#      "lastName": "Client",
+#      "login": "client",
+#      "roles": [
+#        "Client"
+#      ]
+#    },
+#    "status": "Confirmed",
+#    "creationTime": "2024-06-29T11:24:16.576598Z",
+#    "days": 90,
+#    "paymentDescription": "Fedya",
+#    "images": [
+#      "image1",
+#      "image2",
+#      "image3"
+#    ]
+#  },
+#  {
+#    "id": "346088bb-4d2c-487a-9b9e-1e397ce394e0",
+#    "connectionId": "91d352ce-d7ff-4dc4-8bd3-426ff2c13ca4",
+#    "client": {
+#      "id": "b145847c-944b-469d-b07c-3c2555c5180f",
+#      "firstName": "Freak",
+#      "lastName": "Client",
+#      "login": "client",
+#      "roles": [
+#        "Client"
+#      ]
+#    },
+#    "status": "Confirmed",
+#    "creationTime": "2024-06-29T11:24:00.737186Z",
+#    "days": 90,
+#    "paymentDescription": "Dima",
+#    "images": [
+#      "image1",
+#      "image2",
+#      "image3"
+#    ]
+#  },
+#  {
+#    "id": "541188f7-aa23-4072-a9ea-d808c35de8a9",
+#    "connectionId": "6d3dc7fb-abf1-4bc2-9b1b-1c011747afb5",
+#    "client": {
+#      "id": "b145847c-944b-469d-b07c-3c2555c5180f",
+#      "firstName": "Freak",
+#      "lastName": "Client",
+#      "login": "client",
+#      "roles": [
+#        "Client"
+#      ]
+#    },
+#    "status": "Confirmed",
+#    "creationTime": "2024-06-29T11:24:06.786056Z",
+#    "days": 90,
+#    "paymentDescription": "DimaMom",
+#    "images": [
+#      "image1",
+#      "image2",
+#      "image3"
+#    ]
+#  }
+#]

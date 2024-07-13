@@ -12,6 +12,10 @@ export default class AuthStore {
         makeAutoObservable(this);
     }
 
+    public getToken() {
+        return localStorage.getItem(this.tokenName);
+    }
+
     async register(info: Register) {
         const auth = await EasyVpn.auth.register(info).then((r) => r.data);
         localStorage.setItem(this.tokenName, auth.token);

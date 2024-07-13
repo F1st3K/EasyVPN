@@ -1,4 +1,4 @@
-import { Role } from './Roles';
+import { Role } from '../enums/Role';
 import User from './User';
 
 export default interface Auth extends User {
