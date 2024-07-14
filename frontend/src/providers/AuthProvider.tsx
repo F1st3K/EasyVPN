@@ -6,7 +6,7 @@ import { FC, ReactElement, useContext } from 'react';
 
 import { Context } from '..';
 import { ApiError } from '../api';
-import { useRequest } from '../hooks';
+import { useIntervalCounter, useRequest } from '../hooks';
 
 interface AuthProviderProps {
     children?: ReactElement;
@@ -14,7 +14,8 @@ interface AuthProviderProps {
 
 const AuthProvider: FC<AuthProviderProps> = (props: AuthProviderProps) => {
     const store = useContext(Context);
-    const [, loading, error] = useRequest<void, ApiError>(() => store.Auth.checkAuth());
+    const counter = useIntervalCounter(1);
+    const [, loading, error] = useRequest<void, ApiError>(() => store.Auth.checkAuth(), [counter]);
 
     if (loading) return <LinearProgress />;
 

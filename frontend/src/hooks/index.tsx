@@ -1,3 +1,4 @@
+import useIntervalCounter from './useIntervalCounter';
 import useRequest from './useRequest';
 
-export { useRequest };
+export { useIntervalCounter, useRequest };
