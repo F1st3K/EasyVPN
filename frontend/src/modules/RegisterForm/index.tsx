@@ -4,10 +4,12 @@ import { LoadingButton } from '@mui/lab';
 import { Alert, Box, TextField } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { Context } from '../..';
 import { ApiError } from '../../api';
 import SecretOutlinedField from '../../components/SecretOutlinedField';
+import { useCustomNavigate } from '../../hooks';
 
 const RegisterForm: FC = () => {
     const [firstName, setFirstName] = useState<string>('');
@@ -17,12 +19,19 @@ const RegisterForm: FC = () => {
     const [remPassword, setRemPassword] = useState<string>('');
     const store = useContext(Context);
 
+    const customNavigate = useCustomNavigate();
+    const { search } = useLocation();
+    const searchParams = new URLSearchParams(search);
+
+    const prevPage = searchParams.get('prevPage');
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<ApiError | null>(null);
 
     function registerHandler() {
         setLoading(true);
         store.Auth.register({ firstName, lastName, login, password })
+            .then(() => customNavigate(prevPage ?? '/'))
             .catch((e) => {
                 setError(e);
                 console.log(e);

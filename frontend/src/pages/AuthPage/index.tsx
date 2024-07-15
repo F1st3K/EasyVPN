@@ -1,7 +1,7 @@
 import { TabContext, TabPanel } from '@mui/lab';
 import { Paper, Tab, Tabs } from '@mui/material';
 import React, { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import CenterBox from '../../components/CenterBox';
 import LoginForm from '../../modules/LoginForm';
@@ -15,9 +15,10 @@ type AuthPageProps = {
 
 const AuthPage: FC<AuthPageProps> = (props: AuthPageProps) => {
     const navigate = useNavigate();
+    const { search, hash } = useLocation();
 
     const handleChangeTab = (_: unknown, newValue: string) => {
-        navigate(`/auth/${newValue}`);
+        navigate(`/auth/${newValue}${search}${hash}`);
     };
 
     return (
@@ -34,7 +35,11 @@ const AuthPage: FC<AuthPageProps> = (props: AuthPageProps) => {
                 }}
             >
                 <TabContext value={props.tab ?? 'login'}>
-                    <Tabs onChange={handleChangeTab} value={props.tab ?? 'login'} aria-label="basic tabs example">
+                    <Tabs
+                        onChange={handleChangeTab}
+                        value={props.tab ?? 'login'}
+                        aria-label="basic tabs example"
+                    >
                         <Tab label="Sign In" value={'login'} />
                         <Tab label="Sign Up" value={'register'} />
                     </Tabs>

@@ -1,4 +1,5 @@
+import useCustomNavigate from './useCustomNavigate';
 import useIntervalCounter from './useIntervalCounter';
 import useRequest from './useRequest';
 
-export { useIntervalCounter, useRequest };
+export { useCustomNavigate, useIntervalCounter, useRequest };
