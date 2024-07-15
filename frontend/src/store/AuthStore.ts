@@ -30,14 +30,17 @@ export default class AuthStore {
 
     async logout() {
         localStorage.removeItem(this.tokenName);
-        this.resetAuth();
+        this.user = {} as User;
+        this.roles = [] as Role[];
+        this.isAuth = false;
     }
 
     async checkAuth() {
-        this.resetAuth();
-
         const token = localStorage.getItem(this.tokenName);
-        if (token === null) return;
+        if (token === null) {
+            this.logout();
+            return;
+        }
 
         const auth = await EasyVpn.auth.check(token).then((r) => r.data);
 
@@ -49,11 +52,5 @@ export default class AuthStore {
         this.user = auth;
         this.roles = auth.roles;
         this.isAuth = true;
-    }
-
-    private resetAuth() {
-        this.user = {} as User;
-        this.roles = [] as Role[];
-        this.isAuth = false;
     }
 }

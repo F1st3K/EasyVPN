@@ -5,13 +5,21 @@ import { Alert, Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { Context } from '../..';
 import { ApiError } from '../../api';
 import SecretOutlinedField from '../../components/SecretOutlinedField';
+import { useCustomNavigate } from '../../hooks';
 
 const LoginForm: FC = () => {
     const { Auth } = useContext(Context);
+
+    const customNavigate = useCustomNavigate();
+    const { search } = useLocation();
+    const searchParams = new URLSearchParams(search);
+
+    const prevPage = searchParams.get('prevPage');
 
     const [login, setLogin] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -22,6 +30,7 @@ const LoginForm: FC = () => {
     function loginHandler() {
         setLoading(true);
         Auth.login(login, password)
+            .then(() => customNavigate(prevPage ?? '/'))
             .catch((e) => {
                 setError(e);
                 console.log(e);
@@ -44,7 +53,13 @@ const LoginForm: FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
             />
-            <LoadingButton sx={{ my: 1 }} variant="contained" size="large" onClick={loginHandler} loading={loading}>
+            <LoadingButton
+                sx={{ my: 1 }}
+                variant="contained"
+                size="large"
+                onClick={loginHandler}
+                loading={loading}
+            >
                 Sign In
             </LoadingButton>
             {error ? (
