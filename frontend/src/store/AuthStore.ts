@@ -1,8 +1,9 @@
-import { makeAutoObservable } from "mobx";
-import EasyVpn, { Auth, Register, Role, User } from "../api";
+import { makeAutoObservable } from 'mobx';
+
+import EasyVpn, { Auth, Register, Role, User } from '../api';
 
 export default class AuthStore {
-    private readonly tokenName = "token";
+    private readonly tokenName = 'token';
     user = {} as User;
     roles = [] as Role[];
     isAuth = false;
@@ -11,34 +12,37 @@ export default class AuthStore {
         makeAutoObservable(this);
     }
 
+    public getToken() {
+        return localStorage.getItem(this.tokenName);
+    }
+
     async register(info: Register) {
-        var auth = await EasyVpn.auth.register(info)
-            .then(r => r.data);
+        const auth = await EasyVpn.auth.register(info).then((r) => r.data);
         localStorage.setItem(this.tokenName, auth.token);
         this.setAuth(auth);
     }
 
     async login(username: string, password: string) {
-        var auth = await EasyVpn.auth.login(username, password)
-            .then(r => r.data);
+        const auth = await EasyVpn.auth.login(username, password).then((r) => r.data);
         localStorage.setItem(this.tokenName, auth.token);
         this.setAuth(auth);
     }
 
     async logout() {
         localStorage.removeItem(this.tokenName);
-        this.resetAuth();
+        this.user = {} as User;
+        this.roles = [] as Role[];
+        this.isAuth = false;
     }
 
     async checkAuth() {
-        this.resetAuth();
-
-        var token = localStorage.getItem(this.tokenName);
-        if (token === null)
+        const token = localStorage.getItem(this.tokenName);
+        if (token === null) {
+            this.logout();
             return;
-        
-        var auth = await EasyVpn.auth.check(token)
-            .then(r => r.data);
+        }
+
+        const auth = await EasyVpn.auth.check(token).then((r) => r.data);
 
         localStorage.setItem(this.tokenName, auth.token);
         this.setAuth(auth);
@@ -48,11 +52,5 @@ export default class AuthStore {
         this.user = auth;
         this.roles = auth.roles;
         this.isAuth = true;
-    }
-
-    private resetAuth() {
-        this.user = {} as User;
-        this.roles = [] as Role[];
-        this.isAuth = false;
     }
 }
