@@ -1,7 +1,7 @@
 import { HttpStatusCode } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
-import EasyVpn, { Auth, Register, Role, User } from '../api';
+import EasyVpn, { ApiError, Auth, Register, Role, User } from '../api';
 
 export default class AuthStore {
     private readonly tokenName = 'token';
@@ -17,26 +17,19 @@ export default class AuthStore {
         return localStorage.getItem(this.tokenName);
     }
 
-    async register(info: Register) {
+    public async register(info: Register) {
         const auth = await EasyVpn.auth.register(info).then((r) => r.data);
         localStorage.setItem(this.tokenName, auth.token);
         this.setAuth(auth);
     }
 
-    async login(username: string, password: string) {
+    public async login(username: string, password: string) {
         const auth = await EasyVpn.auth.login(username, password).then((r) => r.data);
         localStorage.setItem(this.tokenName, auth.token);
         this.setAuth(auth);
     }
 
-    async logout() {
-        localStorage.removeItem(this.tokenName);
-        this.user = {} as User;
-        this.roles = [] as Role[];
-        this.isAuth = false;
-    }
-
-    async checkAuth() {
+    public async checkAuth() {
         const token = localStorage.getItem(this.tokenName);
         if (token === null) {
             this.logout();
@@ -49,10 +42,18 @@ export default class AuthStore {
                 localStorage.setItem(this.tokenName, r.data.token);
                 this.setAuth(r.data);
             })
-            .catch((e) => {
+            .catch((e: ApiError) => {
                 if (e?.response?.data.status === HttpStatusCode.Unauthorized)
                     this.logout();
+                else throw e;
             });
+    }
+
+    public logout() {
+        localStorage.removeItem(this.tokenName);
+        this.user = {} as User;
+        this.roles = [] as Role[];
+        this.isAuth = false;
     }
 
     private setAuth(auth: Auth) {

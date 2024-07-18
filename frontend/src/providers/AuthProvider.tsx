@@ -6,6 +6,7 @@ import { FC, ReactElement, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { Context } from '..';
+import { ApiError } from '../api';
 import config from '../config.json';
 import { useIntervalCounter, useRequest } from '../hooks';
 
@@ -18,12 +19,12 @@ const AuthProvider: FC<AuthProviderProps> = (props: AuthProviderProps) => {
     const location = useLocation();
 
     const store = useContext(Context);
-    const [, loading] = useRequest<void>(
+    const [, loading, error] = useRequest<void, ApiError>(
         () => store.Auth.checkAuth(),
         [counter, location],
     );
 
-    if (loading) return <LinearProgress />;
+    if (loading || error) return <LinearProgress />;
 
     return <>{props.children}</>;
 };
