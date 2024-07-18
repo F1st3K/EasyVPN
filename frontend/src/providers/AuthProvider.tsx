@@ -1,5 +1,5 @@
 import { LinearProgress } from '@mui/material';
-import { HttpStatusCode } from 'axios';
+import {} from 'axios';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { FC, ReactElement, useContext } from 'react';
@@ -24,9 +24,7 @@ const AuthProvider: FC<AuthProviderProps> = (props: AuthProviderProps) => {
         [counter, location],
     );
 
-    if (loading) return <LinearProgress />;
-
-    if (error?.response?.data.status === HttpStatusCode.Unauthorized) store.Auth.logout();
+    if (loading || error) return <LinearProgress />;
 
     return <>{props.children}</>;
 };

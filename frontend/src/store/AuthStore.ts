@@ -1,6 +1,7 @@
+import { HttpStatusCode } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
-import EasyVpn, { Auth, Register, Role, User } from '../api';
+import EasyVpn, { ApiError, Auth, Register, Role, User } from '../api';
 
 export default class AuthStore {
     private readonly tokenName = 'token';
@@ -16,39 +17,40 @@ export default class AuthStore {
         return localStorage.getItem(this.tokenName);
     }
 
-    async register(info: Register) {
-        const auth = await EasyVpn.auth.register(info).then((r) => r.data);
-        localStorage.setItem(this.tokenName, auth.token);
-        this.setAuth(auth);
+    public async register(info: Register) {
+        await EasyVpn.auth.register(info).then((r) => this.setAuth(r.data));
     }
 
-    async login(username: string, password: string) {
-        const auth = await EasyVpn.auth.login(username, password).then((r) => r.data);
-        localStorage.setItem(this.tokenName, auth.token);
-        this.setAuth(auth);
+    public async login(username: string, password: string) {
+        await EasyVpn.auth.login(username, password).then((r) => this.setAuth(r.data));
     }
 
-    async logout() {
-        localStorage.removeItem(this.tokenName);
-        this.user = {} as User;
-        this.roles = [] as Role[];
-        this.isAuth = false;
-    }
-
-    async checkAuth() {
+    public async checkAuth() {
         const token = localStorage.getItem(this.tokenName);
         if (token === null) {
             this.logout();
             return;
         }
 
-        const auth = await EasyVpn.auth.check(token).then((r) => r.data);
+        await EasyVpn.auth
+            .check(token)
+            .then((r) => this.setAuth(r.data))
+            .catch((e: ApiError) => {
+                if (e?.response?.data.status === HttpStatusCode.Unauthorized)
+                    this.logout();
+                else throw e;
+            });
+    }
 
-        localStorage.setItem(this.tokenName, auth.token);
-        this.setAuth(auth);
+    public logout() {
+        localStorage.removeItem(this.tokenName);
+        this.user = {} as User;
+        this.roles = [] as Role[];
+        this.isAuth = false;
     }
 
     private setAuth(auth: Auth) {
+        localStorage.setItem(this.tokenName, auth.token);
         this.user = auth;
         this.roles = auth.roles;
         this.isAuth = true;
