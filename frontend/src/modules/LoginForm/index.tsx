@@ -30,12 +30,16 @@ const LoginForm: FC = () => {
     function loginHandler() {
         setLoading(true);
         Auth.login(login, password)
-            .then(() => customNavigate(prevPage ?? '/'))
             .catch((e) => {
                 setError(e);
                 console.log(e);
             })
-            .finally(() => setLoading(false));
+            .then(() => {
+                customNavigate(prevPage ?? '/');
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }
 
     return (

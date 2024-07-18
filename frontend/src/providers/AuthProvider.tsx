@@ -1,12 +1,11 @@
 import { LinearProgress } from '@mui/material';
-import { HttpStatusCode } from 'axios';
+import {} from 'axios';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { FC, ReactElement, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { Context } from '..';
-import { ApiError } from '../api';
 import config from '../config.json';
 import { useIntervalCounter, useRequest } from '../hooks';
 
@@ -19,14 +18,12 @@ const AuthProvider: FC<AuthProviderProps> = (props: AuthProviderProps) => {
     const location = useLocation();
 
     const store = useContext(Context);
-    const [, loading, error] = useRequest<void, ApiError>(
+    const [, loading] = useRequest<void>(
         () => store.Auth.checkAuth(),
         [counter, location],
     );
 
     if (loading) return <LinearProgress />;
-
-    if (error?.response?.data.status === HttpStatusCode.Unauthorized) store.Auth.logout();
 
     return <>{props.children}</>;
 };

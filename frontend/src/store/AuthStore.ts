@@ -1,3 +1,4 @@
+import { HttpStatusCode } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
 import EasyVpn, { Auth, Register, Role, User } from '../api';
@@ -42,10 +43,16 @@ export default class AuthStore {
             return;
         }
 
-        const auth = await EasyVpn.auth.check(token).then((r) => r.data);
-
-        localStorage.setItem(this.tokenName, auth.token);
-        this.setAuth(auth);
+        await EasyVpn.auth
+            .check(token)
+            .then((r) => {
+                localStorage.setItem(this.tokenName, r.data.token);
+                this.setAuth(r.data);
+            })
+            .catch((e) => {
+                if (e?.response?.data.status === HttpStatusCode.Unauthorized)
+                    this.logout();
+            });
     }
 
     private setAuth(auth: Auth) {
