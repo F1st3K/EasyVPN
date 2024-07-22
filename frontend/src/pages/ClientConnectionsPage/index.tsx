@@ -13,11 +13,11 @@ import ConnectionTicketShortItem from '../../modules/ConnectionTicketShortItem';
 const ClientConnectionsPage: FC = () => {
     const store = useContext(Context);
     const [data, loading, error] = useRequest<Connection[], ApiError>(() =>
-        EasyVpn.my.connections(store.Auth.getToken() ?? '').then((v) => v.data),
+        EasyVpn.my.connections(store.Auth.getToken()).then((v) => v.data),
     );
 
     const [tdata, tloading, terror] = useRequest<ConnectionTicket[], ApiError>(() =>
-        EasyVpn.my.tickets(store.Auth.getToken() ?? '').then((v) => v.data),
+        EasyVpn.my.tickets(store.Auth.getToken()).then((v) => v.data),
     );
 
     if (loading) return <LinearProgress />;
@@ -25,10 +25,16 @@ const ClientConnectionsPage: FC = () => {
     return (
         <CenterBox>
             {error ? (
-                <Alert severity="error">{error.response?.data.title ?? error.message}</Alert>
+                <Alert severity="error">
+                    {error.response?.data.title ?? error.message}
+                </Alert>
             ) : (
                 data?.map((c) => (
-                    <CollapsedListItem key={c.id} item={<ConnectionShortItem connection={c} />} listTooltip="Tickets">
+                    <CollapsedListItem
+                        key={c.id}
+                        item={<ConnectionShortItem connection={c} />}
+                        listTooltip="Tickets"
+                    >
                         {tloading && <CircularProgress sx={{ marginLeft: 4 }} />}
                         {terror && (
                             <Alert severity="error" sx={{ width: '25ch' }}>
@@ -39,7 +45,9 @@ const ClientConnectionsPage: FC = () => {
                             terror == null &&
                             tdata
                                 ?.filter((t) => t.connectionId == c.id)
-                                .map((t) => <ConnectionTicketShortItem key={t.id} ticket={t} />)}
+                                .map((t) => (
+                                    <ConnectionTicketShortItem key={t.id} ticket={t} />
+                                ))}
                     </CollapsedListItem>
                 ))
             )}
