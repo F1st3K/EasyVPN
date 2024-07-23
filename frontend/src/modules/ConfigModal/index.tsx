@@ -27,7 +27,7 @@ const ConfigModal: FC<ConfigModalProps> = ({ connectionId, ...props }) => {
         <Modal loading={loading} {...props}>
             {error ? (
                 <Alert
-                    onClose={() => props.open == false}
+                    onClose={props.handleClose}
                     severity="error"
                     variant="outlined"
                     sx={{ width: '25ch' }}

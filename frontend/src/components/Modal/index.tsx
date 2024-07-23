@@ -17,7 +17,7 @@ const Modal: FC<ModalProps> = ({ open, handleClose, ...props }) => {
             {props.loading === true ? (
                 <CircularProgress />
             ) : (
-                <Paper elevation={24} {...props} />
+                <Paper onClick={(e) => e.stopPropagation()} elevation={24} {...props} />
             )}
         </Backdrop>
     );
