@@ -25,7 +25,7 @@ const ClientConnectionsPage: FC = () => {
     return (
         <CenterBox>
             {error ? (
-                <Alert severity="error">
+                <Alert severity="error" variant="outlined">
                     {error.response?.data.title ?? error.message}
                 </Alert>
             ) : (
@@ -37,7 +37,11 @@ const ClientConnectionsPage: FC = () => {
                     >
                         {tloading && <CircularProgress sx={{ marginLeft: 4 }} />}
                         {terror && (
-                            <Alert severity="error" sx={{ width: '25ch' }}>
+                            <Alert
+                                severity="error"
+                                sx={{ width: '25ch' }}
+                                variant="outlined"
+                            >
                                 {terror.response?.data.title ?? terror.message}
                             </Alert>
                         )}

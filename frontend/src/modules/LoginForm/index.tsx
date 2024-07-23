@@ -67,7 +67,7 @@ const LoginForm: FC = () => {
                 Sign In
             </LoadingButton>
             {error ? (
-                <Alert severity="error" sx={{ width: '25ch' }}>
+                <Alert severity="error" variant="outlined" sx={{ width: '25ch' }}>
                     {error.response?.data.title ?? error.message}
                 </Alert>
             ) : null}

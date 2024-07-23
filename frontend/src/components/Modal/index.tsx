@@ -1,19 +1,24 @@
-import { Backdrop, Paper, PaperProps } from '@mui/material';
+import { Backdrop, CircularProgress, Paper, PaperProps } from '@mui/material';
 import React, { FC } from 'react';
 
 interface ModalProps extends PaperProps {
     open?: boolean;
     handleClose?: () => void;
+    loading?: boolean;
 }
 
-const Modal: FC<ModalProps> = (props: ModalProps) => {
+const Modal: FC<ModalProps> = ({ open, handleClose, ...props }) => {
     return (
         <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={props.open ?? false}
-            onClick={props.handleClose}
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.appBar - 1 }}
+            open={open ?? false}
+            onClick={handleClose}
         >
-            <Paper elevation={24} {...props} />
+            {props.loading === true ? (
+                <CircularProgress />
+            ) : (
+                <Paper elevation={24} {...props} />
+            )}
         </Backdrop>
     );
 };

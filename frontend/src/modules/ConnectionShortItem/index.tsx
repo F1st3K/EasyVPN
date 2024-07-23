@@ -7,21 +7,17 @@ import {
     ListItemAvatar,
     ListItemText,
 } from '@mui/material';
-import React, { FC, ReactNode, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 import { Connection } from '../../api';
 import Modal from '../../components/Modal';
+import ConfigModal from '../ConfigModal';
 
 interface ConnectionShortItemProps {
     connection: Connection;
-    Config?: ReactNode;
-    Extend?: ReactNode;
-    Delete?: ReactNode;
 }
 
-const ConnectionShortItem: FC<ConnectionShortItemProps> = (
-    props: ConnectionShortItemProps,
-) => {
+const ConnectionShortItem: FC<ConnectionShortItemProps> = (props) => {
     const [isConfig, setIsConfig] = useState(false);
     const [isExtend, setIsExtend] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
@@ -103,15 +99,13 @@ const ConnectionShortItem: FC<ConnectionShortItemProps> = (
                     <DeleteForever />
                 </IconButton>
             </Box>
-            <Modal open={isConfig} handleClose={() => setIsConfig(false)}>
-                {props.Config}
-            </Modal>
-            <Modal open={isExtend} handleClose={() => setIsExtend(false)}>
-                {props.Extend}
-            </Modal>
-            <Modal open={isDelete} handleClose={() => setIsDelete(false)}>
-                {props.Delete}
-            </Modal>
+            <ConfigModal
+                open={isConfig}
+                handleClose={() => setIsConfig(false)}
+                connectionId={props.connection.id}
+            />
+            <Modal open={isExtend} handleClose={() => setIsExtend(false)} />
+            <Modal open={isDelete} handleClose={() => setIsDelete(false)} />
         </Box>
     );
 };
