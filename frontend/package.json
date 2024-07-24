@@ -20,6 +20,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-simple-import-sort": "^12.1.0",
+    "js-file-download": "^0.4.12",
     "mobx": "^6.12.3",
     "mobx-react-lite": "^4.0.7",
     "react": "^18.3.1",

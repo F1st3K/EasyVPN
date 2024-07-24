@@ -1,8 +1,11 @@
-import { Alert } from '@mui/material';
+import { Alert, Button } from '@mui/material';
+import jsFileDownload from 'js-file-download';
 import React, { FC, useContext } from 'react';
+import QRCode from 'react-qr-code';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError } from '../../api';
+import CopyButton from '../../components/CopyButton';
 import Modal from '../../components/Modal';
 import { useRequest } from '../../hooks';
 
@@ -35,7 +38,17 @@ const ConfigModal: FC<ConfigModalProps> = ({ connectionId, ...props }) => {
                     {error.response?.data.title ?? error.message}
                 </Alert>
             ) : (
-                config
+                <>
+                    <QRCode value={config || ''} />
+                    <Button
+                        onClick={() =>
+                            jsFileDownload(config || '', `${connectionId}.conf`)
+                        }
+                    >
+                        Download file
+                    </Button>
+                    <CopyButton text={config || ''} />
+                </>
             )}
         </Modal>
     );
