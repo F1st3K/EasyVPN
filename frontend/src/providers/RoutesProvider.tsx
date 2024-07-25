@@ -5,6 +5,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import { Context } from '..';
 import { Role } from '../api';
+import ConfigModal from '../modules/ConfigModal';
 import AuthPage from '../pages/AuthPage';
 import ClientConnectionsPage from '../pages/ClientConnectionsPage';
 import ForbiddenPage from '../pages/ForbiddenPage';
@@ -111,9 +112,11 @@ const RoutesProvider: FC = () => {
                 </Route>
                 <Route path="profile" element={<Auth for={<ProfilePage />} />} />
                 <Route
-                    path="connections"
+                    path="connections/"
                     element={<Auth with={Role.Client} for={<ClientConnectionsPage />} />}
-                />
+                >
+                    <Route path=":connectionId/config" element={<ConfigModal />} />
+                </Route>
                 <Route path="*" element={<NotFoundPage />} />
             </Route>
         </Routes>

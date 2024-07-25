@@ -1,6 +1,7 @@
 import { Alert, CircularProgress, LinearProgress } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError, Connection, ConnectionTicket } from '../../api';
@@ -55,6 +56,7 @@ const ClientConnectionsPage: FC = () => {
                     </CollapsedListItem>
                 ))
             )}
+            <Outlet />
         </CenterBox>
     );
 };

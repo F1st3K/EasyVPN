@@ -7,20 +7,17 @@ import {
     ListItemAvatar,
     ListItemText,
 } from '@mui/material';
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Connection } from '../../api';
-import Modal from '../../components/Modal';
-import ConfigModal from '../ConfigModal';
 
 interface ConnectionShortItemProps {
     connection: Connection;
 }
 
 const ConnectionShortItem: FC<ConnectionShortItemProps> = (props) => {
-    const [isConfig, setIsConfig] = useState(false);
-    const [isExtend, setIsExtend] = useState(false);
-    const [isDelete, setIsDelete] = useState(false);
+    const navigate = useNavigate();
 
     const expt = new Date(props.connection.validUntil);
     const wart = new Date(new Date(expt).setDate(expt.getDate() - 3));
@@ -77,14 +74,14 @@ const ConnectionShortItem: FC<ConnectionShortItemProps> = (props) => {
                         label="Config"
                         icon={<ContentPasteSearch />}
                         color="info"
-                        onClick={() => setIsConfig(true)}
+                        onClick={() => navigate(`${props.connection.id}/config`)}
                     />
                     <Chip
                         variant="filled"
                         label="Extend"
                         icon={<PostAdd />}
                         color="success"
-                        onClick={() => setIsExtend(true)}
+                        onClick={() => navigate(`${props.connection.id}/extend`)}
                     />
                 </Box>
                 <IconButton
@@ -94,18 +91,11 @@ const ConnectionShortItem: FC<ConnectionShortItemProps> = (props) => {
                         marginX: 1,
                     }}
                     color="error"
-                    onClick={() => setIsDelete(true)}
+                    onClick={() => navigate(`${props.connection.id}/delete`)}
                 >
                     <DeleteForever />
                 </IconButton>
             </Box>
-            <ConfigModal
-                open={isConfig}
-                handleClose={() => setIsConfig(false)}
-                connectionId={props.connection.id}
-            />
-            <Modal open={isExtend} handleClose={() => setIsExtend(false)} />
-            <Modal open={isDelete} handleClose={() => setIsDelete(false)} />
         </Box>
     );
 };

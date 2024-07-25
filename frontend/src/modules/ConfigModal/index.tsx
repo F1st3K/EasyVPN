@@ -3,6 +3,7 @@ import { Alert, Button, Divider, IconButton, useTheme } from '@mui/material';
 import jsFileDownload from 'js-file-download';
 import React, { FC, useContext } from 'react';
 import QRCode from 'react-qr-code';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError } from '../../api';
@@ -11,30 +12,24 @@ import CopyButton from '../../components/CopyButton';
 import Modal from '../../components/Modal';
 import { useRequest } from '../../hooks';
 
-interface ConfigModalProps {
-    connectionId: string;
-    open?: boolean;
-    handleClose?: () => void;
-}
-
-const ConfigModal: FC<ConfigModalProps> = ({ connectionId, ...props }) => {
-    if (props.open == false) return null;
+const ConfigModal: FC = () => {
+    const { connectionId } = useParams();
+    const navigate = useNavigate();
+    const handleClose = () => navigate('../');
 
     const { Auth } = useContext(Context);
-    const [config, loading, error] = useRequest<string, ApiError>(
-        () =>
-            EasyVpn.my
-                .configConnection(connectionId, Auth.getToken())
-                .then((v) => v.data.config),
-        [props.open],
+    const [config, loading, error] = useRequest<string, ApiError>(() =>
+        EasyVpn.my
+            .configConnection(connectionId || '', Auth.getToken())
+            .then((v) => v.data.config),
     );
 
     const theme = useTheme();
     return (
-        <Modal loading={loading} {...props}>
+        <Modal loading={loading} open={true} handleClose={handleClose}>
             {error ? (
                 <Alert
-                    onClose={props.handleClose}
+                    onClose={handleClose}
                     severity="error"
                     variant="outlined"
                     sx={{ width: '25ch' }}
@@ -85,7 +80,7 @@ const ConfigModal: FC<ConfigModalProps> = ({ connectionId, ...props }) => {
                     </CenterBox>
                     <Divider></Divider>
                     <CenterBox marginTop={1}>
-                        <Button variant="contained" onClick={props.handleClose}>
+                        <Button variant="contained" onClick={handleClose}>
                             Close
                         </Button>
                     </CenterBox>
