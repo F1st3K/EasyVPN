@@ -41,7 +41,7 @@ const EasyVpn = {
             });
         },
         configConnection: (connectionId: string, token: string) => {
-            return api.get<string>(`/my/connections/${connectionId}/config`, {
+            return api.get<any>(`/my/connections/${connectionId}/config`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },

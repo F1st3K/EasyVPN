@@ -1,8 +1,8 @@
 import { ContentCopy, DoneAll } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
+import { IconButton, IconButtonProps } from '@mui/material';
 import React, { FC, useState } from 'react';
 
-interface CopyButtonProps {
+interface CopyButtonProps extends IconButtonProps {
     text: string;
 }
 
@@ -13,13 +13,13 @@ const CopyButton: FC<CopyButtonProps> = (props) => {
         navigator.clipboard.writeText(props.text);
         setIsCopied(true);
         const interval = setInterval(() => {
-            setIsCopied(false);
             clearInterval(interval);
+            setIsCopied(false);
         }, 10 * 1000);
     };
 
     return (
-        <IconButton onClick={handleCopy}>
+        <IconButton onClick={() => handleCopy()} {...props}>
             {isCopied ? <DoneAll /> : <ContentCopy />}
         </IconButton>
     );
