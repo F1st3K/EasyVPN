@@ -1,5 +1,5 @@
 import { Download } from '@mui/icons-material';
-import { Alert, Button, Divider, IconButton, useTheme } from '@mui/material';
+import { Alert, Button, Divider, IconButton, PaperProps, useTheme } from '@mui/material';
 import jsFileDownload from 'js-file-download';
 import React, { FC, useContext } from 'react';
 import QRCode from 'react-qr-code';
@@ -12,21 +12,25 @@ import CopyButton from '../../components/CopyButton';
 import Modal from '../../components/Modal';
 import { useRequest } from '../../hooks';
 
-const ConfigModal: FC = () => {
-    const { connectionId } = useParams();
+interface ConfigModalProps extends PaperProps {
+    connectionId?: string;
+}
+
+const ConfigModal: FC<ConfigModalProps> = (props) => {
+    const connectionId = props.connectionId || useParams().connectionId || '';
     const navigate = useNavigate();
-    const handleClose = () => navigate('../');
+    const handleClose = () => navigate('../.');
 
     const { Auth } = useContext(Context);
     const [config, loading, error] = useRequest<string, ApiError>(() =>
         EasyVpn.my
-            .configConnection(connectionId || '', Auth.getToken())
+            .configConnection(connectionId, Auth.getToken())
             .then((v) => v.data.config),
     );
 
     const theme = useTheme();
     return (
-        <Modal loading={loading} open={true} handleClose={handleClose}>
+        <Modal loading={loading} open={true} handleClose={handleClose} {...props}>
             {error ? (
                 <Alert
                     onClose={handleClose}
