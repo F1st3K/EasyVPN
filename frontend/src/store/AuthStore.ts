@@ -14,7 +14,7 @@ export default class AuthStore {
     }
 
     public getToken() {
-        return localStorage.getItem(this.tokenName);
+        return localStorage.getItem(this.tokenName) ?? '';
     }
 
     public async register(info: Register) {

@@ -1,6 +1,7 @@
 import { Alert, CircularProgress, LinearProgress } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError, Connection, ConnectionTicket } from '../../api';
@@ -13,11 +14,11 @@ import ConnectionTicketShortItem from '../../modules/ConnectionTicketShortItem';
 const ClientConnectionsPage: FC = () => {
     const store = useContext(Context);
     const [data, loading, error] = useRequest<Connection[], ApiError>(() =>
-        EasyVpn.my.connections(store.Auth.getToken() ?? '').then((v) => v.data),
+        EasyVpn.my.connections(store.Auth.getToken()).then((v) => v.data),
     );
 
     const [tdata, tloading, terror] = useRequest<ConnectionTicket[], ApiError>(() =>
-        EasyVpn.my.tickets(store.Auth.getToken() ?? '').then((v) => v.data),
+        EasyVpn.my.tickets(store.Auth.getToken()).then((v) => v.data),
     );
 
     if (loading) return <LinearProgress />;
@@ -25,13 +26,23 @@ const ClientConnectionsPage: FC = () => {
     return (
         <CenterBox>
             {error ? (
-                <Alert severity="error">{error.response?.data.title ?? error.message}</Alert>
+                <Alert severity="error" variant="outlined">
+                    {error.response?.data.title ?? error.message}
+                </Alert>
             ) : (
                 data?.map((c) => (
-                    <CollapsedListItem key={c.id} item={<ConnectionShortItem connection={c} />} listTooltip="Tickets">
+                    <CollapsedListItem
+                        key={c.id}
+                        item={<ConnectionShortItem connection={c} />}
+                        listTooltip="Tickets"
+                    >
                         {tloading && <CircularProgress sx={{ marginLeft: 4 }} />}
                         {terror && (
-                            <Alert severity="error" sx={{ width: '25ch' }}>
+                            <Alert
+                                severity="error"
+                                sx={{ width: '25ch' }}
+                                variant="outlined"
+                            >
                                 {terror.response?.data.title ?? terror.message}
                             </Alert>
                         )}
@@ -39,10 +50,13 @@ const ClientConnectionsPage: FC = () => {
                             terror == null &&
                             tdata
                                 ?.filter((t) => t.connectionId == c.id)
-                                .map((t) => <ConnectionTicketShortItem key={t.id} ticket={t} />)}
+                                .map((t) => (
+                                    <ConnectionTicketShortItem key={t.id} ticket={t} />
+                                ))}
                     </CollapsedListItem>
                 ))
             )}
+            <Outlet />
         </CenterBox>
     );
 };

@@ -20,28 +20,33 @@ const api = axios.create({
 const EasyVpn = {
     auth: {
         login: (login: string, password: string) => {
-            return api.post<Auth>('/auth/login', {
+            return api.post<Auth>(`/auth/login`, {
                 login,
                 password,
             });
         },
         check: (token: string) => {
-            return api.get<Auth>('/auth/check', {
+            return api.get<Auth>(`/auth/check`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
         register: (request: Register) => {
-            return api.post<Auth>('/auth/register', request);
+            return api.post<Auth>(`/auth/register`, request);
         },
     },
     my: {
         connections: (token: string) => {
-            return api.get<Connection[]>('/my/connections', {
+            return api.get<Connection[]>(`/my/connections`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        configConnection: (connectionId: string, token: string) => {
+            return api.get<any>(`/my/connections/${connectionId}/config`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
         tickets: (token: string) => {
-            return api.get<ConnectionTicket[]>('/my/tickets', {
+            return api.get<ConnectionTicket[]>(`/my/tickets`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
