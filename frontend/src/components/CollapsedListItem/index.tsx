@@ -8,7 +8,7 @@ interface ColapsedListItemProps {
     listTooltip?: ReactNode;
 }
 
-const ColapsedListItem: FC<ColapsedListItemProps> = (props: ColapsedListItemProps) => {
+const ColapsedListItem: FC<ColapsedListItemProps> = (props) => {
     const [isOpen, SetIsOpen] = useState<boolean>(false);
 
     return (
