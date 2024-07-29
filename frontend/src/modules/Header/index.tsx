@@ -1,5 +1,18 @@
-import { AccountCircle, AdminPanelSettings, SupportAgent, VpnKey } from '@mui/icons-material';
-import { AppBar, Box, Button, IconButton, MenuItem, Toolbar, Typography } from '@mui/material';
+import {
+    AccountCircle,
+    AdminPanelSettings,
+    SupportAgent,
+    VpnKey,
+} from '@mui/icons-material';
+import {
+    AppBar,
+    Box,
+    Button,
+    IconButton,
+    MenuItem,
+    Toolbar,
+    Typography,
+} from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +32,12 @@ const Header: FC = () => {
     return (
         <AppBar position="sticky">
             <Toolbar>
-                <Button onClick={() => navigate('/')} size="large" color="inherit" sx={{ textTransform: 'none' }}>
+                <Button
+                    onClick={() => navigate('/')}
+                    size="large"
+                    color="inherit"
+                    sx={{ textTransform: 'none' }}
+                >
                     <Typography fontSize="18pt" component="div">
                         EasyVPN
                     </Typography>
@@ -27,27 +45,57 @@ const Header: FC = () => {
                 <Box sx={{ flexGrow: 1 }}>
                     {Is(Role.Administrator) && (
                         <>
-                            <IconButton size="large" color="inherit" onClick={(e) => setAnchorAdmin(e.currentTarget)}>
+                            <IconButton
+                                size="large"
+                                color="inherit"
+                                onClick={(e) => setAnchorAdmin(e.currentTarget)}
+                            >
                                 <AdminPanelSettings />
                             </IconButton>
-                            <PopUpMenu anchorEl={anchorAdmin} onClose={() => setAnchorAdmin(null)}>
-                                <MenuItem onClick={() => navigate('/control/connections')}>Connections</MenuItem>
-                                <MenuItem onClick={() => navigate('/control/users')}>Users</MenuItem>
-                                <MenuItem onClick={() => navigate('/control/servers')}>Servers</MenuItem>
+                            <PopUpMenu
+                                anchorEl={anchorAdmin}
+                                onClose={() => setAnchorAdmin(null)}
+                            >
+                                <MenuItem
+                                    onClick={() => navigate('/control/connections')}
+                                >
+                                    Connections
+                                </MenuItem>
+                                <MenuItem onClick={() => navigate('/control/users')}>
+                                    Users
+                                </MenuItem>
+                                <MenuItem onClick={() => navigate('/control/servers')}>
+                                    Servers
+                                </MenuItem>
                             </PopUpMenu>
                         </>
                     )}
                     {(Is(Role.PaymentReviewer) || Is(Role.Administrator)) && (
                         <>
-                            <IconButton size="large" color="inherit" onClick={(e) => setAnchorTickets(e.currentTarget)}>
+                            <IconButton
+                                size="large"
+                                color="inherit"
+                                onClick={(e) => setAnchorTickets(e.currentTarget)}
+                            >
                                 <SupportAgent />
                             </IconButton>
-                            <PopUpMenu anchorEl={anchorTickets} onClose={() => setAnchorTickets(null)}>
+                            <PopUpMenu
+                                anchorEl={anchorTickets}
+                                onClose={() => setAnchorTickets(null)}
+                            >
                                 {Is(Role.Administrator) && (
-                                    <MenuItem onClick={() => navigate('/tickets/support')}>Support Tickets</MenuItem>
+                                    <MenuItem
+                                        onClick={() => navigate('/tickets/support')}
+                                    >
+                                        Support Tickets
+                                    </MenuItem>
                                 )}
                                 {Is(Role.PaymentReviewer) && (
-                                    <MenuItem onClick={() => navigate('/tickets/payment')}>Payment Tickets</MenuItem>
+                                    <MenuItem
+                                        onClick={() => navigate('/tickets/payment')}
+                                    >
+                                        Payment Tickets
+                                    </MenuItem>
                                 )}
                             </PopUpMenu>
                         </>

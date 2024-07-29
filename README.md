@@ -4,7 +4,7 @@
 ## Deploy
 Для развертывания `EasyVPN` на одном единственном сервере используйте `Docker Compose` :
 ```bash
-docker-compose up --build
+docker compose up --build
 ```
 > `Важно:` При таком варианте развертывания убедитесь что в frontend-конфигурации [config.json](./frontend/src/config.json), указано `"ApiUrl": "api"` для правильного перенаправления запросов к api.
 
