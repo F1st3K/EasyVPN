@@ -1,5 +1,12 @@
 import { CheckCircleOutline, HighlightOff, MoreHoriz } from '@mui/icons-material';
-import { Box, Chip, CircularProgress, IconButton, ListItem, ListItemText } from '@mui/material';
+import {
+    Box,
+    Chip,
+    CircularProgress,
+    IconButton,
+    ListItem,
+    ListItemText,
+} from '@mui/material';
 import React, { FC } from 'react';
 
 import { ConnectionTicket, ConnectionTicketStatus } from '../../api';
@@ -9,7 +16,9 @@ interface ConnectionTicketShortItemProps {
     onGetMoreInfo?: (t: ConnectionTicket) => void;
 }
 
-const ConnectionTicketShortItem: FC<ConnectionTicketShortItemProps> = (props: ConnectionTicketShortItemProps) => {
+const ConnectionTicketShortItem: FC<ConnectionTicketShortItemProps> = (
+    props: ConnectionTicketShortItemProps,
+) => {
     const crtt = new Date(props.ticket.creationTime);
     return (
         <ListItem sx={{ maxWidth: 450 }}>
@@ -19,19 +28,34 @@ const ConnectionTicketShortItem: FC<ConnectionTicketShortItemProps> = (props: Co
                     primary={<>For {props.ticket.days} day extension</>}
                     secondary={
                         <>
-                            from {crtt.toDateString()} at {crtt.getHours().toString().padStart(2, '0')}:
+                            from {crtt.toDateString()} at{' '}
+                            {crtt.getHours().toString().padStart(2, '0')}:
                             {crtt.getMinutes().toString().padStart(2, '0')}
                         </>
                     }
                 />
                 {props.ticket.status == ConnectionTicketStatus.Pending && (
-                    <Chip variant="outlined" label="Pending..." icon={<CircularProgress disableShrink size={20} />} />
+                    <Chip
+                        variant="outlined"
+                        label="Pending..."
+                        icon={<CircularProgress disableShrink size={20} />}
+                    />
                 )}
                 {props.ticket.status == ConnectionTicketStatus.Rejected && (
-                    <Chip variant="outlined" label="Rejected" color="error" icon={<HighlightOff />} />
+                    <Chip
+                        variant="outlined"
+                        label="Rejected"
+                        color="error"
+                        icon={<HighlightOff />}
+                    />
                 )}
                 {props.ticket.status == ConnectionTicketStatus.Confirmed && (
-                    <Chip variant="outlined" label="Confirmed" color="success" icon={<CheckCircleOutline />} />
+                    <Chip
+                        variant="outlined"
+                        label="Confirmed"
+                        color="success"
+                        icon={<CheckCircleOutline />}
+                    />
                 )}
             </Box>
             <IconButton
