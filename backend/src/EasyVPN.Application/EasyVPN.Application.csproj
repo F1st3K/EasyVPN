@@ -1,26 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>0.0.1</Version>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\EasyVPN.Domain\EasyVPN.Domain.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="MediatR" Version="11.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Connections\Common\" />
     <Folder Include="ConnectionTickets\Common\" />
     <Folder Include="Users\Commands\" />
     <Folder Include="Users\Common\" />
   </ItemGroup>
-
 </Project>

@@ -9,7 +9,7 @@ type (
 	Config struct {
 		Service `yaml:"service"`
 		Api     `yaml:"api"`
-		Wg      `yaml:"wg"`
+		Vpn     `yaml:"vpn"`
 	}
 
 	Service struct {
@@ -24,7 +24,7 @@ type (
 		Port string `env-required:"true" yaml:"port" env:"API_PORT"`
 	}
 
-	Wg struct {
+	Vpn struct {
 		Port string `env-required:"true" yaml:"port" env:"WG_PORT"`
 	}
 )
