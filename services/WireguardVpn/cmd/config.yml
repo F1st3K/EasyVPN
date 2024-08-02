@@ -1,6 +1,6 @@
 service:
   name: 'wireguard-vpn'
-  version: '0.1.1'
+  version: '0.1.2'
 api:
   port: "8000"
 vpn:
