@@ -3,7 +3,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\EasyVPN.Domain\EasyVPN.Domain.csproj" />

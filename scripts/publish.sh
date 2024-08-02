@@ -4,6 +4,7 @@ RELEASE_VERSION=$(head -n 1 VERSION)
 # Finish release by git flow
 git tag -a "$RELEASE_VERSION" -m "Release version $RELEASE_VERSION"
 git push origin "release/$RELEASE_VERSION"
+git push --tags
 
 # Check status
 if [ $? -ne 0 ]; then
