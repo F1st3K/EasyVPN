@@ -1,15 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Version>0.1.0</Version>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\EasyVPN.Application\EasyVPN.Application.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.17" />
@@ -18,11 +16,9 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.2.0" />
   </ItemGroup>
-
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Configuration">
       <HintPath>..\..\..\..\.dotnet\shared\Microsoft.AspNetCore.App\7.0.13\Microsoft.Extensions.Configuration.dll</HintPath>
     </Reference>
   </ItemGroup>
-
 </Project>

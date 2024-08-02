@@ -21,7 +21,7 @@ func Start(cfg *config.Config) {
 	clientRepository := *repositories.NewClientRepoitory(ClientsPath)
 	address := *utils.NewAddressManager(AddressPath)
 
-	wg := *utils.NewWgManager(cfg.Service.Host, cfg.Wg.Port,
+	wg := *utils.NewWgManager(cfg.Service.Host, cfg.Vpn.Port,
 		clientRepository.GetAllClients())
 
 	handler := wireguardvpn.NewHandler(clientRepository, wg, address)
