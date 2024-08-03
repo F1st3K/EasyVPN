@@ -9,10 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
         .AddPresentation()
         .AddApplication()
         .AddInfrastructure(builder.Configuration);
+    
+    builder.Services.AddSwaggerGen();
 }
 
 var app = builder.Build();
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
+
     app.UseExceptionHandler(ErrorsController.Route);
     
     app.UseHttpsRedirection();
