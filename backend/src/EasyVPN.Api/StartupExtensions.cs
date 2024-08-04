@@ -9,6 +9,14 @@ namespace EasyVPN.Api;
 
 public static class StartupExtensions
 {
+    public static IApplicationBuilder CreateDocumentationEndpoint(this IApplicationBuilder app)
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
+        return app; 
+    }
+    
     public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();

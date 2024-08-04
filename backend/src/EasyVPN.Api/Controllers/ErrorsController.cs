@@ -9,7 +9,7 @@ public class ErrorsController : ApiController
     public const string Route = "/error";
     
     [AllowAnonymous]
-    [Route(Route)]
+    [HttpGet(Route)]
     public IActionResult Error()
     {
         Exception? exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;

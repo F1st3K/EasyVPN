@@ -13,6 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    app.CreateDocumentationEndpoint();
+
     app.UseExceptionHandler(ErrorsController.Route);
     
     app.UseHttpsRedirection();
