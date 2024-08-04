@@ -1,4 +1,5 @@
 using EasyVPN.Api.Common.Errors;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.OpenApi.Models;
 
@@ -23,6 +24,34 @@ public static class DependencyInjection
         {
             op.AddServer(new OpenApiServer { Url = "/api/" });
             op.AddServer(new OpenApiServer { Url = "/" });
+            
+            op.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = 
+                    "Enter 'Bearer' [space] and then your token in the text input below. " +
+                    "Example: 'Bearer abc123'",
+            });
+
+            op.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            });
+
         });
 
         return services;
