@@ -1,3 +1,4 @@
+using System.Reflection;
 using EasyVPN.Api.Common.Errors;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -22,8 +23,14 @@ public static class DependencyInjection
     {
         services.AddSwaggerGen(op =>
         {
-            op.AddServer(new OpenApiServer { Url = "/api/" });
+            op.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = Assembly.GetExecutingAssembly().GetName().Name,
+                Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3)
+            });
+            
             op.AddServer(new OpenApiServer { Url = "/" });
+            op.AddServer(new OpenApiServer { Url = "/api/" });
             
             op.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
@@ -51,7 +58,6 @@ public static class DependencyInjection
                     Array.Empty<string>()
                 }
             });
-
         });
 
         return services;
