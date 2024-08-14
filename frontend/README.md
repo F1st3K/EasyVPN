@@ -1,5 +1,5 @@
 # EasyVPN frontend
-Приложение веб-интерфейс, имеющее простой UI. (React, TypeScript)
+Приложение веб-интерфейс, имеющее простой UI. (TypeScript + React)
 
 
 ## Configuration

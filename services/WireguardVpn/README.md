@@ -1,5 +1,5 @@
 # Service WireguardVpn
-Сервисное приложение для работы с поключениями WireGuard имеющее простое http-api.
+Сервисное приложение для работы с поключениями WireGuard имеющее простое http-api. (Golang + gin)
 
 
 ## Configuration
