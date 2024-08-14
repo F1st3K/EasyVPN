@@ -3,7 +3,7 @@
 
 
 ## Configuration
-> Конфигурация web-интерфейса находится в [appsettings.json](./src/EasyVPN.Api/appsettings.json):
+> Конфигурация web-интерфейса находится в [`appsettings.json`](./src/EasyVPN.Api/appsettings.json):
 
 `"Logging": { ... },` - настройки логгирования
 
@@ -11,11 +11,10 @@
 
 `"JwtSettings":` - настройки jwt токенов авторизации:
 
-  `"Secret": "super-puper-mega-secret-key-solo",` - секрет защищающий токены
+ - `"Secret": "super-puper-mega-secret-key-solo",` - секрет защищающий токены
+ - `"ExpiryMinutes": 60,` - срок жизни каждого отдельного токена после его создания
 
-  `"ExpiryMinutes": 60,` - срок жизни каждого отдельного токена после его создания
-
-  `"Issuer": "EasyVPN",` и `"Audience": "EasyVPN"` - подпись кем и для кого выпускаются токены
+ - `"Issuer": "EasyVPN",` и `"Audience": "EasyVPN"` - подпись кем и для кого выпускаются токены
 
 `"HashSettings": { "Secret": "super-puper-mega-hash-soltt-solo" },` - секрет использующийся при хэшировании паролей
 
@@ -55,4 +54,4 @@ docker run -d \
 ```
 
 ## EasyVPN API
-Для изучения API вам нужно запустить приложение бизнес-логики и перейти в интерфейс [/swagger/](http://localhost/swagger/).
+Для изучения API вам нужно запустить приложение бизнес-логики и перейти в интерфейс [`/swagger/`](http://localhost/swagger/).

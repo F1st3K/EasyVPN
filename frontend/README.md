@@ -3,9 +3,9 @@
 
 
 ## Configuration
-> Конфигурация web-интерфейса находится в [config.json](./src/config.json):
+> Конфигурация web-интерфейса находится в [`config.json`](./src/config.json):
 
-`"ApiUrl": "http://localhost:80/api/",` - URL к развернотому [EasyVPN backend](../backend/README.md), с которым общается веб-интерфейс
+`"ApiUrl": "http://localhost:80/api/",` - URL к развернотому [`EasyVPN backend`](../backend/README.md), с которым общается веб-интерфейс
 
 `"AuthCheckMinutes": 15` - переодичность в минутах, с которой автоматически проверяется авторизация
 (так же авторизация автоматически проверяется при изменении навигации)
