@@ -17,18 +17,27 @@ namespace EasyVPN.Api.Controllers;
 public class PaymentTicketsController : ApiController
 {
     private readonly ISender _sender;
-    
+
     public PaymentTicketsController(ISender sender)
     {
         _sender = sender;
     }
-    
+
+    /// <summary>
+    /// Get list of conneciton tickets for confirm. (payment reviewer)
+    /// </summary>
+    /// <returns>Returns list of connection tickets.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/payment/tickets
+    /// </remarks>
     [HttpGet]
     public async Task<IActionResult> GetConnectionTickets([FromQuery] Guid? clientId)
     {
-        var getConnectionsResult = 
+        var getConnectionsResult =
             await _sender.Send(new GetConnectionTicketsQuery(clientId));
-        
+
         return getConnectionsResult.Match(
             result => Ok(
                 result.Select(c => new ConnectionTicketResponse(
@@ -47,7 +56,18 @@ public class PaymentTicketsController : ApiController
                     c.Images.ToArray()))),
             errors => Problem(errors));
     }
-    
+
+    /// <summary>
+    /// Confirm connection ticket by guid, on days. (payment reviewer)
+    /// </summary>
+    /// <param name="connectionTicketId">Connection ticket guid.</param>
+    /// <param name="days">Confirm with days.</param>
+    /// <returns>Returns OR or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// PUT {{host}}/payment/tickets/{{connectionTicketId}}/confirm
+    /// </remarks>
     [HttpPut("{connectionTicketId:guid}/confirm")]
     public async Task<IActionResult> Confirm([FromRoute] Guid connectionTicketId, [FromQuery] int? days)
     {
@@ -60,24 +80,34 @@ public class PaymentTicketsController : ApiController
             await _sender.Send(new GetConnectionTicketQuery(connectionTicketId));
         if (ticketResult.IsError)
             return Problem(ticketResult.ErrorsOrEmptyList);
-        
-        var confirmResult = 
+
+        var confirmResult =
             await _sender.Send(new AddLifetimeConnectionCommand(
                 ticketResult.Value.ConnectionId, days ?? ticketResult.Value.Days));
-        
+
         return confirmResult.Match(
-            _ => Ok(), 
+            _ => Ok(),
             errors => Problem(errors));
     }
-    
+
+    /// <summary>
+    /// Reject connection ticket by Guid. (payment reviewer)
+    /// </summary>
+    /// <returns>Returns OR or error.</returns>
+    /// <param name="connectionTicketId">Connection ticket guid.</param>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// PUT {{host}}/payment/tickets/{{connectionTicketId}}/reject
+    /// </remarks>
     [HttpPut("{connectionTicketId:guid}/reject")]
     public async Task<IActionResult> Reject([FromRoute] Guid connectionTicketId)
     {
         var rejectTicketResult =
             await _sender.Send(new RejectConnectionTicketCommand(connectionTicketId));
-        
+
         return rejectTicketResult.Match(
-            _ => Ok(), 
+            _ => Ok(),
             errors => Problem(errors));
     }
 }
