@@ -21,17 +21,28 @@ public class ConnectionsController : ApiController
     {
         _sender = sender;
     }
-    
+
+
+    /// <summary>
+    /// Permanent get list connections. (administrator)
+    /// </summary>
+    /// <param name="clientId">Filter connection with this client.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/connections?clientId={{clientId}}
+    /// </remarks>
     [HttpGet]
     public async Task<IActionResult> GetConnections([FromQuery] Guid? clientId)
     {
-        var getConnectionsResult = 
+        var getConnectionsResult =
             await _sender.Send(new GetConnectionsQuery(clientId));
-        
+
         return getConnectionsResult.Match(
             result => Ok(
                 result.Select(c => new ConnectionResponse(
-                    c.Id, 
+                    c.Id,
                     new UserResponse(
                         c.Client.Id,
                         c.Client.FirstName,
@@ -48,17 +59,38 @@ public class ConnectionsController : ApiController
                     c.ExpirationTime))),
             errors => Problem(errors));
     }
-    
+
+
+    /// <summary>
+    /// Permanent get config connection by guid. (administrator)
+    /// </summary>
+    /// <param name="connectionId">The guid of conneciton.</param>
+    /// <returns>Returns config information for this connection.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/connections/{{connectionId}}/config
+    /// </remarks>
     [HttpGet("{connectionId:guid}/config")]
     public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid connectionId)
     {
-        var configResult = 
+        var configResult =
             await _sender.Send(new GetConfigQuery(connectionId));
         return configResult.Match(
             result => Ok(new ConnectionConfigResponse(result.ClientId, result.Config)),
             errors => Problem(errors));
     }
-    
+
+    /// <summary>
+    /// Permanent reset life time connection by guid. (administrator)
+    /// </summary>
+    /// <param name="connectionId">The guid of conneciton.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// PUT {{host}}/connections/{{connectionId}}/reset
+    /// </remarks>
     [HttpPut("{connectionId:guid}/reset")]
     public async Task<IActionResult> Reset([FromRoute] Guid connectionId)
     {

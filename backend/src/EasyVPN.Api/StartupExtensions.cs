@@ -1,5 +1,4 @@
 using EasyVPN.Application.Common.Interfaces.Expire;
-using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Domain.Entities;
 using EasyVPN.Infrastructure.Persistence;
@@ -14,17 +13,17 @@ public static class StartupExtensions
         app.UseSwagger();
         app.UseSwaggerUI();
 
-        return app; 
+        return app;
     }
-    
+
     public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();
         using var appContext = scope.ServiceProvider.GetRequiredService<EasyVpnDbContext>();
-        
+
         appContext.Database.Migrate();
 
-        return app; 
+        return app;
     }
 
     public static IApplicationBuilder StartExpireService(this IApplicationBuilder app)
@@ -32,7 +31,7 @@ public static class StartupExtensions
         using var scope = app.ApplicationServices.CreateScope();
         var connectionExpireService = scope.ServiceProvider.GetRequiredService<IExpireService<Connection>>();
         var expirationChecker = app.ApplicationServices.GetRequiredService<IExpirationChecker>();
-        
+
         connectionExpireService.AddAllToTrackExpire();
         expirationChecker.Run();
 
