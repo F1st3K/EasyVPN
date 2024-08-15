@@ -18,16 +18,25 @@ public class MyTicketsController : ApiController
     {
         _sender = sender;
     }
-    
+
+    /// <summary>
+    /// Get list of my conneciton tickets. (client)
+    /// </summary>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/my/tickets
+    /// </remarks>
     [HttpGet]
     public async Task<IActionResult> GetConnectionTickets()
     {
         if (User.GetCurrentId() is not { } clientId)
             return Forbid();
-        
-        var getConnectionsResult = 
+
+        var getConnectionsResult =
             await _sender.Send(new GetConnectionTicketsQuery(clientId));
-        
+
         return getConnectionsResult.Match(
             result => Ok(
                 result.Select(c => new ConnectionTicketResponse(

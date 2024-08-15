@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using EasyVPN.Api.Common;
 using EasyVPN.Application.Connections.Commands.CreateConnection;
 using EasyVPN.Application.Connections.Commands.DeleteConnection;
@@ -6,7 +5,6 @@ using EasyVPN.Application.Connections.Queries.GetConfig;
 using EasyVPN.Application.Connections.Queries.GetConnection;
 using EasyVPN.Application.Connections.Queries.GetConnections;
 using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
-using EasyVPN.Contracts.Authentication;
 using EasyVPN.Contracts.Connections;
 using EasyVPN.Contracts.Servers;
 using EasyVPN.Contracts.Users;
@@ -26,20 +24,29 @@ public class MyConnectionsController : ApiController
     {
         _sender = sender;
     }
-    
+
+    /// <summary>
+    /// Get list of my connecitons. (client)
+    /// </summary>
+    /// <returns>List connections.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/my/connections
+    /// </remarks>
     [HttpGet]
     public async Task<IActionResult> GetConnections()
     {
         if (User.GetCurrentId() is not { } clientId)
             return Forbid();
-        
-        var getConnectionsResult = 
+
+        var getConnectionsResult =
             await _sender.Send(new GetConnectionsQuery(clientId));
-        
+
         return getConnectionsResult.Match(
             result => Ok(
                 result.Select(c => new ConnectionResponse(
-                    c.Id, 
+                    c.Id,
                     new UserResponse(
                         c.Client.Id,
                         c.Client.FirstName,
@@ -56,32 +63,72 @@ public class MyConnectionsController : ApiController
                     c.ExpirationTime))),
             errors => Problem(errors));
     }
-    
+
+    /// <summary>
+    /// Create new connection for me. (client)
+    /// </summary>
+    /// <param name="request">Info for accepted ticket on create new connection.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// POST {{host}}/my/connections
+    /// {
+    ///     "serverId": "00000000-0000-0000-0000-000000000000",
+    ///     "Days": 30,
+    ///     "Description": "I am payment this",
+    ///     "Images" : [
+    ///       "image1",
+    ///       "image2",
+    ///       "image3"
+    ///     ]
+    /// }
+    /// </remarks>
     [HttpPost]
     public async Task<IActionResult> CreateConnection(CreateConnectionRequest request)
     {
         if (User.GetCurrentId() is not { } clientId)
             return Forbid();
-        
-        var createConnectionResult = 
+
+        var createConnectionResult =
             await _sender.Send(new CreateConnectionCommand(
                 clientId,
                 request.ServerId));
         if (createConnectionResult.IsError)
             return Problem(createConnectionResult.ErrorsOrEmptyList);
-        
+
         var createTicketResult =
             await _sender.Send(new CreateConnectionTicketCommand(
                 createConnectionResult.Value.Id,
                 request.Days,
                 request.Description,
                 request.Images));
-        
+
         return createTicketResult.Match(
-            _ => Ok(), 
+            _ => Ok(),
             errors => Problem(errors));
     }
-    
+
+    /// <summary>
+    /// Create extend ticket for me. (client)
+    /// </summary>
+    /// <param name="request">Info for accepted ticket on extend connection.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// POST {{host}}/my/connections/extend
+    /// {
+    ///     "connectionId": "00000001-0000-0000-0000-000000000000",
+    ///     "Days": 30,
+    ///     "Description": "I am payment this",
+    ///     "Images": [
+    ///       "image1",
+    ///       "image2",
+    ///       "image3"
+    ///     ]
+    /// }
+    /// </remarks>
     [HttpPost("extend")]
     public async Task<IActionResult> CreateExtendConnectionTicket(ExtendConnectionRequest request)
     {
@@ -95,25 +142,35 @@ public class MyConnectionsController : ApiController
 
         if (getConnectionResult.Value.Client.Id != clientId)
             return NotFound();
-        
+
         var createTicketResult =
             await _sender.Send(new CreateConnectionTicketCommand(
                 request.ConnectionId,
                 request.Days,
                 request.Description,
                 request.Images));
-        
+
         return createTicketResult.Match(
-            _ => Ok(), 
+            _ => Ok(),
             errors => Problem(errors));
     }
-    
+
+    /// <summary>
+    /// Remove my connection if that expire. (client)
+    /// </summary>
+    /// <param name="connectionId">Connection guid.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// DELETE {{host}}/my/connections/{{connectionId}}
+    /// </remarks>
     [HttpDelete("{connectionId:guid}")]
     public async Task<IActionResult> DeleteConnection([FromRoute] Guid connectionId)
     {
         if (User.GetCurrentId() is not { } clientId)
             return Forbid();
-        
+
         var getConnectionResult =
             await _sender.Send(new GetConnectionQuery(connectionId));
         if (getConnectionResult.IsError)
@@ -121,24 +178,33 @@ public class MyConnectionsController : ApiController
 
         if (getConnectionResult.Value.Client.Id != clientId)
             return NotFound();
-        
+
         var confirmResult = await _sender.Send(
             new DeleteConnectionCommand(connectionId));
-        
+
         return confirmResult.Match(
-            _ => Ok(), 
+            _ => Ok(),
             errors => Problem(errors));
     }
-    
+
+    /// <summary>
+    /// Get configuration of connection. (client)
+    /// </summary>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/my/connections/{{connectionId}}/config
+    /// </remarks>
     [HttpGet("{connectionId:guid}/config")]
     public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid connectionId)
     {
         if (User.GetCurrentId() is not { } clientId)
             return Forbid();
-        
+
         var configResult = await _sender.Send(new GetConfigQuery(connectionId));
         return configResult.Match(
-            result => result.ClientId == clientId 
+            result => result.ClientId == clientId
                 ? Ok(new ConnectionConfigResponse(result.ClientId, result.Config))
                 : Forbid(),
             errors => Problem(errors));
