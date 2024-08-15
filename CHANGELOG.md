@@ -1,5 +1,17 @@
 # Changelog
 
+## `0.1.3`
+
+### Features
+
+- Create swagger endpoint in EasyVPN.Api
+
+### Documentation
+
+- Create & refactoring README.md files (backend, frontend, services/WireguardVpn)
+- Transferred EasyVPN.Api documention to swagger
+- Simplifictaion main README.md
+
 ## `0.1.2`
 
 ### Bug fixes
