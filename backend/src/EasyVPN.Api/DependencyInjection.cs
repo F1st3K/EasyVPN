@@ -24,7 +24,7 @@ public static class DependencyInjection
         services.AddSwaggerGen(op =>
         {
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            op.IncludeXmlComments(xmlFile);
+            op.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFile));
 
             op.SwaggerDoc("v1", new OpenApiInfo
             {
