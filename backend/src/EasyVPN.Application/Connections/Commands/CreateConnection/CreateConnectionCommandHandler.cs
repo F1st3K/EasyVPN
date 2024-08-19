@@ -54,11 +54,11 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
             ExpirationTime = _dateTimeProvider.UtcNow,
             Server = server,
         };
-        _connectionRepository.Add(connection);
-
         var createResult = vpnService.CreateClient(connection.Id);
         if (createResult.IsError)
             return createResult.ErrorsOrEmptyList;
+
+        _connectionRepository.Add(connection);
 
         return connection;
     }

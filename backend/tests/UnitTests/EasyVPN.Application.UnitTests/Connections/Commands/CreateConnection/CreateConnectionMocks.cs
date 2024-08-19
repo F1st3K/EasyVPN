@@ -3,7 +3,6 @@ using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
 using EasyVPN.Application.Connections.Commands.CreateConnection;
-using EasyVPN.Domain.Entities;
 using Moq;
 
 namespace EasyVPN.Application.UnitTests.Connections.Commands.CreateConnection;
@@ -18,8 +17,6 @@ public class CreateConnectionMocks
 
     public CreateConnectionCommandHandler CreateHandler()
     {
-        VpnService.Setup(x
-            => x.CreateClient(It.IsAny<Guid>()));
         var mockDateTimeProvider = new Mock<IDateTimeProvider>();
         mockDateTimeProvider.Setup(x => x.UtcNow)
             .Returns(Constants.Time.Now);
