@@ -18,7 +18,7 @@ public class ConnectionExpireService : IExpireService<Connection>
     public ConnectionExpireService(
         IExpirationChecker expirationChecker,
         IConnectionRepository connectionRepository,
-        IVpnServiceFactory vpnServiceFactory, 
+        IVpnServiceFactory vpnServiceFactory,
         IDateTimeProvider dateTimeProvider)
     {
         _expirationChecker = expirationChecker;
@@ -37,7 +37,7 @@ public class ConnectionExpireService : IExpireService<Connection>
                 AddTrackExpire(c);
         }
     }
-    
+
     public void AddTrackExpire(Connection connection)
     {
         _expirationChecker.NewExpire(connection.Id,
@@ -54,12 +54,14 @@ public class ConnectionExpireService : IExpireService<Connection>
     {
         if (_connectionRepository.Get(connectionId) is not { } connection)
             return Errors.Connection.NotFound;
-        
+
         if (_vpnServiceFactory.GetVpnService(connection.Server) is not { } vpnService)
             return Errors.Server.FailedGetService;
-        
-        vpnService.DisableClient(connection.Id);
-        
+
+        var disableResult = vpnService.DisableClient(connection.Id);
+        if (disableResult.IsError)
+            return disableResult.ErrorsOrEmptyList;
+
         return Result.Success;
     }
 }

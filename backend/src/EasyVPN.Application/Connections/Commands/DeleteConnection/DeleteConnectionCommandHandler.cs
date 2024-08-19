@@ -16,18 +16,18 @@ public class DeleteConnectionCommandHandler : IRequestHandler<DeleteConnectionCo
     public DeleteConnectionCommandHandler(
         IServerRepository serverRepository,
         IConnectionRepository connectionRepository,
-        IVpnServiceFactory vpnServiceFactory, 
+        IVpnServiceFactory vpnServiceFactory,
         IDateTimeProvider dateTimeProvider)
     {
         _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;
         _dateTimeProvider = dateTimeProvider;
     }
-    
+
     public async Task<ErrorOr<Deleted>> Handle(DeleteConnectionCommand command, CancellationToken cancellationToken)
-    {   
+    {
         await Task.CompletedTask;
-        
+
         if (_connectionRepository.Get(command.ConnectionId) is not { } connection)
             return Errors.Connection.NotFound;
 
@@ -36,10 +36,13 @@ public class DeleteConnectionCommandHandler : IRequestHandler<DeleteConnectionCo
 
         if (_vpnServiceFactory.GetVpnService(connection.Server) is not { } vpnService)
             return Errors.Server.FailedGetService;
-        
-        vpnService.DeleteClient(connection.Id);
+
+        var deleteResult = vpnService.DeleteClient(connection.Id);
+        if (deleteResult.IsError)
+            return deleteResult.ErrorsOrEmptyList;
+
         _connectionRepository.Remove(connection.Id);
-        
+
         return Result.Deleted;
     }
 }
