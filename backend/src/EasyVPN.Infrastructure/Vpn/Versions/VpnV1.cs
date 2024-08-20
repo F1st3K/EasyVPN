@@ -12,12 +12,13 @@ public class VpnV1 : IVpnService
     {
         try
         {
-            var client = new HttpClient(){ BaseAddress = new Uri(connectionString.Endpoint)};
+            var client = new HttpClient(){ BaseAddress = new Uri(connectionString.Endpoint) };
             var basicAuth = new AuthenticationHeaderValue("Basic",
                 Convert.ToBase64String(Encoding.UTF8.GetBytes(connectionString.Auth)));
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "/");
+            var request = new HttpRequestMessage(HttpMethod.Get, ".");
             request.Headers.Authorization = basicAuth;
+
             var test = client.Send(request);
             return test.IsSuccessStatusCode ? new VpnV1(client, basicAuth) : null;
         }
