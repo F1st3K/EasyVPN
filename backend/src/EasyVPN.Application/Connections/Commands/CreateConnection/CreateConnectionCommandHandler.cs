@@ -21,7 +21,7 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
         IUserRepository userRepository,
         IServerRepository serverRepository,
         IConnectionRepository connectionRepository,
-        IVpnServiceFactory vpnServiceFactory, 
+        IVpnServiceFactory vpnServiceFactory,
         IDateTimeProvider dateTimeProvider)
     {
         _userRepository = userRepository;
@@ -30,11 +30,11 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
         _vpnServiceFactory = vpnServiceFactory;
         _dateTimeProvider = dateTimeProvider;
     }
-    
+
     public async Task<ErrorOr<Connection>> Handle(CreateConnectionCommand command, CancellationToken cancellationToken)
-    {   
+    {
         await Task.CompletedTask;
-        
+
         if (_userRepository.GetById(command.ClientId) is not { } user)
             return Errors.User.NotFound;
 
@@ -46,7 +46,7 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
 
         if (_vpnServiceFactory.GetVpnService(server) is not { } vpnService)
             return Errors.Server.FailedGetService;
-        
+
         var connection = new Connection()
         {
             Id = Guid.NewGuid(),
@@ -54,9 +54,12 @@ public class CreateConnectionCommandHandler : IRequestHandler<CreateConnectionCo
             ExpirationTime = _dateTimeProvider.UtcNow,
             Server = server,
         };
+        var createResult = vpnService.CreateClient(connection.Id);
+        if (createResult.IsError)
+            return createResult.ErrorsOrEmptyList;
+
         _connectionRepository.Add(connection);
-        vpnService.CreateClient(connection.Id);
-        
+
         return connection;
     }
 }

@@ -17,9 +17,9 @@ public class ResetLifetimeConnectionCommandHandler : IRequestHandler<ResetLifeti
     private readonly IExpireService<Connection> _expireService;
 
     public ResetLifetimeConnectionCommandHandler(
-        IConnectionRepository connectionRepository, 
+        IConnectionRepository connectionRepository,
         IServerRepository serverRepository,
-        IVpnServiceFactory vpnServiceFactory, 
+        IVpnServiceFactory vpnServiceFactory,
         IDateTimeProvider dateTimeProvider,
         IExpireService<Connection> expireService)
     {
@@ -28,9 +28,9 @@ public class ResetLifetimeConnectionCommandHandler : IRequestHandler<ResetLifeti
         _dateTimeProvider = dateTimeProvider;
         _expireService = expireService;
     }
-    
+
     public async Task<ErrorOr<Updated>> Handle(ResetLifetimeConnectionCommand command, CancellationToken cancellationToken)
-    {   
+    {
         await Task.CompletedTask;
 
         if (_connectionRepository.Get(command.ConnectionId) is not { } connection)
@@ -40,12 +40,14 @@ public class ResetLifetimeConnectionCommandHandler : IRequestHandler<ResetLifeti
             return Errors.Server.FailedGetService;
 
         connection.ExpirationTime = _dateTimeProvider.UtcNow;
-        
+
         _expireService.ResetTrackExpire(connection);
         _connectionRepository.Update(connection);
-        
-        vpnService.DisableClient(connection.Id);
-        
+
+        var disableResult = vpnService.DisableClient(connection.Id);
+        if (disableResult.IsError)
+            return disableResult.ErrorsOrEmptyList;
+
         return Result.Updated;
     }
 }

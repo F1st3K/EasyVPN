@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using EasyVPN.Application.Common.Interfaces.Vpn;
+using ErrorOr;
 
 namespace EasyVPN.Infrastructure.Vpn;
 
@@ -11,11 +12,11 @@ public class HttpV1 : IVpnService
         try
         {
             var (uri, auth) = connectionString.ParseConnectionString();
-            
+
             var client = new HttpClient(){ BaseAddress = new Uri(uri)};
             var basicAuth = new AuthenticationHeaderValue("Basic",
                 Convert.ToBase64String(Encoding.UTF8.GetBytes(auth)));
-            
+
             var request = new HttpRequestMessage(HttpMethod.Get, "/");
             request.Headers.Authorization = basicAuth;
             var test = client.Send(request);
@@ -35,8 +36,8 @@ public class HttpV1 : IVpnService
         _client = client;
         _auth = auth;
     }
-    
-    public string GetConfig(Guid connectionId)
+
+    public ErrorOr<string> GetConfig(Guid connectionId)
     {
         var req = new HttpRequestMessage(HttpMethod.Get, $"connections/{connectionId}/config");
         req.Headers.Authorization = _auth;
@@ -44,31 +45,39 @@ public class HttpV1 : IVpnService
         return res.Content.ReadAsStringAsync().Result;
     }
 
-    public void CreateClient(Guid connectionId)
+    public ErrorOr<Created> CreateClient(Guid connectionId)
     {
         var req = new HttpRequestMessage(HttpMethod.Post, $"connections?id={connectionId}");
         req.Headers.Authorization = _auth;
         _client.Send(req);
+
+        return Result.Created;
     }
 
-    public void EnableClient(Guid connectionId)
+    public ErrorOr<Success> EnableClient(Guid connectionId)
     {
         var req = new HttpRequestMessage(HttpMethod.Put, $"connections/{connectionId}/enable");
         req.Headers.Authorization = _auth;
         _client.Send(req);
+
+        return Result.Success;
     }
 
-    public void DisableClient(Guid connectionId)
+    public ErrorOr<Success> DisableClient(Guid connectionId)
     {
         var req = new HttpRequestMessage(HttpMethod.Put, $"connections/{connectionId}/disable");
         req.Headers.Authorization = _auth;
         _client.Send(req);
+
+        return Result.Success;
     }
 
-    public void DeleteClient(Guid connectionId)
+    public ErrorOr<Deleted> DeleteClient(Guid connectionId)
     {
         var req = new HttpRequestMessage(HttpMethod.Delete, $"connections/{connectionId}");
         req.Headers.Authorization = _auth;
         _client.Send(req);
+
+        return Result.Deleted;
     }
 }

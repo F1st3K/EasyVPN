@@ -41,7 +41,7 @@ public class ExpirationChecker : IExpirationChecker
             .ForAll(expire =>
             {
                 if (expire.Value.expireTime > _dateTimeProvider.UtcNow) return;
-                if (expire.Value.onExpire() == new Success())
+                if (expire.Value.onExpire() == Result.Success)
                     _expires.Remove(expire.Key);
             });
     }

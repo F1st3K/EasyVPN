@@ -1,6 +1,7 @@
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
 using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
+using ErrorOr;
 using FluentAssertions;
 using Moq;
 
@@ -9,7 +10,7 @@ namespace EasyVPN.Application.UnitTests.Connections.Commands.AddLifetimeConnecti
 public class AddLifetimeConnectionTests
 {
     private readonly AddLifetimeConnectionMocks _mocks = new();
-    
+
     [Fact]
     public async Task HandleAddLifetimeConnectionCommand_WhenConnectionIsActive_Success()
     {
@@ -39,11 +40,11 @@ public class AddLifetimeConnectionTests
 
         //Assert
         result.IsError.Should().BeFalse(result.FirstError.ToString());
-        
-        _mocks.VpnService.Verify(x 
+
+        _mocks.VpnService.Verify(x
             => x.EnableClient(Constants.Connection.Id));
-        _mocks.ConnectionRepository.Verify(x 
-            => x.Update(It.Is<Connection>(connection 
+        _mocks.ConnectionRepository.Verify(x
+            => x.Update(It.Is<Connection>(connection
                 => connection.ExtendIsValid())));
         _mocks.ExpireService.Verify(x
             => x.ResetTrackExpire(It.Is<Connection>(connection
@@ -52,7 +53,46 @@ public class AddLifetimeConnectionTests
             => x.AddTrackExpire(It.Is<Connection>(connection
                 => connection.ExtendIsValid())));
     }
-    
+
+    [Fact]
+    public async Task HandleAddLifetimeConnectionCommand_WhenVpnServiceError_Error()
+    {
+        //Arrange
+        var command = AddLifetimeConnectionUtils.CreateCommand();
+
+        _mocks.ConnectionRepository.Setup(x
+                => x.Get(Constants.Connection.Id))
+            .Returns(() => new Connection()
+            {
+                Id = Constants.Connection.Id,
+                Server = new() { Id = Constants.Server.Id },
+                ExpirationTime = Constants.Connection.ExpirationTime
+            });
+
+        _mocks.ServerRepository.Setup(x
+                => x.Get(Constants.Server.Id))
+            .Returns(new Server() { Id = Constants.Server.Id });
+
+        _mocks.VpnServiceFactory.Setup(x
+                => x.GetVpnService(It.IsAny<Server>()))
+            .Returns(_mocks.VpnService.Object);
+
+        _mocks.VpnService.Setup(x
+                => x.EnableClient(Constants.Connection.Id))
+            .Returns(Constants.Connection.VpnServiceError);
+
+        //Act
+        var handler = _mocks.CreateHandler();
+        var result = await handler.Handle(command, CancellationToken.None);
+
+        //Assert
+        result.IsError.Should().BeTrue(result.FirstError.ToString());
+        result.FirstError.Should().Be(Constants.Connection.VpnServiceError);
+
+        _mocks.VpnService.Verify(x
+            => x.EnableClient(Constants.Connection.Id));
+    }
+
     [Fact]
     public async Task HandleAddLifetimeConnectionCommand_WhenConnectionNotActive_Success()
     {
@@ -81,17 +121,17 @@ public class AddLifetimeConnectionTests
 
         //Assert
         result.IsError.Should().BeFalse(result.FirstError.ToString());
-        
-        _mocks.VpnService.Verify(x 
+
+        _mocks.VpnService.Verify(x
             => x.EnableClient(Constants.Connection.Id));
-        _mocks.ConnectionRepository.Verify(x 
-            => x.Update(It.Is<Connection>(connection 
+        _mocks.ConnectionRepository.Verify(x
+            => x.Update(It.Is<Connection>(connection
                 => connection.ActivateIsValid())));
         _mocks.ExpireService.Verify(x
             => x.AddTrackExpire(It.Is<Connection>(connection
                 => connection.ActivateIsValid())));
     }
-    
+
     [Fact]
     public async Task HandleAddLifetimeConnectionCommand_WhenConnectionNotFound_Error()
     {
@@ -117,7 +157,7 @@ public class AddLifetimeConnectionTests
         //Assert
         result.FirstError.Should().Be(Errors.Connection.NotFound);
     }
-    
+
     [Fact]
     public async Task HandleAddLifetimeConnectionCommand_WhenFailedGetService_Success()
     {

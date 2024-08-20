@@ -18,7 +18,7 @@ public class GetConfigQueryHandler : IRequestHandler<GetConfigQuery, ErrorOr<Get
         _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;
     }
-    
+
     public async Task<ErrorOr<GetConfigResult>> Handle(GetConfigQuery query, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
@@ -29,7 +29,10 @@ public class GetConfigQueryHandler : IRequestHandler<GetConfigQuery, ErrorOr<Get
         if (_vpnServiceFactory.GetVpnService(connection.Server) is not { } vpnService)
             return Errors.Server.FailedGetService;
 
-        var config = vpnService.GetConfig(query.ConnectionId);
-        return new GetConfigResult(connection.Client.Id, config);
+        var configResult = vpnService.GetConfig(query.ConnectionId);
+        if (configResult.IsError)
+            return configResult.ErrorsOrEmptyList;
+
+        return new GetConfigResult(connection.Client.Id, configResult.Value);
     }
 }

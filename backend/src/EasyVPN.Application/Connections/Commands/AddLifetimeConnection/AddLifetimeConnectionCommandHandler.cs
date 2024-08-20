@@ -18,7 +18,7 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
 
     public AddLifetimeConnectionCommandHandler(
         IConnectionRepository connectionRepository,
-        IVpnServiceFactory vpnServiceFactory, 
+        IVpnServiceFactory vpnServiceFactory,
         IDateTimeProvider dateTimeProvider,
         IExpireService<Connection> expireService)
     {
@@ -27,9 +27,9 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
         _dateTimeProvider = dateTimeProvider;
         _expireService = expireService;
     }
-    
+
     public async Task<ErrorOr<Updated>> Handle(AddLifetimeConnectionCommand command, CancellationToken cancellationToken)
-    {   
+    {
         await Task.CompletedTask;
 
         if (_connectionRepository.Get(command.ConnectionId) is not { } connection)
@@ -40,15 +40,18 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
 
         if (connection.ExpirationTime < _dateTimeProvider.UtcNow)
             connection.ExpirationTime = _dateTimeProvider.UtcNow;
-        
-        connection.ExpirationTime = 
+
+        connection.ExpirationTime =
             connection.ExpirationTime.AddDays(command.CountDays);
         _connectionRepository.Update(connection);
-        
-        vpnService.EnableClient(connection.Id);
+
+        var enableResult = vpnService.EnableClient(connection.Id);
+        if (enableResult.IsError)
+            return enableResult.ErrorsOrEmptyList;
+
         _expireService.ResetTrackExpire(connection);
         _expireService.AddTrackExpire(connection);
-        
+
         return Result.Updated;
     }
 }
