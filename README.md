@@ -53,7 +53,7 @@ docker compose up --build
 ## Contributing
 
 We welcome contributions from the community to improve EasyVPN. If you'd like to contribute, please fork the repository, 
-make your changes, and submit a pull request.
+make your changes, and submit a Pull Request.
 
 [readme-en-shield]: https://img.shields.io/badge/en-blue
 [readme-en-url]: README.md
