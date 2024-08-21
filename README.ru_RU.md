@@ -1,4 +1,4 @@
-[![readme-us-shield]][readme-us-url]
+[![readme-en-shield]][readme-en-url]
 [![readme-ru-shield]][readme-ru-url]
 
 
@@ -58,7 +58,7 @@ docker compose up --build
 Мы приветствуем контрибьюцию в улучшение EasyVPN. Если вы хотите помочь, пожалуйста, создайте fork репозитория,
 внесите изменения и отправьте Pull Request.
 
-[readme-us-shield]: https://img.shields.io/badge/us-gray
-[readme-us-url]: README.md
+[readme-en-shield]: https://img.shields.io/badge/en-gray
+[readme-en-url]: README.md
 [readme-ru-shield]: https://img.shields.io/badge/ru-blue
 [readme-ru-url]: README.ru_RU.md
