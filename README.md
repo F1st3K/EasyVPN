@@ -1,4 +1,4 @@
-[![readme-us-shield]][readme-us-url]
+[![readme-en-shield]][readme-en-url]
 [![readme-ru-shield]][readme-ru-url]
 
 # EasyVPN
@@ -33,14 +33,29 @@ The monorepo is organized as follows:
 
 ## Installation
 
-```bash
-git clone https://github.com/ваш_репозиторий.git
-cd ваш_репозиторий
+1. Clone the repository:
+```
+git clone https://github.com/F1st3K/EasyVPN.git
+```
+
+2. Navigate to the project directory:
+```
+cd EasyVPN
+```
+
+3. Build and run docker containers:
+```
 docker compose up --build 
 ```
-> `Important:` Make sure that in the frontend configuration [config.json](./frontend/src/config.json), `"ApiUrl": "api"` is specified to correctly redirect requests to the api.
+> `Important:` Make sure that in the frontend configuration [config.json](./frontend/src/config.json), 
+> `"ApiUrl": "api"` is specified to correctly redirect requests to the api.
 
-[readme-us-shield]: https://img.shields.io/badge/us-blue
-[readme-us-url]: README.md
+## Contributing
+
+We welcome contributions from the community to improve EasyVPN. If you'd like to contribute, please fork the repository, 
+make your changes, and submit a pull request.
+
+[readme-en-shield]: https://img.shields.io/badge/en-blue
+[readme-en-url]: README.md
 [readme-ru-shield]: https://img.shields.io/badge/ru-gray
 [readme-ru-url]: README.ru_RU.md
