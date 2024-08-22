@@ -21,8 +21,6 @@ npm install
 
 > The web application configuration is located in [`config.json`](./src/config.json).
 
-`config.json` parameters:
-
 - `ApiUrl`: URL to deployed [`EasyVPN backend`](../backend/README.md) that the web application communicates 
 with(default: `http://localhost:80/api/`).
 - `AuthCheckMinutes`: frequency (in minutes) with which the system automatically checks the current authorization 

@@ -21,8 +21,6 @@ npm install
 
 > Конфигурация web-приложения находится в [`config.json`](./src/config.json).
 
-Параметры `config.json`:
-
 - `ApiUrl`: URL к развернутому [`EasyVPN backend`](../backend/README.md), с которым общается
   веб-приложение (по умолчанию: `http://localhost:80/api/`).
 - `AuthCheckMinutes`: периодичность (в минутах), с которой система автоматически выполняет
