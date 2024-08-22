@@ -15,36 +15,36 @@ receive notifications about new requests and can accept or reject them through a
 interface.
 * User management: the ability to add, delete and modify user accounts. Administrators can
 assign access rights and control user activity.
-* Protocol support: WireGuard, ShadowSocks (will be available soon).
+* Protocol support: WireGuard, OpenVPN (will be available soon).
 * Self-hosted solution: EasyVPN is completely deployed on your own server, which provides full control over
 data and settings. You can customize and scale the system depending on your needs.
 
 ## Repo Structure
 The monorepo is organized as follows:
 
-- **Backend** (`/backend`):
+- **Backend** ([`/backend`](backend)):
   REST API server on ASP.NET.
 
-- **Frontend** (`/frontend`): Web application on React.
+- **Frontend** ([`/frontend`](frontend)): Web application on React.
 
-- **Services** (`/services`):
+- **Services** ([`/services`](services)):
   Services that implement VPN protocols.
-  - `/services/WireguardVPN`: WireGuard VPN protocol.
+  - [`/services/WireguardVPN`](services/WireguardVPN): WireGuard VPN protocol.
 
 ## Installation
 
 1. Clone the repository:
-```
+```bash
 git clone https://github.com/F1st3K/EasyVPN.git
 ```
 
 2. Navigate to the project directory:
-```
+```bash
 cd EasyVPN
 ```
 
 3. Build and run docker containers:
-```
+```bash
 docker compose up --build 
 ```
 > `Important:` Make sure that in the frontend configuration [config.json](./frontend/src/config.json), 
