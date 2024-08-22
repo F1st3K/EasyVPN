@@ -1,6 +1,17 @@
 # Changelog
 
-## `0.1.3`
+## `0.2.0` (2024-08-22)
+
+### Features
+
+- backend: Improved work with different (and adding new) versions of VPN services
+- services/WireguardVpn: Version moved to new route (`/ -> /v1/`)
+
+### Documentation
+
+- backend: Fix deployment postgress in docker
+
+## `0.1.3` (2024-08-15)
 
 ### Features
 

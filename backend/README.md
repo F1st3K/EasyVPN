@@ -38,10 +38,10 @@ docker build -t easyvpn/backend:local ./
 ```bash
 docker run -d \
   --name database \
--e POSTGRES_USER=postgres `#your db user`\
+  -e POSTGRES_USER=postgres `#your db user`\
   -e POSTGRES_PASSWORD=mysecretpassword `#your db password`\
   -p 5432:5432 `#your port`\
-  -v ~/postgresql/:/var/lib/postgresql/data \
+  -v easyvpn_database_data:/var/lib/postgresql/data \
   postgres:latest
 ```
 

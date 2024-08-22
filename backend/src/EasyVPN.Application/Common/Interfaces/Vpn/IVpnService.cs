@@ -1,12 +1,12 @@
-using EasyVPN.Domain.Entities;
+using ErrorOr;
 
 namespace EasyVPN.Application.Common.Interfaces.Vpn;
 
 public interface IVpnService
 {
-    public string GetConfig(Guid connectionId);
-    public void CreateClient(Guid connectionId);
-    public void EnableClient(Guid connectionId);
-    public void DisableClient(Guid connectionId);
-    public void DeleteClient(Guid connectionId);
+    public ErrorOr<string> GetConfig(Guid connectionId);
+    public ErrorOr<Created> CreateClient(Guid connectionId);
+    public ErrorOr<Success> EnableClient(Guid connectionId);
+    public ErrorOr<Success> DisableClient(Guid connectionId);
+    public ErrorOr<Deleted> DeleteClient(Guid connectionId);
 }
