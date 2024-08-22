@@ -8,6 +8,7 @@ import Register from './requests/Register';
 import ApiError from './responses/ApiError';
 import Auth from './responses/Auth';
 import Connection from './responses/Connection';
+import ConnectionConfig from './responses/ConnectionConfig';
 import ConnectionTicket from './responses/ConnectionTicket';
 import Protocol from './responses/Protocol';
 import Server from './responses/Server';
@@ -41,7 +42,7 @@ const EasyVpn = {
             });
         },
         configConnection: (connectionId: string, token: string) => {
-            return api.get<any>(`/my/connections/${connectionId}/config`, {
+            return api.get<ConnectionConfig>(`/my/connections/${connectionId}/config`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
@@ -55,7 +56,16 @@ const EasyVpn = {
 
 export default EasyVpn;
 
-export type { ApiError, Auth, Connection, ConnectionTicket, Protocol, Server, User };
+export type {
+    ApiError,
+    Auth,
+    Connection,
+    ConnectionConfig,
+    ConnectionTicket,
+    Protocol,
+    Server,
+    User,
+};
 
 export type { Register };
 

@@ -1,26 +1,26 @@
 using System.Net.Http.Headers;
 using System.Text;
 using EasyVPN.Application.Common.Interfaces.Vpn;
+using EasyVPN.Domain.Entities;
 using ErrorOr;
 
-namespace EasyVPN.Infrastructure.Vpn;
+namespace EasyVPN.Infrastructure.Vpn.Versions;
 
-public class HttpV1 : IVpnService
+public class VpnV1 : IVpnService
 {
-    public static HttpV1? GetService(string connectionString)
+    public static VpnV1? GetService(ConnectionString connectionString)
     {
         try
         {
-            var (uri, auth) = connectionString.ParseConnectionString();
-
-            var client = new HttpClient(){ BaseAddress = new Uri(uri)};
+            var client = new HttpClient(){ BaseAddress = new Uri(connectionString.Endpoint) };
             var basicAuth = new AuthenticationHeaderValue("Basic",
-                Convert.ToBase64String(Encoding.UTF8.GetBytes(auth)));
+                Convert.ToBase64String(Encoding.UTF8.GetBytes(connectionString.Auth)));
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "/");
+            var request = new HttpRequestMessage(HttpMethod.Get, ".");
             request.Headers.Authorization = basicAuth;
+
             var test = client.Send(request);
-            return test.IsSuccessStatusCode ? new HttpV1(client, basicAuth) : null;
+            return test.IsSuccessStatusCode ? new VpnV1(client, basicAuth) : null;
         }
         catch (Exception)
         {
@@ -31,7 +31,7 @@ public class HttpV1 : IVpnService
     private readonly HttpClient _client;
     private readonly AuthenticationHeaderValue _auth;
 
-    private HttpV1(HttpClient client, AuthenticationHeaderValue auth)
+    private VpnV1(HttpClient client, AuthenticationHeaderValue auth)
     {
         _client = client;
         _auth = auth;
