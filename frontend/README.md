@@ -1,4 +1,7 @@
-# EasyVPN frontend
+[![readme-en-shield]][readme-en-url]
+[![readme-ru-shield]][readme-ru-url]
+
+# Frontend
 Приложение веб-интерфейс, имеющее простой UI. (TypeScript + React)
 
 
@@ -24,4 +27,9 @@ docker run -d \
   -p 3000:3000 `#your port` \
   easyvpn/frontend:local
 ```
+
+[readme-en-shield]: https://img.shields.io/badge/en-blue
+[readme-en-url]: README.md
+[readme-ru-shield]: https://img.shields.io/badge/ru-gray
+[readme-ru-url]: README.ru_RU.md
 
