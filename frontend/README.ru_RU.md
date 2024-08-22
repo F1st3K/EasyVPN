@@ -19,7 +19,7 @@ npm install
 
 2. **Настройте конфигурацию:**
 
-> Конфигурация web-приложения находится в [`config.json`](./src/config.json)
+> Конфигурация web-приложения находится в [`config.json`](./src/config.json).
 
 Параметры `config.json`:
 

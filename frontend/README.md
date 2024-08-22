@@ -19,7 +19,7 @@ npm install
 
 2. **Setup configuration:**
 
-> The web application configuration is located in [`config.json`](./src/config.json)
+> The web application configuration is located in [`config.json`](./src/config.json).
 
 `config.json` parameters:
 
