@@ -6,6 +6,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Context } from '..';
 import { Role } from '../api';
 import ConfigModal from '../modules/ConfigModal';
+import DeleteConnectionModal from '../modules/DeleteConnectionModal';
 import AuthPage from '../pages/AuthPage';
 import ClientConnectionsPage from '../pages/ClientConnectionsPage';
 import ForbiddenPage from '../pages/ForbiddenPage';
@@ -116,6 +117,10 @@ const RoutesProvider: FC = () => {
                     element={<Auth with={Role.Client} for={<ClientConnectionsPage />} />}
                 >
                     <Route path=":connectionId/config" element={<ConfigModal />} />
+                    <Route
+                        path=":connectionId/delete"
+                        element={<DeleteConnectionModal />}
+                    />
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />
             </Route>

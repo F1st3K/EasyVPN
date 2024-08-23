@@ -46,6 +46,11 @@ const EasyVpn = {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
+        deleteConnection: (connectionId: string, token: string) => {
+            return api.delete<void>(`/my/connections/${connectionId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
         tickets: (token: string) => {
             return api.get<ConnectionTicket[]>(`/my/tickets`, {
                 headers: { Authorization: `Bearer ${token}` },
