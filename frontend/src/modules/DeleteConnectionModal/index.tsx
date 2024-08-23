@@ -1,11 +1,10 @@
 import { LoadingButton } from '@mui/lab';
-import { Alert, AlertTitle, Box, Button, PaperProps } from '@mui/material';
+import { Alert, AlertTitle, Box, PaperProps } from '@mui/material';
 import React, { FC, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError } from '../../api';
-import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
 

@@ -1,7 +1,7 @@
 import { Alert, CircularProgress, LinearProgress } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError, Connection, ConnectionTicket } from '../../api';
@@ -13,12 +13,16 @@ import ConnectionTicketShortItem from '../../modules/ConnectionTicketShortItem';
 
 const ClientConnectionsPage: FC = () => {
     const store = useContext(Context);
-    const [data, loading, error] = useRequest<Connection[], ApiError>(() =>
-        EasyVpn.my.connections(store.Auth.getToken()).then((v) => v.data),
+    const location = useLocation();
+
+    const [data, loading, error] = useRequest<Connection[], ApiError>(
+        () => EasyVpn.my.connections(store.Auth.getToken()).then((v) => v.data),
+        [location.pathname],
     );
 
-    const [tdata, tloading, terror] = useRequest<ConnectionTicket[], ApiError>(() =>
-        EasyVpn.my.tickets(store.Auth.getToken()).then((v) => v.data),
+    const [tdata, tloading, terror] = useRequest<ConnectionTicket[], ApiError>(
+        () => EasyVpn.my.tickets(store.Auth.getToken()).then((v) => v.data),
+        [location.pathname],
     );
 
     if (loading) return <LinearProgress />;
