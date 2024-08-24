@@ -31,7 +31,7 @@ The monorepo is organized as follows:
   Services that implement VPN protocols.
   - [`/services/WireguardVPN`](services/WireguardVPN): WireGuard VPN protocol.
 
-## Installation
+## Quick start
 
 1. Clone the repository:
 ```bash
@@ -49,6 +49,8 @@ docker compose up --build
 ```
 > `Important:` Make sure that in the frontend configuration [config.json](./frontend/src/config.json), 
 > `"ApiUrl": "api"` is specified to correctly redirect requests to the api.
+
+4. Open browser and go to [``http://localhost:80``](http://localhost:80).
 
 ## Contributing
 

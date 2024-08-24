@@ -22,7 +22,7 @@ npm install
 > The web application configuration is located in [`config.json`](./src/config.json).
 
 - `ApiUrl`: URL to deployed [`EasyVPN backend`](../backend/README.md) that the web application communicates 
-with(default: `http://localhost:80/api/`).
+with (default: `http://localhost:80/api/`).
 - `AuthCheckMinutes`: frequency (in minutes) with which the system automatically checks the current authorization 
 status. Authorization is also checked automatically every time the navigation in the application 
 changes (default: `15`).
@@ -35,13 +35,13 @@ npm run start
 
 ### Installation via docker container
 
-1. Building a docker image:
+1. Build a docker image:
 
 ```bash
 docker build -t easyvpn/frontend:local ./
 ```
 
-2. Running a service in a docker container:
+2. Run a service in a docker container:
 
 ```bash
 docker run -d \
@@ -50,7 +50,7 @@ docker run -d \
   easyvpn/frontend:local
 ```
 
-The web application will be available in both cases on `http://localhost:3000`.
+The web application will be available in both cases on [``http://localhost:3000``](http://localhost:3000).
 
 [readme-en-shield]: https://img.shields.io/badge/en-blue
 [readme-en-url]: README.md

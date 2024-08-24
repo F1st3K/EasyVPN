@@ -50,7 +50,7 @@ docker run -d \
   easyvpn/frontend:local
 ```
 
-Веб-приложение в обоих случаях будет доступно на `http://localhost:3000`.
+Веб-приложение в обоих случаях будет доступно на [``http://localhost:3000``](http://localhost:3000).
 
 [readme-en-shield]: https://img.shields.io/badge/en-gray
 [readme-en-url]: README.md
