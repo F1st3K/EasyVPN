@@ -1,7 +1,7 @@
 import { Alert, CircularProgress, LinearProgress, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError, Connection, ConnectionTicket } from '../../api';
@@ -14,6 +14,7 @@ import ConnectionTicketShortItem from '../../modules/ConnectionTicketShortItem';
 
 const ClientConnectionsPage: FC = () => {
     const store = useContext(Context);
+    const navigate = useNavigate();
     const location = useLocation();
 
     const [data, loading, error] = useRequest<Connection[], ApiError>(
@@ -32,6 +33,7 @@ const ClientConnectionsPage: FC = () => {
         <CenterBox>
             <CreateButton
                 padding={2}
+                onClick={() => navigate('./new')}
                 description={
                     <CenterBox>
                         <Typography>

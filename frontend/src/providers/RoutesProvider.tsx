@@ -116,6 +116,7 @@ const RoutesProvider: FC = () => {
                     path="connections/"
                     element={<Auth with={Role.Client} for={<ClientConnectionsPage />} />}
                 >
+                    <Route path="new" element={<NotFoundPage />} />
                     <Route path=":connectionId/config" element={<ConfigModal />} />
                     <Route
                         path=":connectionId/delete"

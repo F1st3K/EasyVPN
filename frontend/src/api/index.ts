@@ -4,6 +4,7 @@ import config from '../config.json';
 import { ConnectionTicketStatus } from './enums/ConnectionTicketStatus';
 import { Role } from './enums/Role';
 import { VpnVersion } from './enums/VpnVersion';
+import CreateConnection from './requests/CreateConnection';
 import Register from './requests/Register';
 import ApiError from './responses/ApiError';
 import Auth from './responses/Auth';
@@ -51,6 +52,12 @@ const EasyVpn = {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
+        createConnection: (request: CreateConnection, token: string) => {
+            return api.post<void>(`/my/connections`, {
+                headers: { Authorization: `Bearer ${token}` },
+                body: request,
+            });
+        },
         tickets: (token: string) => {
             return api.get<ConnectionTicket[]>(`/my/tickets`, {
                 headers: { Authorization: `Bearer ${token}` },
@@ -72,6 +79,6 @@ export type {
     User,
 };
 
-export type { Register };
+export type { CreateConnection, Register };
 
 export { ConnectionTicketStatus, Role, VpnVersion };
