@@ -1,4 +1,4 @@
-import { Alert, CircularProgress, LinearProgress } from '@mui/material';
+import { Alert, CircularProgress, LinearProgress, Typography } from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { Context } from '../..';
 import EasyVpn, { ApiError, Connection, ConnectionTicket } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import CollapsedListItem from '../../components/CollapsedListItem';
+import CreateButton from '../../components/CreateButton';
 import { useRequest } from '../../hooks';
 import ConnectionShortItem from '../../modules/ConnectionShortItem';
 import ConnectionTicketShortItem from '../../modules/ConnectionTicketShortItem';
@@ -29,6 +30,17 @@ const ClientConnectionsPage: FC = () => {
 
     return (
         <CenterBox>
+            <CreateButton
+                padding={2}
+                description={
+                    <CenterBox>
+                        <Typography>
+                            Want to create a fast and reliable connection?
+                        </Typography>
+                        <Typography fontWeight="bold">Just click and get it!</Typography>
+                    </CenterBox>
+                }
+            />
             {error ? (
                 <Alert severity="error" variant="outlined">
                     {error.response?.data.title ?? error.message}
