@@ -1,6 +1,5 @@
-export default interface CreateConnection {
+import PaymentConnectionInfo from './PaymentConnectionInfo';
+
+export default interface CreateConnection extends PaymentConnectionInfo {
     serverId: string;
-    days: number;
-    description: string;
-    images: string[];
 }
