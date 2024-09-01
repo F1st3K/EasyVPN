@@ -9,6 +9,7 @@ import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
 import PaymentConnectionForm from '../PaymentConnectionForm';
+import ServerSelect from '../ServerSelect';
 
 interface CreateConnectionModalProps extends PaperProps {
     connectionId?: string;
@@ -37,7 +38,8 @@ const CreateConnectionModal: FC<CreateConnectionModalProps> = (props) => {
                     {error.response?.data.title ?? error.message}
                 </Alert>
             ) : (
-                <CenterBox>
+                <CenterBox display="flex" flexDirection="column" gap={3}>
+                    <ServerSelect serverId="10000000-0000-0000-0000-000000000000" />
                     <PaymentConnectionForm paymentInfo={payInfo} onChange={setPayInfo} />
                 </CenterBox>
             )}

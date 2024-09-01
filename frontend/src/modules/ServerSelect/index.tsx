@@ -1,48 +1,76 @@
-import { LoadingButton } from '@mui/lab';
-import { Alert, AlertTitle, Box, PaperProps } from '@mui/material';
-import React, { FC, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Autocomplete, Box, TextField } from '@mui/material';
+import React, { FC, useState } from 'react';
 
-import { Context } from '../..';
-import EasyVpn, { ApiError, PaymentConnectionInfo } from '../../api';
-import CenterBox from '../../components/CenterBox';
-import Modal from '../../components/Modal';
-import { useRequestHandler } from '../../hooks';
-import PaymentConnectionForm from '../PaymentConnectionForm';
+import EasyVpn, { ApiError, Server, VpnVersion } from '../../api';
 
-interface CreateConnectionModalProps extends PaperProps {
-    connectionId?: string;
+interface ServerSelectProps {
+    serverId?: string;
+    onChange?: (server: Server | null) => void;
 }
 
-const CreateConnectionModal: FC<CreateConnectionModalProps> = (props) => {
-    const navigate = useNavigate();
-    const handleClose = () => navigate('../.');
-
-    const { Auth } = useContext(Context);
-    const [createHandler, loading, error] = useRequestHandler<void, ApiError>(
-        () => Auth.checkAuth(),
-        // EasyVpn.my.createConnection(V, Auth.getToken()).then((v) => v.data),
+const ServerSelect: FC<ServerSelectProps> = (props) => {
+    const [servers, setServers] = useState<Server[]>([
+        {
+            id: '00000000-0000-0000-0000-000000000000',
+            protocol: {
+                id: '00000000-0000-0000-0000-000000000000',
+                name: 'WireGuard',
+                icon: 'https://static-00.iconduck.com/assets.00/wireguard-icon-256x256-bdlmygje.png',
+            },
+            version: VpnVersion.V1,
+        },
+        {
+            id: '10000000-0000-0000-0000-000000000000',
+            protocol: {
+                id: '00000000-0000-0000-0000-000000000000',
+                name: 'vireGuard',
+                icon: 'https://static-00.iconduck.com/assets.00/wireguard-icon-256x256-bdlmygje.png',
+            },
+            version: VpnVersion.V1,
+        },
+    ]);
+    const [server, setServer] = useState<Server | null>(
+        servers.find((s) => s.id == props.serverId) || null,
     );
-    const [payInfo, setPayInfo] = useState<PaymentConnectionInfo>();
 
     return (
-        <Modal open={true} handleClose={handleClose} {...props}>
-            {error ? (
-                <Alert
-                    onClose={handleClose}
-                    severity="error"
-                    variant="outlined"
-                    sx={{ width: '25ch' }}
-                >
-                    {error.response?.data.title ?? error.message}
-                </Alert>
-            ) : (
-                <CenterBox>
-                    <PaymentConnectionForm paymentInfo={payInfo} onChange={setPayInfo} />
-                </CenterBox>
-            )}
-        </Modal>
+        <Autocomplete
+            sx={{ width: '23ch' }}
+            autoHighlight
+            options={servers}
+            onChange={(_, s) => setServer(s)}
+            value={server}
+            getOptionLabel={(o) => o.protocol.name}
+            renderOption={(p, o) => {
+                const { id, ...op } = p;
+                return (
+                    <Box
+                        key={id}
+                        component="li"
+                        sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
+                        {...op}
+                    >
+                        <img loading="lazy" width={25} src={o.protocol.icon} alt="" />
+                        {o.protocol.name}
+                    </Box>
+                );
+            }}
+            renderInput={(params) => {
+                return (
+                    <Box
+                        gap={1}
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <img width={40} src={server?.protocol.icon} alt="" />
+                        <TextField {...params} label="Choose a server" />
+                    </Box>
+                );
+            }}
+        />
     );
 };
 
-export default CreateConnectionModal;
+export default ServerSelect;
