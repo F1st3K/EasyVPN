@@ -20,7 +20,7 @@ const PaymentConnectionForm: FC<PaymentConnectionFormProps> = (props) => {
     }, [days, desc, images]);
 
     return (
-        <CenterBox flexDirection={'column'}>
+        <CenterBox display="flex" flexDirection="column" gap={2}>
             <TextField
                 label="Count days"
                 value={Number.isInteger(days) ? days : ''}
@@ -31,6 +31,8 @@ const PaymentConnectionForm: FC<PaymentConnectionFormProps> = (props) => {
                 type="number"
                 variant="outlined"
                 inputMode="numeric"
+                size="small"
+                style={{ width: '15ch' }}
             />
             <TextField
                 label="Comment"
@@ -38,6 +40,7 @@ const PaymentConnectionForm: FC<PaymentConnectionFormProps> = (props) => {
                 onChange={(e) => setDesc(e.target.value)}
                 inputMode="text"
                 multiline
+                rows={3}
             />
         </CenterBox>
     );

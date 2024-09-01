@@ -16,7 +16,7 @@ var app = builder.Build();
     app.CreateDocumentationEndpoint();
 
     app.UseExceptionHandler(ErrorsController.Route);
-    
+
     app.UseHttpsRedirection();
     app.UseAuthentication();
     app.UseAuthorization();
@@ -24,7 +24,7 @@ var app = builder.Build();
 
     app.MigrateDatabase();
     app.StartExpireService();
-    
+
     app.Run();
 }
 
