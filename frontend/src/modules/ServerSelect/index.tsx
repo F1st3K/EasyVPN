@@ -1,5 +1,5 @@
 import { Autocomplete, Box, TextField } from '@mui/material';
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import EasyVpn, { ApiError, Server, VpnVersion } from '../../api';
 
@@ -32,6 +32,10 @@ const ServerSelect: FC<ServerSelectProps> = (props) => {
     const [server, setServer] = useState<Server | null>(
         servers.find((s) => s.id == props.serverId) || null,
     );
+
+    useEffect(() => {
+        props.onChange && props.onChange(server);
+    }, [server]);
 
     return (
         <Autocomplete

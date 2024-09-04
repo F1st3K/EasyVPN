@@ -37,7 +37,7 @@ const DeleteConnectionModal: FC<DeleteConnectionModalProps> = (props) => {
                 <Alert onClose={handleClose} severity="warning" variant="outlined">
                     <AlertTitle>Delete connection?</AlertTitle>
                     Do you really want delete connection <>{connectionId}</> ?
-                    <Box marginTop={1}>
+                    <Box marginTop={1} display="flex" flexDirection="row-reverse">
                         <LoadingButton
                             color="warning"
                             sx={{ textTransform: 'none' }}

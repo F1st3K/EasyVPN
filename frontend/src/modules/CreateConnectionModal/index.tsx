@@ -1,10 +1,10 @@
 import { LoadingButton } from '@mui/lab';
-import { Alert, AlertTitle, Box, PaperProps } from '@mui/material';
+import { Alert, AlertTitle, Box, Button, Divider, PaperProps } from '@mui/material';
 import React, { FC, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, PaymentConnectionInfo } from '../../api';
+import EasyVpn, { ApiError, PaymentConnectionInfo, Server } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
@@ -19,12 +19,17 @@ const CreateConnectionModal: FC<CreateConnectionModalProps> = (props) => {
     const navigate = useNavigate();
     const handleClose = () => navigate('../.');
 
+    const [payInfo, setPayInfo] = useState<PaymentConnectionInfo | null>(null);
+    const [server, setServer] = useState<Server | null>(null);
+
     const { Auth } = useContext(Context);
-    const [createHandler, loading, error] = useRequestHandler<void, ApiError>(
-        () => Auth.checkAuth(),
-        // EasyVpn.my.createConnection(V, Auth.getToken()).then((v) => v.data),
+    const [createHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
+        server && payInfo
+            ? EasyVpn.my
+                  .createConnection({ serverId: server.id, ...payInfo }, Auth.getToken())
+                  .then((v) => v.data)
+            : Promise.reject(new Error(payInfo?.description)),
     );
-    const [payInfo, setPayInfo] = useState<PaymentConnectionInfo>();
 
     return (
         <Modal open={true} handleClose={handleClose} {...props}>
@@ -38,9 +43,44 @@ const CreateConnectionModal: FC<CreateConnectionModalProps> = (props) => {
                     {error.response?.data.title ?? error.message}
                 </Alert>
             ) : (
-                <CenterBox display="flex" flexDirection="column" gap={3}>
-                    <ServerSelect serverId="10000000-0000-0000-0000-000000000000" />
-                    <PaymentConnectionForm paymentInfo={payInfo} onChange={setPayInfo} />
+                <CenterBox
+                    display="flex"
+                    flexDirection="column"
+                    gap={2}
+                    paddingX={3}
+                    paddingY={1}
+                    width="80vw"
+                    minWidth="30ch"
+                >
+                    <Divider textAlign="left">Create new connection</Divider>
+                    <ServerSelect onChange={setServer} />
+                    <PaymentConnectionForm onChange={setPayInfo} />
+                    <Divider />
+                    <Box
+                        display="flex"
+                        flexDirection="row-reverse"
+                        flexWrap="wrap"
+                        justifyContent="space-between"
+                        gap={1}
+                    >
+                        <LoadingButton
+                            variant="contained"
+                            color="success"
+                            sx={{ textTransform: 'none' }}
+                            loading={loading}
+                            onClick={() => createHandler(() => handleClose())}
+                        >
+                            Create connection ticket
+                        </LoadingButton>
+                        <Button
+                            variant="outlined"
+                            color="inherit"
+                            onClick={handleClose}
+                            sx={{ textTransform: 'none' }}
+                        >
+                            Close
+                        </Button>
+                    </Box>
                 </CenterBox>
             )}
         </Modal>

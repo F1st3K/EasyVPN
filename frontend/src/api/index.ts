@@ -55,9 +55,8 @@ const EasyVpn = {
             });
         },
         createConnection: (request: CreateConnection, token: string) => {
-            return api.post<void>(`/my/connections`, {
+            return api.post<void>(`/my/connections`, request, {
                 headers: { Authorization: `Bearer ${token}` },
-                body: request,
             });
         },
         tickets: (token: string) => {

@@ -1,8 +1,7 @@
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import React, { FC, useEffect, useState } from 'react';
 
 import { PaymentConnectionInfo } from '../../api';
-import CenterBox from '../../components/CenterBox';
 
 interface PaymentConnectionFormProps {
     paymentInfo?: PaymentConnectionInfo;
@@ -20,7 +19,7 @@ const PaymentConnectionForm: FC<PaymentConnectionFormProps> = (props) => {
     }, [days, desc, images]);
 
     return (
-        <CenterBox display="flex" flexDirection="column" gap={2}>
+        <Box display="flex" flexDirection="column" gap={2}>
             <TextField
                 label="Count days"
                 value={Number.isInteger(days) ? days : ''}
@@ -42,7 +41,7 @@ const PaymentConnectionForm: FC<PaymentConnectionFormProps> = (props) => {
                 multiline
                 rows={3}
             />
-        </CenterBox>
+        </Box>
     );
 };
 
