@@ -1,40 +1,36 @@
 import { LoadingButton } from '@mui/lab';
 import { Alert, Box, Button, Divider, PaperProps } from '@mui/material';
 import React, { FC, useContext, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, PaymentConnectionInfo, Server } from '../../api';
+import EasyVpn, { ApiError, PaymentConnectionInfo } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
 import PaymentConnectionForm from '../PaymentConnectionForm';
-import ServerSelect from '../ServerSelect';
 
-interface CreateConnectionModalProps extends PaperProps {
-    serverId?: string;
+interface ExtendConnectionModalProps extends PaperProps {
+    connectionId?: string;
 }
 
-const CreateConnectionModal: FC<CreateConnectionModalProps> = (props) => {
-    const [searchParams] = useSearchParams();
+const ExtendConnectionModal: FC<ExtendConnectionModalProps> = (props) => {
+    const { Auth } = useContext(Context);
     const navigate = useNavigate();
     const handleClose = () => navigate('../.');
-    const { Auth } = useContext(Context);
 
-    const serverId = props.serverId || searchParams.get('serverId') || '';
-    const [server, setServer] = useState<Server | null>(null);
+    const connectionId = props.connectionId || useParams().connectionId || '';
     const [payInfo, setPayInfo] = useState<PaymentConnectionInfo | null>(null);
 
-    const SetServer = (s: Server | null) => {
-        setServer(s);
-        navigate(s ? `?serverId=${s.id}` : '');
-    };
-    const [createHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
-        server && payInfo
+    const [extendHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
+        payInfo
             ? EasyVpn.my
-                  .createConnection({ serverId: server.id, ...payInfo }, Auth.getToken())
+                  .extendConnection(
+                      { connectionId: connectionId, ...payInfo },
+                      Auth.getToken(),
+                  )
                   .then((v) => v.data)
-            : Promise.reject(new Error('Server or payment information is not filled!')),
+            : Promise.reject(new Error('Payment information is not filled!')),
     );
 
     return (
@@ -58,8 +54,7 @@ const CreateConnectionModal: FC<CreateConnectionModalProps> = (props) => {
                     width="80vw"
                     minWidth="30ch"
                 >
-                    <Divider textAlign="left">Create new connection</Divider>
-                    <ServerSelect serverId={serverId} onChange={SetServer} />
+                    <Divider textAlign="left">Extend connection {connectionId}</Divider>
                     <PaymentConnectionForm onChange={setPayInfo} />
                     <Divider />
                     <Box
@@ -74,7 +69,7 @@ const CreateConnectionModal: FC<CreateConnectionModalProps> = (props) => {
                             color="success"
                             sx={{ textTransform: 'none' }}
                             loading={loading}
-                            onClick={() => createHandler(() => handleClose())}
+                            onClick={() => extendHandler(() => handleClose())}
                         >
                             Create connection ticket
                         </LoadingButton>
@@ -93,4 +88,4 @@ const CreateConnectionModal: FC<CreateConnectionModalProps> = (props) => {
     );
 };
 
-export default CreateConnectionModal;
+export default ExtendConnectionModal;

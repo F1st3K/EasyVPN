@@ -5,6 +5,8 @@ import { ConnectionTicketStatus } from './enums/ConnectionTicketStatus';
 import { Role } from './enums/Role';
 import { VpnVersion } from './enums/VpnVersion';
 import CreateConnection from './requests/CreateConnection';
+import ExtendConnection from './requests/ExtendConnection';
+import PaymentConnectionInfo from './common/PaymentConnectionInfo';
 import Register from './requests/Register';
 import ApiError from './responses/ApiError';
 import Auth from './responses/Auth';
@@ -53,9 +55,13 @@ const EasyVpn = {
             });
         },
         createConnection: (request: CreateConnection, token: string) => {
-            return api.post<void>(`/my/connections`, {
+            return api.post<void>(`/my/connections`, request, {
                 headers: { Authorization: `Bearer ${token}` },
-                body: request,
+            });
+        },
+        extendConnection: (request: ExtendConnection, token: string) => {
+            return api.post<void>(`/my/connections/extend`, request, {
+                headers: { Authorization: `Bearer ${token}` },
             });
         },
         tickets: (token: string) => {
@@ -68,6 +74,8 @@ const EasyVpn = {
 
 export default EasyVpn;
 
+export type { PaymentConnectionInfo };
+
 export type {
     ApiError,
     Auth,
@@ -79,6 +87,6 @@ export type {
     User,
 };
 
-export type { CreateConnection, Register };
+export type { CreateConnection, ExtendConnection, Register };
 
 export { ConnectionTicketStatus, Role, VpnVersion };

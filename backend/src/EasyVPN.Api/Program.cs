@@ -25,10 +25,9 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 {
     app.CreateDocumentationEndpoint();
-
     app.UseExceptionHandler(ErrorsController.Route);
-
     app.UseCors("AllowAll");
+
     app.UseHttpsRedirection();
     app.UseAuthentication();
     app.UseAuthorization();
