@@ -6,7 +6,7 @@ import { Role } from './enums/Role';
 import { VpnVersion } from './enums/VpnVersion';
 import CreateConnection from './requests/CreateConnection';
 import ExtendConnection from './requests/ExtendConnection';
-import PaymentConnectionInfo from './requests/PaymentConnectionInfo';
+import PaymentConnectionInfo from './common/PaymentConnectionInfo';
 import Register from './requests/Register';
 import ApiError from './responses/ApiError';
 import Auth from './responses/Auth';
@@ -74,6 +74,8 @@ const EasyVpn = {
 
 export default EasyVpn;
 
+export type { PaymentConnectionInfo };
+
 export type {
     ApiError,
     Auth,
@@ -85,6 +87,6 @@ export type {
     User,
 };
 
-export type { CreateConnection, ExtendConnection, PaymentConnectionInfo, Register };
+export type { CreateConnection, ExtendConnection, Register };
 
 export { ConnectionTicketStatus, Role, VpnVersion };

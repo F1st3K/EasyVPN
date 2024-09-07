@@ -15,13 +15,13 @@ interface ExtendConnectionModalProps extends PaperProps {
 }
 
 const ExtendConnectionModal: FC<ExtendConnectionModalProps> = (props) => {
-    const connectionId = props.connectionId || useParams().connectionId || '';
+    const { Auth } = useContext(Context);
     const navigate = useNavigate();
     const handleClose = () => navigate('../.');
 
+    const connectionId = props.connectionId || useParams().connectionId || '';
     const [payInfo, setPayInfo] = useState<PaymentConnectionInfo | null>(null);
 
-    const { Auth } = useContext(Context);
     const [extendHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
         payInfo
             ? EasyVpn.my
