@@ -59,6 +59,11 @@ const EasyVpn = {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
+        extendConnection: (request: ExtendConnection, token: string) => {
+            return api.post<void>(`/my/connections/extend`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
         tickets: (token: string) => {
             return api.get<ConnectionTicket[]>(`/my/tickets`, {
                 headers: { Authorization: `Bearer ${token}` },
