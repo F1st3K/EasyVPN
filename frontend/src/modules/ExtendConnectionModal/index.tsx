@@ -1,15 +1,14 @@
 import { LoadingButton } from '@mui/lab';
-import { Alert, AlertTitle, Box, Button, Divider, PaperProps } from '@mui/material';
+import { Alert, Box, Button, Divider, PaperProps } from '@mui/material';
 import React, { FC, useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, PaymentConnectionInfo, Server } from '../../api';
+import EasyVpn, { ApiError, PaymentConnectionInfo } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
 import PaymentConnectionForm from '../PaymentConnectionForm';
-import ServerSelect from '../ServerSelect';
 
 interface ExtendConnectionModalProps extends PaperProps {
     connectionId?: string;
@@ -21,18 +20,17 @@ const ExtendConnectionModal: FC<ExtendConnectionModalProps> = (props) => {
     const handleClose = () => navigate('../.');
 
     const [payInfo, setPayInfo] = useState<PaymentConnectionInfo | null>(null);
-    const [server, setServer] = useState<Server | null>(null);
 
     const { Auth } = useContext(Context);
     const [extendHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
-        server && payInfo
+        payInfo
             ? EasyVpn.my
                   .extendConnection(
-                      { connectionId: server.id, ...payInfo },
+                      { connectionId: connectionId, ...payInfo },
                       Auth.getToken(),
                   )
                   .then((v) => v.data)
-            : Promise.reject(new Error(payInfo?.description)),
+            : Promise.reject(new Error('Payment information is not filled!')),
     );
 
     return (
@@ -56,8 +54,7 @@ const ExtendConnectionModal: FC<ExtendConnectionModalProps> = (props) => {
                     width="80vw"
                     minWidth="30ch"
                 >
-                    <Divider textAlign="left">Create new connection</Divider>
-                    <ServerSelect onChange={setServer} />
+                    <Divider textAlign="left">Extend connection {connectionId}</Divider>
                     <PaymentConnectionForm onChange={setPayInfo} />
                     <Divider />
                     <Box
