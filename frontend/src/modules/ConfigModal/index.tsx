@@ -84,7 +84,12 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
                     </CenterBox>
                     <Divider></Divider>
                     <CenterBox marginTop={1}>
-                        <Button variant="contained" onClick={handleClose}>
+                        <Button
+                            variant="outlined"
+                            sx={{ textTransform: 'none' }}
+                            color="inherit"
+                            onClick={handleClose}
+                        >
                             Close
                         </Button>
                     </CenterBox>

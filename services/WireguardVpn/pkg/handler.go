@@ -41,7 +41,7 @@ func (h *Handler) InitRoutes(user string, password string) *gin.Engine {
 		{
 			connections.GET("/:id/config", h.GetConnectionConfig)
 
-			connections.POST("", h.CreateConnection)
+			connections.POST(".", h.CreateConnection)
 
 			connections.PUT("/:id/enable", h.EnableConnection)
 

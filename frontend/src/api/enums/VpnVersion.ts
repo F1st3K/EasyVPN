@@ -1,3 +1,3 @@
 export enum VpnVersion {
-    HttpV1 = 'HttpV1',
+    V1 = 'V1',
 }

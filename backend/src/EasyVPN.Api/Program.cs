@@ -5,6 +5,17 @@ using EasyVPN.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 {
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAll",
+            builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
+    });
+
     builder.Services
         .AddPresentation()
         .AddApplication()
@@ -14,9 +25,9 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 {
     app.CreateDocumentationEndpoint();
-
     app.UseExceptionHandler(ErrorsController.Route);
-    
+    app.UseCors("AllowAll");
+
     app.UseHttpsRedirection();
     app.UseAuthentication();
     app.UseAuthorization();
@@ -24,9 +35,11 @@ var app = builder.Build();
 
     app.MigrateDatabase();
     app.StartExpireService();
-    
+
     app.Run();
 }
+
+
 
 
 

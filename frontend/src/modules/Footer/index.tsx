@@ -1,6 +1,8 @@
 import { Container, Link, Paper, Typography } from '@mui/material';
 import React, { FC } from 'react';
 
+import Package from '../../../package.json';
+
 const Footer: FC = () => {
     return (
         <Paper
@@ -44,9 +46,10 @@ const Footer: FC = () => {
                     </Link>
                 </Typography>
                 <Typography variant="body2" color="text.secondary" align="center">
-                    {'Copyright © EasyVPN '}
+                    {' Copyright © '}
                     {new Date().getFullYear()}
-                    {'.'}
+                    {' EasyVPN '}
+                    {Package.version}
                 </Typography>
             </Container>
         </Paper>
