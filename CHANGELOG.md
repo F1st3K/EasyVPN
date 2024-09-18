@@ -1,5 +1,20 @@
 # Changelog
 
+## `0.3.0` (2024-09-18)
+
+### Features
+
+- frontend: Added Delete and Create connection buttons for client
+- frontend: Added Extend and Create connection forms (and more components for it)
+
+### Bug fixes
+
+- backend: Fix CORS errors
+
+### Infrastructure
+
+- backend: Update dotnet sdk to version 8 and update dependences
+
 ## `0.2.0` (2024-08-22)
 
 ### Features

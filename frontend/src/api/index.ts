@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 import config from '../config.json';
+import PaymentConnectionInfo from './common/PaymentConnectionInfo';
 import { ConnectionTicketStatus } from './enums/ConnectionTicketStatus';
 import { Role } from './enums/Role';
 import { VpnVersion } from './enums/VpnVersion';
 import CreateConnection from './requests/CreateConnection';
 import ExtendConnection from './requests/ExtendConnection';
-import PaymentConnectionInfo from './common/PaymentConnectionInfo';
 import Register from './requests/Register';
 import ApiError from './responses/ApiError';
 import Auth from './responses/Auth';
