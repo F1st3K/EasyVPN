@@ -9,7 +9,7 @@ import { useLocation } from 'react-router-dom';
 import { Context } from '../..';
 import { ApiError } from '../../api';
 import SecretOutlinedField from '../../components/SecretOutlinedField';
-import { useCustomNavigate } from '../../hooks';
+import { useCustomNavigate, useRequestHandler } from '../../hooks';
 
 const RegisterForm: FC = () => {
     const [firstName, setFirstName] = useState<string>('');
@@ -17,7 +17,7 @@ const RegisterForm: FC = () => {
     const [login, setLogin] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [remPassword, setRemPassword] = useState<string>('');
-    const store = useContext(Context);
+    const { Auth } = useContext(Context);
 
     const customNavigate = useCustomNavigate();
     const { search } = useLocation();
@@ -25,19 +25,9 @@ const RegisterForm: FC = () => {
 
     const prevPage = searchParams.get('prevPage');
 
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<ApiError | null>(null);
-
-    function registerHandler() {
-        setLoading(true);
-        store.Auth.register({ firstName, lastName, login, password })
-            .then(() => customNavigate(prevPage ?? '/'))
-            .catch((e) => {
-                setError(e);
-                console.log(e);
-            })
-            .finally(() => setLoading(false));
-    }
+    const [registerHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
+        Auth.register({ firstName, lastName, login, password }),
+    );
 
     return (
         <Box className="register-form">
@@ -80,7 +70,7 @@ const RegisterForm: FC = () => {
                 disabled={remPassword !== password}
                 variant="contained"
                 size="large"
-                onClick={registerHandler}
+                onClick={() => registerHandler(() => customNavigate(prevPage ?? '/'))}
                 loading={loading}
             >
                 Sign Up

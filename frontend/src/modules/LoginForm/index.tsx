@@ -10,7 +10,7 @@ import { useLocation } from 'react-router-dom';
 import { Context } from '../..';
 import { ApiError } from '../../api';
 import SecretOutlinedField from '../../components/SecretOutlinedField';
-import { useCustomNavigate } from '../../hooks';
+import { useCustomNavigate, useRequestHandler } from '../../hooks';
 
 const LoginForm: FC = () => {
     const { Auth } = useContext(Context);
@@ -24,23 +24,9 @@ const LoginForm: FC = () => {
     const [login, setLogin] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<ApiError | null>(null);
-
-    function loginHandler() {
-        setLoading(true);
-        Auth.login(login, password)
-            .then(() => {
-                customNavigate(prevPage ?? '/');
-            })
-            .catch((e) => {
-                setError(e);
-                console.log(e);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
-    }
+    const [loginHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
+        Auth.login(login, password),
+    );
 
     return (
         <Box className="login-form">
@@ -61,7 +47,7 @@ const LoginForm: FC = () => {
                 sx={{ my: 1 }}
                 variant="contained"
                 size="large"
-                onClick={loginHandler}
+                onClick={() => loginHandler(() => customNavigate(prevPage ?? '/'))}
                 loading={loading}
             >
                 Sign In
