@@ -14,6 +14,7 @@ import ClientConnectionsPage from '../pages/ClientConnectionsPage';
 import ForbiddenPage from '../pages/ForbiddenPage';
 import MainPage from '../pages/MainPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import PaymentTicketsPage from '../pages/PaymentTicketsPage';
 import ProfilePage from '../pages/ProfilePage';
 import Root from '../pages/Root';
 
@@ -108,7 +109,7 @@ const RoutesProvider: FC = () => {
                         element={
                             <Auth
                                 with={Role.PaymentReviewer}
-                                for={<>payments tickets</>}
+                                for={<PaymentTicketsPage />}
                             />
                         }
                     />

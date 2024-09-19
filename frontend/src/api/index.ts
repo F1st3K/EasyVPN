@@ -70,6 +70,16 @@ const EasyVpn = {
             });
         },
     },
+    payment: {
+        tickets: (token: string, clientId?: string) => {
+            return api.get<ConnectionTicket[]>(
+                `/payment/tickets${clientId ? '?clientId=' + clientId : ''}`,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                },
+            );
+        },
+    },
 };
 
 export default EasyVpn;
