@@ -7,6 +7,7 @@ import { Context } from '../..';
 import EasyVpn, { ApiError, ConnectionTicket } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import { useRequest } from '../../hooks';
+import ConnectionTicketItem from '../../modules/ConnectionTicketItem';
 
 const PaymentTicketsPage: FC = () => {
     const store = useContext(Context);
@@ -27,7 +28,7 @@ const PaymentTicketsPage: FC = () => {
                     {error.response?.data.title ?? error.message}
                 </Alert>
             ) : (
-                data?.map((c) => <p key={c.id}>aaaa</p>)
+                data?.map((t) => <ConnectionTicketItem key={t.id} ticket={t} />)
             )}
             <Outlet />
         </CenterBox>
