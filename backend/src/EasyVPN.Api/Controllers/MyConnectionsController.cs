@@ -190,6 +190,7 @@ public class MyConnectionsController : ApiController
     /// <summary>
     /// Get configuration of connection. (client)
     /// </summary>
+    /// <param name="connectionId">Connection guid.</param>
     /// <returns>Returns OK or error.</returns>
     /// <remarks>
     /// Sample request:
@@ -206,6 +207,45 @@ public class MyConnectionsController : ApiController
         return configResult.Match(
             result => result.ClientId == clientId
                 ? Ok(new ConnectionConfigResponse(result.ClientId, result.Config))
+                : Forbid(),
+            errors => Problem(errors));
+    }
+
+    /// <summary>
+    /// Get connection info by id. (client)
+    /// </summary>
+    /// <param name="connectionId">Connection guid.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/my/connections/{{connectionId}}
+    /// </remarks>
+    [HttpGet("{connectionId:guid}")]
+    public async Task<IActionResult> GetConnection([FromRoute] Guid connectionId)
+    {
+        if (User.GetCurrentId() is not { } clientId)
+            return Forbid();
+
+        var connectionResult = await _sender.Send(new GetConnectionQuery(connectionId));
+        return connectionResult.Match(
+            result => result.Client.Id == clientId
+                ? Ok(new ConnectionResponse(
+                    result.Id,
+                    new UserResponse(
+                        result.Client.Id,
+                        result.Client.FirstName,
+                        result.Client.LastName,
+                        result.Client.Login,
+                        result.Client.Roles.Select(r => r.ToString()).ToArray()),
+                    new ServerResponse(
+                        result.Server.Id,
+                        new ProtocolResponse(
+                            result.Server.Protocol.Id,
+                            result.Server.Protocol.Name,
+                            result.Server.Protocol.Icon),
+                        result.Server.Version.ToString()),
+                    result.ExpirationTime))
                 : Forbid(),
             errors => Problem(errors));
     }
