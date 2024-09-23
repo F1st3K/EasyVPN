@@ -8,6 +8,7 @@ using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
 using EasyVPN.Contracts.Connections;
 using EasyVPN.Contracts.Servers;
 using EasyVPN.Contracts.Users;
+using EasyVPN.Domain.Common.Errors;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ public class MyConnectionsController : ApiController
     public async Task<IActionResult> GetConnections()
     {
         if (User.GetCurrentId() is not { } clientId)
-            return Forbid();
+            return Problem(Errors.Access.NotIdentified);
 
         var getConnectionsResult =
             await _sender.Send(new GetConnectionsQuery(clientId));
@@ -88,7 +89,7 @@ public class MyConnectionsController : ApiController
     public async Task<IActionResult> CreateConnection(CreateConnectionRequest request)
     {
         if (User.GetCurrentId() is not { } clientId)
-            return Forbid();
+            return Problem(Errors.Access.NotIdentified);
 
         var createConnectionResult =
             await _sender.Send(new CreateConnectionCommand(
@@ -133,7 +134,7 @@ public class MyConnectionsController : ApiController
     public async Task<IActionResult> CreateExtendConnectionTicket(ExtendConnectionRequest request)
     {
         if (User.GetCurrentId() is not { } clientId)
-            return Forbid();
+            return Problem(Errors.Access.NotIdentified);
 
         var getConnectionResult =
             await _sender.Send(new GetConnectionQuery(request.ConnectionId));
@@ -141,7 +142,7 @@ public class MyConnectionsController : ApiController
             return Problem(getConnectionResult.ErrorsOrEmptyList);
 
         if (getConnectionResult.Value.Client.Id != clientId)
-            return NotFound();
+            return Problem(Errors.Access.AnotherUserOnly);
 
         var createTicketResult =
             await _sender.Send(new CreateConnectionTicketCommand(
@@ -169,7 +170,7 @@ public class MyConnectionsController : ApiController
     public async Task<IActionResult> DeleteConnection([FromRoute] Guid connectionId)
     {
         if (User.GetCurrentId() is not { } clientId)
-            return Forbid();
+            return Problem(Errors.Access.NotIdentified);
 
         var getConnectionResult =
             await _sender.Send(new GetConnectionQuery(connectionId));
@@ -177,7 +178,7 @@ public class MyConnectionsController : ApiController
             return Problem(getConnectionResult.ErrorsOrEmptyList);
 
         if (getConnectionResult.Value.Client.Id != clientId)
-            return NotFound();
+            return Problem(Errors.Access.AnotherUserOnly);
 
         var confirmResult = await _sender.Send(
             new DeleteConnectionCommand(connectionId));
@@ -201,13 +202,13 @@ public class MyConnectionsController : ApiController
     public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid connectionId)
     {
         if (User.GetCurrentId() is not { } clientId)
-            return Forbid();
+            return Problem(Errors.Access.NotIdentified);
 
         var configResult = await _sender.Send(new GetConfigQuery(connectionId));
         return configResult.Match(
             result => result.ClientId == clientId
                 ? Ok(new ConnectionConfigResponse(result.ClientId, result.Config))
-                : Forbid(),
+                : Problem(Errors.Access.AnotherUserOnly),
             errors => Problem(errors));
     }
 
@@ -225,7 +226,7 @@ public class MyConnectionsController : ApiController
     public async Task<IActionResult> GetConnection([FromRoute] Guid connectionId)
     {
         if (User.GetCurrentId() is not { } clientId)
-            return Forbid();
+            return Problem(Errors.Access.NotIdentified);
 
         var connectionResult = await _sender.Send(new GetConnectionQuery(connectionId));
         return connectionResult.Match(
@@ -246,7 +247,7 @@ public class MyConnectionsController : ApiController
                             result.Server.Protocol.Icon),
                         result.Server.Version.ToString()),
                     result.ExpirationTime))
-                : Forbid(),
+                : Problem(Errors.Access.AnotherUserOnly),
             errors => Problem(errors));
     }
 }
