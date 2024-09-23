@@ -20,7 +20,7 @@ import ConnectionTicketRow from '../../modules/ConnectionTicketRow';
 
 const PaymentTicketsPage: FC = () => {
     const store = useContext(Context);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const location = useLocation();
 
     const [data, loading, error] = useRequest<ConnectionTicket[], ApiError>(
@@ -31,25 +31,27 @@ const PaymentTicketsPage: FC = () => {
     if (loading) return <LinearProgress />;
 
     return (
-        <CenterBox>
+        <CenterBox margin={2}>
             {error ? (
                 <Alert severity="error" variant="outlined">
                     {error.response?.data.title ?? error.message}
                 </Alert>
             ) : (
-                <TableContainer>
-                    <Typography variant="h5" marginY={3}>
-                        Payment tickets:
-                    </Typography>
-                    <Divider sx={{ borderBottomWidth: '3px' }} />
-                    <Table padding="normal">
-                        <TableBody>
-                            {data?.map((t) => (
-                                <ConnectionTicketRow key={t.id} ticket={t} />
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <Paper sx={{ borderRadius: 2, paddingBottom: '10px' }}>
+                    <TableContainer>
+                        <Typography variant="h5" padding={3}>
+                            Payment tickets:
+                        </Typography>
+                        <Divider sx={{ borderBottomWidth: '3px' }} />
+                        <Table padding="none">
+                            <TableBody>
+                                {data?.map((t) => (
+                                    <ConnectionTicketRow key={t.id} ticket={t} />
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Paper>
             )}
             <Outlet />
         </CenterBox>

@@ -57,14 +57,27 @@ const Header: FC = () => {
                                 onClose={() => setAnchorAdmin(null)}
                             >
                                 <MenuItem
-                                    onClick={() => navigate('/control/connections')}
+                                    onClick={() => {
+                                        navigate('/control/connections');
+                                        setAnchorAdmin(null);
+                                    }}
                                 >
                                     Connections
                                 </MenuItem>
-                                <MenuItem onClick={() => navigate('/control/users')}>
+                                <MenuItem
+                                    onClick={() => {
+                                        navigate('/control/users');
+                                        setAnchorAdmin(null);
+                                    }}
+                                >
                                     Users
                                 </MenuItem>
-                                <MenuItem onClick={() => navigate('/control/servers')}>
+                                <MenuItem
+                                    onClick={() => {
+                                        navigate('/control/servers');
+                                        setAnchorAdmin(null);
+                                    }}
+                                >
                                     Servers
                                 </MenuItem>
                             </PopUpMenu>
@@ -85,14 +98,20 @@ const Header: FC = () => {
                             >
                                 {Is(Role.Administrator) && (
                                     <MenuItem
-                                        onClick={() => navigate('/tickets/support')}
+                                        onClick={() => {
+                                            navigate('/tickets/support');
+                                            setAnchorTickets(null);
+                                        }}
                                     >
                                         Support Tickets
                                     </MenuItem>
                                 )}
                                 {Is(Role.PaymentReviewer) && (
                                     <MenuItem
-                                        onClick={() => navigate('/tickets/payment')}
+                                        onClick={() => {
+                                            navigate('/tickets/payment');
+                                            setAnchorTickets(null);
+                                        }}
                                     >
                                         Payment Tickets
                                     </MenuItem>

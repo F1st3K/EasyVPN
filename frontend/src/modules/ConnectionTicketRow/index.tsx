@@ -1,10 +1,9 @@
 import { CheckCircleOutline, HighlightOff, Info, OpenInNew } from '@mui/icons-material';
-import { Box, Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
+import { Chip, IconButton, TableCell, TableRow, Typography } from '@mui/material';
 import { format } from 'date-fns';
 import React, { FC } from 'react';
 
 import { ConnectionTicket, ConnectionTicketStatus } from '../../api';
-import PaymentTicketsPage from '../../pages/PaymentTicketsPage';
 
 interface ConnectionTicketRowProps {
     ticket: ConnectionTicket;
@@ -17,7 +16,7 @@ const ConnectionTicketRow: FC<ConnectionTicketRowProps> = (
     const crtt = new Date(props.ticket.creationTime);
     return (
         <TableRow hover>
-            <TableCell>
+            <TableCell sx={{ padding: '10px' }}>
                 {props.ticket.status == ConnectionTicketStatus.Pending && (
                     <Chip
                         variant="outlined"
@@ -43,27 +42,26 @@ const ConnectionTicketRow: FC<ConnectionTicketRowProps> = (
                     />
                 )}
             </TableCell>
-            <TableCell>
+            <TableCell sx={{ padding: '10px' }}>
                 <Chip size="small" label={format(crtt, 'HH:mm dd.MM.yyyy')} />
             </TableCell>
-            <TableCell>
+            <TableCell sx={{ padding: '10px' }}>
                 {props.ticket.client.firstName} {props.ticket.client.lastName}
             </TableCell>
             <TableCell
                 sx={{
+                    padding: '10px',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
-                    maxWidth: 'min(calc(100vw - 600px), 15vw)',
+                    maxWidth: 'min(calc(100vw - 600px), 25vw)',
                 }}
             >
                 <Typography variant="caption" color="Gray">
-                    Some body test text for example ffffffffffffffffffffffffffffffffffff.
-                    sfasf sjadflkasdjflkj sadjf sdlkjf lkjasd lkjsadklf jsjd slfjsdljf
-                    jsdf kjsdkfj sjdf skdj jhhkkh
+                    {props.ticket.description}
                 </Typography>
             </TableCell>
-            <TableCell>
+            <TableCell sx={{ padding: '10px' }}>
                 <IconButton
                     onClick={() =>
                         props.onGetMoreInfo && props.onGetMoreInfo(props.ticket)
