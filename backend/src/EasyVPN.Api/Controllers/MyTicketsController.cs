@@ -1,7 +1,9 @@
 using EasyVPN.Api.Common;
+using EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTicket;
 using EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTickets;
 using EasyVPN.Contracts.ConnectionTickets;
 using EasyVPN.Contracts.Users;
+using EasyVPN.Domain.Common.Errors;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +34,7 @@ public class MyTicketsController : ApiController
     public async Task<IActionResult> GetConnectionTickets()
     {
         if (User.GetCurrentId() is not { } clientId)
-            return Forbid();
+            return Problem(Errors.Access.NotIdentified);
 
         var getConnectionsResult =
             await _sender.Send(new GetConnectionTicketsQuery(clientId));
@@ -53,6 +55,43 @@ public class MyTicketsController : ApiController
                     c.Days,
                     c.PaymentDescription,
                     c.Images.ToArray()))),
+            errors => Problem(errors));
+    }
+
+    /// <summary>
+    /// Get connection ticket by id. (client)
+    /// </summary>
+    /// <param name="connectionTicketId">Connection ticket guid.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/my/tickets/{{connectionTicketId}}
+    /// </remarks>
+    [HttpGet("{connectionTicketId:guid}")]
+    public async Task<IActionResult> GetConnection([FromRoute] Guid connectionTicketId)
+    {
+        if (User.GetCurrentId() is not { } clientId)
+            return Problem(Errors.Access.NotIdentified);
+
+        var connectionResult = await _sender.Send(new GetConnectionTicketQuery(connectionTicketId));
+        return connectionResult.Match(
+            result => result.Client.Id == clientId
+                ? Ok(new ConnectionTicketResponse(
+                    result.Id,
+                    result.ConnectionId,
+                    new UserResponse(
+                        result.Client.Id,
+                        result.Client.FirstName,
+                        result.Client.LastName,
+                        result.Client.Login,
+                        result.Client.Roles.Select(r => r.ToString()).ToArray()),
+                    result.Status.ToString(),
+                    result.CreationTime,
+                    result.Days,
+                    result.PaymentDescription,
+                    result.Images.ToArray()))
+                : Problem(Errors.Access.AnotherUserOnly),
             errors => Problem(errors));
     }
 }
