@@ -110,4 +110,36 @@ public class PaymentTicketsController : ApiController
             _ => Ok(),
             errors => Problem(errors));
     }
+
+    /// <summary>
+    /// Get connection ticket by id. (payment reviewer)
+    /// </summary>
+    /// <param name="connectionTicketId">Connection ticket guid.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/payment/tickets/{{connectionTicketId}}
+    /// </remarks>
+    [HttpGet("{connectionTicketId:guid}")]
+    public async Task<IActionResult> GetConnection([FromRoute] Guid connectionTicketId)
+    {
+        var connectionResult = await _sender.Send(new GetConnectionTicketQuery(connectionTicketId));
+        return connectionResult.Match(
+            result => Ok(new ConnectionTicketResponse(
+                    result.Id,
+                    result.ConnectionId,
+                    new UserResponse(
+                        result.Client.Id,
+                        result.Client.FirstName,
+                        result.Client.LastName,
+                        result.Client.Login,
+                        result.Client.Roles.Select(r => r.ToString()).ToArray()),
+                    result.Status.ToString(),
+                    result.CreationTime,
+                    result.Days,
+                    result.PaymentDescription,
+                    result.Images.ToArray())),
+            errors => Problem(errors));
+    }
 }

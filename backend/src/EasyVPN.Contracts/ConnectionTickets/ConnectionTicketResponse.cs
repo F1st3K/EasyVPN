@@ -9,5 +9,5 @@ public record ConnectionTicketResponse(
     string Status,
     DateTime CreationTime,
     int Days,
-    string PaymentDescription,
+    string Description,
     string[] Images);
