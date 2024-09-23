@@ -1,4 +1,13 @@
-import { Alert, LinearProgress } from '@mui/material';
+import {
+    Alert,
+    Divider,
+    LinearProgress,
+    Paper,
+    Table,
+    TableBody,
+    TableContainer,
+    Typography,
+} from '@mui/material';
 import { observer } from 'mobx-react-lite';
 import React, { FC, useContext } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
@@ -7,7 +16,7 @@ import { Context } from '../..';
 import EasyVpn, { ApiError, ConnectionTicket } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import { useRequest } from '../../hooks';
-import ConnectionTicketItem from '../../modules/ConnectionTicketItem';
+import ConnectionTicketRow from '../../modules/ConnectionTicketRow';
 
 const PaymentTicketsPage: FC = () => {
     const store = useContext(Context);
@@ -28,7 +37,19 @@ const PaymentTicketsPage: FC = () => {
                     {error.response?.data.title ?? error.message}
                 </Alert>
             ) : (
-                data?.map((t) => <ConnectionTicketItem key={t.id} ticket={t} />)
+                <TableContainer>
+                    <Typography variant="h5" marginY={3}>
+                        Payment tickets:
+                    </Typography>
+                    <Divider sx={{ borderBottomWidth: '3px' }} />
+                    <Table padding="normal">
+                        <TableBody>
+                            {data?.map((t) => (
+                                <ConnectionTicketRow key={t.id} ticket={t} />
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             )}
             <Outlet />
         </CenterBox>
