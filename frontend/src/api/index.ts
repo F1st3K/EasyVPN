@@ -84,13 +84,17 @@ const EasyVpn = {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
-        confirm: (ticketId: string, token: string) => {
-            return api.put<void>(`/payment/tickets/${ticketId}/confirm`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+        confirm: (ticketId: string, token: string, days?: number) => {
+            return api.put<void>(
+                `/payment/tickets/${ticketId}/confirm${days ? '?days=' + days : ''}`,
+                undefined,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                },
+            );
         },
         reject: (ticketId: string, token: string) => {
-            return api.put<void>(`/payment/tickets/${ticketId}/reject`, {
+            return api.put<void>(`/payment/tickets/${ticketId}/reject`, undefined, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
