@@ -1,22 +1,16 @@
-import { CheckCircle, CheckCircleOutline, HighlightOff } from '@mui/icons-material';
+import { CheckCircleOutline, HighlightOff, Info } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
-import { Alert, Box, Button, Divider, PaperProps } from '@mui/material';
-import React, { FC, useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Alert, Box, Button, Chip, Divider, PaperProps } from '@mui/material';
+import React, { FC, useContext, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, {
-    ApiError,
-    ConnectionTicket,
-    ConnectionTicketStatus,
-    PaymentConnectionInfo,
-    Server,
-} from '../../api';
+import EasyVpn, { ApiError, ConnectionTicket, ConnectionTicketStatus } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequest, useRequestHandler } from '../../hooks';
+import ConnectionRequestItem from '../ConnectionRequestItem';
 import PaymentConnectionForm from '../PaymentConnectionForm';
-import ServerSelect from '../ServerSelect';
 
 interface PaymentTikcetModalProps extends PaperProps {
     ticketId?: string;
@@ -69,7 +63,31 @@ const PaymentTikcetModal: FC<PaymentTikcetModalProps> = (props) => {
                     minWidth="30ch"
                 >
                     <Divider textAlign="left">Connection ticket</Divider>
-                    {/*TODO: create connection view component*/}
+                    {ticket?.status == ConnectionTicketStatus.Pending && (
+                        <Chip
+                            variant="outlined"
+                            label="Not done"
+                            color="info"
+                            icon={<Info />}
+                        />
+                    )}
+                    {ticket?.status == ConnectionTicketStatus.Rejected && (
+                        <Chip
+                            variant="outlined"
+                            label="Rejected"
+                            color="error"
+                            icon={<HighlightOff />}
+                        />
+                    )}
+                    {ticket?.status == ConnectionTicketStatus.Confirmed && (
+                        <Chip
+                            variant="outlined"
+                            label="Confirmed"
+                            color="success"
+                            icon={<CheckCircleOutline />}
+                        />
+                    )}
+                    <ConnectionRequestItem connecitonId={ticket?.connectionId || ''} />
                     <PaymentConnectionForm
                         readonlyDays={ticket?.status != ConnectionTicketStatus.Pending}
                         readonlyDesc
