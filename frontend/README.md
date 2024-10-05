@@ -1,27 +1,58 @@
-# EasyVPN frontend
-Приложение веб-интерфейс, имеющее простой UI. (TypeScript + React)
+[![readme-en-shield]][readme-en-url]
+[![readme-ru-shield]][readme-ru-url]
 
+# EasyVPN Frontend
 
-## Configuration
-> Конфигурация web-интерфейса находится в [`config.json`](./src/config.json):
+React web app for managing EasyVPN.
 
-`"ApiUrl": "http://localhost:80/api/",` - URL к развернотому [`EasyVPN backend`](../backend/README.md), с которым общается веб-интерфейс
+## Installation
 
-`"AuthCheckMinutes": 15` - переодичность в минутах, с которой автоматически проверяется авторизация
-(так же авторизация автоматически проверяется при изменении навигации)
+### Manual local installation
 
+For the development of this project we use **Node.js LTS 20**.
 
-## Deploy (docker)
-Сборка докер-образа:
+1. **Install dependencies:**
+
+```bash
+npm install
+```
+
+2. **Setup configuration:**
+
+> The web application configuration is located in [`config.json`](./src/config.json).
+
+- `ApiUrl`: URL to deployed [`EasyVPN backend`](../backend/README.md) that the web application communicates 
+with (default: `http://localhost:80/api/`).
+- `AuthCheckMinutes`: frequency (in minutes) with which the system automatically checks the current authorization 
+status. Authorization is also checked automatically every time the navigation in the application 
+changes (default: `15`).
+
+3. **Launch the project:**
+
+```bash
+npm run start
+```
+
+### Installation via docker container
+
+1. Build a docker image:
+
 ```bash
 docker build -t easyvpn/frontend:local ./
 ```
 
-Для запуска сервиса в докер-контейнере используйте следующую команду:
+2. Run a service in a docker container:
+
 ```bash
 docker run -d \
   --name frontend \
-  -p 3000:3000 `#your port` \
+  -p 3000:3000 `# port` \
   easyvpn/frontend:local
 ```
 
+The web application will be available in both cases on [``http://localhost:3000``](http://localhost:3000).
+
+[readme-en-shield]: https://img.shields.io/badge/en-blue
+[readme-en-url]: README.md
+[readme-ru-shield]: https://img.shields.io/badge/ru-gray
+[readme-ru-url]: README.ru_RU.md
