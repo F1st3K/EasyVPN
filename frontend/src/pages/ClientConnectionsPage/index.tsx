@@ -80,6 +80,9 @@ const ClientConnectionsPage: FC = () => {
                                         <ConnectionTicketShortItem
                                             key={t.id}
                                             ticket={t}
+                                            onGetMoreInfo={(t) =>
+                                                navigate(`ticket/${t.id}`)
+                                            }
                                         />
                                     ))}
                         </CollapsedListItem>

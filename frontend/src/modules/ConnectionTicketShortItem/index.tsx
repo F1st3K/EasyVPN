@@ -1,4 +1,4 @@
-import { CheckCircleOutline, HighlightOff, MoreHoriz } from '@mui/icons-material';
+import { CheckCircleOutline, HighlightOff, OpenInNew } from '@mui/icons-material';
 import {
     Box,
     Chip,
@@ -62,7 +62,7 @@ const ConnectionTicketShortItem: FC<ConnectionTicketShortItemProps> = (
                 sx={{ marginLeft: 'auto' }}
                 onClick={() => props.onGetMoreInfo && props.onGetMoreInfo(props.ticket)}
             >
-                <MoreHoriz />
+                <OpenInNew />
             </IconButton>
         </ListItem>
     );

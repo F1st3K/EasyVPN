@@ -1,22 +1,17 @@
 import { Alert, CircularProgress } from '@mui/material';
-import React, { FC, useContext } from 'react';
+import React, { FC } from 'react';
 
-import { Context } from '../..';
-import EasyVpn, { ApiError, Connection } from '../../api';
+import { ApiError, Connection } from '../../api';
 import { useRequest } from '../../hooks';
 import ConnectionItem from '../ConnectionItem';
 
 interface ConnectionRequestItemProps {
-    connecitonId: string;
+    connectionPromise: () => Promise<Connection>;
 }
 
 const ConnectionRequestItem: FC<ConnectionRequestItemProps> = (props) => {
-    const { Auth } = useContext(Context);
-
     const [conneciton, loading, error] = useRequest<Connection, ApiError>(() =>
-        EasyVpn.payment
-            .connection(props.connecitonId, Auth.getToken())
-            .then((v) => v.data),
+        props.connectionPromise(),
     );
 
     if (loading || !conneciton) return <CircularProgress />;

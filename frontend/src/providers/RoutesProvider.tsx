@@ -5,6 +5,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import { Context } from '..';
 import { Role } from '../api';
+import ClientTicketModal from '../modules/ClientTicketModal';
 import ConfigModal from '../modules/ConfigModal';
 import CreateConnectionModal from '../modules/CreateConnectionModal';
 import DeleteConnectionModal from '../modules/DeleteConnectionModal';
@@ -132,6 +133,7 @@ const RoutesProvider: FC = () => {
                         path=":connectionId/delete"
                         element={<DeleteConnectionModal />}
                     />
+                    <Route path="ticket/:ticketId" element={<ClientTicketModal />} />
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />
             </Route>

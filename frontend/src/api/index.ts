@@ -69,6 +69,16 @@ const EasyVpn = {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
+        ticket: (ticketId: string, token: string) => {
+            return api.get<ConnectionTicket>(`/my/tickets/${ticketId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        connection: (connectionId: string, token: string) => {
+            return api.get<Connection>(`/my/connections/${connectionId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
     },
     payment: {
         tickets: (token: string, clientId?: string) => {

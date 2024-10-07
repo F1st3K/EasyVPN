@@ -8,37 +8,24 @@ import { Context } from '../..';
 import EasyVpn, { ApiError, ConnectionTicket, ConnectionTicketStatus } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
-import { useRequest, useRequestHandler } from '../../hooks';
+import { useRequest } from '../../hooks';
 import ConnectionRequestItem from '../ConnectionRequestItem';
 import PaymentConnectionForm from '../PaymentConnectionForm';
 
-interface PaymentTikcetModalProps extends PaperProps {
+interface ClientTicketModalProps extends PaperProps {
     ticketId?: string;
+    connecitonId?: string;
 }
 
-const PaymentTikcetModal: FC<PaymentTikcetModalProps> = (props) => {
+const ClientTicketModal: FC<ClientTicketModalProps> = (props) => {
     const navigate = useNavigate();
     const handleClose = () => navigate('../.');
     const { Auth } = useContext(Context);
 
     const ticketId = props.ticketId || useParams().ticketId || '';
-    const [days, setDays] = useState<number>(0);
 
     const [ticket, loading, error] = useRequest<ConnectionTicket, ApiError>(() =>
-        EasyVpn.payment.ticket(ticketId, Auth.getToken()).then((v) => v.data),
-    );
-    const [confirmHandler, confLoading, confError] = useRequestHandler<void, ApiError>(
-        () =>
-            ticket && days > 0
-                ? EasyVpn.payment
-                      .confirm(ticket.id, Auth.getToken(), days)
-                      .then((v) => v.data)
-                : Promise.reject(new Error('Confirm ticket information is not valid!')),
-    );
-    const [rejectHandler, rejLoading, rejError] = useRequestHandler<void, ApiError>(() =>
-        ticket
-            ? EasyVpn.payment.reject(ticket.id, Auth.getToken()).then((v) => v.data)
-            : Promise.reject(new Error('Reject ticket information is not valid!')),
+        EasyVpn.my.ticket(ticketId, Auth.getToken()).then((v) => v.data),
     );
 
     return (
@@ -89,28 +76,17 @@ const PaymentTikcetModal: FC<PaymentTikcetModalProps> = (props) => {
                     )}
                     <ConnectionRequestItem
                         connectionPromise={() =>
-                            EasyVpn.payment
+                            EasyVpn.my
                                 .connection(ticket?.connectionId || '', Auth.getToken())
                                 .then((v) => v.data)
                         }
                     />
                     <PaymentConnectionForm
-                        readonlyDays={ticket?.status != ConnectionTicketStatus.Pending}
+                        readonlyDays
                         readonlyDesc
                         readonlyImages
                         paymentInfo={ticket || undefined}
-                        onChange={(p) => setDays(p.days)}
                     />
-                    {rejError && (
-                        <Alert severity="error" variant="outlined">
-                            {rejError.response?.data.title ?? rejError.message}
-                        </Alert>
-                    )}
-                    {confError && (
-                        <Alert severity="error" variant="outlined">
-                            {confError.response?.data.title ?? confError.message}
-                        </Alert>
-                    )}
                     <Divider />
                     <Box
                         display="flex"
@@ -119,34 +95,6 @@ const PaymentTikcetModal: FC<PaymentTikcetModalProps> = (props) => {
                         justifyContent="space-between"
                         gap={1}
                     >
-                        {ticket?.status == ConnectionTicketStatus.Pending && (
-                            <Box flexWrap="nowrap">
-                                <LoadingButton
-                                    variant="contained"
-                                    color="error"
-                                    sx={{ textTransform: 'none' }}
-                                    loading={rejLoading}
-                                    disabled={confLoading}
-                                    loadingPosition="start"
-                                    startIcon={<HighlightOff />}
-                                    onClick={() => rejectHandler(() => handleClose())}
-                                >
-                                    Reject
-                                </LoadingButton>
-                                <LoadingButton
-                                    variant="contained"
-                                    color="success"
-                                    sx={{ marginLeft: '1ch', textTransform: 'none' }}
-                                    loading={confLoading}
-                                    disabled={rejLoading}
-                                    loadingPosition="start"
-                                    startIcon={<CheckCircleOutline />}
-                                    onClick={() => confirmHandler(() => handleClose())}
-                                >
-                                    Confirm
-                                </LoadingButton>
-                            </Box>
-                        )}
                         <Button
                             variant="outlined"
                             color="inherit"
@@ -162,4 +110,4 @@ const PaymentTikcetModal: FC<PaymentTikcetModalProps> = (props) => {
     );
 };
 
-export default PaymentTikcetModal;
+export default ClientTicketModal;
