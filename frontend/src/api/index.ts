@@ -69,6 +69,16 @@ const EasyVpn = {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
+        ticket: (ticketId: string, token: string) => {
+            return api.get<ConnectionTicket>(`/my/tickets/${ticketId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        connection: (connectionId: string, token: string) => {
+            return api.get<Connection>(`/my/connections/${connectionId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
     },
     payment: {
         tickets: (token: string, clientId?: string) => {
@@ -78,6 +88,37 @@ const EasyVpn = {
                     headers: { Authorization: `Bearer ${token}` },
                 },
             );
+        },
+        ticket: (ticketId: string, token: string) => {
+            return api.get<ConnectionTicket>(`/payment/tickets/${ticketId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        connection: (connectionId: string, token: string) => {
+            return api.get<Connection>(`/connections/${connectionId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        confirm: (ticketId: string, token: string, days?: number) => {
+            return api.put<void>(
+                `/payment/tickets/${ticketId}/confirm${days ? '?days=' + days : ''}`,
+                undefined,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                },
+            );
+        },
+        reject: (ticketId: string, token: string) => {
+            return api.put<void>(`/payment/tickets/${ticketId}/reject`, undefined, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+    },
+    admin: {
+        connection: (connectionId: string, token: string) => {
+            return api.get<Connection>(`/connections/${connectionId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
         },
     },
 };

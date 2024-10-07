@@ -20,7 +20,7 @@ import ConnectionTicketRow from '../../modules/ConnectionTicketRow';
 
 const PaymentTicketsPage: FC = () => {
     const store = useContext(Context);
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const location = useLocation();
 
     const [data, loading, error] = useRequest<ConnectionTicket[], ApiError>(
@@ -46,7 +46,11 @@ const PaymentTicketsPage: FC = () => {
                         <Table padding="none">
                             <TableBody>
                                 {data?.map((t) => (
-                                    <ConnectionTicketRow key={t.id} ticket={t} />
+                                    <ConnectionTicketRow
+                                        key={t.id}
+                                        ticket={t}
+                                        onGetMoreInfo={() => navigate(`./${t.id}`)}
+                                    />
                                 ))}
                             </TableBody>
                         </Table>

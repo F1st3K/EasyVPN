@@ -1,6 +1,7 @@
 using EasyVPN.Api.Common;
 using EasyVPN.Application.Connections.Commands.ResetLifetimeConnection;
 using EasyVPN.Application.Connections.Queries.GetConfig;
+using EasyVPN.Application.Connections.Queries.GetConnection;
 using EasyVPN.Application.Connections.Queries.GetConnections;
 using EasyVPN.Contracts.Connections;
 using EasyVPN.Contracts.Servers;
@@ -12,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace EasyVPN.Api.Controllers;
 
 [Route("connections")]
-[Authorize(Roles = Roles.Administrator)]
 public class ConnectionsController : ApiController
 {
     private readonly ISender _sender;
@@ -34,6 +34,7 @@ public class ConnectionsController : ApiController
     /// GET {{host}}/connections?clientId={{clientId}}
     /// </remarks>
     [HttpGet]
+    [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> GetConnections([FromQuery] Guid? clientId)
     {
         var getConnectionsResult =
@@ -62,6 +63,43 @@ public class ConnectionsController : ApiController
 
 
     /// <summary>
+    /// Permanent get connection by guid. (administrator, payment reviewer)
+    /// </summary>
+    /// <param name="connectionId">The guid of conneciton.</param>
+    /// <returns>Returns information for this connection.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/connections/{{connectionId}}
+    /// </remarks>
+    [HttpGet("{connectionId:guid}")]
+    [Authorize(Roles = Roles.Administrator + "," + Roles.PaymentReviewer)]
+    public async Task<IActionResult> GetConnection([FromRoute] Guid connectionId)
+    {
+        var configResult =
+            await _sender.Send(new GetConnectionQuery(connectionId));
+        return configResult.Match(
+            result => Ok(new ConnectionResponse(
+                    result.Id,
+                    new UserResponse(
+                        result.Client.Id,
+                        result.Client.FirstName,
+                        result.Client.LastName,
+                        result.Client.Login,
+                        result.Client.Roles.Select(r => r.ToString()).ToArray()),
+                    new ServerResponse(
+                        result.Server.Id,
+                        new ProtocolResponse(
+                            result.Server.Protocol.Id,
+                            result.Server.Protocol.Name,
+                            result.Server.Protocol.Icon),
+                        result.Server.Version.ToString()),
+                    result.ExpirationTime)),
+            errors => Problem(errors));
+    }
+
+
+    /// <summary>
     /// Permanent get config connection by guid. (administrator)
     /// </summary>
     /// <param name="connectionId">The guid of conneciton.</param>
@@ -72,6 +110,7 @@ public class ConnectionsController : ApiController
     /// GET {{host}}/connections/{{connectionId}}/config
     /// </remarks>
     [HttpGet("{connectionId:guid}/config")]
+    [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid connectionId)
     {
         var configResult =
@@ -92,6 +131,7 @@ public class ConnectionsController : ApiController
     /// PUT {{host}}/connections/{{connectionId}}/reset
     /// </remarks>
     [HttpPut("{connectionId:guid}/reset")]
+    [Authorize(Roles = Roles.Administrator)]
     public async Task<IActionResult> Reset([FromRoute] Guid connectionId)
     {
         var confirmResult = await _sender.Send(

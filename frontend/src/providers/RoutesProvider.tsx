@@ -5,10 +5,12 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 
 import { Context } from '..';
 import { Role } from '../api';
+import ClientTicketModal from '../modules/ClientTicketModal';
 import ConfigModal from '../modules/ConfigModal';
 import CreateConnectionModal from '../modules/CreateConnectionModal';
 import DeleteConnectionModal from '../modules/DeleteConnectionModal';
 import ExtendConnectionModal from '../modules/ExtendConnectionModal';
+import PaymentTikcetModal from '../modules/PaymentTikcetModal';
 import AuthPage from '../pages/AuthPage';
 import ClientConnectionsPage from '../pages/ClientConnectionsPage';
 import ForbiddenPage from '../pages/ForbiddenPage';
@@ -112,7 +114,9 @@ const RoutesProvider: FC = () => {
                                 for={<PaymentTicketsPage />}
                             />
                         }
-                    />
+                    >
+                        <Route path=":ticketId" element={<PaymentTikcetModal />} />
+                    </Route>
                 </Route>
                 <Route path="profile" element={<Auth for={<ProfilePage />} />} />
                 <Route
@@ -129,6 +133,7 @@ const RoutesProvider: FC = () => {
                         path=":connectionId/delete"
                         element={<DeleteConnectionModal />}
                     />
+                    <Route path="ticket/:ticketId" element={<ClientTicketModal />} />
                 </Route>
                 <Route path="*" element={<NotFoundPage />} />
             </Route>

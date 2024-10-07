@@ -6,6 +6,9 @@ import { PaymentConnectionInfo } from '../../api';
 interface PaymentConnectionFormProps {
     paymentInfo?: PaymentConnectionInfo;
     onChange?: (paymentInfo: PaymentConnectionInfo) => void;
+    readonlyDays?: boolean;
+    readonlyDesc?: boolean;
+    readonlyImages?: boolean;
 }
 
 const PaymentConnectionForm: FC<PaymentConnectionFormProps> = (props) => {
@@ -21,12 +24,14 @@ const PaymentConnectionForm: FC<PaymentConnectionFormProps> = (props) => {
     return (
         <Box display="flex" flexDirection="column" gap={2}>
             <TextField
+                disabled={props.readonlyDays}
                 label="Count days"
                 value={Number.isInteger(days) ? days : ''}
                 onChange={(e) => {
                     const d = Number.parseInt(e.target.value);
-                    return setDays(Number.isNaN(d) || d > 0 ? d : 1);
+                    return setDays(d > 0 ? d : 1);
                 }}
+                onFocus={(e) => e.target.select()}
                 type="number"
                 variant="outlined"
                 inputMode="numeric"
@@ -34,6 +39,7 @@ const PaymentConnectionForm: FC<PaymentConnectionFormProps> = (props) => {
                 style={{ width: '15ch' }}
             />
             <TextField
+                disabled={props.readonlyDesc}
                 label="Comment"
                 value={desc}
                 onChange={(e) => setDesc(e.target.value)}
