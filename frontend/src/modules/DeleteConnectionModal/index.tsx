@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { Alert, AlertTitle, Box, PaperProps } from '@mui/material';
+import { Alert, AlertTitle, Box, PaperProps, Typography } from '@mui/material';
 import React, { FC, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -7,6 +7,7 @@ import { Context } from '../..';
 import EasyVpn, { ApiError } from '../../api';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
+import ConnectionRequestItem from '../ConnectionRequestItem';
 
 interface DeleteConnectionModalProps extends PaperProps {
     connectionId?: string;
@@ -36,7 +37,14 @@ const DeleteConnectionModal: FC<DeleteConnectionModalProps> = (props) => {
             ) : (
                 <Alert onClose={handleClose} severity="warning" variant="outlined">
                     <AlertTitle>Delete connection?</AlertTitle>
-                    Do you really want delete connection <>{connectionId}</> ?
+                    <>Do you really want delete connection?</>
+                    <ConnectionRequestItem
+                        connectionPromise={() =>
+                            EasyVpn.my
+                                .connection(connectionId, Auth.getToken())
+                                .then((c) => c.data)
+                        }
+                    />
                     <Box marginTop={1} display="flex" flexDirection="row-reverse">
                         <LoadingButton
                             color="warning"

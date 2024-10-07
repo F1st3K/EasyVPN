@@ -1,4 +1,3 @@
-import { Alert, CircularProgress } from '@mui/material';
 import React, { FC } from 'react';
 
 import { ApiError, Connection } from '../../api';
@@ -10,18 +9,11 @@ interface ConnectionRequestItemProps {
 }
 
 const ConnectionRequestItem: FC<ConnectionRequestItemProps> = (props) => {
-    const [conneciton, loading, error] = useRequest<Connection, ApiError>(() =>
+    const [conneciton] = useRequest<Connection, ApiError>(() =>
         props.connectionPromise(),
     );
 
-    if (loading || !conneciton) return <CircularProgress />;
-
-    if (error)
-        return (
-            <Alert severity="error" variant="outlined" sx={{ width: '25ch' }}>
-                {error.response?.data.title ?? error.message}
-            </Alert>
-        );
+    if (!conneciton) return <></>;
 
     return <ConnectionItem connection={conneciton} />;
 };
