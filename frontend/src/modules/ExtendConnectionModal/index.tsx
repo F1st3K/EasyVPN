@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { Alert, Box, Button, Divider, PaperProps } from '@mui/material';
+import { Alert, Box, Button, Divider, PaperProps, Typography } from '@mui/material';
 import React, { FC, useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ import EasyVpn, { ApiError, PaymentConnectionInfo } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
+import ConnectionRequestItem from '../ConnectionRequestItem';
 import PaymentConnectionForm from '../PaymentConnectionForm';
 
 interface ExtendConnectionModalProps extends PaperProps {
@@ -54,7 +55,18 @@ const ExtendConnectionModal: FC<ExtendConnectionModalProps> = (props) => {
                     width="80vw"
                     minWidth="30ch"
                 >
-                    <Divider textAlign="left">Extend connection {connectionId}</Divider>
+                    <Divider textAlign="left">
+                        <Box display="flex" gap={2}>
+                            <Typography>Extend connection:</Typography>
+                            <ConnectionRequestItem
+                                connectionPromise={() =>
+                                    EasyVpn.my
+                                        .connection(connectionId, Auth.getToken())
+                                        .then((c) => c.data)
+                                }
+                            />
+                        </Box>
+                    </Divider>
                     <PaymentConnectionForm onChange={setPayInfo} />
                     <Divider />
                     <Box

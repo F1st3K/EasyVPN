@@ -7,6 +7,7 @@ import {
     ListItemAvatar,
     ListItemText,
 } from '@mui/material';
+import { format } from 'date-fns';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,14 +41,10 @@ const ConnectionShortItem: FC<ConnectionShortItemProps> = (props) => {
                         <Chip
                             label={
                                 <>
-                                    {new Date() > expt ? (
-                                        <>Expired on</>
-                                    ) : (
-                                        <>Expires from</>
-                                    )}{' '}
-                                    {expt.toDateString()} at{' '}
-                                    {expt.getHours().toString().padStart(2, '0')}:
-                                    {expt.getMinutes().toString().padStart(2, '0')}
+                                    {new Date() > expt ? <>Expired</> : <>Expires</>}{' '}
+                                    {format(expt, 'dd.MM.yyyy') +
+                                        ' at ' +
+                                        format(expt, 'HH:mm')}
                                 </>
                             }
                             variant="outlined"

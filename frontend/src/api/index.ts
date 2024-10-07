@@ -114,6 +114,13 @@ const EasyVpn = {
             });
         },
     },
+    servers: {
+        getAll: (token: string) => {
+            return api.get<Server[]>(`/servers`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+    },
     admin: {
         connection: (connectionId: string, token: string) => {
             return api.get<Connection>(`/connections/${connectionId}`, {

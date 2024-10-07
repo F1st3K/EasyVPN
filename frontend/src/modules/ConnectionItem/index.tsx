@@ -13,7 +13,6 @@ const ConnectionItem: FC<ConnectionItemProps> = (props) => {
         <Box
             display="flex"
             flexDirection="row"
-            flexWrap="wrap"
             alignItems="center"
             gap={2}
             width={'100%'}
