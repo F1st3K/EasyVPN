@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
 import { Role } from '../../api';
+import Logo from '../../components/Logo';
 import PopUpMenu from '../../components/PopUpMenu';
 
 const Header: FC = () => {
@@ -36,11 +37,24 @@ const Header: FC = () => {
                     onClick={() => navigate('/')}
                     size="large"
                     color="inherit"
-                    sx={{ textTransform: 'none' }}
+                    sx={{ textTransform: 'none', paddingLeft: 0 }}
                 >
-                    <Typography fontSize="18pt" component="div">
-                        EasyVPN
-                    </Typography>
+                    <Box
+                        display="flex"
+                        flexDirection="row"
+                        flexWrap="wrap"
+                        justifyContent="space-around"
+                    >
+                        <Logo theme="dark" marginX={2} size={40} />
+                        <Typography
+                            marginTop={0.5}
+                            fontFamily="mono"
+                            fontSize="18pt"
+                            component="div"
+                        >
+                            EasyVPN
+                        </Typography>
+                    </Box>
                 </Button>
                 <Box sx={{ flexGrow: 1 }}>
                     {Is(Role.Administrator) && (
@@ -57,14 +71,27 @@ const Header: FC = () => {
                                 onClose={() => setAnchorAdmin(null)}
                             >
                                 <MenuItem
-                                    onClick={() => navigate('/control/connections')}
+                                    onClick={() => {
+                                        navigate('/control/connections');
+                                        setAnchorAdmin(null);
+                                    }}
                                 >
                                     Connections
                                 </MenuItem>
-                                <MenuItem onClick={() => navigate('/control/users')}>
+                                <MenuItem
+                                    onClick={() => {
+                                        navigate('/control/users');
+                                        setAnchorAdmin(null);
+                                    }}
+                                >
                                     Users
                                 </MenuItem>
-                                <MenuItem onClick={() => navigate('/control/servers')}>
+                                <MenuItem
+                                    onClick={() => {
+                                        navigate('/control/servers');
+                                        setAnchorAdmin(null);
+                                    }}
+                                >
                                     Servers
                                 </MenuItem>
                             </PopUpMenu>
@@ -85,14 +112,20 @@ const Header: FC = () => {
                             >
                                 {Is(Role.Administrator) && (
                                     <MenuItem
-                                        onClick={() => navigate('/tickets/support')}
+                                        onClick={() => {
+                                            navigate('/tickets/support');
+                                            setAnchorTickets(null);
+                                        }}
                                     >
                                         Support Tickets
                                     </MenuItem>
                                 )}
                                 {Is(Role.PaymentReviewer) && (
                                     <MenuItem
-                                        onClick={() => navigate('/tickets/payment')}
+                                        onClick={() => {
+                                            navigate('/tickets/payment');
+                                            setAnchorTickets(null);
+                                        }}
                                     >
                                         Payment Tickets
                                     </MenuItem>

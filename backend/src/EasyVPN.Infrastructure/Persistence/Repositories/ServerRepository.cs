@@ -1,5 +1,4 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,5 +17,10 @@ public class ServerRepository : IServerRepository
     {
         return _dbContext.Servers.Include(s => s.Protocol)
             .SingleOrDefault(s => s.Id == id);
+    }
+
+    public IEnumerable<Server> GetAll()
+    {
+        return _dbContext.Servers.Include(s => s.Protocol);
     }
 }

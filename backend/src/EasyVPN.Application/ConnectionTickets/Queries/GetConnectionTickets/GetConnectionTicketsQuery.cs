@@ -1,4 +1,3 @@
-using EasyVPN.Application.Connections.Queries.GetConfig;
 using EasyVPN.Domain.Entities;
 using ErrorOr;
 using MediatR;

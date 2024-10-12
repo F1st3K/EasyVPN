@@ -1,5 +1,20 @@
 # Changelog
 
+## `0.4.0` (2024-10-12)
+
+### Features
+
+- frontend: Created payment tickets list for payment reviewer
+- frontend: Added show more info of ticket
+- frontend: Added confirm and reject tcket for payment reviewer
+- frontent: Created Logotype for project (any icons with it)
+- backend: Create missing routes for it (connecitons, tickets and servers)
+
+### Bug fixes
+
+- frontend: Fix other ui-components of added missing routes
+- backend: Fix forbbiden errors to currectly error messages
+
 ## `0.3.0` (2024-09-18)
 
 ### Features
