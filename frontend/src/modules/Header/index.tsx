@@ -19,6 +19,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
 import { Role } from '../../api';
+import Logo from '../../components/Logo';
 import PopUpMenu from '../../components/PopUpMenu';
 
 const Header: FC = () => {
@@ -36,11 +37,24 @@ const Header: FC = () => {
                     onClick={() => navigate('/')}
                     size="large"
                     color="inherit"
-                    sx={{ textTransform: 'none' }}
+                    sx={{ textTransform: 'none', paddingLeft: 0 }}
                 >
-                    <Typography fontSize="18pt" component="div">
-                        EasyVPN
-                    </Typography>
+                    <Box
+                        display="flex"
+                        flexDirection="row"
+                        flexWrap="wrap"
+                        justifyContent="space-around"
+                    >
+                        <Logo theme="dark" marginX={2} size={40} />
+                        <Typography
+                            marginTop={0.5}
+                            fontFamily="mono"
+                            fontSize="18pt"
+                            component="div"
+                        >
+                            EasyVPN
+                        </Typography>
+                    </Box>
                 </Button>
                 <Box sx={{ flexGrow: 1 }}>
                     {Is(Role.Administrator) && (

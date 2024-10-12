@@ -18,7 +18,7 @@ const Modal: FC<ModalProps> = ({ open, handleClose, ...props }) => {
                 <CircularProgress />
             ) : (
                 <Paper
-                    style={{ borderRadius: '15px' }}
+                    style={{ marginTop: '8ch', borderRadius: '15px' }}
                     onClick={(e) => e.stopPropagation()}
                     elevation={24}
                     {...props}
