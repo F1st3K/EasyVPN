@@ -46,7 +46,12 @@ const Header: FC = () => {
                         justifyContent="space-around"
                     >
                         <Logo theme="dark" marginX={2} size={40} />
-                        <Typography fontFamily="mono" fontSize="18pt" component="div">
+                        <Typography
+                            marginTop={0.5}
+                            fontFamily="mono"
+                            fontSize="18pt"
+                            component="div"
+                        >
                             EasyVPN
                         </Typography>
                     </Box>
