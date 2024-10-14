@@ -23,7 +23,7 @@ const Logo: FC<LogoProps> = (props) => {
                 loading="eager"
                 width="100%"
                 height="100%"
-                src={`EasyVPN-logo.${props.theme || theme.palette.mode}.png`}
+                src={`/EasyVPN-logo.${props.theme || theme.palette.mode}.png`}
                 alt=""
             />
         </Box>
