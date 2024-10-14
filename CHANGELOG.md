@@ -1,5 +1,14 @@
 # Changelog
 
+## `0.4.1` (2024-10-14)
+
+### Hotfixes
+
+- Postgress version in docker-compose set as 16
+- frontend: Replace 'npm start' on nginx server in docker-image
+- frontend: Added cashe in nginx configuration in docker-image
+- frontend: fix logo image source
+
 ## `0.4.0` (2024-10-12)
 
 ### Features
