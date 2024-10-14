@@ -6,7 +6,7 @@ networks:
 
 services:
   easy-vpn-database:
-    image: postgres:latest
+    image: postgres:16
     container_name: database
     environment:
       - POSTGRES_USER=postgres
