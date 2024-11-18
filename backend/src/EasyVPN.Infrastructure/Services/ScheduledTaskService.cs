@@ -21,8 +21,7 @@ public class ScheduledTaskService(
 {
     private readonly TimeSpan _interval = TimeSpan.FromMinutes(expirationOptions.Value.CheckMinutes);
 
-    private readonly Dictionary<Guid, (DateTime expirationTime, IBaseRequest request)> _tasks = new() {
-        };
+    private readonly Dictionary<Guid, (DateTime expirationTime, IBaseRequest request)> _tasks = new();
     
     public void AddOrUpdateTask<TResponse>(Guid taskId, (DateTime expirationTime, IRequest<ErrorOr<TResponse>> request) task) =>
         _tasks[taskId] = (task.expirationTime, task.request);
@@ -31,22 +30,30 @@ public class ScheduledTaskService(
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        AddOrUpdateTask( new Guid("00000000-0000-0000-0000-000000000000"), (
-                new DateTime(2024, 11, 18, 1, 55, 0),
-                new GetProtocolsQuery()
-            ));
-        AddOrUpdateTask( new Guid("00000001-0000-0000-0000-000000000000"), (
-                new DateTime(2024, 11, 18, 1, 55, 0),
-                new LoginQuery("admin", "admin")
-            ));
-        AddOrUpdateTask( new Guid("00000002-0000-0000-0000-000000000000"), (
-                new DateTime(2024, 11, 18, 1, 55, 0),
-                new CreateConnectionTicketCommand(new Guid("00000000-0000-0000-0000-000000000000"),
-                    30, 
-                    "Automaticly created",
-                    ["automatic"]
-                )
-            ));
+        // AddOrUpdateTask( new Guid("00000000-0000-0000-0000-000000000000"), (
+        //         new DateTime(2024, 11, 18, 1, 55, 0),
+        //         new GetProtocolsQuery()
+        //     ));
+        // AddOrUpdateTask( new Guid("00000001-0000-0000-0000-000000000000"), (
+        //         new DateTime(2024, 11, 18, 1, 55, 0),
+        //         new LoginQuery("admin", "admin")
+        //     ));
+        // AddOrUpdateTask( new Guid("00000002-0000-0000-0000-000000000000"), (
+        //         new DateTime(2024, 11, 18, 1, 55, 0),
+        //         new CreateConnectionTicketCommand(new Guid("b045a69e-33a9-4fb6-9e47-1f41afe43c4b"),
+        //             30, 
+        //             "Automaticly updated",
+        //             ["automatic"]
+        //         )
+        //     ));
+        // AddOrUpdateTask( new Guid("00000004-0000-0000-0000-000000000000"), (
+        //         new DateTime(2024, 11, 18, 1, 55, 0),
+        //         new CreateConnectionTicketCommand(new Guid("00000000-0000-0000-0000-000000000000"),
+        //             30, 
+        //             "Automaticly updated",
+        //             ["automatic"]
+        //         )
+        //     ));
         while (!stoppingToken.IsCancellationRequested)
         {
             foreach (var t in _tasks
@@ -57,21 +64,21 @@ public class ScheduledTaskService(
                     var sender = scope.ServiceProvider.GetRequiredService<ISender>();
                     
                     var result = (IErrorOr) (await sender.Send(t.Value.request, stoppingToken))!;
-                    
-                    object r = ((IErrorOr<object?>) result).Value!;
 
                     if (result.IsError == false)
                     {
                         _tasks.Remove(t.Key);
-                        logger.LogInformation("Task {Key} of type {Request} returned: \n{Result}.",
+                        
+                        object value  = ((dynamic) result).Value!;
+                        logger.LogInformation("Task {Key},\n\tof type {Request},\nreturned:\n\t{Result}.",
                             t.Key,
                             t.Value.request.GetType().FullName,
-                            result.GetType().FullName 
+                            value.GetType().FullName 
                         );
                     }
                     else
                     {
-                        logger.LogError("Task {Key} of type {Request} returned errors: \n\t{Errors}.",
+                        logger.LogError("Task {Key},\n\tof type {Request},\nreturned errors:\n\t{Errors}.",
                             t.Key,
                             t.Value.request.GetType().FullName,
                             string.Join(", \n\t",
