@@ -5,7 +5,11 @@ namespace EasyVPN.Application.Common.Interfaces.Persistence;
 
 public interface ITaskRepository
 {
-    void AddTask<TResponse>(Guid taskId, DateTime execTime, IRequest<ErrorOr<TResponse>> request);
-    void RemoveTask(Guid taskId);
-    IEnumerable<(Guid id, DateTime execTime, IBaseRequest request)> GetTasks();
+    void PushTask<TResponse>(Guid taskId, DateTime execTime, IRequest<ErrorOr<TResponse>> request);
+    public TRequest? PopTask<TRequest>(Guid taskId);
+    void RemoveTaskIfExist(Guid taskId, Type responseType);
+
+    public IReadOnlyDictionary<
+        (Guid id, Type typeRequest),
+        (DateTime execTime, IBaseRequest request, Type typeResponse)> GetTasks();
 }

@@ -25,30 +25,28 @@ public class ScheduledTaskService(
         while (!stoppingToken.IsCancellationRequested)
         {
             foreach (var t in taskRepository.GetTasks()
-                         .Where(t => t.execTime <= dateTimeProvider.UtcNow))
+                         .Where(t => t.Value.execTime <= dateTimeProvider.UtcNow))
                 try
                 {
                     using var scope = serviceProvider.CreateScope();
                     var sender = scope.ServiceProvider.GetRequiredService<ISender>();
                     
-                    var result = (IErrorOr) (await sender.Send(t.request, stoppingToken))!;
+                    var result = (IErrorOr) (await sender.Send(t.Value.request, stoppingToken))!;
 
                     if (result.IsError == false)
                     {
-                        taskRepository.RemoveTask(t.id);
-                        
-                        object value  = ((dynamic) result).Value!;
+                        taskRepository.RemoveTaskIfExist(t.Key.id, t.Key.typeRequest);
                         logger.LogInformation("Task {Key},\n\tof type {Request},\nreturned:\n\t{Result}.",
-                            t.id,
-                            t.request.GetType().FullName,
-                            value.GetType().FullName 
+                            t.Key.id,
+                            t.Key.typeRequest.FullName,
+                            t.Value.typeResponse.FullName
                         );
                     }
                     else
                     {
                         logger.LogError("Task {Key},\n\tof type {Request},\nreturned errors:\n\t{Errors}.",
-                            t.id,
-                            t.request.GetType().FullName,
+                            t.Key.id,
+                            t.Key.typeRequest.FullName,
                             string.Join(", \n\t",
                                 result.Errors?.Select(e => $"{e.Code}: {e.Description}") ??
                                 Enumerable.Empty<string>())

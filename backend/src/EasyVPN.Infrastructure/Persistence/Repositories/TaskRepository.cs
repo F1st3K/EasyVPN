@@ -6,20 +6,34 @@ namespace EasyVPN.Infrastructure.Persistence.Repositories;
 
 public class TaskRepository : ITaskRepository
 {
-    private readonly Dictionary<Guid, (DateTime execTime, IBaseRequest request)> _tasks = new ();
+    private readonly Dictionary<
+        (Guid id, Type typeRequest),
+        (DateTime execTime, IBaseRequest request, Type typeResponse)> _tasks = new ();
     
-    public void AddTask<TResponse>(Guid taskId, DateTime execTime, IRequest<ErrorOr<TResponse>> request)
+    public void PushTask<TResponse>(Guid taskId, DateTime execTime, IRequest<ErrorOr<TResponse>> request)
     {
-        _tasks[taskId] = (execTime, request);
+        _tasks[(taskId, request.GetType())] = (execTime, request, typeof(TResponse));
     }
 
-    public void RemoveTask(Guid taskId)
+    public TRequest? PopTask<TRequest>(Guid taskId)
     {
-        _tasks.Remove(taskId);
+        var task = _tasks[(taskId, typeof(TRequest))]; 
+        _tasks.Remove((taskId, typeof(TRequest)));
+        return (TRequest) task.request;
+    }
+    
+    public void RemoveTaskIfExist(Guid taskId, Type requestType)
+    {
+        _tasks.Remove((taskId, requestType));
     }
 
-    public IEnumerable<(Guid id, DateTime execTime, IBaseRequest request)> GetTasks()
+    public IReadOnlyDictionary<
+        (Guid id, Type typeRequest),
+        (DateTime execTime, IBaseRequest request, Type typeResponse)> GetTasks()
     {
-        return _tasks.Select(pair => (pair.Key, pair.Value.execTime, pair.Value.request));
+        return _tasks.ToDictionary(
+            x => x.Key, 
+            x => 
+                (x.Value.execTime, x.Value.request, x.Value.typeResponse));
     }
 }
