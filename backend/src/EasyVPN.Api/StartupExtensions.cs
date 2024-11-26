@@ -1,10 +1,7 @@
 using EasyVPN.Application.Authentication.Queries.Login;
-using EasyVPN.Application.Common.Interfaces.Expire;
 using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
 using EasyVPN.Application.Protocols.Queries.GetProtocols;
-using EasyVPN.Domain.Entities;
 using EasyVPN.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,7 +41,7 @@ public static class StartupExtensions
                 new LoginQuery("admin", "admin")
             );
         taskRepository.PushTask( new Guid("00000002-0000-0000-0000-000000000000"),
-                new DateTime(2024, 11, 18, 1, 55, 0),
+                new DateTime(2024, 11, 26, 21, 3, 0),
                 new CreateConnectionTicketCommand(new Guid("b045a69e-33a9-4fb6-9e47-1f41afe43c4b"),
                     30, 
                     "Automaticly updated",

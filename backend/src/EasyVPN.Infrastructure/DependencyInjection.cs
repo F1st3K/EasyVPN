@@ -91,7 +91,6 @@ public static class DependencyInjection
         var expirationSettings = new Settings.Options.Expiration();
         configuration.Bind(Settings.Options.Expiration.SectionName, expirationSettings);
         services.AddSingleton(Options.Create(expirationSettings));
-        services.AddSingleton<IExpirationChecker, ExpirationChecker>();
 
         services.AddHostedService<ScheduledTaskService>();
         return services;

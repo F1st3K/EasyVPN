@@ -1,3 +1,4 @@
+using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Vpn;
 using EasyVPN.Domain.Common.Errors;
 using ErrorOr;
@@ -7,10 +8,12 @@ namespace EasyVPN.Application.Connections.Commands.DisableConnection;
 
 public class DisableConnectionCommandHandler : IRequestHandler<DisableConnectionCommand, ErrorOr<Updated>>
 {
+    private readonly IConnectionRepository _connectionRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
 
-    public DisableConnectionCommandHandler( IVpnServiceFactory vpnServiceFactory)
+    public DisableConnectionCommandHandler(IVpnServiceFactory vpnServiceFactory, IConnectionRepository connectionRepository)
     {
+        _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;
     }
 
@@ -18,7 +21,10 @@ public class DisableConnectionCommandHandler : IRequestHandler<DisableConnection
     {
         await Task.CompletedTask;
 
-        if (_vpnServiceFactory.GetVpnService(command.Server) is not { } vpnService)
+        if (_connectionRepository.Get(command.ConnectionId) is not { } connection)
+            return Errors.Connection.NotFound;
+
+        if (_vpnServiceFactory.GetVpnService(connection.Server) is not { } vpnService)
             return Errors.Server.FailedGetService;
 
         var disableResult = vpnService.DisableClient(command.ConnectionId);
