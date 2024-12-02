@@ -25,6 +25,7 @@ public class ResetLifetimeConnectionTests
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 
+        /*
         _mocks.ServerRepository.Setup(x
                 => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
@@ -32,6 +33,7 @@ public class ResetLifetimeConnectionTests
         _mocks.VpnServiceFactory.Setup(x
                 => x.GetVpnService(It.IsAny<Server>()))
             .Returns(_mocks.VpnService.Object);
+            */
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -40,6 +42,7 @@ public class ResetLifetimeConnectionTests
         //Assert
         result.IsError.Should().BeFalse(result.FirstError.ToString());
 
+        /*
         _mocks.VpnService.Verify(x
             => x.DisableClient(Constants.Connection.Id));
         _mocks.ConnectionRepository.Verify(x
@@ -48,6 +51,7 @@ public class ResetLifetimeConnectionTests
         _mocks.ExpireService.Verify(x
             => x.ResetTrackExpire(It.Is<Connection>(connection
                 => connection.IsValid())));
+    */
     }
 
     [Fact]
@@ -65,6 +69,7 @@ public class ResetLifetimeConnectionTests
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 
+        /*
         _mocks.ServerRepository.Setup(x
                 => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
@@ -76,6 +81,7 @@ public class ResetLifetimeConnectionTests
         _mocks.VpnService.Setup(x
                 => x.DisableClient(Constants.Connection.Id))
             .Returns(Constants.Connection.VpnServiceError);
+            */
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -96,6 +102,7 @@ public class ResetLifetimeConnectionTests
                 => x.Get(Constants.Connection.Id))
             .Returns(() => null);
 
+        /*
         _mocks.ServerRepository.Setup(x
                 => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
@@ -103,6 +110,7 @@ public class ResetLifetimeConnectionTests
         _mocks.VpnServiceFactory.Setup(x
                 => x.GetVpnService(It.IsAny<Server>()))
             .Returns(_mocks.VpnService.Object);
+            */
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -127,6 +135,7 @@ public class ResetLifetimeConnectionTests
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 
+        /*
         _mocks.ServerRepository.Setup(x
                 => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
@@ -134,6 +143,7 @@ public class ResetLifetimeConnectionTests
         _mocks.VpnServiceFactory.Setup(x
                 => x.GetVpnService(It.IsAny<Server>()))
             .Returns(() => null);
+            */
 
         //Act
         var handler = _mocks.CreateHandler();

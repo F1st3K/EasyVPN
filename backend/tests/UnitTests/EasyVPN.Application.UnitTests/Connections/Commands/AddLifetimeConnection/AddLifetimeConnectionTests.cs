@@ -1,7 +1,7 @@
+using EasyVPN.Application.Connections.Commands.DisableConnection;
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
 using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
-using ErrorOr;
 using FluentAssertions;
 using Moq;
 
@@ -46,12 +46,14 @@ public class AddLifetimeConnectionTests
         _mocks.ConnectionRepository.Verify(x
             => x.Update(It.Is<Connection>(connection
                 => connection.ExtendIsValid())));
-        _mocks.ExpireService.Verify(x
-            => x.ResetTrackExpire(It.Is<Connection>(connection
-                => connection.ExtendIsValid())));
-        _mocks.ExpireService.Verify(x
-            => x.AddTrackExpire(It.Is<Connection>(connection
-                => connection.ExtendIsValid())));
+        _mocks.TaskRepository.Verify(x
+            => x.PopTask<DisableConnectionCommand>(Constants.Connection.Id));
+        _mocks.TaskRepository.Verify(x
+            => x.PushTask(
+                Constants.Connection.Id, 
+                Constants.Connection.ExpirationTime.AddDays(Constants.Connection.Days),
+                It.Is<DisableConnectionCommand>(dc => dc.ConnectionId == Constants.Connection.Id)
+                ));
     }
 
     [Fact]
@@ -127,9 +129,14 @@ public class AddLifetimeConnectionTests
         _mocks.ConnectionRepository.Verify(x
             => x.Update(It.Is<Connection>(connection
                 => connection.ActivateIsValid())));
-        _mocks.ExpireService.Verify(x
-            => x.AddTrackExpire(It.Is<Connection>(connection
-                => connection.ActivateIsValid())));
+        _mocks.TaskRepository.Verify(x
+            => x.PopTask<DisableConnectionCommand>(Constants.Connection.Id));
+        _mocks.TaskRepository.Verify(x
+            => x.PushTask(
+                Constants.Connection.Id, 
+                Constants.Time.Now.AddDays(Constants.Connection.Days),
+                It.Is<DisableConnectionCommand>(dc => dc.ConnectionId == Constants.Connection.Id)
+                ));
     }
 
     [Fact]
