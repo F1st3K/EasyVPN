@@ -11,7 +11,7 @@ public class DisableConnectionCommandHandler : IRequestHandler<DisableConnection
     private readonly IConnectionRepository _connectionRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
 
-    public DisableConnectionCommandHandler(IVpnServiceFactory vpnServiceFactory, IConnectionRepository connectionRepository)
+    public DisableConnectionCommandHandler(IConnectionRepository connectionRepository, IVpnServiceFactory vpnServiceFactory)
     {
         _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;

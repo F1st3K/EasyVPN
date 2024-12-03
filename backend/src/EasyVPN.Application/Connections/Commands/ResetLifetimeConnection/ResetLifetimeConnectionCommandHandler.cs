@@ -42,7 +42,7 @@ public class ResetLifetimeConnectionCommandHandler : IRequestHandler<ResetLifeti
         var disableResult = await _sender.Send(disableCommand, cancellationToken);
         
         if (disableResult.IsError)
-            return disableResult.ToErrorOr().ErrorsOrEmptyList;
+            return disableResult.ErrorsOrEmptyList;
         return Result.Updated;
     }
 }

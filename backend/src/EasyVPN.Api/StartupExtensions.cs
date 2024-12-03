@@ -32,30 +32,6 @@ public static class StartupExtensions
         using var scope = app.ApplicationServices.CreateScope();
         var taskRepository = scope.ServiceProvider.GetRequiredService<ITaskRepository>();
         
-        taskRepository.PushTask( new Guid("00000000-0000-0000-0000-000000000000"),
-                new DateTime(2024, 11, 18, 1, 55, 0),
-                new GetProtocolsQuery()
-            );
-        taskRepository.PushTask( new Guid("00000001-0000-0000-0000-000000000000"),
-                new DateTime(2024, 11, 18, 1, 55, 0),
-                new LoginQuery("admin", "admin")
-            );
-        taskRepository.PushTask( new Guid("00000002-0000-0000-0000-000000000000"),
-                new DateTime(2024, 11, 26, 21, 3, 0),
-                new CreateConnectionTicketCommand(new Guid("b045a69e-33a9-4fb6-9e47-1f41afe43c4b"),
-                    30, 
-                    "Automaticly updated",
-                    ["automatic"]
-                )
-            );
-        taskRepository.PushTask( new Guid("00000003-0000-0000-0000-000000000000"),
-                new DateTime(2024, 11, 18, 1, 55, 0),
-                new CreateConnectionTicketCommand(new Guid("00000000-0000-0000-0000-000000000000"),
-                    30, 
-                    "Automaticly updated",
-                    ["automatic"]
-                )
-            );
 
         return app;
     }

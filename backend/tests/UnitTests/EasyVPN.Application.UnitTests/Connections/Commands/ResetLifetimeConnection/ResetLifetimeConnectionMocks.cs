@@ -9,7 +9,6 @@ namespace EasyVPN.Application.UnitTests.Connections.Commands.ResetLifetimeConnec
 
 public class ResetLifetimeConnectionMocks
 {
-    public readonly Mock<IDateTimeProvider> DateTimeProvider = new();
     public readonly Mock<IConnectionRepository> ConnectionRepository = new();
     public readonly Mock<ITaskRepository> TaskRepository = new();
     public readonly Mock<ISender> Sender = new();
@@ -22,7 +21,7 @@ public class ResetLifetimeConnectionMocks
             .Returns(Constants.Time.Now);
         return new ResetLifetimeConnectionCommandHandler(
             ConnectionRepository.Object,
-            DateTimeProvider.Object,
+            mockDateTimeProvider.Object,
             TaskRepository.Object,
             Sender.Object
         );
