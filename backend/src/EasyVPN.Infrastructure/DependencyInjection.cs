@@ -42,7 +42,6 @@ public static class DependencyInjection
         
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         
-        services.AddSingleton<ITaskRepository, TaskRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IServerRepository, ServerRepository>();
         services.AddScoped<IProtocolRepository, ProtocolRepository>();
@@ -92,6 +91,7 @@ public static class DependencyInjection
         configuration.Bind(Settings.Options.Expiration.SectionName, expirationSettings);
         services.AddSingleton(Options.Create(expirationSettings));
 
+        services.AddSingleton<ITaskRepository, TaskRepository>();
         services.AddHostedService<ScheduledTaskService>();
         return services;
     }

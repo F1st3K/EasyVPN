@@ -1,7 +1,5 @@
-using EasyVPN.Application.Authentication.Queries.Login;
 using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
-using EasyVPN.Application.Protocols.Queries.GetProtocols;
+using EasyVPN.Application.Connections.Commands.DisableConnection;
 using EasyVPN.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,8 +28,11 @@ public static class StartupExtensions
     public static IApplicationBuilder AddScheduledTasks(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();
+        var connectionRepository = scope.ServiceProvider.GetRequiredService<IConnectionRepository>();
         var taskRepository = scope.ServiceProvider.GetRequiredService<ITaskRepository>();
-        
+
+        foreach (var c in connectionRepository.GetAll())
+            taskRepository.PushTask(c.Id, c.ExpirationTime, new DisableConnectionCommand(c.Id));
 
         return app;
     }
