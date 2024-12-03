@@ -1,6 +1,5 @@
-using EasyVPN.Application.Common.Interfaces.Expire;
-using EasyVPN.Application.Common.Interfaces.Services;
-using EasyVPN.Domain.Entities;
+using EasyVPN.Application.Common.Interfaces.Persistence;
+using EasyVPN.Application.Connections.Commands.DisableConnection;
 using EasyVPN.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,14 +25,14 @@ public static class StartupExtensions
         return app;
     }
 
-    public static IApplicationBuilder StartExpireService(this IApplicationBuilder app)
+    public static IApplicationBuilder AddScheduledTasks(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();
-        var connectionExpireService = scope.ServiceProvider.GetRequiredService<IExpireService<Connection>>();
-        var expirationChecker = app.ApplicationServices.GetRequiredService<IExpirationChecker>();
+        var connectionRepository = scope.ServiceProvider.GetRequiredService<IConnectionRepository>();
+        var taskRepository = scope.ServiceProvider.GetRequiredService<ITaskRepository>();
 
-        connectionExpireService.AddAllToTrackExpire();
-        expirationChecker.Run();
+        foreach (var c in connectionRepository.GetAll())
+            taskRepository.PushTask(c.Id, c.ExpirationTime, new DisableConnectionCommand(c.Id));
 
         return app;
     }
