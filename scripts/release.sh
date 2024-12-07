@@ -7,7 +7,7 @@ if [ "$#" -ne 1 ]; then
 fi
 NEW_VERSION="$1"
 
-git flow release start $NEW_VERSION && \
+git checkout -b release/$NEW_VERSION && \
     ./scripts/set-global-version.sh $NEW_VERSION && \
     git add . && \
     git commit -am "chore(release): increment global version to $NEW_VERSION"
