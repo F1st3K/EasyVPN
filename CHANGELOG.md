@@ -1,5 +1,12 @@
 # Changelog
 
+## `0.4.2` (2024-12-07)
+
+### Hotfixes
+
+- frontend: Fix most npm warnings
+- backend: Fix
+
 ## `0.4.1` (2024-10-14)
 
 ### Hotfixes
