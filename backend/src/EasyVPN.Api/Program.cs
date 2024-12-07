@@ -34,7 +34,7 @@ var app = builder.Build();
     app.MapControllers();
 
     app.MigrateDatabase();
-    app.StartExpireService();
+    app.AddScheduledTasks();
 
     app.Run();
 }

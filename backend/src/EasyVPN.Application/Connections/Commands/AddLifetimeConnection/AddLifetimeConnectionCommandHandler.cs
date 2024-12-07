@@ -1,9 +1,8 @@
-using EasyVPN.Application.Common.Interfaces.Expire;
 using EasyVPN.Application.Common.Interfaces.Persistence;
 using EasyVPN.Application.Common.Interfaces.Services;
 using EasyVPN.Application.Common.Interfaces.Vpn;
+using EasyVPN.Application.Connections.Commands.DisableConnection;
 using EasyVPN.Domain.Common.Errors;
-using EasyVPN.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
@@ -14,18 +13,18 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
     private readonly IConnectionRepository _connectionRepository;
     private readonly IVpnServiceFactory _vpnServiceFactory;
     private readonly IDateTimeProvider _dateTimeProvider;
-    private readonly IExpireService<Connection> _expireService;
+    private readonly ITaskRepository _taskRepository;
 
     public AddLifetimeConnectionCommandHandler(
         IConnectionRepository connectionRepository,
         IVpnServiceFactory vpnServiceFactory,
         IDateTimeProvider dateTimeProvider,
-        IExpireService<Connection> expireService)
+        ITaskRepository taskRepository)
     {
         _connectionRepository = connectionRepository;
         _vpnServiceFactory = vpnServiceFactory;
         _dateTimeProvider = dateTimeProvider;
-        _expireService = expireService;
+        _taskRepository = taskRepository;
     }
 
     public async Task<ErrorOr<Updated>> Handle(AddLifetimeConnectionCommand command, CancellationToken cancellationToken)
@@ -49,9 +48,11 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
         if (enableResult.IsError)
             return enableResult.ErrorsOrEmptyList;
 
-        _expireService.ResetTrackExpire(connection);
-        _expireService.AddTrackExpire(connection);
-
+        if (_taskRepository.PopTask<DisableConnectionCommand>(connection.Id) is not {} disableCommand)
+            disableCommand = new DisableConnectionCommand(connection.Id);
+                
+        _taskRepository.PushTask(connection.Id, connection.ExpirationTime, disableCommand);
+        
         return Result.Updated;
     }
 }

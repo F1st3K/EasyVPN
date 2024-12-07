@@ -1,6 +1,8 @@
+using EasyVPN.Application.Connections.Commands.DisableConnection;
 using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
 using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
+using ErrorOr;
 using FluentAssertions;
 using Moq;
 
@@ -25,14 +27,6 @@ public class ResetLifetimeConnectionTests
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 
-        _mocks.ServerRepository.Setup(x
-                => x.Get(Constants.Server.Id))
-            .Returns(new Server() { Id = Constants.Server.Id });
-
-        _mocks.VpnServiceFactory.Setup(x
-                => x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
-
         //Act
         var handler = _mocks.CreateHandler();
         var result = await handler.Handle(command, CancellationToken.None);
@@ -40,18 +34,19 @@ public class ResetLifetimeConnectionTests
         //Assert
         result.IsError.Should().BeFalse(result.FirstError.ToString());
 
-        _mocks.VpnService.Verify(x
-            => x.DisableClient(Constants.Connection.Id));
         _mocks.ConnectionRepository.Verify(x
             => x.Update(It.Is<Connection>(connection
                 => connection.IsValid())));
-        _mocks.ExpireService.Verify(x
-            => x.ResetTrackExpire(It.Is<Connection>(connection
-                => connection.IsValid())));
+        _mocks.TaskRepository.Verify(x
+            => x.PopTask<DisableConnectionCommand>(Constants.Connection.Id));
+        _mocks.Sender.Verify(x
+            => x.Send(It.Is<DisableConnectionCommand>(c
+                => c.ConnectionId == Constants.Connection.Id),
+                It.IsAny<CancellationToken>()));
     }
 
     [Fact]
-    public async Task HandleResetLifetimeConnectionCommand_WhenVpnServiceError_Error()
+    public async Task HandleResetLifetimeConnectionCommand_WhenDisableError_Error()
     {
         //Arrange
         var command = ResetLifetimeConnectionUtils.CreateCommand();
@@ -65,17 +60,11 @@ public class ResetLifetimeConnectionTests
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 
-        _mocks.ServerRepository.Setup(x
-                => x.Get(Constants.Server.Id))
-            .Returns(new Server() { Id = Constants.Server.Id });
-
-        _mocks.VpnServiceFactory.Setup(x
-                => x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
-
-        _mocks.VpnService.Setup(x
-                => x.DisableClient(Constants.Connection.Id))
-            .Returns(Constants.Connection.VpnServiceError);
+        _mocks.Sender.Setup(x
+                => x.Send(It.Is<DisableConnectionCommand>(c 
+                    => c.ConnectionId == Constants.Connection.Id), 
+                    It.IsAny<CancellationToken>()))
+            .Returns(Task.Run<ErrorOr<Updated>>(() => Constants.Connection.VpnServiceError));
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -96,14 +85,6 @@ public class ResetLifetimeConnectionTests
                 => x.Get(Constants.Connection.Id))
             .Returns(() => null);
 
-        _mocks.ServerRepository.Setup(x
-                => x.Get(Constants.Server.Id))
-            .Returns(new Server() { Id = Constants.Server.Id });
-
-        _mocks.VpnServiceFactory.Setup(x
-                => x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
-
         //Act
         var handler = _mocks.CreateHandler();
         var result = await handler.Handle(command, CancellationToken.None);
@@ -112,34 +93,4 @@ public class ResetLifetimeConnectionTests
         result.FirstError.Should().Be(Errors.Connection.NotFound);
     }
 
-    [Fact]
-    public async Task HandleResetLifetimeConnectionCommand_WhenFailedGetService_Error()
-    {
-        //Arrange
-        var command = ResetLifetimeConnectionUtils.CreateCommand();
-
-        _mocks.ConnectionRepository.Setup(x
-                => x.Get(Constants.Connection.Id))
-            .Returns(() => new Connection()
-            {
-                Id = Constants.Connection.Id,
-                Server = new() { Id = Constants.Server.Id },
-                ExpirationTime = Constants.Connection.ExpirationTime
-            });
-
-        _mocks.ServerRepository.Setup(x
-                => x.Get(Constants.Server.Id))
-            .Returns(new Server() { Id = Constants.Server.Id });
-
-        _mocks.VpnServiceFactory.Setup(x
-                => x.GetVpnService(It.IsAny<Server>()))
-            .Returns(() => null);
-
-        //Act
-        var handler = _mocks.CreateHandler();
-        var result = await handler.Handle(command, CancellationToken.None);
-
-        //Assert
-        result.FirstError.Should().Be(Errors.Server.FailedGetService);
-    }
 }

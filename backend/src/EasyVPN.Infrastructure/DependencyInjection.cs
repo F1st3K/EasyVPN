@@ -41,11 +41,13 @@ public static class DependencyInjection
             options.UseNpgsql(connectionStrings.Postgres));
         
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IServerRepository, ServerRepository>();
         services.AddScoped<IProtocolRepository, ProtocolRepository>();
         services.AddScoped<IConnectionRepository, ConnectionRepository>();
         services.AddScoped<IConnectionTicketRepository, ConnectionTicketRepository>();
+        
         services.AddScoped<IVpnServiceFactory, VpnServiceFactory>();
         
         return services;
@@ -88,8 +90,9 @@ public static class DependencyInjection
         var expirationSettings = new Settings.Options.Expiration();
         configuration.Bind(Settings.Options.Expiration.SectionName, expirationSettings);
         services.AddSingleton(Options.Create(expirationSettings));
-        services.AddSingleton<IExpirationChecker, ExpirationChecker>();
-        
+
+        services.AddSingleton<ITaskRepository, TaskRepository>();
+        services.AddHostedService<ScheduledTaskService>();
         return services;
     }
 }
