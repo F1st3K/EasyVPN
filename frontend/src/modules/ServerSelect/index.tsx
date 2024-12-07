@@ -32,13 +32,11 @@ const ServerSelect: FC<ServerSelectProps> = (props) => {
             value={server}
             getOptionLabel={(o) => o.protocol.name}
             renderOption={(p, o) => {
-                const { id, ...op } = p;
                 return (
                     <Box
-                        key={id}
                         component="li"
                         sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-                        {...op}
+                        {...p}
                     >
                         <img loading="lazy" width={25} src={o.protocol.icon} alt="" />
                         {o.protocol.name}
