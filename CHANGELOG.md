@@ -1,11 +1,16 @@
 # Changelog
 
-## `0.4.2` (2024-12-07)
+## `0.5.0` (2024-12-07)
 
-### Hotfixes
+### Features
 
-- frontend: Fix most npm warnings
-- backend: Fix
+- backend: Replaced ExpirationChecker by universal SheduledTaskService
+> (now you can set a delayed launch of commands)
+
+### Bug fixes
+
+- frontend: Fixed most npm warnings
+- backend: Fixed not disconnecting connections when their lifespan expires
 
 ## `0.4.1` (2024-10-14)
 
