@@ -1,11 +1,5 @@
 # Changelog
 
-## `0.5.1` (2024-12-08)
-
-### Hotfixes
-
-- backend: Fixed exception on create Sheduled task (error task - key not found)
-
 ## `0.5.0` (2024-12-07)
 
 ### Features
