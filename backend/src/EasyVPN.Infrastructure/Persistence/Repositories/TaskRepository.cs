@@ -15,9 +15,11 @@ public class TaskRepository : ITaskRepository
         _tasks[(taskId, request.GetType())] = (execTime, request, typeof(TResponse));
     }
 
-    public TRequest? PopTask<TRequest>(Guid taskId)
+    public TRequest? TryPopTask<TRequest>(Guid taskId)
     {
-        var task = _tasks[(taskId, typeof(TRequest))]; 
+        if (_tasks.TryGetValue((taskId, typeof(TRequest)), out var task) == false)
+            return default;
+        
         _tasks.Remove((taskId, typeof(TRequest)));
         return (TRequest) task.request;
     }
