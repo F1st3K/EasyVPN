@@ -38,7 +38,7 @@ public class ResetLifetimeConnectionTests
             => x.Update(It.Is<Connection>(connection
                 => connection.IsValid())));
         _mocks.TaskRepository.Verify(x
-            => x.PopTask<DisableConnectionCommand>(Constants.Connection.Id));
+            => x.TryPopTask<DisableConnectionCommand>(Constants.Connection.Id));
         _mocks.Sender.Verify(x
             => x.Send(It.Is<DisableConnectionCommand>(c
                 => c.ConnectionId == Constants.Connection.Id),
