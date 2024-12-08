@@ -48,7 +48,7 @@ public class AddLifetimeConnectionCommandHandler : IRequestHandler<AddLifetimeCo
         if (enableResult.IsError)
             return enableResult.ErrorsOrEmptyList;
 
-        if (_taskRepository.PopTask<DisableConnectionCommand>(connection.Id) is not {} disableCommand)
+        if (_taskRepository.TryPopTask<DisableConnectionCommand>(connection.Id) is not {} disableCommand)
             disableCommand = new DisableConnectionCommand(connection.Id);
                 
         _taskRepository.PushTask(connection.Id, connection.ExpirationTime, disableCommand);
