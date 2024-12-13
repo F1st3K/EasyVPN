@@ -1,8 +1,9 @@
 import React from 'react';
 import { FC } from 'react';
 
-const MainPage: FC = () => {
-    return <>Main page</>;
-};
+import MarkDownX from '../../components/MarkDownX';
 
+const MainPage: FC = () => {
+    return <MarkDownX md={'## Hello'} prevMd={'## Hello'} />;
+};
 export default MainPage;
