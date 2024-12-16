@@ -16,6 +16,7 @@ import {
     listsPlugin,
     markdownShortcutPlugin,
     quotePlugin,
+    RealmPlugin,
     tablePlugin,
     thematicBreakPlugin,
     toolbarPlugin,
@@ -39,65 +40,64 @@ export const YoutubeDirectiveDescriptor: DirectiveDescriptor<YoutubeDirectiveNod
     hasChildren: false,
     Editor: (p) => {
         return (
-            <div
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                }}
-            >
-                <button
-                    onClick={() => {
-                        p.parentEditor.update(() => {
-                            p.lexicalNode.selectNext();
-                            p.lexicalNode.remove();
-                        });
-                    }}
-                >
-                    delete
-                </button>
-                <iframe
-                    width="560"
-                    height="315"
-                    src={`https://www.youtube.com/embed/${p.mdastNode.attributes.id}`}
-                    title="YouTube video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                ></iframe>
-            </div>
+            <iframe
+                width="560"
+                height="315"
+                src={`https://www.youtube.com/embed/${p.mdastNode.attributes.id}`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            ></iframe>
         );
     },
 };
 
-export const GetAllPlugins = (diffMd: string, isDark?: boolean) => [
-    toolbarPlugin({ toolbarContents: () => <KitchenSinkToolbar /> }),
-    listsPlugin(),
-    quotePlugin(),
-    headingsPlugin({ allowedHeadingLevels: [1, 2, 3, 4, 5] }),
-    linkPlugin(),
-    linkDialogPlugin(),
-    imagePlugin(),
-    tablePlugin(),
-    thematicBreakPlugin(),
-    frontmatterPlugin(),
-    codeBlockPlugin({ defaultCodeBlockLanguage: '' }),
-    codeMirrorPlugin({
-        codeBlockLanguages: {
-            js: 'JavaScript',
-            css: 'CSS',
-            txt: 'Plain Text',
-            tsx: 'TypeScript',
-            '': 'Unspecified',
-        },
-        codeMirrorExtensions: isDark ? [basicDark] : [],
-    }),
-    directivesPlugin({
-        directiveDescriptors: [YoutubeDirectiveDescriptor, AdmonitionDirectiveDescriptor],
-    }),
-    diffSourcePlugin({
-        viewMode: 'rich-text',
-        diffMarkdown: diffMd,
-        codeMirrorExtensions: isDark ? [basicDark] : [],
-    }),
-    markdownShortcutPlugin(),
-];
+export const GetAllPlugins = (isDark?: boolean, isEdit?: boolean, diffMd?: string) => {
+    const plugs: RealmPlugin[] = [];
+
+    plugs.push(listsPlugin());
+    plugs.push(quotePlugin());
+    plugs.push(headingsPlugin({ allowedHeadingLevels: [1, 2, 3, 4, 5] }));
+    plugs.push(linkPlugin());
+    plugs.push(linkDialogPlugin());
+    plugs.push(imagePlugin());
+    plugs.push(tablePlugin());
+    plugs.push(frontmatterPlugin());
+    plugs.push(thematicBreakPlugin());
+    plugs.push(codeBlockPlugin({ defaultCodeBlockLanguage: '' }));
+    plugs.push(
+        codeMirrorPlugin({
+            codeBlockLanguages: {
+                txt: 'Plain Text',
+                '': 'Unspecified',
+            },
+            codeMirrorExtensions: isDark ? [basicDark] : [],
+        }),
+    );
+    plugs.push(
+        directivesPlugin({
+            directiveDescriptors: [
+                YoutubeDirectiveDescriptor,
+                AdmonitionDirectiveDescriptor,
+            ],
+        }),
+    );
+
+    if (isEdit) {
+        plugs.push(
+            diffSourcePlugin({
+                viewMode: 'rich-text',
+                diffMarkdown: diffMd,
+                codeMirrorExtensions: isDark ? [basicDark] : [],
+            }),
+        );
+        plugs.push(
+            toolbarPlugin({
+                toolbarContents: () => <KitchenSinkToolbar />,
+            }),
+        );
+        plugs.push(markdownShortcutPlugin());
+    }
+
+    return plugs;
+};
