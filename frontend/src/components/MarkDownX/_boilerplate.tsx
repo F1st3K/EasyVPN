@@ -41,8 +41,7 @@ export const YoutubeDirectiveDescriptor: DirectiveDescriptor<YoutubeDirectiveNod
     Editor: (p) => {
         return (
             <iframe
-                width="100%"
-                height="400ch"
+                style={{ width: '100%', height: 'auto', aspectRatio: '16 / 9' }}
                 src={`https://www.youtube.com/embed/${p.mdastNode.attributes.id}`}
                 title="YouTube video player"
                 frameBorder="0"
