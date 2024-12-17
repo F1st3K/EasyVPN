@@ -8,10 +8,9 @@ const MainPage: FC = () => {
     const [p, setP] = useState(true);
     return (
         <>
-            <Button onClick={() => setP((pp) => !pp)}>Click</Button>
             <MarkDownX
-                md={`
-        ---
+                onSave={(pr) => console.log(pr)}
+                md={`---
 name: How coding now!?
 date: 11/12/2024
 path: /Main/guidlines
@@ -45,8 +44,39 @@ class Operator : IOperator
 |     | to |         |
 |     |    | creaete |
         `}
-                prevMd={'## Hello'}
-                readonly={p}
+                mdInit={`---
+name: How coding now!?
+date: 01/12/2024
+path: /Main/guidlines
+---
+
+:::youtube[Video]{#bdWFh_udq34}
+:::
+
+\`\`\`txt
+class Operator : IOperator
+{
+    public void Activate()
+    {
+    
+    }
+}
+\`\`\`
+
+
+
+***
+
+
+
+
+
+| how |    |         |
+| --- | -- | ------- |
+|     | to |         |
+|     |    | creaete |
+        `}
+                editable={p}
             />
         </>
     );
