@@ -1,4 +1,4 @@
 {
-    "ApiUrl": "/api/",
+    "ApiUrl": "http://localhost:80/api/",
     "AuthCheckMinutes": 15
 }

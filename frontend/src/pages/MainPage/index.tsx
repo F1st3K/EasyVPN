@@ -1,14 +1,18 @@
-import { Button } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { FC } from 'react';
 
-import MarkDownX from '../../components/MarkDownX';
+import { Context } from '../..';
+import { Role } from '../../api';
+import MarkDownX from '../../modules/MarkDownX';
 
 const MainPage: FC = () => {
-    const [p, setP] = useState(true);
+    const { Auth } = useContext(Context);
+
     return (
         <>
             <MarkDownX
+                /// TODO: replace Administrator to PageModerator
+                editable={Auth.roles.includes(Role.Administrator)}
                 onSave={(pr) => console.log(pr)}
                 md={`---
 name: How coding now!?
@@ -76,7 +80,6 @@ class Operator : IOperator
 |     | to |         |
 |     |    | creaete |
         `}
-                editable={p}
             />
         </>
     );

@@ -62,7 +62,10 @@ const RoutesProvider: FC = () => {
     return (
         <Routes>
             <Route path="/" element={<Root />}>
-                <Route index element={<MainPage />} />
+                <Route index element={<Redirect to="pages/" />} />
+                <Route path="pages/" element={<MainPage />}>
+                    {/* <Route index element={<Redirect to="main" />} /> */}
+                </Route>
                 <Route path="auth/">
                     <Route index element={<Redirect to="login" />} />
                     <Route
