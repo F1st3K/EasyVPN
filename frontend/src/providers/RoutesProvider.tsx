@@ -13,8 +13,8 @@ import ExtendConnectionModal from '../modules/ExtendConnectionModal';
 import PaymentTikcetModal from '../modules/PaymentTikcetModal';
 import AuthPage from '../pages/AuthPage';
 import ClientConnectionsPage from '../pages/ClientConnectionsPage';
+import DynamicPages from '../pages/DynamicPages';
 import ForbiddenPage from '../pages/ForbiddenPage';
-import MainPage from '../pages/MainPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import PaymentTicketsPage from '../pages/PaymentTicketsPage';
 import ProfilePage from '../pages/ProfilePage';
@@ -63,8 +63,9 @@ const RoutesProvider: FC = () => {
         <Routes>
             <Route path="/" element={<Root />}>
                 <Route index element={<Redirect to="pages/" />} />
-                <Route path="pages/" element={<MainPage />}>
-                    {/* <Route index element={<Redirect to="main" />} /> */}
+                <Route path="pages/*">
+                    <Route index element={<Redirect to="main" />} />
+                    <Route path="*" element={<DynamicPages />} />
                 </Route>
                 <Route path="auth/">
                     <Route index element={<Redirect to="login" />} />
