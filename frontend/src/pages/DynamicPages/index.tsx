@@ -7,6 +7,7 @@ import { Context } from '../..';
 import { Role } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import MarkDownX from '../../modules/MarkDownX';
+import ResponsiveDrawer from '../../modules/ResponsiveDrawer';
 
 const DyncamicPages: FC = () => {
     const { Auth } = useContext(Context);
@@ -23,6 +24,7 @@ const DyncamicPages: FC = () => {
                     padding: '10px',
                 }}
             >
+                <ResponsiveDrawer />
                 <MarkDownX
                     /// TODO: replace Administrator to PageModerator
                     editable={Auth.roles.includes(Role.Administrator)}
