@@ -15,7 +15,7 @@ import {
     Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useState } from 'react';
+import React, { Ref, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
