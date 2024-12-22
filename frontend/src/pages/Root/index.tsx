@@ -1,17 +1,28 @@
 import { Box } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import Footer from '../../modules/Footer';
 import Header from '../../modules/Header';
+import ResponsiveDrawer from '../../modules/ResponsiveDrawer';
 
 const Root: FC = () => {
+    const isMobile = () => window.innerWidth <= 768;
+    const [navIsOpen, setNavIsOpen] = useState(!isMobile());
+
     return (
         <>
-            <Header />
-            <Box component="main">
-                <Outlet />
+            <Header isMobile={isMobile} toggleNav={() => setNavIsOpen((x) => !x)} />
+            <Box display="flex">
+                <ResponsiveDrawer
+                    open={navIsOpen}
+                    onClose={() => setNavIsOpen(false)}
+                    isMobile={isMobile}
+                />
+                <Box component="main">
+                    <Outlet />
+                </Box>
             </Box>
             <Footer />
         </>

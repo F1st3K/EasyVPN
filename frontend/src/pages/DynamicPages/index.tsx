@@ -24,7 +24,6 @@ const DyncamicPages: FC = () => {
                     padding: '10px',
                 }}
             >
-                <ResponsiveDrawer />
                 <MarkDownX
                     /// TODO: replace Administrator to PageModerator
                     editable={Auth.roles.includes(Role.Administrator)}
