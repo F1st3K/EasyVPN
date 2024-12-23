@@ -15,13 +15,14 @@ import {
     Typography,
 } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { Ref, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
 import { Role } from '../../api';
 import Logo from '../../components/Logo';
 import PopUpMenu from '../../components/PopUpMenu';
+import HeaderSpace from './HeaderSpase';
 
 const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
     const { Auth } = useContext(Context);
@@ -182,3 +183,4 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
 };
 
 export default observer(Header);
+export { HeaderSpace };

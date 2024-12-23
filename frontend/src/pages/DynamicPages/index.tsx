@@ -7,7 +7,7 @@ import { Context } from '../..';
 import { Role } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import MarkDownX from '../../modules/MarkDownX';
-import ResponsiveDrawer from '../../modules/ResponsiveDrawer';
+import NavDrawer from '../../modules/NavDrawer';
 
 const DyncamicPages: FC = () => {
     const { Auth } = useContext(Context);
