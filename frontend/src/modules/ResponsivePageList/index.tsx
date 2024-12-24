@@ -6,15 +6,12 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    Toolbar,
 } from '@mui/material';
 import React from 'react';
 
 export const ResponsivePageList = (props: { onNavigate: () => void }) => {
     return (
         <>
-            <Toolbar />
-            <Divider />
             <List>
                 {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                     <ListItem key={text} disablePadding>

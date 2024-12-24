@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 
 import { HeaderSpace } from '../Header';
 import ResponsivePageList from '../ResponsivePageList';
+import NavDrawerSpace from './NavDrawerSpace';
 
 export const NavDrawer = (props: {
+    width: string;
     open: boolean;
     onClose: () => void;
     isMobile: () => boolean;
@@ -25,12 +27,12 @@ export const NavDrawer = (props: {
         <Box component="nav" aria-label="mailbox folders">
             <CssBaseline />
             <Drawer
-                variant={props.isMobile() ? 'temporary' : 'persistent'}
+                variant={props.isMobile() ? 'temporary' : 'permanent'}
                 sx={{
-                    width: '30ch',
+                    width: props.width,
                     flexShrink: 0,
                     [`& .MuiDrawer-paper`]: {
-                        width: '30ch',
+                        width: props.width,
                         boxSizing: 'border-box',
                     },
                 }}
@@ -48,3 +50,4 @@ export const NavDrawer = (props: {
 };
 
 export default NavDrawer;
+export { NavDrawerSpace };

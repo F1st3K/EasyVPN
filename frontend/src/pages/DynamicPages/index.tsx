@@ -1,25 +1,23 @@
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import React, { useContext } from 'react';
 import { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { Context } from '../..';
 import { Role } from '../../api';
-import CenterBox from '../../components/CenterBox';
 import MarkDownX from '../../modules/MarkDownX';
-import NavDrawer from '../../modules/NavDrawer';
 
 const DyncamicPages: FC = () => {
     const { Auth } = useContext(Context);
     const dynamicRoute = '/'.concat(useLocation().pathname.split('/').slice(2).join('/'));
 
     return (
-        <CenterBox margin={2}>
+        <Box margin={2} display="flex" justifyContent="center">
             <Paper
                 sx={{
                     borderRadius: 2,
                     minWidth: '40ch',
-                    width: '95vw',
+                    width: '100%',
                     maxWidth: '120ch',
                     padding: '10px',
                 }}
@@ -62,7 +60,7 @@ class Operator : IOperator
         `}
                 />
             </Paper>
-        </CenterBox>
+        </Box>
     );
 };
 export default DyncamicPages;

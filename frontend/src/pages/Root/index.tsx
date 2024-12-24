@@ -16,11 +16,15 @@ const Root: FC = () => {
             <Header isMobile={isMobile} toggleNav={() => setNavIsOpen((x) => !x)} />
             <Box display="flex">
                 <NavDrawer
+                    width="20ch"
                     open={navIsOpen}
                     onClose={() => setNavIsOpen(false)}
                     isMobile={isMobile}
                 />
-                <Box flexDirection="column">
+                <Box
+                    flexDirection="column"
+                    width={isMobile() ? '100%' : 'calc(100% - 20ch)'}
+                >
                     <HeaderSpace />
                     <Box component="main">
                         <Outlet />

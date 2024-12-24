@@ -3,9 +3,10 @@ import './style.css';
 
 import { MDXEditor } from '@mdxeditor/editor';
 import { CancelSharp, Edit, SaveAs } from '@mui/icons-material';
-import { Fab, useTheme } from '@mui/material';
+import { Box, Fab, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
+import { HeaderSpace } from '../Header';
 import { GetAllPlugins } from './_boilerplate';
 
 interface MarkDownXProps {
@@ -31,7 +32,7 @@ const MarkDownX = (props: MarkDownXProps) => {
     }, [props.mdInit]);
 
     return (
-        <>
+        <Box>
             <MDXEditor
                 key={String(readonly).concat(theme).concat(props.mdInit)}
                 readOnly={readonly}
@@ -40,60 +41,44 @@ const MarkDownX = (props: MarkDownXProps) => {
                 onChange={setMd}
                 plugins={plugins()}
             />
-            {props.editable && readonly && (
-                <Fab
-                    aria-label="add"
-                    color="primary"
-                    sx={{
-                        position: 'fixed',
-                        height: '8ch',
-                        width: '8ch',
-                        top: '10ch',
-                        right: '4ch',
-                    }}
-                    onClick={() => setReadonly(false)}
-                >
-                    <Edit />
-                </Fab>
-            )}
-            {readonly !== true && (
-                <>
+            <Box position="fixed" top="8ch" right="4ch" zIndex={2}>
+                <HeaderSpace />
+                {props.editable && readonly && (
                     <Fab
-                        color="secondary"
-                        aria-label="save"
-                        sx={{
-                            position: 'fixed',
-                            height: '8ch',
-                            width: '8ch',
-                            top: '15ch',
-                            right: '4ch',
-                        }}
-                        onClick={() => {
-                            props.onSave && props.onSave(md);
-                            setReadonly(true);
-                        }}
+                        aria-label="add"
+                        color="primary"
+                        onClick={() => setReadonly(false)}
                     >
-                        <SaveAs />
+                        <Edit />
                     </Fab>
-                    <Fab
-                        color="warning"
-                        aria-label="cancel"
-                        size="small"
-                        sx={{
-                            position: 'fixed',
-                            top: '22ch',
-                            right: '1ch',
-                        }}
-                        onClick={() => {
-                            setMd(props.mdInit);
-                            setReadonly(true);
-                        }}
-                    >
-                        <CancelSharp />
-                    </Fab>
-                </>
-            )}
-        </>
+                )}
+                {readonly !== true && (
+                    <>
+                        <Fab
+                            color="secondary"
+                            aria-label="save"
+                            onClick={() => {
+                                props.onSave && props.onSave(md);
+                                setReadonly(true);
+                            }}
+                        >
+                            <SaveAs />
+                        </Fab>
+                        <Fab
+                            color="warning"
+                            aria-label="cancel"
+                            size="small"
+                            onClick={() => {
+                                setMd(props.mdInit);
+                                setReadonly(true);
+                            }}
+                        >
+                            <CancelSharp />
+                        </Fab>
+                    </>
+                )}
+            </Box>
+        </Box>
     );
 };
 
