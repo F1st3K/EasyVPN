@@ -43,7 +43,7 @@ func NewWgManager(address string, port string, initClients []entities.Client) *W
 	}
 
 	wg.BuildServerConfiguration(initClients)
-	tryExecCommand("wg-quick up " + Wg)
+	tryExecCommand("awg-quick up " + Wg)
 
 	return &wg
 }
@@ -103,8 +103,8 @@ AllowedIPs = 0.0.0.0/0
 }
 
 func (wg WgManager) Restart() {
-	tryExecCommand("wg-quick down " + Wg)
-	tryExecCommand("wg-quick up " + Wg)
+	tryExecCommand("awg-quick down " + Wg)
+	tryExecCommand("awg-quick up " + Wg)
 }
 
 func tryExecCommand(command string) string {
