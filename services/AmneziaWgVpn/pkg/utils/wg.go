@@ -11,7 +11,7 @@ import (
 
 const (
 	Wg               = "wg"
-	WgDir            = "/etc/wireguard"
+	WgDir            = "/etc/amnezia/amneziawg"
 	WgConfigPath     = WgDir + "/" + Wg + ".conf"
 	ServerPrivateKey = WgDir + "/privatekey"
 	ServerPublicKey  = WgDir + "/publickey"
@@ -51,7 +51,7 @@ func NewWgManager(address string, port string, initClients []entities.Client) *W
 func (wg WgManager) CreateKeys() (privateKey string, publicKey string) {
 	tryExecCommand("ls")
 	tryExecCommand("umask 077")
-	private_public := tryExecCommand(`privatekey=$(wg genkey) && echo -n "$privatekey;" && wg pubkey <<< "$privatekey"`)
+	private_public := tryExecCommand(`privatekey=$(awg genkey) && echo -n "$privatekey;" && awg pubkey <<< "$privatekey"`)
 
 	keys := strings.Split(private_public, ";")
 
