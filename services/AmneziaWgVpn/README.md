@@ -28,13 +28,16 @@ docker run -d \
   -e SERVICE_HOST=89.191.226.158 `#your host address` \
   -e SERVICE_USER=user `#your user name for auth` \
   -e SERVICE_PASSWORD=passwd `#your password for auth` \
-  -p 51840:51820/udp `#wireguard port` \
+  -e API_PORT=8000 \
+  -e WG_PORT=51840 \
+  -p 51840:51840/udp `#wireguard port` \
   -p 8000:8000/tcp `#http-api port` \
   -v ~/.WireguardVpn:/etc/wireguard \
   --cap-add=NET_ADMIN \
   --cap-add=SYS_MODULE \
   --sysctl="net.ipv4.conf.all.src_valid_mark=1" \
   --sysctl="net.ipv4.ip_forward=1" \
+  --device /dev/net/tun:/dev/net/tun \
   --restart unless-stopped \
   wireguardvpn:local
 ```
