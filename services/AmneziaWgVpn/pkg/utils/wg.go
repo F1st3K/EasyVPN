@@ -4,6 +4,7 @@ import (
 	"WireguardVpn/pkg/entities"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"os/exec"
 	"strings"
@@ -11,15 +12,26 @@ import (
 
 const (
 	Wg               = "wg"
-	WgDir            = "/etc/wireguard"
+	WgDir            = "/etc/amnezia/amneziawg"
 	WgConfigPath     = WgDir + "/" + Wg + ".conf"
 	ServerPrivateKey = WgDir + "/privatekey"
 	ServerPublicKey  = WgDir + "/publickey"
+	AmneziaSettings  = WgDir + "/amnezia.settings"
 )
 
 type WgManager struct {
 	Address string
 	Port    string
+}
+
+func GetRandSettings() string {
+	Jc := rand.Intn(127-3) + 3
+	Jmin := rand.Intn(700-3) + 3
+	Jmax := rand.Intn(1270-Jmin+1) + Jmin + 1
+	return fmt.Sprintf(`Jc = %d
+Jmin = %d
+Jmax = %d`,
+		Jc, Jmin, Jmax)
 }
 
 func NewWgManager(address string, port string, initClients []entities.Client) *WgManager {
@@ -42,8 +54,30 @@ func NewWgManager(address string, port string, initClients []entities.Client) *W
 		defer f.Close()
 	}
 
+	_, asErr := os.Stat(AmneziaSettings)
+	if os.IsNotExist(asErr) {
+
+		S1 := rand.Intn(127-3) + 3
+		S2 := rand.Intn(127-3) + 3
+		H1 := rand.Intn(2147483648-268435505) + 268435505
+		H2 := rand.Intn(2147483648-268435505) + 268435505
+		H3 := rand.Intn(2147483648-268435505) + 268435505
+		H4 := rand.Intn(2147483648-268435505) + 268435505
+
+		settings := fmt.Sprintf(`S1 = %d
+S2 = %d
+H1 = %d
+H2 = %d
+H3 = %d
+H4 = %d`,
+			S1, S2, H1, H2, H3, H4)
+		f, _ := os.OpenFile(AmneziaSettings, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
+		f.WriteString(settings)
+		defer f.Close()
+	}
+
 	wg.BuildServerConfiguration(initClients)
-	tryExecCommand("wg-quick up " + Wg)
+	tryExecCommand("awg-quick up " + Wg)
 
 	return &wg
 }
@@ -51,7 +85,7 @@ func NewWgManager(address string, port string, initClients []entities.Client) *W
 func (wg WgManager) CreateKeys() (privateKey string, publicKey string) {
 	tryExecCommand("ls")
 	tryExecCommand("umask 077")
-	private_public := tryExecCommand(`privatekey=$(wg genkey) && echo -n "$privatekey;" && wg pubkey <<< "$privatekey"`)
+	private_public := tryExecCommand(`privatekey=$(awg genkey) && echo -n "$privatekey;" && awg pubkey <<< "$privatekey"`)
 
 	keys := strings.Split(strings.TrimSpace(private_public), ";")
 
@@ -60,6 +94,7 @@ func (wg WgManager) CreateKeys() (privateKey string, publicKey string) {
 
 func (wg WgManager) BuildServerConfiguration(clients []entities.Client) {
 	private, _ := os.ReadFile(ServerPrivateKey)
+	awgSets, _ := os.ReadFile(AmneziaSettings)
 
 	serverConf := fmt.Sprintf(`[Interface]
 PrivateKey = %s
@@ -67,8 +102,10 @@ Address = 10.0.0.1/24
 ListenPort = %s
 PostUp = iptables -A FORWARD -i %%i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 PostDown = iptables -D FORWARD -i %%i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+%s
+%s
 
-`, string(private), wg.Port)
+`, string(private), wg.Port, GetRandSettings(), awgSets)
 
 	for i := 0; i < len(clients); i++ {
 		client := clients[i]
@@ -88,22 +125,25 @@ AllowedIPs = %s
 
 func (wg WgManager) GetClientConfiguration(client entities.Client) string {
 	public, _ := os.ReadFile(ServerPublicKey)
+	awgSets, _ := os.ReadFile(AmneziaSettings)
 
 	return fmt.Sprintf(`
 [Interface]
 PrivateKey = %s
 Address = %s
 DNS = 1.1.1.1
+%s
+%s
 
 [Peer]
 PublicKey = %s
 Endpoint = %s:%s
 AllowedIPs = 0.0.0.0/0
-`, client.PrivateKey, client.Address, string(public), wg.Address, wg.Port)
+`, client.PrivateKey, client.Address, GetRandSettings(), awgSets, string(public), wg.Address, wg.Port)
 }
 
 func (wg WgManager) Restart() {
-	tryExecCommand("wg syncconf " + Wg + " <(wg-quick strip " + Wg + ")")
+	tryExecCommand("awg syncconf " + Wg + " <(awg-quick strip " + Wg + ")")
 }
 
 func tryExecCommand(command string) string {

@@ -5,9 +5,9 @@
 ## Configuration
 > Конфигурация сервиса находится в [config.yaml](./cmd/config.yaml):
 
-`api: port: "8000"` - порт на котором будет работать http-api (либо через env переменную API_PORT)
+`api: port: "8010"` - порт на котором будет работать http-api (либо через env переменную API_PORT)
 
-`vpn: port: "51820"` - порт через который устанавливается WireGuard соединение (либо через env переменную VPN_PORT)
+`wg: port: "51840"` - порт через который устанавливается Amnezia WireGuard соединение (либо через env переменную VPN_PORT)
 
 > Так же дополнительно для работы сервиса необходима enviroment переменные, перечечисленные в [.env.example](./cmd/.env.example):
 
@@ -19,28 +19,29 @@
 ## Deploy (docker)
 Сборка докер-образа:
 ```bash
-docker build -t wireguardvpn:local ./
+docker build -t amneziawgvpn:local ./
 ```
 Для запуска сервиса в докер-контейнере используйте следующую команду:
 ```bash
 docker run -d \
-  --name wireguardvpn-service \
+  --name amneziawgvpn-service \
   -e SERVICE_HOST=89.191.226.158 `#your host address` \
   -e SERVICE_USER=user `#your user name for auth` \
   -e SERVICE_PASSWORD=passwd `#your password for auth` \
-  -p 51820:51820/udp `#wireguard port` \
-  -p 8000:8000/tcp `#http-api port` \
-  -v ~/.WireguardVpn:/etc/wireguard \
+  -p 51840:51840/udp `# amnezia wg port` \
+  -p 8010:8010/tcp `#http-api port` \
+  -v ~/.AmneziaWgVpn:/etc/amnezia \
   --cap-add=NET_ADMIN \
   --cap-add=SYS_MODULE \
   --sysctl="net.ipv4.conf.all.src_valid_mark=1" \
   --sysctl="net.ipv4.ip_forward=1" \
+  --device /dev/net/tun:/dev/net/tun \
   --restart unless-stopped \
-  wireguardvpn:local
+  amneziawgvpn:local
 ```
 
 
-## WireguardVpn API
+## AmneziaWgVpn API
 
 ### Авторизация действий
 > Все конечные точки к api сервиса доступны только по Basic Authorization
