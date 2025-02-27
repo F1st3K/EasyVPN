@@ -1,5 +1,17 @@
 # Changelog
 
+## `0.6.0` (2025-02-27)
+
+### Features
+
+- services: Create new Amnezia WG vpn-service (wireguard based)
+- services: Update documentation
+
+### Bug fixes
+
+- services: Fix reload wireguard to resync configuration (fasted)
+- services: Fix env variables with ports (WG_PORT -> VPN_PORT)
+
 ## `0.5.1` (2024-12-08)
 
 ### Hotfixes
