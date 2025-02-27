@@ -24,11 +24,11 @@ docker build -t wireguardvpn:local ./
 Для запуска сервиса в докер-контейнере используйте следующую команду:
 ```bash
 docker run -d \
-  --name wireguardvpn-sevice \
+  --name wireguardvpn-service \
   -e SERVICE_HOST=89.191.226.158 `#your host address` \
   -e SERVICE_USER=user `#your user name for auth` \
   -e SERVICE_PASSWORD=passwd `#your password for auth` \
-  -p 51840:51820/udp `#wireguard port` \
+  -p 51820:51820/udp `#wireguard port` \
   -p 8000:8000/tcp `#http-api port` \
   -v ~/.WireguardVpn:/etc/wireguard \
   --cap-add=NET_ADMIN \
