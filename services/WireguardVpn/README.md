@@ -5,9 +5,9 @@
 ## Configuration
 > Конфигурация сервиса находится в [config.yaml](./cmd/config.yaml):
 
-`api: port: "8000"` - порт на котором будет работать http-api
+`api: port: "8000"` - порт на котором будет работать http-api (либо через env переменную API_PORT)
 
-`wg: port: "51820"` - порт через который устанавливается WireGuard соединение
+`vpn: port: "51820"` - порт через который устанавливается WireGuard соединение (либо через env переменную VPN_PORT)
 
 > Так же дополнительно для работы сервиса необходима enviroment переменные, перечечисленные в [.env.example](./cmd/.env.example):
 
@@ -28,7 +28,7 @@ docker run -d \
   -e SERVICE_HOST=89.191.226.158 `#your host address` \
   -e SERVICE_USER=user `#your user name for auth` \
   -e SERVICE_PASSWORD=passwd `#your password for auth` \
-  -p 51820:51820/udp `#wireguard port` \
+  -p 51000:51000/udp `#wireguard port` \
   -p 8000:8000/tcp `#http-api port` \
   -v ~/.WireguardVpn:/etc/wireguard \
   --cap-add=NET_ADMIN \

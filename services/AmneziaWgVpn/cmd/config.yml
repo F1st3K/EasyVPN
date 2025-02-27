@@ -4,4 +4,4 @@ service:
 api:
   port: "8010"
 vpn:
-  port: "52820"
+  port: "51840"

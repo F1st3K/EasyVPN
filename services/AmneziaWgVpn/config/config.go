@@ -25,7 +25,7 @@ type (
 	}
 
 	Vpn struct {
-		Port string `env-required:"true" yaml:"port" env:"WG_PORT"`
+		Port string `env-required:"true" yaml:"port" env:"VPN_PORT"`
 	}
 )
 

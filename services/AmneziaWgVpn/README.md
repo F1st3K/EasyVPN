@@ -5,9 +5,9 @@
 ## Configuration
 > Конфигурация сервиса находится в [config.yaml](./cmd/config.yaml):
 
-`api: port: "8010"` - порт на котором будет работать http-api
+`api: port: "8010"` - порт на котором будет работать http-api (либо через env переменную API_PORT)
 
-`wg: port: "52820"` - порт через который устанавливается WireGuard соединение
+`wg: port: "51840"` - порт через который устанавливается Amnezia WireGuard соединение (либо через env переменную VPN_PORT)
 
 > Так же дополнительно для работы сервиса необходима enviroment переменные, перечечисленные в [.env.example](./cmd/.env.example):
 
@@ -28,9 +28,9 @@ docker run -d \
   -e SERVICE_HOST=89.191.226.158 `#your host address` \
   -e SERVICE_USER=user `#your user name for auth` \
   -e SERVICE_PASSWORD=passwd `#your password for auth` \
-  -p 52820:52820/udp `#wireguard port` \
+  -p 51840:51840/udp `# amnezia wg port` \
   -p 8010:8010/tcp `#http-api port` \
-  -v ~/.WireguardVpn:/etc/wireguard \
+  -v ~/.AmneziaWgVpn:/etc/amnezia \
   --cap-add=NET_ADMIN \
   --cap-add=SYS_MODULE \
   --sysctl="net.ipv4.conf.all.src_valid_mark=1" \
