@@ -27,4 +27,11 @@ echo "--- Set version services/WireguardVpn --------------------------"
 cd ./services/WireguardVpn
 yq -i ".service.version = \"$NEW_VERSION\"" ./cmd/config.yml
 yq ".service.version" ./cmd/config.yml
-cd ../
+cd ../../
+
+# Set version services/AmneziaWgVpn:
+echo "--- Set version services/AmneziaWgVpn --------------------------"
+cd ./services/AmneziaWgVpn
+yq -i ".service.version = \"$NEW_VERSION\"" ./cmd/config.yml
+yq ".service.version" ./cmd/config.yml
+cd ../../
