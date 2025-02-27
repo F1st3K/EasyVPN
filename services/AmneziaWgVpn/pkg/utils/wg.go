@@ -15,6 +15,7 @@ const (
 	WgConfigPath     = WgDir + "/" + Wg + ".conf"
 	ServerPrivateKey = WgDir + "/privatekey"
 	ServerPublicKey  = WgDir + "/publickey"
+	AmneziaSettings  = WgDir + "/amnezia.settings"
 )
 
 type WgManager struct {
@@ -42,6 +43,24 @@ func NewWgManager(address string, port string, initClients []entities.Client) *W
 		defer f.Close()
 	}
 
+	_, asErr := os.Stat(AmneziaSettings)
+	if os.IsNotExist(asErr) {
+
+		settings := fmt.Sprintf(`Jc = 2
+Jmin = 10
+Jmax = 50
+S1 = 64
+S2 = 23
+H1 = 1595511994
+H2 = 900495145
+H3 = 2050904633
+H4 = 872028636
+`)
+		f, _ := os.OpenFile(ServerPrivateKey, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
+		f.WriteString(settings)
+		defer f.Close()
+	}
+
 	wg.BuildServerConfiguration(initClients)
 	tryExecCommand("awg-quick up " + Wg)
 
@@ -60,6 +79,7 @@ func (wg WgManager) CreateKeys() (privateKey string, publicKey string) {
 
 func (wg WgManager) BuildServerConfiguration(clients []entities.Client) {
 	private, _ := os.ReadFile(ServerPrivateKey)
+	awgSets, _ := os.ReadFile(AmneziaSettings)
 
 	serverConf := fmt.Sprintf(`[Interface]
 PrivateKey = %s
@@ -67,8 +87,9 @@ Address = 10.0.0.1/24
 ListenPort = %s
 PostUp = iptables -A FORWARD -i %%i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 PostDown = iptables -D FORWARD -i %%i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+%s
 
-`, string(private), wg.Port)
+`, string(private), wg.Port, awgSets)
 
 	for i := 0; i < len(clients); i++ {
 		client := clients[i]
@@ -88,23 +109,24 @@ AllowedIPs = %s
 
 func (wg WgManager) GetClientConfiguration(client entities.Client) string {
 	public, _ := os.ReadFile(ServerPublicKey)
+	awgSets, _ := os.ReadFile(AmneziaSettings)
 
 	return fmt.Sprintf(`
 [Interface]
 PrivateKey = %s
 Address = %s
 DNS = 1.1.1.1
+%s
 
 [Peer]
 PublicKey = %s
 Endpoint = %s:%s
 AllowedIPs = 0.0.0.0/0
-`, client.PrivateKey, client.Address, string(public), wg.Address, wg.Port)
+`, client.PrivateKey, client.Address, awgSets, string(public), wg.Address, wg.Port)
 }
 
 func (wg WgManager) Restart() {
-	tryExecCommand("awg-quick down " + Wg)
-	tryExecCommand("awg-quick up " + Wg)
+	tryExecCommand("awg syncconf " + Wg + " <(awg-quick strip " + Wg + ")")
 }
 
 func tryExecCommand(command string) string {
