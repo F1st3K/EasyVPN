@@ -103,8 +103,7 @@ AllowedIPs = 0.0.0.0/0
 }
 
 func (wg WgManager) Restart() {
-	tryExecCommand("wg-quick down " + Wg)
-	tryExecCommand("wg-quick up " + Wg)
+	tryExecCommand("wg syncconf " + Wg + " <(wg-quick strip " + Wg + ")")
 }
 
 func tryExecCommand(command string) string {
