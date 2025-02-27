@@ -53,7 +53,7 @@ func (wg WgManager) CreateKeys() (privateKey string, publicKey string) {
 	tryExecCommand("umask 077")
 	private_public := tryExecCommand(`privatekey=$(awg genkey) && echo -n "$privatekey;" && awg pubkey <<< "$privatekey"`)
 
-	keys := strings.Split(private_public, ";")
+	keys := strings.Split(strings.TrimSpace(private_public), ";")
 
 	return keys[0], keys[1]
 }

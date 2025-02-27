@@ -1,5 +1,5 @@
-import Protocol from './Protocol';
 import { VpnVersion } from '../enums/VpnVersion';
+import Protocol from './Protocol';
 
 export default interface Server {
     id: string;

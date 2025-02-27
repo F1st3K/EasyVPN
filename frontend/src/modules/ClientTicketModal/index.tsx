@@ -24,8 +24,9 @@ const ClientTicketModal: FC<ClientTicketModalProps> = (props) => {
 
     const ticketId = props.ticketId || useParams().ticketId || '';
 
-    const [ticket, loading, error] = useRequest<ConnectionTicket, ApiError>(() =>
-        EasyVpn.my.ticket(ticketId, Auth.getToken()).then((v) => v.data),
+    const [ticket, loading, error] = useRequest<ConnectionTicket, ApiError>(
+        () => EasyVpn.my.ticket(ticketId, Auth.getToken()).then((v) => v.data),
+        [props.about],
     );
 
     return (

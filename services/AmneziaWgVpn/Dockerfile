@@ -13,7 +13,7 @@ RUN go build -o ./bin/AmneziaWgVpn cmd/main.go
 
 FROM amneziavpn/amneziawg-go AS runner
 
-# RUN apk --no-cache add wireguard-tools iptables
+# RUN apk --no-cache add amneziawg iptables
 WORKDIR /usr/local/src
 
 # Run AmneziaWgVpn service:

@@ -4,6 +4,7 @@ import (
 	"WireguardVpn/pkg/entities"
 	"log"
 	"os"
+	"strings"
 )
 
 const (
@@ -45,9 +46,9 @@ func (r ClientRepository) GetClient(id string) entities.Client {
 
 	return entities.Client{
 		Id:         id,
-		PublicKey:  string(public),
-		PrivateKey: string(private),
-		Address:    string(ip),
+		PublicKey:  strings.TrimSpace(string(public)),
+		PrivateKey: strings.TrimSpace(string(private)),
+		Address:    strings.TrimSpace(string(ip)),
 		IsEnabled:  isEnabled,
 	}
 }
