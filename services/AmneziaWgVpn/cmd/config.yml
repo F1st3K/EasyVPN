@@ -1,0 +1,7 @@
+service:
+  name: 'wireguard-vpn'
+  version: '0.5.1'
+api:
+  port: "8010"
+vpn:
+  port: "51840"
