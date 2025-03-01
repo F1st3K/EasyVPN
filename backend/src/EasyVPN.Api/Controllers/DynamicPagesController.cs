@@ -1,3 +1,4 @@
+using EasyVPN.Contracts.DynamicPages;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +21,7 @@ public class DynamicPagesController : ApiController
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreatePage()
+    public async Task<IActionResult> CreatePage([FromBody] DynamicPage page)
     {
         return Ok();
     }
@@ -32,7 +33,7 @@ public class DynamicPagesController : ApiController
     }
     
     [HttpPut("{pageRoute}")]
-    public async Task<IActionResult> UpdatePage([FromRoute] string pageRoute)
+    public async Task<IActionResult> UpdatePage([FromBody] DynamicPage page)
     {
         return Ok();
     }
