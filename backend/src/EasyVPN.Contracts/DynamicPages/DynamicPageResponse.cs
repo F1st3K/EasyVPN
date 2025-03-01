@@ -1,6 +1,6 @@
 namespace EasyVPN.Contracts.DynamicPages;
 
-public record DynamicPage(
+public record DynamicPageResponse(
         string Route,
         string Title,
         DateTime LastModified,

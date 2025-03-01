@@ -1,3 +1,5 @@
+using System.Text;
+using EasyVPN.Application.DynamicPages.Queries.GetDynamicPage;
 using EasyVPN.Contracts.DynamicPages;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +23,7 @@ public class DynamicPagesController : ApiController
     }
     
     [HttpPost]
-    public async Task<IActionResult> CreatePage([FromBody] DynamicPage page)
+    public async Task<IActionResult> CreatePage([FromBody] DynamicPageResponse pageResponse)
     {
         return Ok();
     }
@@ -29,11 +31,20 @@ public class DynamicPagesController : ApiController
     [HttpGet("{pageRoute}")]
     public async Task<IActionResult> GetPage([FromRoute] string pageRoute)
     {
-        return Ok();
+        var getPageResult =
+            await _sender.Send(new GetDynamicPageQuery(pageRoute));
+
+        return getPageResult.Match(r => Ok(new DynamicPageResponse(
+                r.Route,
+                r.Title,
+                r.LastModified,
+                r.Created,
+                Convert.ToBase64String(Encoding.UTF8.GetBytes(r.Content ?? string.Empty))
+            )), Problem);
     }
     
     [HttpPut("{pageRoute}")]
-    public async Task<IActionResult> UpdatePage([FromBody] DynamicPage page)
+    public async Task<IActionResult> UpdatePage([FromBody] DynamicPageResponse pageResponse)
     {
         return Ok();
     }

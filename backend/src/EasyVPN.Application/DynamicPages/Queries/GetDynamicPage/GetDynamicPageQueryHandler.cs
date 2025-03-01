@@ -1,4 +1,5 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
+using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
 using ErrorOr;
 using MediatR;
@@ -18,7 +19,9 @@ public class GetDynamicPageQueryHandler : IRequestHandler<GetDynamicPageQuery, E
     {
         await Task.CompletedTask;
 
+        if (_dynamicPageRepository.Get(query.Route) is not {} page)
+            return Errors.DynamicPage.NotFound;
 
-        throw new NotImplementedException();
+        return page;
     }
 }
