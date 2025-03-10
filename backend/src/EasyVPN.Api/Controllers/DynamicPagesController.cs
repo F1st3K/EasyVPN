@@ -1,4 +1,5 @@
 using System.Text;
+using EasyVPN.Api.Common;
 using EasyVPN.Application.DynamicPages.Queries.GetDynamicPage;
 using EasyVPN.Application.DynamicPages.Queries.GetDynamicPages;
 using EasyVPN.Contracts.DynamicPages;
@@ -33,12 +34,6 @@ public class DynamicPagesController : ApiController
                 ))), Problem);
     }
     
-    [HttpPost]
-    public async Task<IActionResult> CreatePage([FromBody] DynamicPageResponse pageResponse)
-    {
-        return Ok();
-    }
-    
     [AllowAnonymous]
     [HttpGet("{pageRoute}")]
     public async Task<IActionResult> GetPage([FromRoute] string pageRoute)
@@ -54,6 +49,13 @@ public class DynamicPagesController : ApiController
                 r.Created,
                 Convert.ToBase64String(Encoding.UTF8.GetBytes(r.Content ?? string.Empty))
             )), Problem);
+    }
+    
+    [HttpPost]
+    [Authorize(Roles = Roles.PageModerator)]
+    public async Task<IActionResult> CreatePage([FromBody] DynamicPageResponse pageResponse)
+    {
+        return Ok();
     }
     
     [HttpPut("{pageRoute}")]
