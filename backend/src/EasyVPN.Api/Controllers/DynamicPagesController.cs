@@ -1,5 +1,7 @@
-using System.Text;
 using EasyVPN.Api.Common;
+using EasyVPN.Application.DynamicPages.Commands.CreateDynamicPage;
+using EasyVPN.Application.DynamicPages.Commands.RemoveDynamicPage;
+using EasyVPN.Application.DynamicPages.Commands.UpdateDynamicPage;
 using EasyVPN.Application.DynamicPages.Queries.GetDynamicPage;
 using EasyVPN.Application.DynamicPages.Queries.GetDynamicPages;
 using EasyVPN.Contracts.DynamicPages;
@@ -35,7 +37,7 @@ public class DynamicPagesController : ApiController
     }
     
     [AllowAnonymous]
-    [HttpGet("{pageRoute}")]
+    [HttpGet("{*pageRoute}")]
     public async Task<IActionResult> GetPage([FromRoute] string pageRoute)
     {
         var getPageResult =
@@ -47,26 +49,43 @@ public class DynamicPagesController : ApiController
                 r.Title,
                 r.LastModified,
                 r.Created,
-                Convert.ToBase64String(Encoding.UTF8.GetBytes(r.Content ?? string.Empty))
+                r.Content ?? string.Empty
             )), Problem);
     }
     
-    [HttpPost]
     [Authorize(Roles = Roles.PageModerator)]
-    public async Task<IActionResult> CreatePage([FromBody] DynamicPageResponse pageResponse)
+    [HttpPost]
+    public async Task<IActionResult> CreatePage([FromBody] DynamicPageRequest pageRequest)
     {
-        return Ok();
+        var result = await _sender.Send(new CreateDynamicPageCommand(
+            pageRequest.Route, 
+            pageRequest.Title,
+            pageRequest.Base64Content
+        ));
+        
+        return result.Match(r => Created(), Problem);
     }
     
-    [HttpPut("{pageRoute}")]
-    public async Task<IActionResult> UpdatePage([FromBody] DynamicPageResponse pageResponse)
+    [Authorize(Roles = Roles.PageModerator)]
+    [HttpPut("{*pageRoute}")]
+    public async Task<IActionResult> UpdatePage([FromRoute] string pageRoute, [FromBody] DynamicPageRequest pageRequest)
     {
-        return Ok();
+        var result = await _sender.Send(new UpdateDynamicPageCommand(
+            pageRoute,
+            pageRequest.Route, 
+            pageRequest.Title,
+            pageRequest.Base64Content
+        ));
+        
+        return result.Match(r => Ok(), Problem);
     }
     
-    [HttpDelete("{pageRoute}")]
+    [Authorize(Roles = Roles.PageModerator)]
+    [HttpDelete("{*pageRoute}")]
     public async Task<IActionResult> DeletePage([FromRoute] string pageRoute)
     {
-        return Ok();
+        var result = await _sender.Send(new RemoveDynamicPageCommand(pageRoute));
+        
+        return result.Match(r => Ok(), Problem);
     }
 }

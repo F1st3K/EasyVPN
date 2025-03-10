@@ -40,7 +40,16 @@ public class DynamicPageRepository : IDynamicPageRepository
 
     public void Update(DynamicPage dynamicPage)
     {
-        _dbContext.DynamicPages.Update(dynamicPage);
+        if (_dbContext.DynamicPages.SingleOrDefault(p => p.Route == dynamicPage.Route)
+            is not {} statePage)
+            return;
+        
+        statePage.Title = dynamicPage.Title;
+        statePage.Content = dynamicPage.Content;
+        statePage.Created = dynamicPage.Created;
+        statePage.LastModified = dynamicPage.LastModified;
+        
+        _dbContext.DynamicPages.Update(statePage);
         _dbContext.SaveChanges();
     }
 }
