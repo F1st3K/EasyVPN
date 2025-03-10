@@ -34,6 +34,7 @@ public class DynamicPagesController : ApiController
         var getPageResult =
             await _sender.Send(new GetDynamicPageQuery(pageRoute));
 
+        
         return getPageResult.Match(r => Ok(new DynamicPageResponse(
                 r.Route,
                 r.Title,
