@@ -9,34 +9,45 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-export const ResponsivePageList = (props: { onNavigate: () => void }) => {
+import PageInfo from '../../api/responses/PageInfo';
+
+export type PageRoutes = {
+    page: PageInfo;
+    childrens: PageRoutes[];
+};
+
+export const ResponsivePageList = (props: {
+    parentRoute: string;
+    routes: PageRoutes[];
+    onNavigate: (route: string) => void;
+}) => {
     return (
         <>
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton onClick={props.onNavigate}>
+            {props.routes.map((route, index) => (
+                <List key={route.page.route}>
+                    <ListItem disablePadding>
+                        <ListItemButton
+                            onClick={() =>
+                                props.onNavigate(
+                                    props.parentRoute + '/' + route.page.route,
+                                )
+                            }
+                        >
                             <ListItemIcon>
                                 {index % 2 === 0 ? <Inbox /> : <Mail />}
                             </ListItemIcon>
-                            <ListItemText primary={text} />
+                            <ListItemText primary={route.page.title} />
                         </ListItemButton>
                     </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem key={text} disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <Inbox /> : <Mail />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
+                    {route.childrens.length > 0 && (
+                        <ResponsivePageList
+                            parentRoute={props.parentRoute + '/' + route.page.route}
+                            routes={route.childrens}
+                            onNavigate={props.onNavigate}
+                        />
+                    )}
+                </List>
+            ))}
         </>
     );
 };
