@@ -79,6 +79,7 @@ export const NavDrawer = (props: {
                 <HeaderSpace />
                 {pages != null && (
                     <ResponsivePageList
+                        topLevelIsOpen
                         parentRoute="pages"
                         routes={pages}
                         onNavigate={(r) => {
