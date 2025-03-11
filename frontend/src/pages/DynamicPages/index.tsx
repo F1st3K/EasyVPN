@@ -1,15 +1,27 @@
 import { Box, Paper } from '@mui/material';
+import { refStructEnhancer } from 'mobx/dist/internal';
 import React, { useContext } from 'react';
 import { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { Context } from '../..';
-import { Role } from '../../api';
+import EasyVpn, { ApiError, Role } from '../../api';
+import Page from '../../api/common/Page';
+import { useRequest } from '../../hooks';
 import MarkDownX from '../../modules/MarkDownX';
 
 const DyncamicPages: FC = () => {
     const { Auth } = useContext(Context);
-    const dynamicRoute = '/'.concat(useLocation().pathname.split('/').slice(2).join('/'));
+    const location = useLocation();
+    const [data, loading, error] = useRequest<Page, ApiError>(
+        () =>
+            EasyVpn.pages
+                .get('/'.concat(location.pathname.split('/').slice(2).join('/')))
+                .then((r) => r.data),
+        [location],
+    );
+    if (error) return <>error..</>;
+    else if (loading) return <>Loading..</>;
 
     return (
         <Box margin={2} display="flex" justifyContent="center">
@@ -23,41 +35,15 @@ const DyncamicPages: FC = () => {
                 }}
             >
                 <MarkDownX
-                    /// TODO: replace Administrator to PageModerator
-                    editable={Auth.roles.includes(Role.Administrator)}
+                    editable={Auth.roles.includes(Role.PageModerator)}
                     onSave={(pr) => console.log(pr)}
                     mdInit={`---
-name: How coding now!?
-date: 01/12/2024
-path: ${dynamicRoute}
+title: ${data?.title}
+route: ${data?.route}
+modified: ${data?.lastModified}
+created: ${data?.created}
 ---
-
-:::youtube[Video]{#bdWFh_udq34}
-:::
-
-\`\`\`txt
-class Operator : IOperator
-{
-    public void Activate()
-    {
-    
-    }
-}
-\`\`\`
-
-
-
-***
-
-
-
-
-
-| how |    |         |
-| --- | -- | ------- |
-|     | to |         |
-|     |    | creaete |
-        `}
+${data?.base64Content}`}
                 />
             </Paper>
         </Box>

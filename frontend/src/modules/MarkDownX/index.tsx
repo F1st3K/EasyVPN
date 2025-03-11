@@ -31,10 +31,12 @@ const MarkDownX = (props: MarkDownXProps) => {
         setMd(props.mdInit);
     }, [props.mdInit]);
 
+    console.log(props.mdInit);
+    console.log(md);
     return (
         <Box>
             <MDXEditor
-                key={String(readonly).concat(theme).concat(props.mdInit)}
+                key={String(readonly).concat(theme).concat(md)}
                 readOnly={readonly}
                 className={`${theme}-theme ${theme}-editor ${theme}-code`}
                 markdown={md}

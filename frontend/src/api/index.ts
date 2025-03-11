@@ -13,10 +13,11 @@ import Auth from './responses/Auth';
 import Connection from './responses/Connection';
 import ConnectionConfig from './responses/ConnectionConfig';
 import ConnectionTicket from './responses/ConnectionTicket';
+import PageInfo from './responses/PageInfo';
 import Protocol from './responses/Protocol';
 import Server from './responses/Server';
 import User from './responses/User';
-import PageInfo from './responses/PageInfo';
+import Page from './common/Page';
 
 const api = axios.create({
     baseURL: config.ApiUrl,
@@ -132,6 +133,9 @@ const EasyVpn = {
     pages: {
         getAll: () => {
             return api.get<PageInfo[]>(`/dynamic-pages/`);
+        },
+        get: (route: string) => {
+            return api.get<Page>(`/dynamic-pages/${route}`);
         },
     },
 };
