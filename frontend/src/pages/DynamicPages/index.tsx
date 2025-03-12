@@ -1,5 +1,4 @@
-import { Box, Paper } from '@mui/material';
-import { refStructEnhancer } from 'mobx/dist/internal';
+import { Alert, Box, LinearProgress, Paper } from '@mui/material';
 import React, { useContext } from 'react';
 import { FC } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -20,10 +19,13 @@ const DyncamicPages: FC = () => {
                 .then((r) => r.data),
         [location],
     );
-    if (error) return <>error..</>;
-    else if (loading) return <>Loading..</>;
+    if (loading) return <LinearProgress />;
 
-    return (
+    return error ? (
+        <Alert severity="error" variant="outlined">
+            {error.response?.data.title ?? error.message}
+        </Alert>
+    ) : (
         <Box margin={2} display="flex" justifyContent="center">
             <Paper
                 sx={{
