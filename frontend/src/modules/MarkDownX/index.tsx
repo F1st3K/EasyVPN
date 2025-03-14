@@ -12,13 +12,14 @@ import { GetAllPlugins } from './_boilerplate';
 interface MarkDownXProps {
     mdInit: string;
     editable?: boolean;
+    isEdit?: boolean;
     onChange?: (md: string) => void;
     onSave?: (md: string) => void;
 }
 
 const MarkDownX = (props: MarkDownXProps) => {
     const theme = useTheme().palette.mode;
-    const [readonly, setReadonly] = useState(true);
+    const [readonly, setReadonly] = useState(!(props.isEdit ?? false));
     const [md, setMd] = useState(props.mdInit);
     const plugins = () =>
         GetAllPlugins(theme === 'dark', readonly !== true, props.mdInit);
@@ -31,12 +32,10 @@ const MarkDownX = (props: MarkDownXProps) => {
         setMd(props.mdInit);
     }, [props.mdInit]);
 
-    console.log(props.mdInit);
-    console.log(md);
     return (
         <Box>
             <MDXEditor
-                key={String(readonly).concat(theme).concat(md)}
+                key={String(readonly).concat(theme)}
                 readOnly={readonly}
                 className={`${theme}-theme ${theme}-editor ${theme}-code`}
                 markdown={md}

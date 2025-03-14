@@ -17,7 +17,8 @@ import PageInfo from './responses/PageInfo';
 import Protocol from './responses/Protocol';
 import Server from './responses/Server';
 import User from './responses/User';
-import Page from './common/Page';
+import Page from './requests/Page';
+import PageWithDates from './responses/PageWithDates';
 
 const api = axios.create({
     baseURL: config.ApiUrl,
@@ -132,10 +133,15 @@ const EasyVpn = {
     },
     pages: {
         getAll: () => {
-            return api.get<PageInfo[]>(`/dynamic-pages/`);
+            return api.get<PageInfo[]>(`/dynamic-pages`);
         },
         get: (route: string) => {
-            return api.get<Page>(`/dynamic-pages/${route}`);
+            return api.get<PageWithDates>(`/dynamic-pages/${route}`);
+        },
+        create: (request: Page, token: string) => {
+            return api.post<void>(`/dynamic-pages`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
         },
     },
 };

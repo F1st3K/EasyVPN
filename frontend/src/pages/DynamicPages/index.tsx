@@ -5,14 +5,14 @@ import { useLocation } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError, Role } from '../../api';
-import Page from '../../api/common/Page';
+import PageWithDates from '../../api/responses/PageWithDates';
 import { useRequest } from '../../hooks';
 import MarkDownX from '../../modules/MarkDownX';
 
 const DyncamicPages: FC = () => {
     const { Auth } = useContext(Context);
     const location = useLocation();
-    const [data, loading, error] = useRequest<Page, ApiError>(
+    const [data, loading, error] = useRequest<PageWithDates, ApiError>(
         () =>
             EasyVpn.pages
                 .get('/'.concat(location.pathname.split('/').slice(2).join('/')))
@@ -40,10 +40,10 @@ const DyncamicPages: FC = () => {
                     editable={Auth.roles.includes(Role.PageModerator)}
                     onSave={(pr) => console.log(pr)}
                     mdInit={`---
-title: ${data?.title}
-route: ${data?.route}
 modified: ${data?.lastModified}
 created: ${data?.created}
+route: ${data?.route}
+title: ${data?.title}
 ---
 ${data?.base64Content}`}
                 />

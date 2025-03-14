@@ -1,8 +1,10 @@
-import { Box, CssBaseline, Drawer } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { Add, NavigateNext, Navigation, NoteAdd } from '@mui/icons-material';
+import { Box, CssBaseline, Drawer, Fab } from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import EasyVpn, { ApiError } from '../../api';
+import { Context } from '../..';
+import EasyVpn, { ApiError, Role } from '../../api';
 import PageInfo from '../../api/responses/PageInfo';
 import { useRequest } from '../../hooks';
 import { HeaderSpace } from '../Header';
@@ -41,6 +43,7 @@ export const NavDrawer = (props: {
     isMobile: () => boolean;
     children?: React.ReactNode;
 }) => {
+    const { Auth } = useContext(Context);
     const [isClosing, setIsClosing] = useState(props.isMobile());
 
     const handleDrawerClose = () => {
@@ -87,6 +90,17 @@ export const NavDrawer = (props: {
                             navigate(r);
                         }}
                     />
+                )}
+                {Auth.roles.includes(Role.PageModerator) && (
+                    <Fab
+                        sx={{ m: 2 }}
+                        variant="extended"
+                        color="primary"
+                        onClick={() => navigate('/pages/new')}
+                    >
+                        <NoteAdd sx={{ mr: 1 }} />
+                        Add page
+                    </Fab>
                 )}
             </Drawer>
         </Box>
