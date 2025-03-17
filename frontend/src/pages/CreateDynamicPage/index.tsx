@@ -33,6 +33,7 @@ function parseInput(data: string): [route: string, title: string, content: strin
 const CreateDynamicPage: FC = () => {
     const navigate = useNavigate();
     const { Auth } = useContext(Context);
+    const { Pages } = useContext(Context);
     const [route, setRoute] = useState<string>('');
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<string>('');
@@ -71,7 +72,10 @@ const CreateDynamicPage: FC = () => {
                             setContent(pcontent);
                         }}
                         onSave={() => {
-                            createHandler(() => navigate('../' + route));
+                            createHandler(async () => {
+                                await Pages.sync();
+                                navigate('../' + route);
+                            });
                         }}
                         mdInit={`---
 route: /new-route

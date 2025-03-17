@@ -1,4 +1,5 @@
 import { Alert, Box, LinearProgress, Paper } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { FC } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -17,9 +18,9 @@ const DyncamicPages: FC = () => {
             EasyVpn.pages
                 .get('/'.concat(location.pathname.split('/').slice(2).join('/')))
                 .then((r) => r.data),
-        [location],
+        [location.pathname],
     );
-    if (loading) return <LinearProgress />;
+    if (loading || !data) return <LinearProgress />;
 
     return error ? (
         <Alert severity="error" variant="outlined">
@@ -36,19 +37,13 @@ const DyncamicPages: FC = () => {
                     padding: '10px',
                 }}
             >
-                <MarkDownX
-                    editable={Auth.roles.includes(Role.PageModerator)}
-                    onSave={(pr) => console.log(pr)}
-                    mdInit={`---
-modified: ${data?.lastModified}
-created: ${data?.created}
-route: ${data?.route}
-title: ${data?.title}
----
-${data?.base64Content}`}
-                />
+                `--- modified: ${data?.lastModified}
+                created: ${data?.created}
+                route: ${data?.route}
+                title: ${data?.title}
+                --- ${data?.base64Content}`{' '}
             </Paper>
         </Box>
     );
 };
-export default DyncamicPages;
+export default observer(DyncamicPages);

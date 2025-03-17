@@ -1,13 +1,8 @@
 import { Box, Link } from '@mui/material';
 import React from 'react';
 
-import PageInfo from '../../api/responses/PageInfo';
+import { PageRoutes } from '../../api/common/PageRoutes';
 import CollapsedListItem from '../../components/CollapsedListItem';
-
-export type PageRoutes = {
-    page: PageInfo;
-    childrens: PageRoutes[];
-};
 
 export const ResponsivePageList = (props: {
     parentRoute: string;

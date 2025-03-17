@@ -1,40 +1,14 @@
-import { Add, NavigateNext, Navigation, NoteAdd } from '@mui/icons-material';
+import { NoteAdd } from '@mui/icons-material';
 import { Box, CssBaseline, Drawer, Fab } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Role } from '../../api';
-import PageInfo from '../../api/responses/PageInfo';
-import { useRequest } from '../../hooks';
+import { Role } from '../../api';
 import { HeaderSpace } from '../Header';
-import ResponsivePageList, { PageRoutes } from '../ResponsivePageList';
+import ResponsivePageList from '../ResponsivePageList';
 import NavDrawerSpace from './NavDrawerSpace';
-
-function buildRoutes(pages: PageInfo[]): PageRoutes[] {
-    const result: PageRoutes[] = [];
-
-    for (const page of pages) {
-        const parts = page.route.split('/');
-        let currentLevel = result;
-
-        for (const part of parts) {
-            // Найдем существующий маршрут или создадим новый
-            let existingRoute = currentLevel.find((route) => route.page.route === part);
-
-            if (!existingRoute) {
-                existingRoute = {
-                    page: { ...page, route: part }, // Сохраняем информацию о странице
-                    childrens: [],
-                };
-                currentLevel.push(existingRoute);
-            }
-            currentLevel = existingRoute.childrens;
-        }
-    }
-
-    return result;
-}
 
 export const NavDrawer = (props: {
     width: string;
@@ -44,6 +18,7 @@ export const NavDrawer = (props: {
     children?: React.ReactNode;
 }) => {
     const { Auth } = useContext(Context);
+    const { Pages } = useContext(Context);
     const [isClosing, setIsClosing] = useState(props.isMobile());
 
     const handleDrawerClose = () => {
@@ -55,9 +30,6 @@ export const NavDrawer = (props: {
         setIsClosing(!props.open);
     }, [props.open]);
 
-    const [pages, loading, error] = useRequest<PageRoutes[], ApiError>(() =>
-        EasyVpn.pages.getAll().then((v) => buildRoutes(v.data)),
-    );
     const navigate = useNavigate();
 
     return (
@@ -80,17 +52,15 @@ export const NavDrawer = (props: {
                 }}
             >
                 <HeaderSpace />
-                {pages != null && (
-                    <ResponsivePageList
-                        topLevelIsOpen
-                        parentRoute="pages"
-                        routes={pages}
-                        onNavigate={(r) => {
-                            handleDrawerClose();
-                            navigate(r);
-                        }}
-                    />
-                )}
+                <ResponsivePageList
+                    topLevelIsOpen
+                    parentRoute="pages"
+                    routes={Pages.getPageRoutes()}
+                    onNavigate={(r) => {
+                        handleDrawerClose();
+                        navigate(r);
+                    }}
+                />
                 {Auth.roles.includes(Role.PageModerator) && (
                     <Fab
                         sx={{ m: 2 }}
@@ -107,5 +77,5 @@ export const NavDrawer = (props: {
     );
 };
 
-export default NavDrawer;
+export default observer(NavDrawer);
 export { NavDrawerSpace };

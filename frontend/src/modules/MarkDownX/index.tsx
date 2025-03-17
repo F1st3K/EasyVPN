@@ -35,7 +35,7 @@ const MarkDownX = (props: MarkDownXProps) => {
     return (
         <Box>
             <MDXEditor
-                key={String(readonly).concat(theme)}
+                key={String(readonly).concat(theme).concat(props.mdInit)}
                 readOnly={readonly}
                 className={`${theme}-theme ${theme}-editor ${theme}-code`}
                 markdown={md}
