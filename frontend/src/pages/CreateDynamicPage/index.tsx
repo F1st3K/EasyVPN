@@ -1,15 +1,16 @@
 import { Alert, Box, LinearProgress, Paper } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import { FC } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError, Role } from '../../api';
-import Page from '../../api/requests/Page';
-import { useRequest, useRequestHandler } from '../../hooks';
+import { useRequestHandler } from '../../hooks';
 import MarkDownX from '../../modules/MarkDownX';
 
-function parseInput(data: string): [route: string, title: string, content: string] {
+export function parseInput(
+    data: string,
+): [route: string, title: string, content: string] {
     let route = '';
     let title = '';
     let content = '';

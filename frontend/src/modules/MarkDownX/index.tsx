@@ -19,7 +19,6 @@ interface MarkDownXProps {
 }
 
 const MarkDownX = (props: MarkDownXProps) => {
-    console.log(props.mdInit);
     const theme = useTheme().palette.mode;
     const [readonly, setReadonly] = useState(!(props.isEdit ?? false));
     const plugins = () =>

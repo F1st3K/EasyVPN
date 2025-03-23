@@ -1,14 +1,15 @@
 import { Alert, Box, LinearProgress, Paper } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FC } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError, Role } from '../../api';
 import PageWithDates from '../../api/responses/PageWithDates';
-import { useRequest } from '../../hooks';
+import { useRequest, useRequestHandler } from '../../hooks';
 import MarkDownX from '../../modules/MarkDownX';
+import { parseInput } from '../CreateDynamicPage';
 
 const DyncamicPages: FC = () => {
     const { Auth } = useContext(Context);
@@ -20,14 +21,37 @@ const DyncamicPages: FC = () => {
                 .then((r) => r.data),
         [location.pathname],
     );
-    if (loading || data === null) return <LinearProgress />;
 
+    const navigate = useNavigate();
+    const { Pages } = useContext(Context);
+    const [route, setRoute] = useState<string>('');
+    const [title, setTitle] = useState<string>('');
+    const [content, setContent] = useState<string>('');
+
+    const [updateHandler, loadingHand, errorHand] = useRequestHandler<void, ApiError>(
+        () =>
+            EasyVpn.pages
+                .update(
+                    data?.route ?? route,
+                    { route, title, base64Content: content },
+                    Auth.getToken(),
+                )
+                .then((r) => r.data),
+    );
+
+    if (loading) return <LinearProgress />;
     return error ? (
         <Alert severity="error" variant="outlined">
             {error.response?.data.title ?? error.message}
         </Alert>
     ) : (
         <Box margin={2} display="flex" justifyContent="center">
+            {loadingHand && <LinearProgress />}
+            {errorHand && (
+                <Alert severity="error" variant="outlined">
+                    {errorHand.response?.data.title ?? errorHand.message}
+                </Alert>
+            )}
             <Paper
                 sx={{
                     borderRadius: 2,
@@ -38,17 +62,25 @@ const DyncamicPages: FC = () => {
                 }}
             >
                 <MarkDownX
-                    uniqKey={() => btoa(data.route)}
+                    uniqKey={() => btoa(data?.route ?? '')}
                     editable={Auth.roles.includes(Role.PageModerator)}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
-                    onChange={(md) => {}}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
-                    onSave={() => {}}
+                    onChange={(md) => {
+                        const [proute, ptitle, pcontent] = parseInput(md);
+                        setRoute(proute);
+                        setTitle(ptitle);
+                        setContent(pcontent);
+                    }}
+                    onSave={() => {
+                        updateHandler(async () => {
+                            await Pages.sync();
+                            navigate('../' + route);
+                        });
+                    }}
                     mdInit={`---
-modified: ${data.lastModified}
-created: ${data.created}
-route: ${data.route}
-title: ${data.title}
+modified: ${data?.lastModified}
+created: ${data?.created}
+route: ${data?.route}
+title: ${data?.title}
 ---
 ${data?.base64Content}`}
                 />

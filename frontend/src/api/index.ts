@@ -143,6 +143,11 @@ const EasyVpn = {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
+        update: (route: string, request: Page, token: string) => {
+            return api.put<void>(`/dynamic-pages/${route}`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
     },
 };
 
