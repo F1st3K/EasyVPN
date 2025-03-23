@@ -63,6 +63,7 @@ const CreateDynamicPage: FC = () => {
                     }}
                 >
                     <MarkDownX
+                        uniqKey={() => btoa('create')}
                         editable={Auth.roles.includes(Role.PageModerator)}
                         isEdit
                         onChange={(md) => {

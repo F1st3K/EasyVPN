@@ -4,12 +4,13 @@ import './style.css';
 import { MDXEditor } from '@mdxeditor/editor';
 import { CancelSharp, Edit, SaveAs } from '@mui/icons-material';
 import { Box, Fab, useTheme } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { HeaderSpace } from '../Header';
 import { GetAllPlugins } from './_boilerplate';
 
 interface MarkDownXProps {
+    uniqKey: () => string;
     mdInit: string;
     editable?: boolean;
     isEdit?: boolean;
@@ -18,28 +19,20 @@ interface MarkDownXProps {
 }
 
 const MarkDownX = (props: MarkDownXProps) => {
+    console.log(props.mdInit);
     const theme = useTheme().palette.mode;
     const [readonly, setReadonly] = useState(!(props.isEdit ?? false));
-    const [md, setMd] = useState(props.mdInit);
     const plugins = () =>
         GetAllPlugins(theme === 'dark', readonly !== true, props.mdInit);
-
-    useEffect(() => {
-        props.onChange && props.onChange(md);
-    }, [md]);
-
-    useEffect(() => {
-        setMd(props.mdInit);
-    }, [props.mdInit]);
 
     return (
         <Box>
             <MDXEditor
-                key={String(readonly).concat(theme).concat(props.mdInit)}
+                key={props.uniqKey().concat(theme).concat(String(readonly))}
                 readOnly={readonly}
                 className={`${theme}-theme ${theme}-editor ${theme}-code`}
-                markdown={md}
-                onChange={setMd}
+                markdown={props.mdInit}
+                onChange={(md) => props.onChange && props.onChange(md)}
                 plugins={plugins()}
             />
             <Box position="fixed" top="8ch" right="4ch" zIndex={2}>
@@ -59,7 +52,7 @@ const MarkDownX = (props: MarkDownXProps) => {
                             color="secondary"
                             aria-label="save"
                             onClick={() => {
-                                props.onSave && props.onSave(md);
+                                props.onSave && props.onSave(props.mdInit);
                                 setReadonly(true);
                             }}
                         >
@@ -70,7 +63,7 @@ const MarkDownX = (props: MarkDownXProps) => {
                             aria-label="cancel"
                             size="small"
                             onClick={() => {
-                                setMd(props.mdInit);
+                                props.onChange && props.onChange(props.mdInit);
                                 setReadonly(true);
                             }}
                         >

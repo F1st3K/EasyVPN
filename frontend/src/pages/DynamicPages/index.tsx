@@ -20,7 +20,7 @@ const DyncamicPages: FC = () => {
                 .then((r) => r.data),
         [location.pathname],
     );
-    if (loading || !data) return <LinearProgress />;
+    if (loading || data === null) return <LinearProgress />;
 
     return error ? (
         <Alert severity="error" variant="outlined">
@@ -37,11 +37,21 @@ const DyncamicPages: FC = () => {
                     padding: '10px',
                 }}
             >
-                `--- modified: ${data?.lastModified}
-                created: ${data?.created}
-                route: ${data?.route}
-                title: ${data?.title}
-                --- ${data?.base64Content}`{' '}
+                <MarkDownX
+                    uniqKey={() => btoa(data.route)}
+                    editable={Auth.roles.includes(Role.PageModerator)}
+                    // eslint-disable-next-line @typescript-eslint/no-empty-function
+                    onChange={(md) => {}}
+                    // eslint-disable-next-line @typescript-eslint/no-empty-function
+                    onSave={() => {}}
+                    mdInit={`---
+modified: ${data.lastModified}
+created: ${data.created}
+route: ${data.route}
+title: ${data.title}
+---
+${data?.base64Content}`}
+                />
             </Paper>
         </Box>
     );
