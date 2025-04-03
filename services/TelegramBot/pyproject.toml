@@ -1,0 +1,72 @@
+[tool.poetry]
+name = "easy-vpn-telegram-bot"
+version = "0.1.0"
+description = "Telegram Notification Bot for Easy VPN"
+authors = ["Alex Poryadin (sw1pr0g) <alex.poryadih@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.10.6"
+pydantic-settings = "^2.7.1"
+
+[tool.poetry.group.bot.dependencies]
+aiogram = "^3.17.0"
+uvloop = "^0.21.0"
+loguru = "^0.7.3"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.9.5"
+mypy = "^1.15.0"
+pre-commit = "^4.1.0"
+types-cachetools = "^5.5.0.20240820"
+
+[tool.ruff]
+fix = true
+unsafe-fixes = true
+line-length = 120
+lint.select = ["ALL"]
+lint.ignore = ["D", "ANN401", "FIX002", "COM812", "ISC001", "FBT001", "FBT002", "ERA", "ARG005", "PGH003", "A005"]
+cache-dir = "/tmp/ruff-cache/"
+extend-exclude = ["logs", "configs", "migrations"]
+
+[tool.ruff.lint.isort]
+no-lines-before = ["future", "standard-library"]
+known-local-folder = ["bot", "admin"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/*.py" = ["ANN401", "S101", "S311"]
+
+[tool.mypy]
+python_version = "3.12"
+files = "bot/*.py"
+plugins = ["pydantic.mypy"]
+ignore_missing_imports = false
+warn_return_any = true
+warn_unused_configs = true
+show_error_codes = true
+show_error_context = true
+pretty = true
+disallow_subclassing_any = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+follow_imports_for_stubs = true
+namespace_packages = true
+show_absolute_path = true
+
+[[tool.mypy.overrides]]
+module = "asyncpg.*"
+ignore_missing_imports = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
