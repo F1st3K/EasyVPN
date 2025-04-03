@@ -24,9 +24,9 @@ const DyncamicPages: FC = () => {
 
     const navigate = useNavigate();
     const { Pages } = useContext(Context);
-    const [route, setRoute] = useState<string>('');
-    const [title, setTitle] = useState<string>('');
-    const [content, setContent] = useState<string>('');
+    let route = '',
+        title = '',
+        content = '';
 
     const [updateHandler, loadingHand, errorHand] = useRequestHandler<void, ApiError>(
         () =>
@@ -64,13 +64,10 @@ const DyncamicPages: FC = () => {
                 <MarkDownX
                     uniqKey={() => btoa(data?.route ?? '')}
                     editable={Auth.roles.includes(Role.PageModerator)}
-                    onChange={(md) => {
-                        const [proute, ptitle, pcontent] = parseInput(md);
-                        setRoute(proute);
-                        setTitle(ptitle);
-                        setContent(pcontent);
-                    }}
-                    onSave={() => {
+                    // eslint-disable-next-line @typescript-eslint/no-empty-function
+                    onChange={(md) => {}}
+                    onSave={(md) => {
+                        [route, title, content] = parseInput(md);
                         updateHandler(async () => {
                             await Pages.sync();
                             navigate('../' + route);
