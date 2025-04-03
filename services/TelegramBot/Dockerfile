@@ -12,9 +12,8 @@ WORKDIR /usr/src/app
 COPY . .
 
 RUN pip install --no-cache-dir "poetry==$POETRY_VERSION" \
-    && poetry install --without admin --without dev --no-root \
+    && poetry install --without dev --no-root \
     && pip uninstall -y poetry \
-    && pybabel compile -d bot/locales \
     && rm -rf /home/appuser/.cache \
     && rm -rf $POETRY_CACHE_DIR \
     && adduser -D appuser \
