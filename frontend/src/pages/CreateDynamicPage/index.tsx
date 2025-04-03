@@ -1,16 +1,15 @@
 import { Alert, Box, LinearProgress, Paper } from '@mui/material';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError, Role } from '../../api';
+import Page from '../../api/requests/Page';
 import { useRequestHandler } from '../../hooks';
 import MarkDownX from '../../modules/MarkDownX';
 
-export function parseInput(
-    data: string,
-): [route: string, title: string, content: string] {
+export function parseInput(data: string): Page {
     let route = '';
     let title = '';
     let content = '';
@@ -28,21 +27,16 @@ export function parseInput(
         if (countBraces >= 2) content += line + '\n';
     });
 
-    return [route, title, content];
+    return { route, title, base64Content: content };
 }
 
 const CreateDynamicPage: FC = () => {
     const navigate = useNavigate();
     const { Auth } = useContext(Context);
     const { Pages } = useContext(Context);
-    const [route, setRoute] = useState<string>('');
-    const [title, setTitle] = useState<string>('');
-    const [content, setContent] = useState<string>('');
 
-    const [createHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.pages
-            .create({ route, title, base64Content: content }, Auth.getToken())
-            .then((r) => r.data),
+    const [createHandler, loading, error] = useRequestHandler<void, ApiError, Page>(
+        (params) => EasyVpn.pages.create(params, Auth.getToken()).then((r) => r.data),
     );
 
     return (
@@ -67,16 +61,11 @@ const CreateDynamicPage: FC = () => {
                         uniqKey={() => btoa('create')}
                         editable={Auth.roles.includes(Role.PageModerator)}
                         isEdit
-                        onChange={(md) => {
-                            const [proute, ptitle, pcontent] = parseInput(md);
-                            setRoute(proute);
-                            setTitle(ptitle);
-                            setContent(pcontent);
-                        }}
-                        onSave={() => {
-                            createHandler(async () => {
+                        onSave={(md) => {
+                            const p = parseInput(md);
+                            createHandler(p, async () => {
                                 await Pages.sync();
-                                navigate('../' + route);
+                                navigate('../' + p.route);
                             });
                         }}
                         mdInit={`---

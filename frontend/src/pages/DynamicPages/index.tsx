@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError, Role } from '../../api';
+import Page from '../../api/requests/Page';
 import PageWithDates from '../../api/responses/PageWithDates';
 import { useRequest, useRequestHandler } from '../../hooks';
 import MarkDownX from '../../modules/MarkDownX';
@@ -24,19 +25,15 @@ const DyncamicPages: FC = () => {
 
     const navigate = useNavigate();
     const { Pages } = useContext(Context);
-    let route = '',
-        title = '',
-        content = '';
 
-    const [updateHandler, loadingHand, errorHand] = useRequestHandler<void, ApiError>(
-        () =>
-            EasyVpn.pages
-                .update(
-                    data?.route ?? route,
-                    { route, title, base64Content: content },
-                    Auth.getToken(),
-                )
-                .then((r) => r.data),
+    const [updateHandler, loadingHand, errorHand] = useRequestHandler<
+        void,
+        ApiError,
+        Page
+    >((page) =>
+        EasyVpn.pages
+            .update(data?.route ?? page.route, page, Auth.getToken())
+            .then((r) => r.data),
     );
 
     if (loading) return <LinearProgress />;
@@ -64,13 +61,11 @@ const DyncamicPages: FC = () => {
                 <MarkDownX
                     uniqKey={() => btoa(data?.route ?? '')}
                     editable={Auth.roles.includes(Role.PageModerator)}
-                    // eslint-disable-next-line @typescript-eslint/no-empty-function
-                    onChange={(md) => {}}
                     onSave={(md) => {
-                        [route, title, content] = parseInput(md);
-                        updateHandler(async () => {
+                        const p = parseInput(md);
+                        updateHandler(p, async () => {
                             await Pages.sync();
-                            navigate('../' + route);
+                            navigate('/pages/' + p.route);
                         });
                     }}
                     mdInit={`---

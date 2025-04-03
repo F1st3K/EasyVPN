@@ -1,19 +1,22 @@
 import { useState } from 'react';
-import Page from '../api/requests/Page';
 
-export default function useRequestHandler<TResponse = object, TError = Error>(
-    request: () => Promise<TResponse>,
+export default function useRequestHandler<
+    TResponse = object,
+    TError = Error,
+    TParams = object | null,
+>(
+    request: (params: TParams) => Promise<TResponse>,
 ): [
-    handler: (then?: (response: TResponse) => void) => void,
+    handler: (params: TParams, then?: (response: TResponse) => void) => void,
     loading: boolean,
     error: TError | null,
 ] {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<TError | null>(null);
 
-    const handler = (then?: (response: TResponse) => void) => {
+    const handler = (params: TParams, then?: (response: TResponse) => void) => {
         setLoading(true);
-        request()
+        request(params)
             .then((v) => then && then(v))
             .catch((e) => {
                 setError(e);
