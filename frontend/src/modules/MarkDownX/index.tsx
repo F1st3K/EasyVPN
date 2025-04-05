@@ -14,13 +14,13 @@ interface MarkDownXProps {
     mdInit: string;
     editable?: boolean;
     isEdit?: boolean;
-    onChange?: (md: string) => void;
     onSave?: (md: string) => void;
 }
 
 const MarkDownX = (props: MarkDownXProps) => {
     const theme = useTheme().palette.mode;
     const [readonly, setReadonly] = useState(!(props.isEdit ?? false));
+    const [text, setText] = useState(props.mdInit);
     const plugins = () =>
         GetAllPlugins(theme === 'dark', readonly !== true, props.mdInit);
 
@@ -31,7 +31,9 @@ const MarkDownX = (props: MarkDownXProps) => {
                 readOnly={readonly}
                 className={`${theme}-theme ${theme}-editor ${theme}-code`}
                 markdown={props.mdInit}
-                onChange={(md) => props.onChange && props.onChange(md)}
+                onChange={(md) => {
+                    setText(md);
+                }}
                 plugins={plugins()}
             />
             <Box position="fixed" top="8ch" right="4ch" zIndex={2}>
@@ -51,7 +53,7 @@ const MarkDownX = (props: MarkDownXProps) => {
                             color="secondary"
                             aria-label="save"
                             onClick={() => {
-                                props.onSave && props.onSave(props.mdInit);
+                                props.onSave && props.onSave(text);
                                 setReadonly(true);
                             }}
                         >
@@ -62,7 +64,6 @@ const MarkDownX = (props: MarkDownXProps) => {
                             aria-label="cancel"
                             size="small"
                             onClick={() => {
-                                props.onChange && props.onChange(props.mdInit);
                                 setReadonly(true);
                             }}
                         >

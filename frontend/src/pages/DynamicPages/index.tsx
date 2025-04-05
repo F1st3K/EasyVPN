@@ -1,6 +1,6 @@
 import { Alert, Box, LinearProgress, Paper } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -63,7 +63,9 @@ const DyncamicPages: FC = () => {
                     editable={Auth.roles.includes(Role.PageModerator)}
                     onSave={(md) => {
                         const p = parseInput(md);
+                        console.log(p);
                         updateHandler(p, async () => {
+                            navigate('.');
                             await Pages.sync();
                             navigate('/pages/' + p.route);
                         });
