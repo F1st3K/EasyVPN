@@ -26,14 +26,14 @@ const DyncamicPages: FC = () => {
     const navigate = useNavigate();
     const { Pages } = useContext(Context);
 
-    const [updateHandler, loadingHand, errorHand] = useRequestHandler<
-        void,
-        ApiError,
-        Page
-    >((page) =>
-        EasyVpn.pages
-            .update(data?.route ?? page.route, page, Auth.getToken())
-            .then((r) => r.data),
+    const [updateHandler, loadingUp, errorUp] = useRequestHandler<void, ApiError, Page>(
+        (page) =>
+            EasyVpn.pages
+                .update(data?.route ?? page.route, page, Auth.getToken())
+                .then((r) => r.data),
+    );
+    const [removeHandler, loadingRm, errorRm] = useRequestHandler<void, ApiError>(() =>
+        EasyVpn.pages.delete(data?.route ?? '', Auth.getToken()).then((r) => r.data),
     );
 
     if (loading) return <LinearProgress />;
@@ -43,10 +43,16 @@ const DyncamicPages: FC = () => {
         </Alert>
     ) : (
         <Box margin={2} display="flex" justifyContent="center">
-            {loadingHand && <LinearProgress />}
-            {errorHand && (
+            {loadingUp && <LinearProgress />}
+            {errorUp && (
                 <Alert severity="error" variant="outlined">
-                    {errorHand.response?.data.title ?? errorHand.message}
+                    {errorUp.response?.data.title ?? errorUp.message}
+                </Alert>
+            )}
+            {loadingRm && <LinearProgress />}
+            {errorRm && (
+                <Alert severity="error" variant="outlined">
+                    {errorRm.response?.data.title ?? errorRm.message}
                 </Alert>
             )}
             <Paper
@@ -70,6 +76,12 @@ const DyncamicPages: FC = () => {
                             navigate('/pages/' + p.route);
                         });
                     }}
+                    onDelete={() =>
+                        removeHandler(null, async () => {
+                            await Pages.sync();
+                            navigate('.');
+                        })
+                    }
                     mdInit={`---
 modified: ${data?.lastModified}
 created: ${data?.created}

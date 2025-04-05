@@ -3,7 +3,7 @@ import { useState } from 'react';
 export default function useRequestHandler<
     TResponse = object,
     TError = Error,
-    TParams = object | null,
+    TParams = null,
 >(
     request: (params: TParams) => Promise<TResponse>,
 ): [

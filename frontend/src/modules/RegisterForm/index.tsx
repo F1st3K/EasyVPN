@@ -70,7 +70,9 @@ const RegisterForm: FC = () => {
                 disabled={remPassword !== password}
                 variant="contained"
                 size="large"
-                onClick={() => registerHandler(() => customNavigate(prevPage ?? '/'))}
+                onClick={() =>
+                    registerHandler(null, () => customNavigate(prevPage ?? '/'))
+                }
                 loading={loading}
             >
                 Sign Up

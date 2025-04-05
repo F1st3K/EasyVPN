@@ -51,7 +51,7 @@ const DeleteConnectionModal: FC<DeleteConnectionModalProps> = (props) => {
                             sx={{ textTransform: 'none' }}
                             variant="contained"
                             loading={loading}
-                            onClick={() => deleteHandler(() => handleClose())}
+                            onClick={() => deleteHandler(null, () => handleClose())}
                         >
                             Yes, remove connection
                         </LoadingButton>

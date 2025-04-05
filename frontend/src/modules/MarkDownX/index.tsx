@@ -2,7 +2,7 @@ import '@mdxeditor/editor/style.css';
 import './style.css';
 
 import { MDXEditor } from '@mdxeditor/editor';
-import { CancelSharp, Edit, SaveAs } from '@mui/icons-material';
+import { CancelSharp, Delete, DeleteForever, Edit, SaveAs } from '@mui/icons-material';
 import { Box, Fab, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 
@@ -15,6 +15,7 @@ interface MarkDownXProps {
     editable?: boolean;
     isEdit?: boolean;
     onSave?: (md: string) => void;
+    onDelete?: () => void;
 }
 
 const MarkDownX = (props: MarkDownXProps) => {
@@ -39,13 +40,25 @@ const MarkDownX = (props: MarkDownXProps) => {
             <Box position="fixed" top="8ch" right="4ch" zIndex={2}>
                 <HeaderSpace />
                 {props.editable && readonly && (
-                    <Fab
-                        aria-label="add"
-                        color="primary"
-                        onClick={() => setReadonly(false)}
-                    >
-                        <Edit />
-                    </Fab>
+                    <>
+                        <Fab
+                            aria-label="add"
+                            color="primary"
+                            onClick={() => setReadonly(false)}
+                        >
+                            <Edit />
+                        </Fab>
+                        <Fab
+                            color="error"
+                            aria-label="cancel"
+                            size="small"
+                            onClick={() => {
+                                props.onDelete && props.onDelete();
+                            }}
+                        >
+                            <DeleteForever />
+                        </Fab>
+                    </>
                 )}
                 {readonly !== true && (
                     <>

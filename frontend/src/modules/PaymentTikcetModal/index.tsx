@@ -129,7 +129,9 @@ const PaymentTikcetModal: FC<PaymentTikcetModalProps> = (props) => {
                                     disabled={confLoading}
                                     loadingPosition="start"
                                     startIcon={<HighlightOff />}
-                                    onClick={() => rejectHandler(() => handleClose())}
+                                    onClick={() =>
+                                        rejectHandler(null, () => handleClose())
+                                    }
                                 >
                                     Reject
                                 </LoadingButton>
@@ -141,7 +143,9 @@ const PaymentTikcetModal: FC<PaymentTikcetModalProps> = (props) => {
                                     disabled={rejLoading}
                                     loadingPosition="start"
                                     startIcon={<CheckCircleOutline />}
-                                    onClick={() => confirmHandler(() => handleClose())}
+                                    onClick={() =>
+                                        confirmHandler(null, () => handleClose())
+                                    }
                                 >
                                     Confirm
                                 </LoadingButton>
