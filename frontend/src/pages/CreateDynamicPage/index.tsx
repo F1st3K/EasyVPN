@@ -27,7 +27,7 @@ export function parseInput(data: string): Page {
         if (countBraces >= 2) content += line + '\n';
     });
 
-    return { route, title, base64Content: content };
+    return { route, title, base64Content: btoa(encodeURIComponent(content)) };
 }
 
 const CreateDynamicPage: FC = () => {

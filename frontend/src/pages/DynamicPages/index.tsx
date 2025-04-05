@@ -113,7 +113,7 @@ created: ${data?.created}
 route: ${data?.route}
 title: ${data?.title}
 ---
-${data?.base64Content}`}
+${decodeURIComponent(atob(data?.base64Content || ''))}`}
                 />
             </Paper>
         </Box>
