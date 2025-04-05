@@ -1,6 +1,7 @@
-import { Alert, Box, LinearProgress, Paper } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Alert, AlertTitle, Box, LinearProgress, Paper } from '@mui/material';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -8,6 +9,7 @@ import { Context } from '../..';
 import EasyVpn, { ApiError, Role } from '../../api';
 import Page from '../../api/requests/Page';
 import PageWithDates from '../../api/responses/PageWithDates';
+import Modal from '../../components/Modal';
 import { useRequest, useRequestHandler } from '../../hooks';
 import MarkDownX from '../../modules/MarkDownX';
 import { parseInput } from '../CreateDynamicPage';
@@ -32,6 +34,8 @@ const DyncamicPages: FC = () => {
                 .update(data?.route ?? page.route, page, Auth.getToken())
                 .then((r) => r.data),
     );
+
+    const [removeModal, setRemoveModal] = useState<boolean>(false);
     const [removeHandler, loadingRm, errorRm] = useRequestHandler<void, ApiError>(() =>
         EasyVpn.pages.delete(data?.route ?? '', Auth.getToken()).then((r) => r.data),
     );
@@ -49,12 +53,38 @@ const DyncamicPages: FC = () => {
                     {errorUp.response?.data.title ?? errorUp.message}
                 </Alert>
             )}
-            {loadingRm && <LinearProgress />}
-            {errorRm && (
-                <Alert severity="error" variant="outlined">
-                    {errorRm.response?.data.title ?? errorRm.message}
+            <Modal open={removeModal} handleClose={() => setRemoveModal(false)}>
+                {errorRm && (
+                    <Alert severity="error" variant="outlined">
+                        {errorRm.response?.data.title ?? errorRm.message}
+                    </Alert>
+                )}
+                <Alert
+                    onClose={() => setRemoveModal(false)}
+                    severity="warning"
+                    variant="outlined"
+                >
+                    <AlertTitle>Delete page?</AlertTitle>
+                    <>Do you really want delete {data?.title}?</>
+                    <Box marginTop={1} display="flex" flexDirection="row-reverse">
+                        <LoadingButton
+                            color="warning"
+                            sx={{ textTransform: 'none' }}
+                            variant="contained"
+                            loading={loadingRm}
+                            onClick={() =>
+                                removeHandler(null, async () => {
+                                    setRemoveModal(false);
+                                    await Pages.sync();
+                                    navigate('.');
+                                })
+                            }
+                        >
+                            Yes, remove page
+                        </LoadingButton>
+                    </Box>
                 </Alert>
-            )}
+            </Modal>
             <Paper
                 sx={{
                     borderRadius: 2,
@@ -76,12 +106,7 @@ const DyncamicPages: FC = () => {
                             navigate('/pages/' + p.route);
                         });
                     }}
-                    onDelete={() =>
-                        removeHandler(null, async () => {
-                            await Pages.sync();
-                            navigate('.');
-                        })
-                    }
+                    onDelete={() => setRemoveModal(true)}
                     mdInit={`---
 modified: ${data?.lastModified}
 created: ${data?.created}

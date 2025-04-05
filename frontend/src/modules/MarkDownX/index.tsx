@@ -2,7 +2,7 @@ import '@mdxeditor/editor/style.css';
 import './style.css';
 
 import { MDXEditor } from '@mdxeditor/editor';
-import { CancelSharp, Delete, DeleteForever, Edit, SaveAs } from '@mui/icons-material';
+import { CancelSharp, DeleteForever, Edit, SaveAs } from '@mui/icons-material';
 import { Box, Fab, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 
