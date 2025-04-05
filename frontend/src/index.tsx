@@ -4,12 +4,13 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
-import Store, { AuthStore } from './store';
+import Store, { AuthStore, PageStore } from './store';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 const store = {
     Auth: new AuthStore(),
+    Pages: new PageStore(),
 };
 export const Context = createContext<Store>(store);
 

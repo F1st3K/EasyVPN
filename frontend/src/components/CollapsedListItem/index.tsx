@@ -6,10 +6,12 @@ interface ColapsedListItemProps {
     item: ReactNode;
     children: ReactNode;
     listTooltip?: ReactNode;
+    marginLeft?: number;
+    isOpen?: boolean;
 }
 
 const ColapsedListItem: FC<ColapsedListItemProps> = (props) => {
-    const [isOpen, SetIsOpen] = useState<boolean>(false);
+    const [isOpen, SetIsOpen] = useState<boolean>(props.isOpen ?? false);
 
     return (
         <>
@@ -36,7 +38,11 @@ const ColapsedListItem: FC<ColapsedListItemProps> = (props) => {
                 </Tooltip>
             </ListItem>
             <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                <List sx={{ marginLeft: 8 }} component="div" disablePadding>
+                <List
+                    sx={{ marginLeft: props.marginLeft ?? 8 }}
+                    component="div"
+                    disablePadding
+                >
                     {props.children}
                 </List>
             </Collapse>

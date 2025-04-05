@@ -34,6 +34,10 @@ services:
       - ASPNETCORE_URLS=http://+:80
     networks:
       - easy-vpn
+    develop:
+      watch:
+        - action: rebuild
+          path: backend/
 
   easy-vpn-frontend:
     image: easyvpn/frontend:local

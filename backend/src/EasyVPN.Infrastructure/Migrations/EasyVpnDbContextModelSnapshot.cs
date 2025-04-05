@@ -17,7 +17,7 @@ namespace EasyVPN.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.17")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -86,6 +86,30 @@ namespace EasyVPN.Infrastructure.Migrations
                     b.HasIndex("ConnectionId");
 
                     b.ToTable("ConnectionTickets", (string)null);
+                });
+
+            modelBuilder.Entity("EasyVPN.Domain.Entities.DynamicPage", b =>
+                {
+                    b.Property<string>("Route")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("LastModified")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)");
+
+                    b.HasKey("Route");
+
+                    b.ToTable("DynamicPages", (string)null);
                 });
 
             modelBuilder.Entity("EasyVPN.Domain.Entities.Protocol", b =>

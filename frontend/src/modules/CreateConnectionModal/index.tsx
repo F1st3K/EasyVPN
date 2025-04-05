@@ -74,7 +74,7 @@ const CreateConnectionModal: FC<CreateConnectionModalProps> = (props) => {
                             color="success"
                             sx={{ textTransform: 'none' }}
                             loading={loading}
-                            onClick={() => createHandler(() => handleClose())}
+                            onClick={() => createHandler(null, () => handleClose())}
                         >
                             Create connection ticket
                         </LoadingButton>

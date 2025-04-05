@@ -7,12 +7,15 @@ import { Role } from './enums/Role';
 import { VpnVersion } from './enums/VpnVersion';
 import CreateConnection from './requests/CreateConnection';
 import ExtendConnection from './requests/ExtendConnection';
+import Page from './requests/Page';
 import Register from './requests/Register';
 import ApiError from './responses/ApiError';
 import Auth from './responses/Auth';
 import Connection from './responses/Connection';
 import ConnectionConfig from './responses/ConnectionConfig';
 import ConnectionTicket from './responses/ConnectionTicket';
+import PageInfo from './responses/PageInfo';
+import PageWithDates from './responses/PageWithDates';
 import Protocol from './responses/Protocol';
 import Server from './responses/Server';
 import User from './responses/User';
@@ -124,6 +127,29 @@ const EasyVpn = {
     admin: {
         connection: (connectionId: string, token: string) => {
             return api.get<Connection>(`/connections/${connectionId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+    },
+    pages: {
+        getAll: () => {
+            return api.get<PageInfo[]>(`/dynamic-pages`);
+        },
+        get: (route: string) => {
+            return api.get<PageWithDates>(`/dynamic-pages/${route}`);
+        },
+        create: (request: Page, token: string) => {
+            return api.post<void>(`/dynamic-pages`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        update: (route: string, request: Page, token: string) => {
+            return api.put<void>(`/dynamic-pages/${route}`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        delete: (route: string, token: string) => {
+            return api.delete<void>(`/dynamic-pages/${route}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
