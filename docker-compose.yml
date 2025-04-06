@@ -20,7 +20,7 @@ services:
       - easy-vpn
 
   easy-vpn-backend:
-    image: easyvpn/backend:local
+    image: easyvpn/backend:latest
     depends_on:
       - easy-vpn-database
     container_name: backend
@@ -40,7 +40,7 @@ services:
           path: backend/
 
   easy-vpn-frontend:
-    image: easyvpn/frontend:local
+    image: easyvpn/frontend:latest
     depends_on:
       - easy-vpn-backend
     container_name: frontend
