@@ -1,0 +1,39 @@
+name: "Frontend"
+
+on:
+  pull_request:
+    paths: [ "frontend/**" ]
+    branches: [ "main", "develop" ]
+
+jobs:
+  build_front:
+    name: Build, Test and Lint
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Replace frontend source
+      run: |
+          cp -r ./frontend /tmp/frontend
+          rm -rf .[^.]* ..?* *
+          cp -r /tmp/frontend/* ./ 
+
+    - name: Install deeps 
+      run: npm install
+
+    - name: Build
+      run: npm run build 
+      
+    - name: Test
+      run: npm test
+
+    - name: Lint
+      run: npx eslint ./ 
