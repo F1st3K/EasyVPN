@@ -1,43 +1,42 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-
-name: "Backend [build - lint - test]"
+name: "Backend [build - test - lint]"
 
 on:
   push:
     branches: [ "main", "develop" ]
   pull_request:
     branches: [ "main", "develop" ]
-    paths: [ "./backend/**" ]
+    paths: [ "backend/**" ]
 
 jobs:
   build:
+    name: Build and test
     
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
 
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - run: cp -r ./backend /tmp/backend
+    - run: rm -rf .[^.]* ..?* *
+    - run: cp -r /tmp/backend/* ./ 
+
     - name: Restore dependencies
-      working-directory: ./backend
       run: dotnet restore
 
     - name: Build
-      working-directory: ./backend
       run: dotnet build --no-restore
       
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
     - name: Lint
       uses: wearerequired/lint-action@v2
       with:
         dotnet_format: true
+        dotnet_format_auto_fix: false
           
-    - name: Test
-      working-directory: ./backend
-      run: dotnet test --no-build --verbosity normal
