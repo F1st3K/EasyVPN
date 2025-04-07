@@ -1,15 +1,13 @@
 name: "Backend [build - test - lint]"
 
 on:
-  push:
-    branches: [ "main", "develop" ]
   pull_request:
-    branches: [ "main", "develop" ]
     paths: [ "backend/**" ]
+    branches: [ "main", "develop" ]
 
 jobs:
   build:
-    name: Build and test
+    name: Build, Test and Lint
     
     runs-on: ubuntu-latest
     
@@ -21,9 +19,12 @@ jobs:
 
     - name: Checkout code
       uses: actions/checkout@v4
-    - run: cp -r ./backend /tmp/backend
-    - run: rm -rf .[^.]* ..?* *
-    - run: cp -r /tmp/backend/* ./ 
+
+    - name: Replace backend source
+      run: |
+          cp -r ./backend /tmp/backend 
+          rm -rf .[^.]* ..?* *
+          cp -r /tmp/backend/* ./ 
 
     - name: Restore dependencies
       run: dotnet restore
@@ -35,8 +36,4 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
     - name: Lint
-      uses: wearerequired/lint-action@v2
-      with:
-        dotnet_format: true
-        dotnet_format_auto_fix: false
-          
+      run: dotnet format ./ --verify-no-changes
