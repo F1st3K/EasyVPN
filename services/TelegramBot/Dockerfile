@@ -14,6 +14,7 @@ COPY . .
 RUN pip install --no-cache-dir "poetry==$POETRY_VERSION" \
     && poetry install --without dev --no-root \
     && pip uninstall -y poetry \
+    && pybabel compile -d bot/locales \
     && rm -rf /home/bot/.cache \
     && rm -rf $POETRY_CACHE_DIR
 
