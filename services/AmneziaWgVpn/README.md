@@ -17,14 +17,10 @@
 
 
 ## Deploy (docker)
-Сборка докер-образа:
-```bash
-docker build -t amneziawgvpn:local ./
-```
 Для запуска сервиса в докер-контейнере используйте следующую команду:
 ```bash
 docker run -d \
-  --name amneziawgvpn-service \
+  --name amneziawg-vpn-service \
   -e SERVICE_HOST=89.191.226.158 `#your host address` \
   -e SERVICE_USER=user `#your user name for auth` \
   -e SERVICE_PASSWORD=passwd `#your password for auth` \
@@ -37,7 +33,7 @@ docker run -d \
   --sysctl="net.ipv4.ip_forward=1" \
   --device /dev/net/tun:/dev/net/tun \
   --restart unless-stopped \
-  amneziawgvpn:local
+  easyvpn/amneziawg-vpn:latest
 ```
 
 

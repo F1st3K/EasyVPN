@@ -29,11 +29,6 @@
 
 
 ## Deploy (docker)
-Сборка докер-образа:
-```bash
-docker build -t easyvpn/backend:local ./
-```
-
 Для запуска базы данных необходимой для работы приложения бизнес-логики в докер-контейнере используйте следующую команду:
 ```bash
 docker run -d \
@@ -50,7 +45,7 @@ docker run -d \
 docker run -d \
   --name backend \
   -p 80:80 `#your port`\
-  easyvpn/backend:local
+  easyvpn/backend:latest
 ```
 
 ## EasyVPN API
