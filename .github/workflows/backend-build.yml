@@ -6,7 +6,7 @@ on:
     branches: [ "main", "develop" ]
 
 jobs:
-  build:
+  build_back:
     name: Build, Test and Lint
     
     runs-on: ubuntu-latest
