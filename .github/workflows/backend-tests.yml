@@ -5,11 +5,11 @@
 name: "Backend [build - lint - test]"
 
 on:
+  push:
+    branches: [ "main", "develop" ]
   pull_request:
     branches: [ "main", "develop" ]
     paths: [ "./backend/**" ]
-  schedule:
-    - cron: "0 10 * * *"
 
 jobs:
   build:
