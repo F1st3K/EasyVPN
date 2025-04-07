@@ -9,7 +9,7 @@ on:
     branches: [ "main", "develop" ]
     paths: [ "./backend/**" ]
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "0 10 * * *"
 
 jobs:
   build:
@@ -33,10 +33,10 @@ jobs:
       working-directory: ./backend
       run: dotnet build --no-restore
       
-    # - name: Lint
-    #   uses: wearerequired/lint-action@v2
-    #   with:
-    #     dotnet_format: true
+    - name: Lint
+      uses: wearerequired/lint-action@v2
+      with:
+        dotnet_format: true
           
     - name: Test
       working-directory: ./backend
