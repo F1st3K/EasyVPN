@@ -17,7 +17,20 @@ class BotSettings(EnvBaseSettings):
     BOT_TOKEN: str
 
 
-class Settings(BotSettings):
+class DBSettings(EnvBaseSettings):
+    DB_PATH: str = "tgbot.db"
+
+    DB_DIR: str = str(BOT_DIR / "data")
+
+    @property
+    def database_url(self) -> str:
+        db_file_path = Path(self.DB_DIR) / self.DB_PATH
+        
+        db_file_path.parent.mkdir(parents=True, exist_ok=True)
+        return f"sqlite+aiosqlite:///{db_file_path}"
+
+
+class Settings(BotSettings, DBSettings):
     DEBUG: bool = False
 
 settings = Settings()
