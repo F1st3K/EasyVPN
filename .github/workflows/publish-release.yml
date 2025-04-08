@@ -1,0 +1,61 @@
+name: "Publish release"
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+
+  publish_services:
+    name: Publish services
+
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        service: [ 
+          { name: "backend", path: "./backend/" },
+          { name: "frontend", path: "./frontend/" },
+          { name: "wireguard-vpn", path: "./services/WireguardVpn/" },
+          { name: "amneziawg-vpn", path: "./services/AmneziaWgVpn/" },
+        ]
+
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Publish
+        run: |
+          docker build -t easyvpn/${{ matrix.service.name }} ${{ matrix.service.path }}
+          docker tag easyvpn/${{ matrix.service.name }} easyvpn/${{ matrix.service.name }}:$(cat VERSION)
+          docker push easyvpn/${{ matrix.service.name }}:$(cat VERSION)
+          docker push easyvpn/${{ matrix.service.name }}
+
+  publish_github_release:
+    name: GitHub release publish
+
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
+    needs: publish_services 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure release note 
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create $(cat VERSION) \
+            --repo="$GITHUB_REPOSITORY" \
+            --title "Version $(cat VERSION)" \
+            --notes "$(awk 'BEGIN {flag=0} /^## / { if (flag == 1) exit; flag = 1; next; } flag { print; }' CHANGELOG.md)"
