@@ -12,9 +12,12 @@ python = "^3.12"
 pydantic = "^2.10.6"
 pydantic-settings = "^2.7.1"
 babel = "^2.17.0"
+sqlalchemy = "^2.0.40"
 
 [tool.poetry.group.bot.dependencies]
 aiogram = "^3.17.0"
+aiosqlite = "^0.21.0"
+greenlet = "^3.1.1"
 uvloop = "^0.21.0"
 loguru = "^0.7.3"
 

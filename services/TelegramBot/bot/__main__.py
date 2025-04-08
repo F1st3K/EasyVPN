@@ -7,11 +7,14 @@ from loguru import logger
 from bot.core.loader import bot, dp
 from bot.handlers import get_handlers_router
 from bot.keyboards.default_commands import remove_default_commands, set_default_commands
+from bot.database.database import engine, create_tables
 from bot.middlewares import register_middlewares
 
 
 async def on_startup() -> None:
     logger.info("bot starting...")
+
+    await create_tables(engine)
 
     register_middlewares(dp)
 
