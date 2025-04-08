@@ -1,0 +1,35 @@
+name: "AmneziaWgVpn"
+
+on:
+  pull_request:
+    paths: [ "services/AmneziaWgVpn/**" ]
+    branches: [ "main", "develop" ]
+
+jobs:
+  build_amneziawgvpn:
+    name: Build and Test
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/setup-go@v5
+      with:
+        go-version: '1.22'
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Replace service source
+      run: |
+          cp -r ./services/AmneziaWgVpn /tmp/AmneziaWgVpn 
+          rm -rf .[^.]* ..?* *
+          cp -r /tmp/AmneziaWgVpn/* ./ 
+
+    - name: Restore dependencies
+      run: go mod download 
+
+    - name: Build
+      run: go build ./... 
+      
+    - name: Test
+      run: go test ./...
