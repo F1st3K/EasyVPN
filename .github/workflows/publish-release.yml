@@ -1,0 +1,106 @@
+name: "Publish release"
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  publish_backend:
+    name: Backend publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Publish
+        run: |
+          docker build -t easyvpn/backend ./backend/
+          docker tag easyvpn/backend easyvpn/backend:$(cat VERSION)
+          docker push easyvpn/backend:$(cat VERSION)
+          docker push easyvpn/backend
+
+  publish_frontend:
+    name: Frontend publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Publish
+        run: |
+          docker build -t easyvpn/frontend ./frontend/
+          docker tag easyvpn/frontend easyvpn/frontend:$(cat VERSION)
+          docker push easyvpn/frontend:$(cat VERSION)
+          docker push easyvpn/frontend
+
+  publish_wireguard_vpn:
+    name: WireguardVpn publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Publish
+        run: |
+          docker build -t easyvpn/wireguard-vpn ./services/WireguardVpn/
+          docker tag easyvpn/wireguard-vpn easyvpn/wireguard-vpn:$(cat VERSION)
+          docker push easyvpn/wireguard-vpn:$(cat VERSION)
+          docker push easyvpn/wireguard-vpn
+
+  publish_amneziawg_vpn:
+    name: AmneziaWgVpn publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Publish
+        run: |
+          docker build -t easyvpn/amneziawg-vpn ./services/AmneziaWgVpn/
+          docker tag easyvpn/amneziawg-vpn easyvpn/amneziawg-vpn:$(cat VERSION)
+          docker push easyvpn/amneziawg-vpn:$(cat VERSION)
+          docker push easyvpn/amneziawg-vpn
+
+  publish_github_release:
+    name: GitHub release publish
+    needs: [publish_backend, publish_frontend, publish_wireguard_vpn, publish_amneziawg_vpn]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure release note 
+        run: |
+          echo "Version $(cat VERSION)"
+          awk 'BEGIN {flag=0} /^## / { if (flag == 1) exit; flag = 1; next; } flag { print; }' CHANGELOG.md 
