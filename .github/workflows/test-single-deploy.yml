@@ -7,29 +7,15 @@ on:
 
 jobs:
   build_compose:
-    name: Build and Run 
+    name: Build docker compose 
     
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/setup-go@v5
-      with:
-        go-version: '1.22'
-
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Replace service source
-      run: |
-          cp -r ./services/WireguardVpn /tmp/WireguardVpn 
-          rm -rf .[^.]* ..?* *
-          cp -r /tmp/WireguardVpn/* ./ 
-
-    - name: Restore dependencies
-      run: go mod download 
-
-    - name: Build
-      run: go build ./... 
-      
-    - name: Test
-      run: go test ./...
+    - name: Run docker compose
+      uses: hoverkraft-tech/compose-action@v2.0.1
+      with:
+        up-flags: "--build"
