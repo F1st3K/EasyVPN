@@ -3,6 +3,8 @@
 
 ### Single deploy (docker-compose)
 .env
+.data*
+.data*/
 
 ### ASPNETCore ###
 ## Ignore Visual Studio temporary files, build results, and

@@ -15,7 +15,7 @@ services:
       - "5432"
     restart: unless-stopped
     volumes:
-      - database_data:/var/lib/postgresql/data
+      - ${MAIN_DB_VOLUME}:/var/lib/postgresql/data
     networks:
       - easy-vpn
 
@@ -102,7 +102,7 @@ services:
       - "${WG_VPN_PORT}:${WG_VPN_PORT}/udp"  # wireguard port
       - "${WG_API_PORT}:${WG_API_PORT}/tcp"    # http-api port
     volumes:
-      - ~/.WireguardVpn:/etc/wireguard
+      - ${WG_VOLUME}:/etc/wireguard
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -124,7 +124,7 @@ services:
       - "${AWG_VPN_PORT}:${AWG_VPN_PORT}/udp"  # amnezia wg port
       - "${AWG_API_PORT}:${AWG_API_PORT}/tcp"    # http-api port
     volumes:
-      - ~/.AmneziaWgVpn:/etc/amnezia
+      - ${AWG_VOLUME}:/etc/amnezia
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -146,8 +146,3 @@ services:
       - BOT_TOKEN=${BOT_TOKEN}
     restart: unless-stopped
 # ╚═══ REGION: Other services ═══╝
-
-
-
-volumes:
-  database_data:
