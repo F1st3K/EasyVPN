@@ -1,5 +1,3 @@
-version: '3.4'
-
 networks:
   easy-vpn:
     driver: bridge
@@ -95,7 +93,7 @@ services:
     image: easyvpn/wireguard-vpn:latest
     container_name: wireguard-vpn-service
     environment:
-      - SERVICE_HOST=${IP}  # your host address
+      - SERVICE_HOST=${VPN_IP}  # your host address
       - SERVICE_USER=${VPN_USER}            # your user name for auth
       - SERVICE_PASSWORD=${VPN_PASSWORD}      # your password for auth
       - VPN_PORT=${WG_VPN_PORT}
@@ -117,7 +115,7 @@ services:
     image: easyvpn/amneziawg-vpn:latest
     container_name: amneziawg-vpn-service
     environment:
-      - SERVICE_HOST=${IP}  # your host address
+      - SERVICE_HOST=${VPN_IP}  # your host address
       - SERVICE_USER=${VPN_USER}            # your user name for auth
       - SERVICE_PASSWORD=${VPN_PASSWORD}      # your password for auth
       - VPN_PORT=${AWG_VPN_PORT}
