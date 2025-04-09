@@ -21,6 +21,7 @@ jobs:
           { name: "frontend", path: "./frontend/" },
           { name: "wireguard-vpn", path: "./services/WireguardVpn/" },
           { name: "amneziawg-vpn", path: "./services/AmneziaWgVpn/" },
+          { name: "bot", path: "./services/TelegramBot/" },
         ]
 
     steps:
