@@ -46,6 +46,9 @@ services:
     build:
       context: frontend/
       dockerfile: Dockerfile
+    environment:
+      - REACT_APP_API_URL=http://localhost:${MAIN_PORT}/api/
+      - REACT_APP_AUTH_CHECK_MINUTES=${FRONT_CHECK_AUTH}
     restart: unless-stopped
     networks:
       - easy-vpn
@@ -57,7 +60,7 @@ services:
       - easy-vpn-frontend
     container_name: proxy
     ports:
-      - "${MAIN_PORT}:80"
+      - "${MAIN_PORT}:${MAIN_PORT}"
     command: >
       /bin/sh -c "
         echo 'worker_processes 4;
@@ -68,7 +71,7 @@ services:
 
         http {
             server {
-                listen 80;
+                listen ${MAIN_PORT};
 
                 location / {
                     proxy_pass http://frontend:3000;
