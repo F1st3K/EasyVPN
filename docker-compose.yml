@@ -51,9 +51,9 @@ services:
       context: backend/
       dockerfile: Dockerfile
     environment:
-      - JwtSettings__Secret=channel-conclude-tacking-clammy-jogger-author-annually-enviable-retrieval-vanish-drown-recess-hydroxide-snowman-prism-parkway-implicit-gooey-detoxify-protector
-      - JwtSettings__ExpiryMinutes=15
-      - HashSettings__Secret=darling-anagram-stadium-unloving-chance-clerical-pendant-able-balsamic-krypton-arrogant-cruncher-module-juggling-sheep-pope-turret-faculty-liable-gorged
+      - HashSettings__Secret=${BACK_HASH_SECRET}
+      - JwtSettings__Secret=${BACK_AUTH_SECRET}
+      - JwtSettings__ExpiryMinutes=${BACK_AUTH_EXPIRE}
       - ConnectionStrings__Postgres=User ID=${MAIN_DB_USER};Password=${MAIN_DB_PASSWORD};Host=database;Port=5432;
       - ASPNETCORE_URLS=http://+:80
     restart: unless-stopped
