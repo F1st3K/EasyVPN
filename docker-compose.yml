@@ -4,6 +4,27 @@ networks:
 
 services:
 
+  easy-vpn-init:
+    image: easyvpn/init:latest
+    profiles:
+      - init
+    depends_on:
+      - easy-vpn-database
+      - easy-vpn-backend
+      - wireguard-vpn-service
+      - amneziawg-vpn-service
+    container_name: init
+    build:
+      context: init/
+      dockerfile: Dockerfile
+    environment:
+      - API=http://backend:80
+      - DB_CONNECTION_STRING=postgresql://${MAIN_DB_USER}:${MAIN_DB_PASSWORD}@database:5432
+      - CREATE_SECURITY_KEEPER=${INIT_SECURITY_KEEPER:-NO}
+    restart: no
+    networks:
+      - easy-vpn
+
 # ╔═══ REGION: Base infractructure services ═══╗
   easy-vpn-database:
     image: postgres:16
@@ -95,6 +116,9 @@ services:
   wireguard-vpn-service:
     image: easyvpn/wireguard-vpn:latest
     container_name: wireguard-vpn-service
+    build:
+      context: services/WireguardVpn
+      dockerfile: Dockerfile
     environment:
       - SERVICE_HOST=${VPN_IP}  # your host address
       - SERVICE_USER=${VPN_USER}            # your user name for auth
@@ -117,6 +141,9 @@ services:
   amneziawg-vpn-service:
     image: easyvpn/amneziawg-vpn:latest
     container_name: amneziawg-vpn-service
+    build:
+      context: services/AmneziaWgVpn
+      dockerfile: Dockerfile
     environment:
       - SERVICE_HOST=${VPN_IP}  # your host address
       - SERVICE_USER=${VPN_USER}            # your user name for auth
