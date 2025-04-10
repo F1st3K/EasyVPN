@@ -46,3 +46,9 @@ cd ./services/AmneziaWgVpn
 yq -i ".service.version = \"$NEW_VERSION\"" ./cmd/config.yml
 yq ".service.version" ./cmd/config.yml
 cd ../../
+
+# Set version services/TelegramBot:
+echo "--- Set version services/TelegramBot --------------------------"
+cd ./services/TelegramBot
+poetry version $NEW_VERSION
+cd ../../
