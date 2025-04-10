@@ -22,6 +22,17 @@ cd ./frontend
 npm version --no-commit-hooks --no-git-tag-version $NEW_VERSION
 cd ../
 
+# Set version init:
+echo "--- Set version init: --------------------------"
+cd ./init
+TMP_FILE=$(mktemp)
+echo "#!/bin/sh" >> "$TMP_FILE"
+echo "# version: $NEW_VERSION" >> "$TMP_FILE"
+tail -n +3 "init.sh" >> "$TMP_FILE"
+mv "$TMP_FILE" "init.sh"
+head -2 "init.sh"
+cd ../
+
 # Set version services/WireguardVpn:
 echo "--- Set version services/WireguardVpn --------------------------"
 cd ./services/WireguardVpn
