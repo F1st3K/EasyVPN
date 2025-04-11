@@ -75,7 +75,10 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
                     <CenterBox marginY={1}>
                         <IconButton
                             onClick={() =>
-                                jsFileDownload(config || '', `${connectionId}.conf`)
+                                jsFileDownload(
+                                    config || '',
+                                    `${connectionId.split('-').shift()}.conf`,
+                                )
                             }
                         >
                             <Download />

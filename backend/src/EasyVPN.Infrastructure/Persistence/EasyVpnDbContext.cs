@@ -10,6 +10,7 @@ public class EasyVpnDbContext : DbContext
     public DbSet<Protocol> Protocols { get; private set; } = null!;
     public DbSet<Connection> Connections { get; private set; } = null!;
     public DbSet<ConnectionTicket> ConnectionTickets { get; private set; } = null!;
+    public DbSet<DynamicPage> DynamicPages { get; private set; } = null!;
 
     public EasyVpnDbContext(DbContextOptions<EasyVpnDbContext> options)
         : base(options)

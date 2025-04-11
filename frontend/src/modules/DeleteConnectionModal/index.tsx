@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { Alert, AlertTitle, Box, PaperProps, Typography } from '@mui/material';
+import { Alert, AlertTitle, Box, PaperProps } from '@mui/material';
 import React, { FC, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -51,7 +51,7 @@ const DeleteConnectionModal: FC<DeleteConnectionModalProps> = (props) => {
                             sx={{ textTransform: 'none' }}
                             variant="contained"
                             loading={loading}
-                            onClick={() => deleteHandler(() => handleClose())}
+                            onClick={() => deleteHandler(null, () => handleClose())}
                         >
                             Yes, remove connection
                         </LoadingButton>

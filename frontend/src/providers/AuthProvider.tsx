@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 
 import { Context } from '..';
 import { ApiError } from '../api';
-import config from '../config.json';
+import config from '../config';
 import { useIntervalCounter, useRequest } from '../hooks';
 
 interface AuthProviderProps {

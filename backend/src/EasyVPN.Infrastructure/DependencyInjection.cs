@@ -47,6 +47,7 @@ public static class DependencyInjection
         services.AddScoped<IProtocolRepository, ProtocolRepository>();
         services.AddScoped<IConnectionRepository, ConnectionRepository>();
         services.AddScoped<IConnectionTicketRepository, ConnectionTicketRepository>();
+        services.AddScoped<IDynamicPageRepository, DynamicPageRepository>();
         
         services.AddScoped<IVpnServiceFactory, VpnServiceFactory>();
         

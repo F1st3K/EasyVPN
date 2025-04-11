@@ -9,6 +9,7 @@ export default function useRequest<TResponse = object, TError = Error>(
     const [error, setError] = useState<TError | null>(null);
 
     useEffect(() => {
+        setError(null);
         request()
             .then((r) => setData(r))
             .catch((e) => setError(e))

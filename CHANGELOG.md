@@ -1,5 +1,21 @@
 # Changelog
 
+## `0.7.0` (2025-04-11)
+
+### Features
+
+- frontend: Create Dynamic-Pages, editable PageModerator role 
+- backend: Create endpoint for dynamic-pages
+- services: Create new service - TelegramBot (for notifiactaioin etc.)
+- services: TelegramBot - add command /start
+- services: TelegramBot - add locales 
+- services: Add new service - init (for inittialise base data for app)
+
+### Infrastructure
+
+- Update single deployment - add all services and replace .env varibles
+- Add Workflows for services
+
 ## `0.6.0` (2025-02-27)
 
 ### Features

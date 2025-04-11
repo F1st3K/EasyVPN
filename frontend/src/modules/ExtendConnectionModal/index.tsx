@@ -81,7 +81,7 @@ const ExtendConnectionModal: FC<ExtendConnectionModalProps> = (props) => {
                             color="success"
                             sx={{ textTransform: 'none' }}
                             loading={loading}
-                            onClick={() => extendHandler(() => handleClose())}
+                            onClick={() => extendHandler(null, () => handleClose())}
                         >
                             Create connection ticket
                         </LoadingButton>

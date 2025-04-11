@@ -47,7 +47,7 @@ const LoginForm: FC = () => {
                 sx={{ my: 1 }}
                 variant="contained"
                 size="large"
-                onClick={() => loginHandler(() => customNavigate(prevPage ?? '/'))}
+                onClick={() => loginHandler(null, () => customNavigate(prevPage ?? '/'))}
                 loading={loading}
             >
                 Sign In
