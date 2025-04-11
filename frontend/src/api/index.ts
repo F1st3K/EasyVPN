@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import config from '../config.json';
+import config from '../config';
 import PaymentConnectionInfo from './common/PaymentConnectionInfo';
 import { ConnectionTicketStatus } from './enums/ConnectionTicketStatus';
 import { Role } from './enums/Role';
