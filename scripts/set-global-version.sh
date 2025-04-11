@@ -29,7 +29,7 @@ TMP_FILE=$(mktemp)
 echo "#!/bin/sh" >> "$TMP_FILE"
 echo "# version: $NEW_VERSION" >> "$TMP_FILE"
 tail -n +3 "init.sh" >> "$TMP_FILE"
-mv "$TMP_FILE" "init.sh"
+cat "$TMP_FILE" > "init.sh"
 head -2 "init.sh"
 cd ../
 
