@@ -1,0 +1,21 @@
+name: "Test single deploy"
+
+on:
+  pull_request:
+    branches:
+      - main 
+
+jobs:
+  build_compose:
+    name: Build docker compose 
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run docker compose
+      uses: hoverkraft-tech/compose-action@v2.0.1
+      with:
+        up-flags: "--build"

@@ -1,0 +1,39 @@
+name: "Backend"
+
+on:
+  pull_request:
+    paths: [ "backend/**" ]
+    branches: [ "main", "develop" ]
+
+jobs:
+  build_back:
+    name: Build, Test and Lint
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Replace backend source
+      run: |
+          cp -r ./backend /tmp/backend 
+          rm -rf .[^.]* ..?* *
+          cp -r /tmp/backend/* ./ 
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+    - name: Lint
+      run: dotnet format ./ --verify-no-changes

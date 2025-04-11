@@ -12,16 +12,11 @@
 
 
 ## Deploy (docker)
-Сборка докер-образа:
-```bash
-docker build -t easyvpn/frontend:local ./
-```
-
 Для запуска сервиса в докер-контейнере используйте следующую команду:
 ```bash
 docker run -d \
   --name frontend \
   -p 3000:3000 `#your port` \
-  easyvpn/frontend:local
+  easyvpn/frontend:latest
 ```
 

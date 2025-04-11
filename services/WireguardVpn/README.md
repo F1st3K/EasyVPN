@@ -17,14 +17,10 @@
 
 
 ## Deploy (docker)
-Сборка докер-образа:
-```bash
-docker build -t wireguardvpn:local ./
-```
 Для запуска сервиса в докер-контейнере используйте следующую команду:
 ```bash
 docker run -d \
-  --name wireguardvpn-service \
+  --name wireguard-vpn-service \
   -e SERVICE_HOST=89.191.226.158 `#your host address` \
   -e SERVICE_USER=user `#your user name for auth` \
   -e SERVICE_PASSWORD=passwd `#your password for auth` \
@@ -36,7 +32,7 @@ docker run -d \
   --sysctl="net.ipv4.conf.all.src_valid_mark=1" \
   --sysctl="net.ipv4.ip_forward=1" \
   --restart unless-stopped \
-  wireguardvpn:local
+  easyvpn/wireguard-vpn:latest
 ```
 
 
