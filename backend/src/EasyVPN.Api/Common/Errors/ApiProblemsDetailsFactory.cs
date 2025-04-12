@@ -93,7 +93,7 @@ public class ApiProblemsDetailsFactory : ProblemDetailsFactory
 
         if (httpContext?.Items[HttpContextItemKeys.Errors] is List<Error> errors)
             problemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code));
-        
+
         _configure?.Invoke(new() { HttpContext = httpContext!, ProblemDetails = problemDetails });
     }
 }

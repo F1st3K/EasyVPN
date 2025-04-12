@@ -6,7 +6,7 @@ public static class GuidGenerator
     {
         var gb = guid.ToByteArray();
         var ib = BitConverter.GetBytes(index);
-        var guidBytes = new byte[16] 
+        var guidBytes = new byte[16]
             {
                 ib[0], ib[1], ib[2], ib[3],
                 gb[4], gb[5], gb[6], gb[7],

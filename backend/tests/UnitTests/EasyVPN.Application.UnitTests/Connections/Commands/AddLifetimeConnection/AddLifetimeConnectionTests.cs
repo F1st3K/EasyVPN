@@ -50,7 +50,7 @@ public class AddLifetimeConnectionTests
             => x.TryPopTask<DisableConnectionCommand>(Constants.Connection.Id));
         _mocks.TaskRepository.Verify(x
             => x.PushTask(
-                Constants.Connection.Id, 
+                Constants.Connection.Id,
                 Constants.Connection.ExpirationTime.AddDays(Constants.Connection.Days),
                 It.Is<DisableConnectionCommand>(dc => dc.ConnectionId == Constants.Connection.Id)
                 ));
@@ -133,7 +133,7 @@ public class AddLifetimeConnectionTests
             => x.TryPopTask<DisableConnectionCommand>(Constants.Connection.Id));
         _mocks.TaskRepository.Verify(x
             => x.PushTask(
-                Constants.Connection.Id, 
+                Constants.Connection.Id,
                 Constants.Time.Now.AddDays(Constants.Connection.Days),
                 It.Is<DisableConnectionCommand>(dc => dc.ConnectionId == Constants.Connection.Id)
                 ));

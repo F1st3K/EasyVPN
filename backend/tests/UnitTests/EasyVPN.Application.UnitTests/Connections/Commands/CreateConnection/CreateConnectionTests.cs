@@ -22,7 +22,7 @@ public class CreateConnectionTests
             .Returns(new User()
             {
                 Id = Constants.User.Id,
-                Roles = new [] { RoleType.Client },
+                Roles = new[] { RoleType.Client },
             });
 
 
@@ -58,7 +58,7 @@ public class CreateConnectionTests
             .Returns(new User()
             {
                 Id = Constants.User.Id,
-                Roles = new [] { RoleType.Client },
+                Roles = new[] { RoleType.Client },
             });
 
 
@@ -150,7 +150,7 @@ public class CreateConnectionTests
             .Returns(new User()
             {
                 Id = Constants.User.Id,
-                Roles = new [] { RoleType.Client },
+                Roles = new[] { RoleType.Client },
             });
 
         _mocks.ServerRepository.Setup(x
@@ -180,7 +180,7 @@ public class CreateConnectionTests
             .Returns(new User()
             {
                 Id = Constants.User.Id,
-                Roles = new [] { RoleType.Client },
+                Roles = new[] { RoleType.Client },
             });
 
         _mocks.ServerRepository.Setup(x

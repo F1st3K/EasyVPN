@@ -15,7 +15,7 @@ public class ResetLifetimeConnectionMocks
 
     public ResetLifetimeConnectionCommandHandler CreateHandler()
     {
-        
+
         var mockDateTimeProvider = new Mock<IDateTimeProvider>();
         mockDateTimeProvider.Setup(x => x.UtcNow)
             .Returns(Constants.Time.Now);

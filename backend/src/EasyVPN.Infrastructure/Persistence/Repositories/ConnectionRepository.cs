@@ -39,9 +39,9 @@ public class ConnectionRepository : IConnectionRepository
     public void Remove(Guid id)
     {
         if (_dbContext.Connections.SingleOrDefault(ct => ct.Id == id)
-            is not {} connection)
+            is not { } connection)
             return;
-        
+
         _dbContext.Connections.Remove(connection);
         _dbContext.SaveChanges();
     }
@@ -49,9 +49,9 @@ public class ConnectionRepository : IConnectionRepository
     public void Update(Connection connection)
     {
         if (_dbContext.Connections.SingleOrDefault(c => c.Id == connection.Id)
-            is not {} stateConnection)
+            is not { } stateConnection)
             return;
-        
+
         stateConnection.ExpirationTime = connection.ExpirationTime;
         _dbContext.Connections.Update(stateConnection);
         _dbContext.SaveChanges();

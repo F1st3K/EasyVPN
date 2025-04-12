@@ -16,16 +16,16 @@ public class CreateConnectionTicketCommandHandler : IRequestHandler<CreateConnec
 
     public CreateConnectionTicketCommandHandler(
         IDateTimeProvider dateTimeProvider,
-        IConnectionRepository connectionRepository, 
+        IConnectionRepository connectionRepository,
         IConnectionTicketRepository connectionTicketRepository)
     {
         _dateTimeProvider = dateTimeProvider;
         _connectionRepository = connectionRepository;
         _connectionTicketRepository = connectionTicketRepository;
     }
-    
+
     public async Task<ErrorOr<Created>> Handle(CreateConnectionTicketCommand command, CancellationToken cancellationToken)
-    {   
+    {
         await Task.CompletedTask;
 
         if (_connectionRepository.Get(command.ConnectionId) is not { } connection)

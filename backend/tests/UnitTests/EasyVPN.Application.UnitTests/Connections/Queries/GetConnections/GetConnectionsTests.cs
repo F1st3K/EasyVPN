@@ -8,7 +8,7 @@ namespace EasyVPN.Application.UnitTests.Connections.Queries.GetConnections;
 public class GetConnectionsTests
 {
     private readonly GetConnectionsMocks _mocks = new();
-    
+
     [Fact]
     public async Task HandleGetConnectionsQuery_WhenPassClientId_Success()
     {
@@ -18,8 +18,8 @@ public class GetConnectionsTests
         _mocks.ConnectionRepository.Setup(x => x.GetAll())
             .Returns(
                 Constants.Connection.GetMore(5).Zip(Constants.User.GetMore(5))
-                    .Select(ids => 
-                        new Connection() { Id = ids.First, Client = new User() {Id = ids.Second } })
+                    .Select(ids =>
+                        new Connection() { Id = ids.First, Client = new User() { Id = ids.Second } })
             );
 
         //Act
@@ -29,23 +29,23 @@ public class GetConnectionsTests
         //Assert
         result.IsError.Should().BeFalse();
         result.Value.Validate(Constants.Connection.GetMore(5).Zip(Constants.User.GetMore(5))
-            .Select(ids => new Connection() { Id = ids.First, Client = new User() {Id = ids.Second } }).ToList());
+            .Select(ids => new Connection() { Id = ids.First, Client = new User() { Id = ids.Second } }).ToList());
     }
-    
+
     [Fact]
     public async Task HandleGetConnectionsQuery_WhenClientIdAllValid_Success()
     {
         //Arrange
         var query = new GetConnectionsQuery(Constants.User.Id);
-        
+
         _mocks.ConnectionRepository.Setup(x => x.GetAll())
             .Returns(
                 Constants.Connection.GetMore(5).Zip(Constants.User.GetMore(5))
-                    .Select(ids => 
-                        new Connection() { Id = ids.First, Client = new User() {Id = ids.Second }})
+                    .Select(ids =>
+                        new Connection() { Id = ids.First, Client = new User() { Id = ids.Second } })
                     .Concat(Constants.Connection.GetMore(5, 5)
-                        .Select(id => 
-                            new Connection(){Id = id, Client = new User() {Id = Constants.User.Id }})
+                        .Select(id =>
+                            new Connection() { Id = id, Client = new User() { Id = Constants.User.Id } })
                     )
             );
 
@@ -56,7 +56,7 @@ public class GetConnectionsTests
         //Assert
         result.IsError.Should().BeFalse();
         result.Value.Validate(Constants.Connection.GetMore(5, 5)
-            .Select(id => 
-                new Connection(){Id = id, Client = new User() {Id = Constants.User.Id } }).ToList());
+            .Select(id =>
+                new Connection() { Id = id, Client = new User() { Id = Constants.User.Id } }).ToList());
     }
 }

@@ -26,16 +26,16 @@ public class DynamicPagesController : ApiController
     public async Task<IActionResult> GetPages()
     {
         var pagesResult = await _sender.Send(new GetDynamicPagesQuery());
-        
+
         return pagesResult.Match(r => Ok(
             r.Select(p => new DynamicPageInfo(
-                    p.Route, 
-                    p.Title, 
-                    p.LastModified, 
+                    p.Route,
+                    p.Title,
+                    p.LastModified,
                     p.Created
                 ))), Problem);
     }
-    
+
     [AllowAnonymous]
     [HttpGet("{*pageRoute}")]
     public async Task<IActionResult> GetPage([FromRoute] string pageRoute)
@@ -43,7 +43,7 @@ public class DynamicPagesController : ApiController
         var getPageResult =
             await _sender.Send(new GetDynamicPageQuery(pageRoute));
 
-        
+
         return getPageResult.Match(r => Ok(new DynamicPageResponse(
                 r.Route,
                 r.Title,
@@ -52,40 +52,40 @@ public class DynamicPagesController : ApiController
                 r.Content ?? string.Empty
             )), Problem);
     }
-    
+
     [Authorize(Roles = Roles.PageModerator)]
     [HttpPost]
     public async Task<IActionResult> CreatePage([FromBody] DynamicPageRequest pageRequest)
     {
         var result = await _sender.Send(new CreateDynamicPageCommand(
-            pageRequest.Route, 
+            pageRequest.Route,
             pageRequest.Title,
             pageRequest.Base64Content
         ));
-        
+
         return result.Match(r => Created(), Problem);
     }
-    
+
     [Authorize(Roles = Roles.PageModerator)]
     [HttpPut("{*pageRoute}")]
     public async Task<IActionResult> UpdatePage([FromRoute] string pageRoute, [FromBody] DynamicPageRequest pageRequest)
     {
         var result = await _sender.Send(new UpdateDynamicPageCommand(
             pageRoute,
-            pageRequest.Route, 
+            pageRequest.Route,
             pageRequest.Title,
             pageRequest.Base64Content
         ));
-        
+
         return result.Match(r => Ok(), Problem);
     }
-    
+
     [Authorize(Roles = Roles.PageModerator)]
     [HttpDelete("{*pageRoute}")]
     public async Task<IActionResult> DeletePage([FromRoute] string pageRoute)
     {
         var result = await _sender.Send(new RemoveDynamicPageCommand(pageRoute));
-        
+
         return result.Match(r => Ok(), Problem);
     }
 }

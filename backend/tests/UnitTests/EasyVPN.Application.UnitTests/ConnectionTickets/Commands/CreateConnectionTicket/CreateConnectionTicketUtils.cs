@@ -8,7 +8,7 @@ namespace EasyVPN.Application.UnitTests.ConnectionTickets.Commands.CreateConnect
 public static class CreateConnectionTicketUtils
 {
     public static CreateConnectionTicketCommand CreateCommand()
-        => new (Constants.Connection.Id,
+        => new(Constants.Connection.Id,
             Constants.ConnectionTicket.Days,
             Constants.ConnectionTicket.Description,
             Constants.ConnectionTicket.Images);

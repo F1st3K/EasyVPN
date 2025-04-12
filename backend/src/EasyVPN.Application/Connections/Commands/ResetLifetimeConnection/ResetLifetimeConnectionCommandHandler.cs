@@ -36,11 +36,11 @@ public class ResetLifetimeConnectionCommandHandler : IRequestHandler<ResetLifeti
         connection.ExpirationTime = _dateTimeProvider.UtcNow;
         _connectionRepository.Update(connection);
 
-        if (_taskRepository.TryPopTask<DisableConnectionCommand>(connection.Id) is not {} disableCommand)
+        if (_taskRepository.TryPopTask<DisableConnectionCommand>(connection.Id) is not { } disableCommand)
             disableCommand = new DisableConnectionCommand(connection.Id);
-                
+
         var disableResult = await _sender.Send(disableCommand, cancellationToken);
-        
+
         if (disableResult.IsError)
             return disableResult.ErrorsOrEmptyList;
         return Result.Updated;

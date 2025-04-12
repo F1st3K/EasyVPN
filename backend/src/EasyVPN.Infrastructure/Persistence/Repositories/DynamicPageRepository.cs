@@ -25,15 +25,15 @@ public class DynamicPageRepository : IDynamicPageRepository
     public void Add(DynamicPage dynamicPage)
     {
         _dbContext.DynamicPages.Add(dynamicPage);
-        _dbContext.SaveChanges();   
+        _dbContext.SaveChanges();
     }
 
     public void Remove(string route)
     {
         if (_dbContext.DynamicPages.SingleOrDefault(p => p.Route == route)
-            is not {} page)
+            is not { } page)
             return;
-        
+
         _dbContext.DynamicPages.Remove(page);
         _dbContext.SaveChanges();
     }
@@ -41,14 +41,14 @@ public class DynamicPageRepository : IDynamicPageRepository
     public void Update(DynamicPage dynamicPage)
     {
         if (_dbContext.DynamicPages.SingleOrDefault(p => p.Route == dynamicPage.Route)
-            is not {} statePage)
+            is not { } statePage)
             return;
-        
+
         statePage.Title = dynamicPage.Title;
         statePage.Content = dynamicPage.Content;
         statePage.Created = dynamicPage.Created;
         statePage.LastModified = dynamicPage.LastModified;
-        
+
         _dbContext.DynamicPages.Update(statePage);
         _dbContext.SaveChanges();
     }

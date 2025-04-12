@@ -13,5 +13,5 @@ public static class GetConnectionTicketsUtils
     {
         first.Id.Should().Be(second.Id);
     }
-    
+
 }

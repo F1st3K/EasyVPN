@@ -7,7 +7,7 @@ namespace EasyVPN.Application.UnitTests.Connections.Commands.CreateConnection;
 public static class CreateConnectionUtils
 {
     public static CreateConnectionCommand CreateCommand()
-        => new (Constants.User.Id,
+        => new(Constants.User.Id,
             Constants.Server.Id);
 
     public static bool IsValid(this Connection connection)

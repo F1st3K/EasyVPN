@@ -22,7 +22,7 @@ public class GetConfigTests
             {
                 Id = Constants.Connection.Id,
                 Server = new() { Id = Constants.Server.Id },
-                Client = new User() {Id = Constants.User.Id }
+                Client = new User() { Id = Constants.User.Id }
             });
 
         _mocks.ServerRepository.Setup(x =>
@@ -58,7 +58,7 @@ public class GetConfigTests
             {
                 Id = Constants.Connection.Id,
                 Server = new() { Id = Constants.Server.Id },
-                Client = new User() {Id = Constants.User.Id }
+                Client = new User() { Id = Constants.User.Id }
             });
 
         _mocks.ServerRepository.Setup(x =>
@@ -128,7 +128,7 @@ public class GetConfigTests
             {
                 Id = Constants.Connection.Id,
                 Server = new() { Id = Constants.Server.Id },
-                Client = new User() {Id = Constants.User.Id }
+                Client = new User() { Id = Constants.User.Id }
             });
 
         _mocks.ServerRepository.Setup(x =>
