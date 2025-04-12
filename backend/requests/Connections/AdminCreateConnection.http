@@ -1,4 +1,0 @@
-@clientId = a125f63a-5919-4e91-ab80-625b75ef76c8
-@serverId = 00000000-0000-0000-0000-000000000000
-POST {{host}}/client/{{clientId}}/connections?serverId={{serverId}}
-Authorization: Bearer {{adminToken}}

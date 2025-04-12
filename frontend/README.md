@@ -17,8 +17,8 @@
 docker run -d \
   --name frontend \
   -p 3000:3000 `#your port` \
-  -p REACT_APP_API_URL=https://localhost:80/api/ \
-  -p REACT_APP_AUTH_CHECK_MINUTES=15 \
+  -e REACT_APP_API_URL=https://localhost:80/api/ \
+  -e REACT_APP_AUTH_CHECK_MINUTES=15 \
   easyvpn/frontend:latest
 ```
 

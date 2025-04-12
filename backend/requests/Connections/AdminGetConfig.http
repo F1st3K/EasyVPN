@@ -1,3 +1,0 @@
-@connectionId = 0d83108d-e9ed-4bc0-80c1-456146c982e0
-GET {{host}}/connections/{{connectionId}}/config
-Authorization: Bearer {{adminToken}}

@@ -1,9 +1,0 @@
-POST {{host}}/auth/register
-Content-Type: application/json
-
-{
-    "firstName": "Freak",
-    "lastName": "Fister",
-    "login": "F1st3K",
-    "password": "fisty123"
-}

@@ -44,6 +44,7 @@ docker run -d \
 ```bash
 docker run -d \
   --name backend \
+  -e ConnectionStrings__Postgres='User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;' \
   -p 80:80 `#your port`\
   easyvpn/backend:latest
 ```
