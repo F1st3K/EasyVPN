@@ -16,7 +16,7 @@ public class ProtocolRepository : IProtocolRepository
     {
         return _dbContext.Protocols.SingleOrDefault(p => p.Id == id);
     }
-    
+
     public IEnumerable<Protocol> GetAll()
     {
         return _dbContext.Protocols;

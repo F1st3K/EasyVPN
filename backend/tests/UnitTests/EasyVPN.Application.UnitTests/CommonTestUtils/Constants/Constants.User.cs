@@ -13,8 +13,8 @@ public static partial class Constants
         public const string Password = "pass1234";
         public const string HashPassword = "hashpass1234";
         public const string Token = "token";
-        public const RoleType Role = RoleType.Client; 
-        
+        public const RoleType Role = RoleType.Client;
+
         public static IEnumerable<Guid> GetMore(int start = 0, int count = 10)
         {
             for (int i = start; i < count + start; i++)

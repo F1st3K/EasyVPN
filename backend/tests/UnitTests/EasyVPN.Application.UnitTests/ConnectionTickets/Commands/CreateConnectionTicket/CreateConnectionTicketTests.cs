@@ -10,7 +10,7 @@ namespace EasyVPN.Application.UnitTests.ConnectionTickets.Commands.CreateConnect
 public class CreateConnectionTicketTests
 {
     private readonly CreateConnectionTicketMocks _mocks = new();
-    
+
     [Fact]
     public async Task HandleCreateConnectionTicketCommand_WhenIsAllValid_Success()
     {
@@ -19,7 +19,7 @@ public class CreateConnectionTicketTests
 
         _mocks.ConnectionRepository.Setup(x
                 => x.Get(Constants.Connection.Id))
-            .Returns(new Connection() { Id = Constants.Connection.Id, Client = new User() {Id = Constants.User.Id } });
+            .Returns(new Connection() { Id = Constants.Connection.Id, Client = new User() { Id = Constants.User.Id } });
 
         //Act
         var handler = _mocks.CreateHandler();

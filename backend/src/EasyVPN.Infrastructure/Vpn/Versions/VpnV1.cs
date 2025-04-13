@@ -12,7 +12,7 @@ public class VpnV1 : IVpnService
     {
         try
         {
-            var client = new HttpClient(){ BaseAddress = new Uri(connectionString.Endpoint) };
+            var client = new HttpClient() { BaseAddress = new Uri(connectionString.Endpoint) };
             var basicAuth = new AuthenticationHeaderValue("Basic",
                 Convert.ToBase64String(Encoding.UTF8.GetBytes(connectionString.Auth)));
 

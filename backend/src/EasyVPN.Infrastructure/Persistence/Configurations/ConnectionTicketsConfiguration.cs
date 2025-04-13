@@ -13,13 +13,13 @@ public class ConnectionTicketsConfiguration : IEntityTypeConfiguration<Connectio
         builder.ToTable("ConnectionTickets");
 
         builder.HasKey(ct => ct.Id);
-        
+
         builder
             .HasOne<Connection>()
             .WithMany()
             .HasForeignKey(ct => ct.ConnectionId)
             .IsRequired();
-        
+
         builder
             .HasOne(ct => ct.Client)
             .WithMany()
@@ -28,19 +28,19 @@ public class ConnectionTicketsConfiguration : IEntityTypeConfiguration<Connectio
 
         builder.Property(ct => ct.Status)
             .HasConversion(
-                status => status.ToString(), 
+                status => status.ToString(),
                 s => Enum.Parse<ConnectionTicketStatus>(s))
             .HasMaxLength(32);
         builder.Property(с => с.CreationTime)
             .HasMaxLength(28);
         builder.Property(с => с.Days);
         builder.Property(ct => ct.PaymentDescription);
-        
+
         builder.Property(ct => ct.Images).
             HasConversion(image =>
                     string.Join(';', image
                         .Select(i => i.ToString())),
-                str => 
+                str =>
                     str.Split(";", StringSplitOptions.None));
     }
 }

@@ -17,7 +17,7 @@ public class AddLifetimeConnectionMocks
 
     public AddLifetimeConnectionCommandHandler CreateHandler()
     {
-        
+
         var mockDateTimeProvider = new Mock<IDateTimeProvider>();
         mockDateTimeProvider.Setup(x => x.UtcNow)
             .Returns(Constants.Time.Now);

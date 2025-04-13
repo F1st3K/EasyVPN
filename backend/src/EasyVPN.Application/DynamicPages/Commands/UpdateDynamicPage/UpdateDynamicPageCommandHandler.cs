@@ -22,9 +22,9 @@ public class UpdateDynamicPageCommandHandler : IRequestHandler<UpdateDynamicPage
     {
         await Task.CompletedTask;
 
-        if (_dynamicPageRepository.Get(command.Route) is not {} page)
+        if (_dynamicPageRepository.Get(command.Route) is not { } page)
             return Errors.DynamicPage.NotFound;
-        
+
         var newPage = new DynamicPage
         {
             Route = command.NewRoute,

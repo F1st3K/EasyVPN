@@ -31,7 +31,8 @@ public class ServersConfiguration : IEntityTypeConfiguration<Server>
                 v => v.Endpoint.Split("://", StringSplitOptions.None).First() +
                     "://" + v.Auth + "@" +
                     v.Endpoint.Split("://", StringSplitOptions.None).Last(),
-                s => new ConnectionString {
+                s => new ConnectionString
+                {
                     Auth = s.Split("://", StringSplitOptions.None).Last()
                         .Split("@", StringSplitOptions.None).First(),
                     Endpoint = s.Split("://", StringSplitOptions.None).First() +

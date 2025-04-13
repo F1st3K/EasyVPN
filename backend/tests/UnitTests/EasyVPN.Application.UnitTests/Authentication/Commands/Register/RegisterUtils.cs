@@ -20,7 +20,7 @@ public static class RegisterUtils
 
     public static bool IsValid(this User user)
         => user.Roles.Any(r => r == Constants.User.Role)
-           && user.Roles.Count() == 1 
+           && user.Roles.Count() == 1
            && user.FirstName == Constants.User.FirstName
            && user.LastName == Constants.User.LastName
            && user.Login == Constants.User.Login

@@ -8,8 +8,8 @@ public class TaskRepository : ITaskRepository
 {
     private readonly Dictionary<
         (Guid id, Type typeRequest),
-        (DateTime execTime, IBaseRequest request, Type typeResponse)> _tasks = new ();
-    
+        (DateTime execTime, IBaseRequest request, Type typeResponse)> _tasks = new();
+
     public void PushTask<TResponse>(Guid taskId, DateTime execTime, IRequest<ErrorOr<TResponse>> request)
     {
         _tasks[(taskId, request.GetType())] = (execTime, request, typeof(TResponse));
@@ -19,11 +19,11 @@ public class TaskRepository : ITaskRepository
     {
         if (_tasks.TryGetValue((taskId, typeof(TRequest)), out var task) == false)
             return default;
-        
+
         _tasks.Remove((taskId, typeof(TRequest)));
-        return (TRequest) task.request;
+        return (TRequest)task.request;
     }
-    
+
     public void RemoveTaskIfExist(Guid taskId, Type requestType)
     {
         _tasks.Remove((taskId, requestType));
@@ -34,8 +34,8 @@ public class TaskRepository : ITaskRepository
         (DateTime execTime, IBaseRequest request, Type typeResponse)> GetTasks()
     {
         return _tasks.ToDictionary(
-            x => x.Key, 
-            x => 
+            x => x.Key,
+            x =>
                 (x.Value.execTime, x.Value.request, x.Value.typeResponse));
     }
 }

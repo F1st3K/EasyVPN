@@ -1,6 +1,6 @@
 # EasyVPN frontend
-Приложение веб-интерфейс, имеющее простой UI. (TypeScript + React)
 
+Приложение веб-интерфейс, имеющее простой UI. (TypeScript + React)
 
 ## Configuration
 > Конфигурация web-интерфейса находится в [`config.ts`](./src/config.ts), подменяется посредством enviroment переменных:
@@ -10,9 +10,10 @@
 `REACT_APP_AUTH_CHECK_MINUTES=15` - переодичность в минутах, с которой автоматически проверяется авторизация
 (так же авторизация автоматически проверяется при изменении навигации)
 
-
 ## Deploy (docker)
+
 Для запуска сервиса в докер-контейнере используйте следующую команду:
+
 ```bash
 docker run -d \
   --name frontend \
@@ -21,4 +22,3 @@ docker run -d \
   -e REACT_APP_AUTH_CHECK_MINUTES=15 \
   easyvpn/frontend:latest
 ```
-

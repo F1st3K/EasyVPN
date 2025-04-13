@@ -17,7 +17,7 @@ public class UsersConfiguration : IEntityTypeConfiguration<User>
             .HasConversion(role =>
                     string.Join(';', role
                         .Select(r => r.ToString())),
-                str => 
+                str =>
                     str.Split(";", StringSplitOptions.None)
                         .Select(Enum.Parse<RoleType>));
 

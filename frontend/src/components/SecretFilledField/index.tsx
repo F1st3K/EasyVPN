@@ -12,7 +12,12 @@ interface SecretFieldProps extends FilledInputProps {
     error?: boolean;
 }
 
-const SecretOutlinedField: FC<SecretFieldProps> = ({ label, sx, error, ...props }: SecretFieldProps) => {
+const SecretOutlinedField: FC<SecretFieldProps> = ({
+    label,
+    sx,
+    error,
+    ...props
+}: SecretFieldProps) => {
     const [show, setShow] = useState(false);
 
     return (

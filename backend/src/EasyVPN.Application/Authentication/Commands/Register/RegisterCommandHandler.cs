@@ -28,7 +28,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        
+
         if (_userRepository.GetByLogin(command.Login) is not null)
             return Errors.User.DuplicateLogin;
 
@@ -36,7 +36,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         var user = new User
         {
             Id = userId,
-            Roles = new [] { RoleType.Client },
+            Roles = new[] { RoleType.Client },
             FirstName = command.FirstName,
             LastName = command.LastName,
             Login = command.Login,
@@ -44,9 +44,9 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         };
         _userRepository.Add(user);
 
-        
+
         var token = _jwtTokenGenerator.GenerateToken(user);
-        
+
         return new AuthenticationResult(user, token);
     }
 }

@@ -7,7 +7,7 @@ namespace EasyVPN.Application.UnitTests.ConnectionTickets.Queries.GetConnectionT
 public class GetConnectionTicketsMocks
 {
     public readonly Mock<IConnectionTicketRepository> ConnectionTicketRepository = new();
-    
+
     public GetConnectionTicketsQueryHandler CreateHandler()
     {
         return new GetConnectionTicketsQueryHandler(

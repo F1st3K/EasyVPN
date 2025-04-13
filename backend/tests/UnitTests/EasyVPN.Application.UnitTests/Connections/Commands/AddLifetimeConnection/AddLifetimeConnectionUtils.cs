@@ -7,12 +7,12 @@ namespace EasyVPN.Application.UnitTests.Connections.Commands.AddLifetimeConnecti
 public static class AddLifetimeConnectionUtils
 {
     public static AddLifetimeConnectionCommand CreateCommand()
-        => new (Constants.Connection.Id, Constants.Connection.Days);
+        => new(Constants.Connection.Id, Constants.Connection.Days);
 
     public static bool ExtendIsValid(this Connection connection)
         => connection.Server.Id == Constants.Server.Id
            && connection.ExpirationTime == Constants.Connection.ExpirationTime.AddDays(Constants.Connection.Days);
-    
+
     public static bool ActivateIsValid(this Connection connection)
         => connection.Server.Id == Constants.Server.Id
            && connection.ExpirationTime == Constants.Time.Now.AddDays(Constants.Connection.Days);
