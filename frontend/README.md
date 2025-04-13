@@ -3,6 +3,7 @@
 Приложение веб-интерфейс, имеющее простой UI. (TypeScript + React)
 
 ## Configuration
+
 > Конфигурация web-интерфейса находится в [`config.ts`](./src/config.ts), подменяется посредством enviroment переменных:
 
 `REACT_APP_API_URL=https://localhost:80/api/` - URL к развернотому [`EasyVPN backend`](../backend/README.md), с которым общается веб-интерфейс
