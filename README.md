@@ -1,3 +1,12 @@
+[![readme-ru-shield]][readme-ru-url]
+[![readme-en-shield]][readme-en-url]
+
+[readme-ru-shield]: https://img.shields.io/badge/ru-blue
+[readme-ru-url]: README.md
+[readme-en-shield]: https://img.shields.io/badge/en-gray
+[readme-en-url]: README.en_EN.md
+
+
 # EasyVPN
 Простое VPN + Backend + Frontend приложение на одном сервере!
 
@@ -39,4 +48,3 @@ docker-compose --env-file .env.dev up --build
 
 Так же для независимого развертывания компонентов web-приложения `EasyVPN`, можно воспользоваться документацией для каждого сервиса:
 [EasyVPN backend](backend/README.md), [EasyVPN frontend](/frontend/README.md), [EasyVPN init](/init/README.md), а так же остальные [EasyVPN services](/services/README.md).
-

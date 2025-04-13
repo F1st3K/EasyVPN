@@ -1,3 +1,11 @@
+[![readme-ru-shield]][readme-ru-url]
+[![readme-en-shield]][readme-en-url]
+
+[readme-ru-shield]: https://img.shields.io/badge/ru-blue
+[readme-ru-url]: README.md
+[readme-en-shield]: https://img.shields.io/badge/en-gray
+[readme-en-url]: README.en_EN.md
+
 # EasyVPN init
 Серивис инициализации данных, очень простой и быстрый, который лазит в api и db (bash + SQL)
 
