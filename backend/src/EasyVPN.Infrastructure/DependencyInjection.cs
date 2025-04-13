@@ -26,34 +26,34 @@ public static class DependencyInjection
         services.AddPersistence(configuration)
                 .AddAuth(configuration)
                 .AddExpirationChecker(configuration);
-        
+
         return services;
     }
-    
+
     private static IServiceCollection AddPersistence(
         this IServiceCollection services,
         ConfigurationManager configuration)
     {
         var connectionStrings = new Settings.Options.ConnectionStrings();
         configuration.Bind(Settings.Options.ConnectionStrings.SectionName, connectionStrings);
-        
+
         services.AddDbContext<EasyVpnDbContext>(options =>
             options.UseNpgsql(connectionStrings.Postgres));
-        
+
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-        
+
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IServerRepository, ServerRepository>();
         services.AddScoped<IProtocolRepository, ProtocolRepository>();
         services.AddScoped<IConnectionRepository, ConnectionRepository>();
         services.AddScoped<IConnectionTicketRepository, ConnectionTicketRepository>();
         services.AddScoped<IDynamicPageRepository, DynamicPageRepository>();
-        
+
         services.AddScoped<IVpnServiceFactory, VpnServiceFactory>();
-        
+
         return services;
     }
-    
+
     private static IServiceCollection AddAuth(
         this IServiceCollection services,
         ConfigurationManager configuration)
@@ -62,14 +62,14 @@ public static class DependencyInjection
         configuration.Bind(Settings.Options.Jwt.SectionName, hashSettings);
         services.AddSingleton(Options.Create(hashSettings));
         services.AddSingleton<IHashGenerator, HashGenerator>();
-        
+
         var jwtSettings = new Settings.Options.Jwt();
         configuration.Bind(Settings.Options.Jwt.SectionName, jwtSettings);
         services.AddSingleton(Options.Create(jwtSettings));
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
 
         services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options => options.TokenValidationParameters = new ()
+            .AddJwtBearer(options => options.TokenValidationParameters = new()
             {
                 ValidateIssuer = true,
                 ValidateAudience = true,
@@ -80,7 +80,7 @@ public static class DependencyInjection
                 IssuerSigningKey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(jwtSettings.Secret))
             });
-        
+
         return services;
     }
 

@@ -13,7 +13,7 @@ public class GetConnectionTicketsQueryHandler : IRequestHandler<GetConnectionTic
     {
         _connectionTicketRepository = connectionTicketRepository;
     }
-    
+
     public async Task<ErrorOr<List<ConnectionTicket>>> Handle(GetConnectionTicketsQuery query, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
@@ -22,7 +22,7 @@ public class GetConnectionTicketsQueryHandler : IRequestHandler<GetConnectionTic
 
         if (query.ClientId is { } clientId)
             connectionTickets = connectionTickets.Where(c => c.Client.Id == clientId);
-            
+
         return connectionTickets.ToList();
     }
 }

@@ -14,7 +14,7 @@ interface PaymentConnectionFormProps {
 const PaymentConnectionForm: FC<PaymentConnectionFormProps> = (props) => {
     const [days, setDays] = useState<number>(props.paymentInfo?.days ?? 30);
     const [desc, setDesc] = useState<string>(props.paymentInfo?.description ?? '');
-    const [images, setImages] = useState<string[]>(props.paymentInfo?.images ?? []);
+    const [images] = useState<string[]>(props.paymentInfo?.images ?? []);
 
     useEffect(() => {
         props.onChange &&

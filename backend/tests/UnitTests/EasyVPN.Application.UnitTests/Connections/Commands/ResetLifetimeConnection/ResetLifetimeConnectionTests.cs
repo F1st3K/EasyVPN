@@ -61,8 +61,8 @@ public class ResetLifetimeConnectionTests
             });
 
         _mocks.Sender.Setup(x
-                => x.Send(It.Is<DisableConnectionCommand>(c 
-                    => c.ConnectionId == Constants.Connection.Id), 
+                => x.Send(It.Is<DisableConnectionCommand>(c
+                    => c.ConnectionId == Constants.Connection.Id),
                     It.IsAny<CancellationToken>()))
             .Returns(Task.Run<ErrorOr<Updated>>(() => Constants.Connection.VpnServiceError));
 

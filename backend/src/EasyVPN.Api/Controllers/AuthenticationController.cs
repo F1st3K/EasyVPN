@@ -88,8 +88,8 @@ public class AuthenticationController : ApiController
     [Authorize]
     public async Task<IActionResult> Check()
     {
-        if (User.GetCurrentId() is not {} id
-            || Request.GetCurrentToken() is not {} token)
+        if (User.GetCurrentId() is not { } id
+            || Request.GetCurrentToken() is not { } token)
             return Unauthorized();
 
         var query = new GetUserQuery(id);

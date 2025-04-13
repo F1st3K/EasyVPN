@@ -4,18 +4,84 @@ on:
   pull_request:
     branches:
       - main 
-
 jobs:
   build_compose:
     name: Build docker compose 
-    
     runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
 
-    - name: Run docker compose
-      uses: hoverkraft-tech/compose-action@v2.0.1
-      with:
-        up-flags: "--build"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v1
+
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/v2.30.3/docker-compose-linux-x86_64" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Build and start services with Docker Compose
+        run: |
+          docker-compose --env-file .env.dev --profile init up --build -d
+
+      - name: Wait test running
+        run: |
+          for i in {1..9}; do
+            if docker ps -q | grep -q .; then
+              echo "Containers are up and running."
+              break
+            fi
+            echo "Waiting for containers to start... Attempt $i/30"
+            sleep 10
+          done
+
+          duration=210
+
+          while [ $duration -gt 0 ]; do
+              sleep 1
+              ((duration--))
+              mins=$((duration / 60))
+              secs=$((duration % 60))
+              printf "\r⏳ Waiting test running: %02d:%02d" $mins $secs
+          done
+          echo ""
+
+      - name: Test passed
+        run: |
+          valid_last_restart=90
+
+          # Get the list of running containers
+          containers=$(docker ps -a --format "{{.Names}}")
+
+          # Get the current time in seconds
+          current_time=$(date +%s)
+
+          error_code=0
+          for container in $containers; do
+            # Get the last restart time of the container
+            last_restart=$(docker inspect --format '{{.State.StartedAt}}' $container)
+            last_exit_code=$(docker inspect --format '{{.State.ExitCode}}' $container)
+            restarts=$(docker inspect --format='{{ .RestartCount }}' "$container")
+          
+            # Convert the last restart time to seconds
+            last_restart_seconds=$(date --date="$last_restart" +%s)
+
+            # Calculate the time difference from the current time in seconds
+            time_diff=$((current_time - last_restart_seconds))
+
+            if [[ "$last_exit_code" -ne 0 ]]; then
+              echo "❌ $container - restarts: $restarts, exit code: $last_exit_code, last restart: $time_diff sec ago. Failing exit code the test."
+              error_code=1
+            elif [[ "$time_diff" -lt "$valid_last_restart" ]]; then
+              echo "❌ $container - restarts: $restarts, exit code: $last_exit_code, last restart: $time_diff sec ago. Failing last restart the test."
+              error_code=1
+            else
+              echo "✅ $container - restarts: $restarts, exit code: $last_exit_code, last restart: $time_diff sec ago. Sucsess."
+            fi
+          done
+          exit $error_code
+
+      - name: Stop Docker Compose
+        run: |
+          docker-compose --env-file .env.dev --profile init down

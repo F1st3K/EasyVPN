@@ -11,9 +11,9 @@ namespace EasyVPN.Application.UnitTests.Authentication.Queries.Login;
 public class LoginMocks
 {
     public readonly Mock<IUserRepository> UserRepository = new();
-    public readonly Mock<IJwtTokenGenerator> JwtTokenGenerator  = new();
-    public readonly Mock<IHashGenerator> HashGenerator  = new();
-    
+    public readonly Mock<IJwtTokenGenerator> JwtTokenGenerator = new();
+    public readonly Mock<IHashGenerator> HashGenerator = new();
+
     public LoginQueryHandler CreateHandler()
     {
         JwtTokenGenerator.Setup(x =>

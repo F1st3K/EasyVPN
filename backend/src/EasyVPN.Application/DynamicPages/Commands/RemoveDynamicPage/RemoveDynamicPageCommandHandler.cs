@@ -20,9 +20,9 @@ public class RemoveDynamicPageCommandHandler : IRequestHandler<RemoveDynamicPage
     {
         await Task.CompletedTask;
 
-        if (_dynamicPageRepository.Get(command.Route) is not {} page)
+        if (_dynamicPageRepository.Get(command.Route) is not { } page)
             return Errors.DynamicPage.NotFound;
-        
+
         _dynamicPageRepository.Remove(page.Route);
 
         return Result.Deleted;

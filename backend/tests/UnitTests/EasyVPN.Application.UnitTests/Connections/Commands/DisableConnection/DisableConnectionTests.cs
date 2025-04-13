@@ -24,8 +24,8 @@ public class DisableConnectionTests
                 Server = new() { Id = Constants.Server.Id },
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
-        
-        _mocks.VpnServiceFactory.Setup(x 
+
+        _mocks.VpnServiceFactory.Setup(x
                 => x.GetVpnService(It.IsAny<Server>()))
             .Returns(_mocks.VpnService.Object);
 
@@ -53,12 +53,12 @@ public class DisableConnectionTests
                 Server = new() { Id = Constants.Server.Id },
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
-        
-        _mocks.VpnServiceFactory.Setup(x 
+
+        _mocks.VpnServiceFactory.Setup(x
                 => x.GetVpnService(It.IsAny<Server>()))
             .Returns(_mocks.VpnService.Object);
 
-        _mocks.VpnService.Setup(x 
+        _mocks.VpnService.Setup(x
                 => x.DisableClient(Constants.Connection.Id))
             .Returns(Constants.Connection.VpnServiceError);
 
@@ -80,8 +80,8 @@ public class DisableConnectionTests
         _mocks.ConnectionRepository.Setup(x
                 => x.Get(Constants.Connection.Id))
             .Returns(() => null);
-        
-        _mocks.VpnServiceFactory.Setup(x 
+
+        _mocks.VpnServiceFactory.Setup(x
                 => x.GetVpnService(It.IsAny<Server>()))
             .Returns(_mocks.VpnService.Object);
 

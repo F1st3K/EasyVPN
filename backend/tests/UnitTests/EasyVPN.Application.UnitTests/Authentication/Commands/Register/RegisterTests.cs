@@ -9,7 +9,7 @@ namespace EasyVPN.Application.UnitTests.Authentication.Commands.Register;
 public class RegisterTests
 {
     private readonly RegisterMocks _mocks = new();
-    
+
     [Fact]
     public async Task HandleRegisterCommand_WhenIsAllValid_Success()
     {
@@ -27,11 +27,11 @@ public class RegisterTests
         //Assert
         result.IsError.Should().BeFalse();
         result.Value.IsValid().Should().BeTrue();
-        
-        _mocks.UserRepository.Verify(x => 
+
+        _mocks.UserRepository.Verify(x =>
             x.Add(It.Is<User>(u => u.IsValid())));
     }
-    
+
     [Fact]
     public async Task HandleRegisterCommand_WhenUserExist_Error()
     {

@@ -15,14 +15,14 @@ public class EasyVpnDbContext : DbContext
     public EasyVpnDbContext(DbContextOptions<EasyVpnDbContext> options)
         : base(options)
     {
-        
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
             .ApplyConfigurationsFromAssembly(typeof(EasyVpnDbContext).Assembly);
-        
+
         base.OnModelCreating(modelBuilder);
     }
 }

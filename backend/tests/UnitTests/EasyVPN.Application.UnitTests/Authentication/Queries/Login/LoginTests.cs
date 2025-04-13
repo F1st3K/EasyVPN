@@ -10,7 +10,7 @@ namespace EasyVPN.Application.UnitTests.Authentication.Queries.Login;
 public class LoginTests
 {
     private readonly LoginMocks _mocks = new();
-    
+
     [Fact]
     public async Task HandleLoginQuery_WhenIsAllValid_Success()
     {
@@ -22,13 +22,13 @@ public class LoginTests
             .Returns(new User
             {
                 Id = Constants.User.Id,
-                Roles = new [] { RoleType.Client },
+                Roles = new[] { RoleType.Client },
                 FirstName = Constants.User.FirstName,
                 LastName = Constants.User.LastName,
                 Login = Constants.User.Login,
                 HashPassword = Constants.User.HashPassword
             });
-        
+
         _mocks.HashGenerator.Setup(x => x.Hash(It.IsAny<string>()))
             .Returns(Constants.User.HashPassword);
 
@@ -40,7 +40,7 @@ public class LoginTests
         result.IsError.Should().BeFalse();
         result.Value.IsValid().Should().BeTrue();
     }
-    
+
     [Fact]
     public async Task HandleLoginQuery_WhenInvalidLogin_Error()
     {
@@ -50,7 +50,7 @@ public class LoginTests
         _mocks.UserRepository.Setup(x =>
                 x.GetByLogin(Constants.User.Login))
             .Returns(() => null);
-        
+
         _mocks.HashGenerator.Setup(x => x.Hash(It.IsAny<string>()))
             .Returns(Constants.User.HashPassword);
 
@@ -62,7 +62,7 @@ public class LoginTests
         result.IsError.Should().BeTrue();
         result.FirstError.Should().Be(Errors.Authentication.InvalidCredentials);
     }
-    
+
     [Fact]
     public async Task HandleLoginQuery_WhenPasswordInvalid_Error()
     {
@@ -74,7 +74,7 @@ public class LoginTests
             .Returns(new User
             {
                 Id = Constants.User.Id,
-                Roles = new [] { RoleType.Client },
+                Roles = new[] { RoleType.Client },
                 FirstName = Constants.User.FirstName,
                 LastName = Constants.User.LastName,
                 Login = Constants.User.Login,

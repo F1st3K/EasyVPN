@@ -8,7 +8,7 @@ namespace EasyVPN.Application.UnitTests.ConnectionTickets.Commands.ConfirmConnec
 public static class ConfirmConnectionTicketUtils
 {
     public static ConfirmConnectionTicketCommand CreateCommand()
-        => new (Constants.ConnectionTicket.Id);
+        => new(Constants.ConnectionTicket.Id);
 
     public static bool IsValid(this ConnectionTicket connectionTicket)
         => connectionTicket.Id == Constants.ConnectionTicket.Id

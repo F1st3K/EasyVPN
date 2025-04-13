@@ -15,5 +15,5 @@ public static class GetConnectionsUtils
     {
         first.Id.Should().Be(second.Id);
     }
-    
+
 }

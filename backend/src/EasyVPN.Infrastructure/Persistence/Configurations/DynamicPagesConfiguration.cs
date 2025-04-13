@@ -11,13 +11,13 @@ public class DynamicPagesConfiguration : IEntityTypeConfiguration<DynamicPage>
         builder.ToTable("DynamicPages");
 
         builder.HasKey(p => p.Route);
-        
+
         builder.Property(p => p.Title).HasMaxLength(40);
-        
+
         builder.Property(p => p.Content);
 
         builder.Property(p => p.Created);
-        
+
         builder.Property(p => p.LastModified);
     }
 }
