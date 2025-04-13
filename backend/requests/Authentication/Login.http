@@ -1,7 +1,0 @@
-POST {{host}}/auth/login
-Content-Type: application/json
-
-{
-    "login": "god",
-    "password": "god"
-}

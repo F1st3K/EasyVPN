@@ -1,3 +1,0 @@
-@clientId = 7673b7c8-e583-4e28-aa6a-11e06822a48c
-GET {{host}}/payment/tickets?clientId={{clientId}}
-Authorization: Bearer {{PaymentToken}}

@@ -46,10 +46,17 @@ const Footer: FC = () => {
                     </Link>
                 </Typography>
                 <Typography variant="body2" color="text.secondary" align="center">
-                    {' Copyright © '}
-                    {new Date().getFullYear()}
-                    {' EasyVPN '}
-                    {Package.version}
+                    <Link
+                        href="https://creativecommons.org/licenses/by-nc/4.0/
+"
+                        color="text.secondary"
+                        underline="hover"
+                    >
+                        {' Copyright © '}
+                        {new Date().getFullYear()}
+                        {' EasyVPN '}
+                        {Package.version}
+                    </Link>
                 </Typography>
             </Container>
         </Paper>

@@ -1,5 +1,14 @@
+[![readme-ru-shield]][readme-ru-url]
+[![readme-en-shield]][readme-en-url]
+
+[readme-ru-shield]: https://img.shields.io/badge/ru-blue
+[readme-ru-url]: README.md
+[readme-en-shield]: https://img.shields.io/badge/en-gray
+[readme-en-url]: README.en_EN.md
+
+
 # EasyVPN
-Простое VPN + Backend + Frontend приложения на одном сервере!
+Простое VPN + Backend + Frontend приложение на одном сервере!
 
 ## Single Deploy (docker-compose)
 Для развертывания `EasyVPN` на одном единственном сервере используйте `Docker Compose` :
@@ -32,6 +41,10 @@ git clone https://github.com/F1st3K/EasyVPN
 docker-compose --env-file .env.dev --profile init up --build
 ```
 
-Так же для независимого развертывания компонентов web-приложения `EasyVPN`, можно воспользоваться документацией для каждого проекта:
-[EasyVPN backend](backend/README.md) и [EasyVPN frontend](/frontend/README.md), а так же [WireguardVpn](services/WireguardVpn/README.md).
+> `--profile init` -  используется при первом запуске для инициализации данных, далее просто сборка и запуск:
+```bash
+docker-compose --env-file .env.dev up --build
+```
 
+Так же для независимого развертывания компонентов web-приложения `EasyVPN`, можно воспользоваться документацией для каждого сервиса:
+[EasyVPN backend](backend/README.md), [EasyVPN frontend](/frontend/README.md), [EasyVPN init](/init/README.md), а так же остальные [EasyVPN services](/services/README.md).

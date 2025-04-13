@@ -1,5 +1,0 @@
-@connectionTicketId = 48a2403f-2a25-4fd6-a490-eb943d401cd1
-@days = 14
-PUT {{host}}/payment/tickets/{{connectionTicketId}}/confirm?days={{days}}
-Authorization: Bearer {{PaymentToken}}
-Content-Type: application/json
