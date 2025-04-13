@@ -24,7 +24,7 @@ jobs:
       run: |
           cp -r ./services/TelegramBot /tmp/TelegramBot
           rm -rf .[^.]* ..?* *
-          cp -r /tmp/TelegramBot/* ./ 
+          cp -r /tmp/TelegramBot/. ./ 
 
     - name: Install deeps 
       run: | 
