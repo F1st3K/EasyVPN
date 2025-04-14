@@ -21,6 +21,7 @@ services:
       - API=http://backend:80
       - DB_CONNECTION_STRING=postgresql://${MAIN_DB_USER}:${MAIN_DB_PASSWORD}@database:5432
       - CREATE_SECURITY_KEEPER=${INIT_SECURITY_KEEPER:-NO}
+      - CREATE_DYNAMIC_PAGES=${INIT_DYNAMIC_PAGES:-NO}
     restart: no
     networks:
       - easy-vpn
