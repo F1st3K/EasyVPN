@@ -1,4 +1,5 @@
 import { Alert, Box, LinearProgress, Paper } from '@mui/material';
+import { Buffer } from 'buffer';
 import React, { useContext } from 'react';
 import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -27,7 +28,7 @@ export function parseInput(data: string): Page {
         if (countBraces >= 2) content += line + '\n';
     });
 
-    return { route, title, base64Content: btoa(encodeURIComponent(content)) };
+    return { route, title, base64Content: Buffer.from(content).toString('base64') };
 }
 
 const CreateDynamicPage: FC = () => {

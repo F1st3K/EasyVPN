@@ -30,7 +30,7 @@ else
 fi
 
 
-echo "🟢 Initialization run..."
+echo "🟢 Initialization run at: $(date +'%Y-%m-%d %H:%M:%S')"
 
 
 # Create security keeper
