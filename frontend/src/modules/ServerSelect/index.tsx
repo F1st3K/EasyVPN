@@ -1,8 +1,8 @@
 import { Autocomplete, Box, TextField } from '@mui/material';
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect } from 'react';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Server, VpnVersion } from '../../api';
+import EasyVpn, { ApiError, Server } from '../../api';
 import { useRequest } from '../../hooks';
 
 interface ServerSelectProps {

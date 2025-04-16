@@ -15,7 +15,7 @@ jobs:
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
-        node-version: 20
+        node-version: 22
 
     - name: Checkout code
       uses: actions/checkout@v4
@@ -24,16 +24,18 @@ jobs:
       run: |
           cp -r ./frontend /tmp/frontend
           rm -rf .[^.]* ..?* *
-          cp -r /tmp/frontend/* ./ 
+          cp -r /tmp/frontend/. ./ 
 
     - name: Install deeps 
       run: npm install
+
+    - name: Lint
+      run: |
+        npx eslint . --ext .ts,.tsx
+        npx prettier . --check 
 
     - name: Build
       run: npm run build 
       
     - name: Test
-      run: npm test
-
-    - name: Lint
-      run: npx eslint ./ 
+      run: npm test --passWithNoTests

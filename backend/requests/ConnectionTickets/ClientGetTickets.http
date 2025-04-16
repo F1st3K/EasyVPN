@@ -1,2 +1,0 @@
-GET {{host}}/my/tickets
-Authorization: Bearer {{clientToken}}

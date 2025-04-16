@@ -15,14 +15,14 @@ public class RejectConnectionTicketCommandHandler : IRequestHandler<RejectConnec
     {
         _connectionTicketRepository = connectionTicketRepository;
     }
-    
+
     public async Task<ErrorOr<Success>> Handle(RejectConnectionTicketCommand command, CancellationToken cancellationToken)
-    {   
+    {
         await Task.CompletedTask;
 
         if (_connectionTicketRepository.Get(command.Id) is not { } ticket)
             return Errors.ConnectionTicket.NotFound;
-        
+
         if (ticket.Status != ConnectionTicketStatus.Pending)
             return Errors.ConnectionTicket.AlreadyProcessed;
 

@@ -15,9 +15,9 @@ public class ConfirmConnectionTicketCommandHandler : IRequestHandler<ConfirmConn
     {
         _connectionTicketRepository = connectionTicketRepository;
     }
-    
+
     public async Task<ErrorOr<Success>> Handle(ConfirmConnectionTicketCommand command, CancellationToken cancellationToken)
-    {   
+    {
         await Task.CompletedTask;
 
         if (_connectionTicketRepository.Get(command.Id) is not { } ticket)

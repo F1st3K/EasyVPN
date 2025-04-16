@@ -14,7 +14,7 @@ public class GetConnectionsQueryHandler : IRequestHandler<GetConnectionsQuery, E
     {
         _connectionRepository = connectionRepository;
     }
-    
+
     public async Task<ErrorOr<List<Connection>>> Handle(GetConnectionsQuery query, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
@@ -23,7 +23,7 @@ public class GetConnectionsQueryHandler : IRequestHandler<GetConnectionsQuery, E
 
         if (query.ClientId is { } clientId)
             connections = connections.Where(c => c.Client.Id == clientId);
-            
+
         return connections.ToList();
     }
 }

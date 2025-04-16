@@ -10,7 +10,7 @@ public static class Utils
 
         if (id is not null && Guid.TryParse(id, out var guid))
             return guid;
-        
+
         return null;
     }
 

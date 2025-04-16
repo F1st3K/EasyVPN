@@ -24,7 +24,7 @@ public class CreateDynamicPageCommandHandler : IRequestHandler<CreateDynamicPage
 
         if (_dynamicPageRepository.GetAll().Any(p => p.Route == command.Route))
             return Errors.DynamicPage.AlreadyExist;
-        
+
         var page = new DynamicPage
         {
             Route = command.Route,

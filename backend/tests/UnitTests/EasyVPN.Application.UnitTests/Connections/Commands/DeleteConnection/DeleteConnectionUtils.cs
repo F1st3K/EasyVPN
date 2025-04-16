@@ -8,5 +8,5 @@ namespace EasyVPN.Application.UnitTests.Connections.Commands.DeleteConnection;
 public static class DeleteConnectionUtils
 {
     public static DeleteConnectionCommand CreateCommand()
-        => new (Constants.Connection.Id);
+        => new(Constants.Connection.Id);
 }

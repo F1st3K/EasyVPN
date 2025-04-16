@@ -10,7 +10,7 @@ namespace EasyVPN.Application.UnitTests.ConnectionTickets.Commands.ConfirmConnec
 public class ConfirmConnectionTicketTests
 {
     private readonly ConfirmConnectionTicketMocks _mocks = new();
-    
+
     [Fact]
     public async Task HandleConfirmConnectionTicketCommand_WhenIsAllValid_Success()
     {
@@ -66,7 +66,7 @@ public class ConfirmConnectionTicketTests
                 Id = Constants.ConnectionTicket.Id,
                 Status = ConnectionTicketStatus.Rejected
             });
-        
+
         //Act
         var handler = _mocks.CreateHandler();
         var result = await handler.Handle(command, CancellationToken.None);

@@ -1,3 +1,0 @@
-@connectionTicketId = 91390374-96b4-4d16-90a4-16b53fca4cb4
-PUT {{host}}/payment/tickets/{{connectionTicketId}}/reject
-Authorization: Bearer {{PaymentToken}}

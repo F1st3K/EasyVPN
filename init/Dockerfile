@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk add --no-cache curl postgresql-client
+RUN apk add --no-cache curl postgresql-client base64 file
 
 WORKDIR /usr/src/init
 COPY . . 

@@ -19,7 +19,7 @@ public class GetDynamicPageQueryHandler : IRequestHandler<GetDynamicPageQuery, E
     {
         await Task.CompletedTask;
 
-        if (_dynamicPageRepository.Get(query.Route) is not {} page)
+        if (_dynamicPageRepository.Get(query.Route) is not { } page)
             return Errors.DynamicPage.NotFound;
 
         return page;

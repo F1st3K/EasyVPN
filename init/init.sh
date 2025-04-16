@@ -1,7 +1,13 @@
 #!/bin/sh
-# version: 0.7.0
+VERSION=0.7.1
 
+echo ""
+echo "🔧 Data Initialization Script"
+echo "📜 Version: $VERSION"
+echo "📅 Started at: $(date +'%Y-%m-%d %H:%M:%S')"
+echo "--------------------------------------"
 echo "🚀 Starting init script..."
+echo ""
 
 
 echo "🔌 Attempting to connect app..."
@@ -24,10 +30,12 @@ else
 fi
 
 
-echo "🟢 Initialization run..."
+echo "🟢 Initialization run at: $(date +'%Y-%m-%d %H:%M:%S')"
+
 
 # Create security keeper
-if [[ "$CREATE_SECURITY_KEEPER" != "NO" && "$CREATE_SECURITY_KEEPER" =~ ^[^:]+:[^:]+$ ]]; then
+if [[ -n "$CREATE_SECURITY_KEEPER" && "$CREATE_SECURITY_KEEPER" != "NO" && "$CREATE_SECURITY_KEEPER" =~ ^[^:]+:[^:]+$ ]]; then
+  printf "\n⚙️ Create security keeper:\n"
   LOGIN=$(echo "$CREATE_SECURITY_KEEPER" | cut -d: -f1)
   PASSWORD=$(echo "$CREATE_SECURITY_KEEPER" | cut -d: -f2)
   
@@ -41,4 +49,59 @@ if [[ "$CREATE_SECURITY_KEEPER" != "NO" && "$CREATE_SECURITY_KEEPER" =~ ^[^:]+:[
 fi
 
 
-echo "✅ Init script finished!"
+# Create dynamic-pages
+if [[  -n "$CREATE_DYNAMIC_PAGES" && "$CREATE_DYNAMIC_PAGES" != "NO" ]]; then
+  printf "\n⚙️ Create dynamic-pages:\n"
+  TEMPLATE_TABLE="public.\"DynamicPages\""
+  SEARCH_DIR="dynamic-pages"
+
+  echo "📦 Build sql query..."
+  TMP_SQL=$(mktemp)
+  file -bi "$TMP_SQL"
+  echo "INSERT INTO $TEMPLATE_TABLE (\"Route\", \"Title\", \"LastModified\", \"Created\", \"Content\") VALUES" > "$TMP_SQL"
+  first_row=true
+  find "$SEARCH_DIR" -type f -name "*.mdx" | while read -r FILE; do
+      BASENAME=$(basename "$FILE")
+      DIRNAME=$(dirname "$FILE")
+      RELATIVE_PATH="${DIRNAME#"$SEARCH_DIR"}"
+      RELATIVE_PATH="${RELATIVE_PATH#/}"
+
+      TITLE="${BASENAME%%.*}"
+      ROUTE_PART="${BASENAME#*.}"
+      ROUTE_PART="${ROUTE_PART%.mdx}"
+
+      if [ -z "$RELATIVE_PATH" ]; then
+          FINAL_ROUTE="$ROUTE_PART"
+      else
+          FINAL_ROUTE="$RELATIVE_PATH/$ROUTE_PART"
+      fi
+
+      MODIFIED=$(stat -c %y "$FILE")
+      CREATED="$MODIFIED"
+
+      CONTENT=$(cat "$FILE")
+      BASE64_CONTENT=$(echo "$CONTENT" | base64 | tr -d '\n')
+
+      VALUE_ROW="('$FINAL_ROUTE', '$TITLE', '$MODIFIED', '$CREATED', '$BASE64_CONTENT')"
+
+      if $first_row; then
+          printf "\n  %s" "$VALUE_ROW" >> "$TMP_SQL"
+          first_row=false
+      else
+          printf ",\n  %s" "$VALUE_ROW" >> "$TMP_SQL"
+      fi
+      echo "🧱 Add $FINAL_ROUTE - $TITLE"
+  done
+  printf ";\n" >> "$TMP_SQL"
+
+  echo "📨 Run sql query..."
+  file -bi "$TMP_SQL"
+  psql "$DB_CONNECTION_STRING" -f "$TMP_SQL"
+  rm "$TMP_SQL" 
+fi
+
+
+
+echo "--------------------------------------"
+echo "✅ Init script $VERSION finished!"
+echo "⏱ Finished at: $(date +'%Y-%m-%d %H:%M:%S')"

@@ -1,5 +1,22 @@
 # Changelog
 
+## `0.7.1` (2025-04-16)
+
+### Hotfixes
+
+- init: Add dynamic-pages
+- frontend: Fixed incorrect display of dynamic-page content 
+- frontend: Fixed errors on build workflow 
+- backend: Fixed errors on build workflow 
+- Fixed errors on Single Deploy workflow 
+
+### Documentation
+
+- Performing repository
+- All missing documentation added
+- Add EN to all documention
+- VPN API versions has been created and moved to a separate document. 
+
 ## `0.7.0` (2025-04-11)
 
 ### Features

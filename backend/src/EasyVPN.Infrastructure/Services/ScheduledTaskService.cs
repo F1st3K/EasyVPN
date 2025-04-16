@@ -19,7 +19,7 @@ public class ScheduledTaskService(
     : BackgroundService
 {
     private readonly TimeSpan _interval = TimeSpan.FromMinutes(expirationOptions.Value.CheckMinutes);
-    
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
@@ -30,8 +30,8 @@ public class ScheduledTaskService(
                 {
                     using var scope = serviceProvider.CreateScope();
                     var sender = scope.ServiceProvider.GetRequiredService<ISender>();
-                    
-                    var result = (IErrorOr) (await sender.Send(t.Value.request, stoppingToken))!;
+
+                    var result = (IErrorOr)(await sender.Send(t.Value.request, stoppingToken))!;
 
                     if (result.IsError == false)
                     {
@@ -57,7 +57,7 @@ public class ScheduledTaskService(
                 {
                     logger.LogCritical(ex, "Unhandled exception");
                 }
-         
+
             await Task.Delay(_interval, stoppingToken);
         }
     }
