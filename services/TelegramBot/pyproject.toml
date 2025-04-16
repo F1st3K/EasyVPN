@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "easy-vpn-telegram-bot"
-version = "0.7.0"
+version = "0.7.1"
 description = "Telegram Notification Bot for Easy VPN"
 authors = ["Alex Poryadin (sw1pr0g) <alex.poryadih@gmail.com>"]
 license = "MIT"
