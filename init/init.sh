@@ -96,7 +96,6 @@ if [[  -n "$CREATE_DYNAMIC_PAGES" && "$CREATE_DYNAMIC_PAGES" != "NO" ]]; then
 
   echo "📨 Run sql query..."
   file -bi "$TMP_SQL"
-  cat "$TMP_SQL" 
   psql "$DB_CONNECTION_STRING" -f "$TMP_SQL"
   rm "$TMP_SQL" 
 fi
