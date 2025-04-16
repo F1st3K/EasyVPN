@@ -1,5 +1,6 @@
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Alert, AlertTitle, Box, LinearProgress, Paper } from '@mui/material';
+import { Buffer } from 'buffer';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useState } from 'react';
 import { FC } from 'react';
@@ -113,7 +114,7 @@ created: ${data?.created}
 route: ${data?.route}
 title: ${data?.title}
 ---
-${decodeURIComponent(atob(data?.base64Content || ''))}`}
+${Buffer.from(data?.base64Content ?? '', 'base64').toString()}`}
                 />
             </Paper>
         </Box>

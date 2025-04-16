@@ -27,7 +27,7 @@ echo "--- Set version init: --------------------------"
 cd ./init
 TMP_FILE=$(mktemp)
 echo "#!/bin/sh" >> "$TMP_FILE"
-echo "# version: $NEW_VERSION" >> "$TMP_FILE"
+echo "VERSION=$NEW_VERSION" >> "$TMP_FILE"
 tail -n +3 "init.sh" >> "$TMP_FILE"
 cat "$TMP_FILE" > "init.sh"
 head -2 "init.sh"

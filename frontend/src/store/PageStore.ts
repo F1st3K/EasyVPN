@@ -24,7 +24,7 @@ export default class PageStore {
     private buildRoutes(pages: PageInfo[]): PageRoutes[] {
         const result: PageRoutes[] = [];
 
-        for (const page of pages) {
+        for (const page of pages.sort((a, b) => a.route.length - b.route.length)) {
             const parts = page.route.split('/');
             let currentLevel = result;
 
