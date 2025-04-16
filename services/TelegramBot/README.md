@@ -46,13 +46,12 @@ poetry run python -m bot
 ---
 
 ## Запуск через Docker
-Соберите Docker-образ:
-```bash
-docker build -t telegrambot:local ./
-```
 Запустите контейнер:
 ```bash
-docker run -d --name telegrambot-service -e BOT_TOKEN=YOUR_BOT_TOKEN telegrambot:local
+docker run -d \
+  --name bot-service \
+  -e BOT_TOKEN=YOUR_BOT_TOKEN \
+  easyvpn/bot
 ```
 
 ---
