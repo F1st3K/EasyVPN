@@ -4,7 +4,7 @@ interface AppConfig {
 }
 
 const defaultConfig: AppConfig = {
-    ApiUrl: 'http://localhost:80/api/',
+    ApiUrl: 'http://localhost:80',
     AuthCheckMinutes: 15,
 };
 
