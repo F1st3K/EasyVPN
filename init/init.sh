@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSION=0.7.1
+VERSION=0.7.2
 
 echo ""
 echo "🔧 Data Initialization Script"
