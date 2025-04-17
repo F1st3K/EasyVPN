@@ -4,16 +4,22 @@ interface AppConfig {
 }
 
 const defaultConfig: AppConfig = {
-    ApiUrl: 'http://localhost:80',
+    ApiUrl: 'http://localhost:80/api/',
     AuthCheckMinutes: 15,
 };
 
 // Загрузка ENV переменных
+const rawConfig = (window as any).APP_CONFIG || {};
 const config: AppConfig = {
-    ApiUrl: process.env.REACT_APP_API_URL || defaultConfig.ApiUrl,
+    ApiUrl:
+        rawConfig.API_URL && !rawConfig.API_URL.includes('$')
+            ? rawConfig.API_URL
+            : defaultConfig.ApiUrl,
+
     AuthCheckMinutes:
-        Number(process.env.REACT_APP_AUTH_CHECK_MINUTES) ||
-        defaultConfig.AuthCheckMinutes,
+        rawConfig.AUTH_CHECK_MINUTES && !rawConfig.AUTH_CHECK_MINUTES.includes('$')
+            ? Number(rawConfig.AUTH_CHECK_MINUTES)
+            : defaultConfig.AuthCheckMinutes,
 };
 
 export default config;

@@ -73,8 +73,8 @@ services:
       context: frontend/
       dockerfile: Dockerfile
     environment:
-      - REACT_APP_API_URL=http://localhost:${MAIN_PORT}/api/
-      - REACT_APP_AUTH_CHECK_MINUTES=${FRONT_CHECK_AUTH}
+      - API_URL=/api/
+      - AUTH_CHECK_MINUTES=${FRONT_CHECK_AUTH}
     restart: unless-stopped
     networks:
       - easy-vpn
