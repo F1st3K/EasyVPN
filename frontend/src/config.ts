@@ -9,6 +9,7 @@ const defaultConfig: AppConfig = {
 };
 
 // Загрузка ENV переменных
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const rawConfig = (window as any).APP_CONFIG || {};
 const config: AppConfig = {
     ApiUrl:
