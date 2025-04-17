@@ -36,7 +36,7 @@ services:
       - POSTGRES_PASSWORD=${MAIN_DB_PASSWORD}
     ports:
       - "5432"
-    restart: unless-stopped
+    restart: always 
     volumes:
       - ${MAIN_DB_VOLUME}:/var/lib/postgresql/data
     networks:
@@ -58,7 +58,7 @@ services:
       - JwtSettings__ExpiryMinutes=${BACK_AUTH_EXPIRE}
       - ConnectionStrings__Postgres=User ID=${MAIN_DB_USER};Password=${MAIN_DB_PASSWORD};Host=database;Port=5432;
       - ASPNETCORE_URLS=http://+:80
-    restart: unless-stopped
+    restart: always
     networks:
       - easy-vpn
 
@@ -75,7 +75,7 @@ services:
     environment:
       - API_URL=/api/
       - AUTH_CHECK_MINUTES=${FRONT_CHECK_AUTH}
-    restart: unless-stopped
+    restart: always
     networks:
       - easy-vpn
 
@@ -110,7 +110,7 @@ services:
             }
         }' > /etc/nginx/nginx.conf && nginx -g 'daemon off;'
       "
-    restart: unless-stopped
+    restart: always
     networks:
       - easy-vpn
 # ╚═══ REGION: Base infractructure services ═══╝
@@ -141,7 +141,7 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv4.ip_forward=1
-    restart: unless-stopped
+    restart: always
 
   amneziawg-vpn-service:
     image: easyvpn/amneziawg-vpn:latest
@@ -168,7 +168,7 @@ services:
       - net.ipv4.ip_forward=1
     devices:
       - "/dev/net/tun:/dev/net/tun"  # device mapping for TUN interface
-    restart: unless-stopped
+    restart: always
 # ╚═══ REGION: VPN services ═══╝
 
 
@@ -179,5 +179,5 @@ services:
     container_name: bot-service
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
-    restart: unless-stopped
+    restart: always
 # ╚═══ REGION: Other services ═══╝
