@@ -20,7 +20,7 @@ done
 
 echo "🔌 Attempting to connect to database..."
 
-export PGPASSWORD="$(echo "$DB_CONNECTION_STRING" | sed -n 's|postgresql://[^:]*:\([^@]*\)@.*|\1|p')"
+export PGPASSWORD="$DB_PASSWORD"
 psql "$DB_CONNECTION_STRING" -c "\dt" > /dev/null 2>&1
 if [ $? -ne 0 ]; then
   echo "❌ Failed to connect to the database!"
