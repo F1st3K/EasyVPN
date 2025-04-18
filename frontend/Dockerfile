@@ -17,4 +17,4 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/sh", "-c", "envsubst < /usr/share/nginx/html/index.html > /usr/share/nginx/html/_index.html && mv /usr/share/nginx/html/_index.html /usr/share/nginx/html/index.html && exec nginx -g 'daemon off;'"]

@@ -1,5 +1,13 @@
 # Changelog
 
+## `0.7.2` (2025-04-18)
+
+### Hotfixes
+
+- init: Proceed invalid character in db password
+- frontend: fix env vars, replace to nginx template
+- Single Deploy: add restart always policy
+
 ## `0.7.1` (2025-04-16)
 
 ### Hotfixes
