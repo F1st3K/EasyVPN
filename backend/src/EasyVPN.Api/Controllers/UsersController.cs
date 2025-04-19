@@ -1,7 +1,9 @@
 using EasyVPN.Api.Common;
+using EasyVPN.Application.Users.Commands.RolesUpdate;
 using EasyVPN.Application.Users.Queries.GetUser;
 using EasyVPN.Application.Users.Queries.GetUsers;
 using EasyVPN.Contracts.Users;
+using EasyVPN.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -57,7 +59,7 @@ public class UsersController : ApiController
     public async Task<IActionResult> UpdateRoles([FromRoute] Guid userId, [FromBody] string[] roles)
     {
         var userResult =
-            await _sender.Send(new GetUserQuery(userId));
+            await _sender.Send(new RolesUpdateCommand(userId, roles.Select(Enum.Parse<RoleType>)));
 
         return userResult.Match(
             _ => Ok(),

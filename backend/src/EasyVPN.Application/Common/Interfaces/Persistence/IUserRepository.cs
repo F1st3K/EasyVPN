@@ -8,4 +8,5 @@ public interface IUserRepository
     public User? GetById(Guid id);
     public IEnumerable<User> GetAll();
     public void Add(User user);
+    public void Update(User user);
 }
