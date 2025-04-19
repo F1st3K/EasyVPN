@@ -45,7 +45,7 @@ if [[ -n "$CREATE_SECURITY_KEEPER" && "$CREATE_SECURITY_KEEPER" != "NO" && "$CRE
     -d "{\"firstName\": \"Keeper\", \"lastName\": \"Initial\", \"login\": \"$LOGIN\", \"password\": \"$PASSWORD\" }"
   echo "" 
   echo "👑 Promoting [$LOGIN] to SecurityKeeper..."
-  psql "$DB_CONNECTION_STRING" -c "UPDATE public.\"Users\" SET \"Roles\"='Administrator;PaymentReviewer;PageModerator;Client' WHERE \"Login\"='$LOGIN';"
+  psql "$DB_CONNECTION_STRING" -c "UPDATE public.\"Users\" SET \"Roles\"='SecurityKeeper' WHERE \"Login\"='$LOGIN';"
 fi
 
 

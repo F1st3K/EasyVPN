@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EasyVPN.Api.Controllers;
 
 [Route("users")]
-[Authorize(Roles = Roles.Administrator)]
+[Authorize(Roles = Roles.SecurityKeeper)]
 public class UsersController : ApiController
 {
     private readonly ISender _sender;

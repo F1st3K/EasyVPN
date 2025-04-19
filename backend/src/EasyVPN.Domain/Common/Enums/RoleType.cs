@@ -6,4 +6,5 @@ public enum RoleType
     Administrator,
     PaymentReviewer,
     PageModerator,
+    SecurityKeeper,
 }
