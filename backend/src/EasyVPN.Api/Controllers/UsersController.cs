@@ -1,5 +1,7 @@
 using EasyVPN.Api.Common;
 using EasyVPN.Application.Users.Queries.GetUser;
+using EasyVPN.Application.Users.Queries.GetUsers;
+using EasyVPN.Contracts.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +23,16 @@ public class UsersController : ApiController
     public async Task<IActionResult> GetUsers()
     {
         var userResult =
-            await _sender.Send(new GetUserQuery(new Guid()));
+            await _sender.Send(new GetUsersQuery());
 
         return userResult.Match(
-            Ok,
+            us => Ok(us.Select(u => new UserResponse(
+                    u.Id,
+                    u.FirstName, 
+                    u.LastName,
+                    u.Login,
+                    u.Roles.Select(r => r.ToString()).ToArray()
+                ))),
             Problem);
     }
         
@@ -35,7 +43,13 @@ public class UsersController : ApiController
             await _sender.Send(new GetUserQuery(userId));
 
         return userResult.Match(
-            Ok,
+            u => Ok(new UserResponse(
+                    u.Id,
+                    u.FirstName,
+                    u.LastName,
+                    u.Login,
+                    u.Roles.Select(r => r.ToString()).ToArray()
+                )),
             Problem);
     }
     

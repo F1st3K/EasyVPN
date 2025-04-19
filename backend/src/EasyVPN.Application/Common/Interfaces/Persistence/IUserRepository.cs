@@ -6,5 +6,6 @@ public interface IUserRepository
 {
     public User? GetByLogin(string login);
     public User? GetById(Guid id);
+    public IEnumerable<User> GetAll();
     public void Add(User user);
 }
