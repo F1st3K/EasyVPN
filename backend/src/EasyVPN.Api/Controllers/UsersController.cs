@@ -1,4 +1,5 @@
 using EasyVPN.Api.Common;
+using EasyVPN.Application.Users.Commands.ChangePassword;
 using EasyVPN.Application.Users.Commands.RolesUpdate;
 using EasyVPN.Application.Users.Queries.GetUser;
 using EasyVPN.Application.Users.Queries.GetUsers;
@@ -70,7 +71,7 @@ public class UsersController : ApiController
     public async Task<IActionResult> ChangePassword([FromRoute] Guid userId, [FromBody] string newPassword)
     {
         var userResult =
-            await _sender.Send(new GetUserQuery(userId));
+            await _sender.Send(new ChangePasswordCommand(userId, newPassword));
 
         return userResult.Match(
             _ => Ok(),

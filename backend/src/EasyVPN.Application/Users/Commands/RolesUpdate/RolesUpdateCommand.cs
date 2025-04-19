@@ -4,4 +4,4 @@ using MediatR;
 
 namespace EasyVPN.Application.Users.Commands.RolesUpdate;
 
-public record RolesUpdateCommand(Guid UserId, IEnumerable<RoleType> Roles) : IRequest<ErrorOr<Updated>>;
+public record RolesUpdateCommand(Guid UserId, IEnumerable<RoleType> NewRoles) : IRequest<ErrorOr<Updated>>;

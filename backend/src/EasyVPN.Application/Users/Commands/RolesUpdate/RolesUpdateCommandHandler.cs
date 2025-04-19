@@ -22,7 +22,7 @@ public class RolesUpdateCommandHandler : IRequestHandler<RolesUpdateCommand, Err
         if (_userRepository.GetById(command.UserId) is not { } user)
             return Errors.User.NotFound;
 
-        user.Roles = command.Roles;
+        user.Roles = command.NewRoles;
         _userRepository.Update(user);
 
         return Result.Updated;
