@@ -22,6 +22,15 @@ public class UsersController : ApiController
         _sender = sender;
     }
 
+    /// <summary>
+    /// Get list of users. (security keeper)
+    /// </summary>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/users
+    /// </remarks>
     [HttpGet]
     public async Task<IActionResult> GetUsers()
     {
@@ -39,6 +48,16 @@ public class UsersController : ApiController
             Problem);
     }
         
+    /// <summary>
+    /// Get user by id. (security keeper)
+    /// </summary>
+    /// <param name="userId">User guid.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/users/{{userId}}
+    /// </remarks>
     [HttpGet("{userId:guid}")]
     public async Task<IActionResult> GetUser([FromRoute] Guid userId)
     {
@@ -56,6 +75,21 @@ public class UsersController : ApiController
             Problem);
     }
     
+    /// <summary>
+    /// Set new list roles for user. (security keeper)
+    /// </summary>
+    /// <param name="userId">User guid.</param>
+    /// <param name="roles">List user roles.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// PUT {{host}}/users/{{userId}}/roles
+    /// [
+    ///     "Client",
+    ///     "PageModerator",
+    /// ]
+    /// </remarks>
     [HttpPut("{userId:guid}/roles")]
     public async Task<IActionResult> UpdateRoles([FromRoute] Guid userId, [FromBody] string[] roles)
     {
@@ -67,6 +101,18 @@ public class UsersController : ApiController
             Problem);
     }
     
+    /// <summary>
+    /// Change password for user. (security keeper)
+    /// </summary>
+    /// <param name="userId">User guid.</param>
+    /// <param name="newPassword">New user password.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// PUT {{host}}/users/{{userId}}/password
+    /// "newPassword"
+    /// </remarks>
     [HttpPut("{userId:guid}/password")]
     public async Task<IActionResult> ChangePassword([FromRoute] Guid userId, [FromBody] string newPassword)
     {
