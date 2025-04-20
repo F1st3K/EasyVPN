@@ -38,7 +38,7 @@ public class UserRepository : IUserRepository
         if (_dbContext.Users.SingleOrDefault(u => u.Id == user.Id)
             is not { } storedUser)
             return;
-        
+
         storedUser.Login = user.Login;
         storedUser.FirstName = user.FirstName;
         storedUser.LastName = user.LastName;

@@ -40,14 +40,14 @@ public class UsersController : ApiController
         return userResult.Match(
             us => Ok(us.Select(u => new UserResponse(
                     u.Id,
-                    u.FirstName, 
+                    u.FirstName,
                     u.LastName,
                     u.Login,
                     u.Roles.Select(r => r.ToString()).ToArray()
                 ))),
             Problem);
     }
-        
+
     /// <summary>
     /// Get user by id. (security keeper)
     /// </summary>
@@ -74,7 +74,7 @@ public class UsersController : ApiController
                 )),
             Problem);
     }
-    
+
     /// <summary>
     /// Set new list roles for user. (security keeper)
     /// </summary>
@@ -100,7 +100,7 @@ public class UsersController : ApiController
             _ => Ok(),
             Problem);
     }
-    
+
     /// <summary>
     /// Change password for user. (security keeper)
     /// </summary>

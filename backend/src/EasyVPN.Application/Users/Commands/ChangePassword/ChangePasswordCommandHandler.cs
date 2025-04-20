@@ -22,7 +22,7 @@ public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordComman
     public async Task<ErrorOr<Updated>> Handle(ChangePasswordCommand command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        
+
         if (_userRepository.GetById(command.UserId) is not { } user)
             return Errors.User.NotFound;
 

@@ -18,7 +18,7 @@ public class RolesUpdateCommandHandler : IRequestHandler<RolesUpdateCommand, Err
     public async Task<ErrorOr<Updated>> Handle(RolesUpdateCommand command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        
+
         if (_userRepository.GetById(command.UserId) is not { } user)
             return Errors.User.NotFound;
 
