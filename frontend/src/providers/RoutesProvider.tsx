@@ -20,6 +20,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 import PaymentTicketsPage from '../pages/PaymentTicketsPage';
 import ProfilePage from '../pages/ProfilePage';
 import Root from '../pages/Root';
+import UsersControlPage from '../pages/UsersControlPage';
 
 interface ForProps {
     for: ReactElement;
@@ -99,7 +100,7 @@ const RoutesProvider: FC = () => {
                     <Route
                         path="users"
                         element={
-                            <Auth with={Role.Administrator} for={<>control users</>} />
+                            <Auth with={Role.SecurityKeeper} for={<UsersControlPage />} />
                         }
                     />
                     <Route
