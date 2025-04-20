@@ -20,9 +20,9 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, ErrorOr<User>>
     {
         await Task.CompletedTask;
 
-        if (_userRepository.GetById(query.UserId) is not { } connection)
-            return Errors.Connection.NotFound;
+        if (_userRepository.GetById(query.UserId) is not { } user)
+            return Errors.User.NotFound;
 
-        return connection;
+        return user;
     }
 }

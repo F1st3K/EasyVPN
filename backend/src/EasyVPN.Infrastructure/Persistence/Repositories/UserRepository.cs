@@ -1,5 +1,4 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Entities;
 
 namespace EasyVPN.Infrastructure.Persistence.Repositories;
@@ -23,9 +22,30 @@ public class UserRepository : IUserRepository
         return _dbContext.Users.SingleOrDefault(user => user.Id == id);
     }
 
+    public IEnumerable<User> GetAll()
+    {
+        return _dbContext.Users;
+    }
+
     public void Add(User user)
     {
         _dbContext.Users.Add(user);
+        _dbContext.SaveChanges();
+    }
+
+    public void Update(User user)
+    {
+        if (_dbContext.Users.SingleOrDefault(u => u.Id == user.Id)
+            is not { } storedUser)
+            return;
+
+        storedUser.Login = user.Login;
+        storedUser.FirstName = user.FirstName;
+        storedUser.LastName = user.LastName;
+        storedUser.Roles = user.Roles;
+        storedUser.HashPassword = user.HashPassword;
+
+        _dbContext.Users.Update(storedUser);
         _dbContext.SaveChanges();
     }
 }
