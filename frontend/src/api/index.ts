@@ -154,6 +154,13 @@ const EasyVpn = {
             });
         },
     },
+    users: {
+        getAll: (token: string) => {
+            return api.get<User[]>(`/users`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+    },
 };
 
 export default EasyVpn;
