@@ -97,8 +97,15 @@ public class ServersController : ApiController
     [Authorize(Roles = Roles.ServerSetuper)]
     public async Task<IActionResult> SetupServer([FromBody] ServerRequest request)
     {
-        var serverResult = await _sender.Send(new GetServerQuery(new Guid()));
-        return serverResult.Match(
+        var testResult = await _sender.Send(new TestConnectionQuery(
+            request.Connection.Auth,
+            request.Connection.Endpoint,
+            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true) 
+        ));
+        if (testResult.IsError) Problem(testResult.Errors);
+        
+        var result = await _sender.Send(new GetServerQuery(new Guid()));
+        return result.Match(
             result => Ok(new ServerResponse(
                 result.Id,
                 new ProtocolResponse(
@@ -134,8 +141,15 @@ public class ServersController : ApiController
     [Authorize(Roles = Roles.ServerSetuper)]
     public async Task<IActionResult> ConfigServer([FromRoute] Guid serverId, [FromBody] ServerRequest request)
     {
-        var serverResult = await _sender.Send(new GetServerQuery(serverId));
-        return serverResult.Match(
+        var testResult = await _sender.Send(new TestConnectionQuery(
+            request.Connection.Auth,
+            request.Connection.Endpoint,
+            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true) 
+        ));
+        if (testResult.IsError) Problem(testResult.Errors);
+        
+        var result = await _sender.Send(new GetServerQuery(new Guid()));
+        return result.Match(
             result => Ok(new ServerResponse(
                 result.Id,
                 new ProtocolResponse(
@@ -167,13 +181,14 @@ public class ServersController : ApiController
     [Authorize(Roles = Roles.ServerSetuper)]
     public async Task<IActionResult> TestConnection([FromRoute] string version, [FromBody] ConnectionRequest request)
     {
-        var serverResult = await _sender.Send(new TestConnectionQuery(
+        var testResult = await _sender.Send(new TestConnectionQuery(
             request.Auth,
             request.Endpoint,
             Enum.Parse<VpnVersion>(version, ignoreCase: true) 
         ));
         
-        return serverResult.Match(
+        
+        return testResult.Match(
             _ => Ok(),
             Problem);
     }
