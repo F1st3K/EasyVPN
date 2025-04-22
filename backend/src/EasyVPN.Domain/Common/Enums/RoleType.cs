@@ -7,4 +7,5 @@ public enum RoleType
     PaymentReviewer,
     PageModerator,
     SecurityKeeper,
+    ServerSetuper,
 }

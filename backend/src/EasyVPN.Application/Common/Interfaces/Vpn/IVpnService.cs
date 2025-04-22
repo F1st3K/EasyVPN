@@ -9,4 +9,5 @@ public interface IVpnService
     public ErrorOr<Success> EnableClient(Guid connectionId);
     public ErrorOr<Success> DisableClient(Guid connectionId);
     public ErrorOr<Deleted> DeleteClient(Guid connectionId);
+    public ErrorOr<Success> TestConnect();
 }
