@@ -68,7 +68,7 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                         </Box>
                     </Button>
                     <Box sx={{ flexGrow: 1 }}>
-                        {Is(Role.Administrator) && (
+                        {(Is(Role.Administrator) || Is(Role.SecurityKeeper)) && (
                             <>
                                 <IconButton
                                     size="large"
@@ -89,14 +89,16 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                     >
                                         Connections
                                     </MenuItem>
-                                    <MenuItem
-                                        onClick={() => {
-                                            navigate('/control/users');
-                                            setAnchorAdmin(null);
-                                        }}
-                                    >
-                                        Users
-                                    </MenuItem>
+                                    {Is(Role.SecurityKeeper) && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                navigate('/control/users');
+                                                setAnchorAdmin(null);
+                                            }}
+                                        >
+                                            Users
+                                        </MenuItem>
+                                    )}
                                     <MenuItem
                                         onClick={() => {
                                             navigate('/control/servers');

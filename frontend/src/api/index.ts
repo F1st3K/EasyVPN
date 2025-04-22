@@ -154,6 +154,31 @@ const EasyVpn = {
             });
         },
     },
+    users: {
+        getAll: (token: string) => {
+            return api.get<User[]>(`/users`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        get: (id: string, token: string) => {
+            return api.get<User>(`/users/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        updateRoles: (roles: Role[], id: string, token: string) => {
+            return api.put<void>(`/users/${id}/roles`, roles, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        updatePassword: (pwd: string, id: string, token: string) => {
+            return api.put<void>(`/users/${id}/password`, pwd, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+        },
+    },
 };
 
 export default EasyVpn;
