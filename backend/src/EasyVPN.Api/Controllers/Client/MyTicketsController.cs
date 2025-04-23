@@ -3,6 +3,7 @@ using EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTicket;
 using EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTickets;
 using EasyVPN.Contracts.ConnectionTickets;
 using EasyVPN.Contracts.Users;
+using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Common.Errors;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EasyVPN.Api.Controllers.Client;
 
 [Route("my/tickets")]
-[Authorize(Roles = Roles.Client)]
+[Authorize(Roles = nameof(RoleType.Client))]
 public class MyTicketsController : ApiControllerBase
 {
     private readonly ISender _sender;

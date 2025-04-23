@@ -1,10 +1,10 @@
-using EasyVPN.Api.Common;
 using EasyVPN.Application.Protocols.Commands.CreateProtocol;
 using EasyVPN.Application.Protocols.Commands.RemoveProtocol;
 using EasyVPN.Application.Protocols.Commands.UpdateProtocol;
 using EasyVPN.Application.Protocols.Queries.GetProtocol;
 using EasyVPN.Application.Protocols.Queries.GetProtocols;
 using EasyVPN.Contracts.Servers;
+using EasyVPN.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -80,7 +80,7 @@ public class ProtocolsController : ApiControllerBase
     /// POST {{host}}/protocols
     /// </remarks>
     [HttpPost]
-    [Authorize(Roles = Roles.ServerSetuper)]
+    [Authorize(Roles = nameof(RoleType.ServerSetuper))]
     public async Task<IActionResult> CreateProtocol([FromBody] ProtocolRequest request)
     {
         var result = await _sender.Send(new CreateProtocolCommand(
@@ -105,7 +105,7 @@ public class ProtocolsController : ApiControllerBase
     /// PUT {{host}}/protocols/{{protocolId}}
     /// </remarks>
     [HttpPut("{protocolId:guid}")]
-    [Authorize(Roles = Roles.ServerSetuper)]
+    [Authorize(Roles = nameof(RoleType.ServerSetuper))]
     public async Task<IActionResult> UpdateProtocol([FromRoute] Guid protocolId, [FromBody] ProtocolRequest request)
     {
         var result = await _sender.Send(new UpdateProtocolCommand(
@@ -130,7 +130,7 @@ public class ProtocolsController : ApiControllerBase
     /// DELETE {{host}}/protocols/{{protocolId}}
     /// </remarks>
     [HttpDelete("{protocolId:guid}")]
-    [Authorize(Roles = Roles.ServerSetuper)]
+    [Authorize(Roles = nameof(RoleType.ServerSetuper))]
     public async Task<IActionResult> DeleteProtocol([FromRoute] Guid protocolId)
     {
         var result = await _sender.Send(new RemoveProtocolCommand(protocolId));
