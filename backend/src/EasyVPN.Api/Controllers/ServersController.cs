@@ -1,5 +1,6 @@
 using EasyVPN.Api.Common;
 using EasyVPN.Application.Servers.Commands.CreateServer;
+using EasyVPN.Application.Servers.Commands.RemoveServer;
 using EasyVPN.Application.Servers.Commands.UpdateServer;
 using EasyVPN.Application.Servers.Queries.GetServer;
 using EasyVPN.Application.Servers.Queries.GetServers;
@@ -160,6 +161,27 @@ public class ServersController : ApiController
             request.ProtocolId,
             Enum.Parse<VpnVersion>(request.Version, ignoreCase: true)
         ));
+        
+        return result.Match(
+            _ => Ok(),
+            Problem);
+    }
+    
+    /// <summary>
+    /// Remove server. (server setuper)
+    /// </summary>
+    /// <param name="serverId">Server guid.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// DELETE {{host}}/servers/{{serverId}}
+    /// </remarks>
+    [HttpDelete("{serverId:guid}")]
+    [Authorize(Roles = Roles.ServerSetuper)]
+    public async Task<IActionResult> DeleteServer([FromRoute] Guid serverId)
+    {
+        var result = await _sender.Send(new RemoveServerCommand(serverId));
         
         return result.Match(
             _ => Ok(),

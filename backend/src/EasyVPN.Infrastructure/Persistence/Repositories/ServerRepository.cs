@@ -43,4 +43,14 @@ public class ServerRepository : IServerRepository
         _dbContext.Servers.Update(server);
         _dbContext.SaveChanges();
     }
+
+    public void Remove(Guid id)
+    {
+        if (_dbContext.Servers.SingleOrDefault(s => s.Id == id)
+            is not { } server)
+            return;
+        
+        _dbContext.Servers.Remove(server);
+        _dbContext.SaveChanges();
+    }
 }

@@ -8,4 +8,5 @@ public interface IServerRepository
     public IEnumerable<Server> GetAll();
     public void Add(Server server);
     public void Update(Server server);
+    public void Remove(Guid id);
 }
