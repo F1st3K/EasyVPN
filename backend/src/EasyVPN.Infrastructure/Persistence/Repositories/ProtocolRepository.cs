@@ -27,7 +27,7 @@ public class ProtocolRepository : IProtocolRepository
         _dbContext.Protocols.Add(protocol);
         _dbContext.SaveChanges();
     }
-    
+
     public void Update(Protocol protocol)
     {
         _dbContext.Protocols.Update(protocol);

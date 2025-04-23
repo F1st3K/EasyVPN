@@ -9,10 +9,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers;
+namespace EasyVPN.Api.Controllers.ServerSetuper;
 
 [Route("protocols")]
-public class ProtocolsController : ApiController
+public class ProtocolsController : ApiControllerBase
 {
     private readonly ISender _sender;
 
@@ -36,7 +36,7 @@ public class ProtocolsController : ApiController
     {
         var serverResult = await _sender.Send(new GetProtocolsQuery());
         return serverResult.Match(
-            result => Ok(result.Select(c => 
+            result => Ok(result.Select(c =>
                 new ProtocolResponse(
                     c.Id,
                     c.Name,
@@ -68,7 +68,7 @@ public class ProtocolsController : ApiController
             )),
             Problem);
     }
-    
+
     /// <summary>
     /// Create new protocol. (server setuper)
     /// </summary>
@@ -87,7 +87,7 @@ public class ProtocolsController : ApiController
                 request.Name,
                 request.Icon
             ));
-        
+
         return result.Match(
             _ => Ok(),
             Problem);
@@ -113,12 +113,12 @@ public class ProtocolsController : ApiController
                 request.Name,
                 request.Icon
             ));
-        
+
         return result.Match(
             _ => Ok(),
             Problem);
     }
-    
+
     /// <summary>
     /// Remove protocol. (server setuper)
     /// </summary>
@@ -134,7 +134,7 @@ public class ProtocolsController : ApiController
     public async Task<IActionResult> DeleteProtocol([FromRoute] Guid protocolId)
     {
         var result = await _sender.Send(new RemoveProtocolCommand(protocolId));
-        
+
         return result.Match(
             _ => Ok(),
             Problem);

@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers;
+namespace EasyVPN.Api.Controllers.Common;
 
 [Route("health")]
 [AllowAnonymous]
-public class HealthController : ApiController
+public class HealthController : ApiControllerBase
 {
     /// <summary>
     /// Health api (any)

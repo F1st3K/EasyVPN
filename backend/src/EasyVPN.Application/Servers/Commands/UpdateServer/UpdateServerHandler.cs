@@ -20,7 +20,7 @@ public class UpdateServerHandler : IRequestHandler<UpdateServerCommand, ErrorOr<
     public async Task<ErrorOr<Created>> Handle(UpdateServerCommand command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        
+
         if (_serverRepository.Get(command.ServerId) is not { } server)
             return Errors.Server.NotFound;
 
@@ -31,9 +31,9 @@ public class UpdateServerHandler : IRequestHandler<UpdateServerCommand, ErrorOr<
         server.ConnectionString = command.ConnectionString;
         server.Protocol = protocol;
         server.Version = command.Version;
-                
+
         _serverRepository.Update(server);
-        
+
         return Result.Created;
     }
 }

@@ -26,13 +26,13 @@ public class CreateServerHandler : IRequestHandler<CreateServerCommand, ErrorOr<
 
         var server = new Server
         {
-            Id = Guid.NewGuid(), 
+            Id = Guid.NewGuid(),
             ConnectionString = command.ConnectionString,
             Protocol = protocol,
             Version = command.Version
         };
         _serverRepository.Add(server);
-        
+
         return Result.Created;
     }
 }

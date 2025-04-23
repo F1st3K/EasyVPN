@@ -18,7 +18,7 @@ public class RemoveServerHandler : IRequestHandler<RemoveServerCommand, ErrorOr<
     public RemoveServerHandler(
         IServerRepository serverRepository,
         IConnectionRepository connectionRepository,
-        IDateTimeProvider dateTimeProvider, 
+        IDateTimeProvider dateTimeProvider,
         ITaskRepository taskRepository,
         ISender sender)
     {
@@ -32,13 +32,13 @@ public class RemoveServerHandler : IRequestHandler<RemoveServerCommand, ErrorOr<
     public async Task<ErrorOr<Deleted>> Handle(RemoveServerCommand command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        
+
         if (_serverRepository.Get(command.ServerId) is not { } server)
             return Errors.Server.NotFound;
 
         var serverConnections = _connectionRepository.GetAll()
             .Where(c => c.Server.Id == command.ServerId).ToList();
-        
+
         if (serverConnections.Any(c => c.ExpirationTime > _dateTimeProvider.UtcNow))
             return Errors.Server.StillInUseActive;
 
@@ -49,7 +49,7 @@ public class RemoveServerHandler : IRequestHandler<RemoveServerCommand, ErrorOr<
             await _sender.Send(disableCommand, cancellationToken);
         }
         _serverRepository.Remove(server.Id);
-        
+
         return Result.Deleted;
     }
 }

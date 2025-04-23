@@ -12,10 +12,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers;
+namespace EasyVPN.Api.Controllers.ServerSetuper;
 
 [Route("servers")]
-public class ServersController : ApiController
+public class ServersController : ApiControllerBase
 {
     private readonly ISender _sender;
 
@@ -78,7 +78,7 @@ public class ServersController : ApiController
             )),
             Problem);
     }
-    
+
     /// <summary>
     /// Setup new server. (server setuper)
     /// </summary>
@@ -104,24 +104,25 @@ public class ServersController : ApiController
         var testResult = await _sender.Send(new TestConnectionQuery(
             request.Connection.Auth,
             request.Connection.Endpoint,
-            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true) 
+            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true)
         ));
         if (testResult.IsError) Problem(testResult.Errors);
-        
+
         var result = await _sender.Send(new CreateServerCommand(
-            new ConnectionString {
+            new ConnectionString
+            {
                 Auth = request.Connection.Auth,
                 Endpoint = request.Connection.Endpoint
-            }, 
+            },
             request.ProtocolId,
             Enum.Parse<VpnVersion>(request.Version, ignoreCase: true)
         ));
-        
+
         return result.Match(
             _ => Ok(),
             Problem);
     }
-    
+
     /// <summary>
     /// Config server. (server setuper)
     /// </summary>
@@ -148,25 +149,26 @@ public class ServersController : ApiController
         var testResult = await _sender.Send(new TestConnectionQuery(
             request.Connection.Auth,
             request.Connection.Endpoint,
-            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true) 
+            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true)
         ));
         if (testResult.IsError) Problem(testResult.Errors);
-        
+
         var result = await _sender.Send(new UpdateServerCommand(
             serverId,
-            new ConnectionString {
+            new ConnectionString
+            {
                 Auth = request.Connection.Auth,
                 Endpoint = request.Connection.Endpoint
-            }, 
+            },
             request.ProtocolId,
             Enum.Parse<VpnVersion>(request.Version, ignoreCase: true)
         ));
-        
+
         return result.Match(
             _ => Ok(),
             Problem);
     }
-    
+
     /// <summary>
     /// Remove server. (server setuper)
     /// </summary>
@@ -182,12 +184,12 @@ public class ServersController : ApiController
     public async Task<IActionResult> DeleteServer([FromRoute] Guid serverId)
     {
         var result = await _sender.Send(new RemoveServerCommand(serverId));
-        
+
         return result.Match(
             _ => Ok(),
             Problem);
     }
-    
+
     /// <summary>
     /// Test connection to server. (server setuper)
     /// </summary>
@@ -210,10 +212,10 @@ public class ServersController : ApiController
         var testResult = await _sender.Send(new TestConnectionQuery(
             request.Auth,
             request.Endpoint,
-            Enum.Parse<VpnVersion>(version, ignoreCase: true) 
+            Enum.Parse<VpnVersion>(version, ignoreCase: true)
         ));
-        
-        
+
+
         return testResult.Match(
             _ => Ok(),
             Problem);

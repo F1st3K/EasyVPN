@@ -22,10 +22,10 @@ public class RemoveProtocolsHandler : IRequestHandler<RemoveProtocolCommand, Err
 
         if (_protocolRepository.Get(command.ProtocolId) is not { } protocol)
             return Errors.Protocol.NotFound;
-        
+
         if (_serverRepository.GetAll().Any(s => s.Protocol.Id == protocol.Id))
             return Errors.Protocol.StillInUse;
-        
+
         _protocolRepository.Remove(protocol.Id);
 
         return Result.Deleted;

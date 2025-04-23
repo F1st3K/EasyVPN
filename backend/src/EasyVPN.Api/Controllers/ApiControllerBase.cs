@@ -7,7 +7,7 @@ namespace EasyVPN.Api.Controllers;
 
 [ApiController]
 [Authorize]
-public abstract class ApiController : ControllerBase
+public abstract class ApiControllerBase : ControllerBase
 {
     protected IActionResult Problem(List<Error> errors)
     {

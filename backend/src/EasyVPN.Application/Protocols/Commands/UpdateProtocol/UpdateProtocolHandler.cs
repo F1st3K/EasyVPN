@@ -20,10 +20,10 @@ public class UpdateProtocolsHandler : IRequestHandler<UpdateProtocolCommand, Err
 
         if (_protocolRepository.Get(command.ProtocolId) is not { } protocol)
             return Errors.Protocol.NotFound;
-        
+
         protocol.Name = command.Name;
         protocol.Icon = command.Icon;
-            
+
         _protocolRepository.Update(protocol);
 
         return Result.Updated;
