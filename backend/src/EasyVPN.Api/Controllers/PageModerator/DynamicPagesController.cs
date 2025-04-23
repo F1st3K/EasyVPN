@@ -9,10 +9,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers;
+namespace EasyVPN.Api.Controllers.PageModerator;
 
 [Route("dynamic-pages")]
-public class DynamicPagesController : ApiController
+public class DynamicPagesController : ApiControllerBase
 {
     private readonly ISender _sender;
 

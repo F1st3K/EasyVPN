@@ -10,11 +10,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers;
+namespace EasyVPN.Api.Controllers.PaymentReviewer;
 
 [Route("payment/tickets")]
 [Authorize(Roles = Roles.PaymentReviewer)]
-public class PaymentTicketsController : ApiController
+public class PaymentTicketsController : ApiControllerBase
 {
     private readonly ISender _sender;
 

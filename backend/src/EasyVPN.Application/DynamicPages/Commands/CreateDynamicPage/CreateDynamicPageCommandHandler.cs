@@ -22,7 +22,7 @@ public class CreateDynamicPageCommandHandler : IRequestHandler<CreateDynamicPage
     {
         await Task.CompletedTask;
 
-        if (_dynamicPageRepository.GetAll().Any(p => p.Route == command.Route))
+        if (_dynamicPageRepository.Get(command.Route) is { } existing)
             return Errors.DynamicPage.AlreadyExist;
 
         var page = new DynamicPage

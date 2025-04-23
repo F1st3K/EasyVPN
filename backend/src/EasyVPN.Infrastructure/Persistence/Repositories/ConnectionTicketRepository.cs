@@ -34,22 +34,14 @@ public class ConnectionTicketRepository : IConnectionTicketRepository
 
     public void Remove(Guid id)
     {
-        if (_dbContext.ConnectionTickets.SingleOrDefault(ct => ct.Id == id)
-            is not { } connectionTicket)
-            return;
-
-        _dbContext.ConnectionTickets.Remove(connectionTicket);
+        _dbContext.ConnectionTickets.Remove(
+            _dbContext.ConnectionTickets.Single(ct => ct.Id == id));
         _dbContext.SaveChanges();
     }
 
     public void Update(ConnectionTicket connection)
     {
-        if (_dbContext.ConnectionTickets.SingleOrDefault(c => c.Id == connection.Id)
-            is not { } stateConnection)
-            return;
-
-        stateConnection.Status = connection.Status;
-        _dbContext.ConnectionTickets.Update(stateConnection);
+        _dbContext.ConnectionTickets.Update(connection);
         _dbContext.SaveChanges();
     }
 }

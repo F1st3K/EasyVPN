@@ -8,11 +8,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers;
+namespace EasyVPN.Api.Controllers.Common;
 
 [Route("auth")]
 [AllowAnonymous]
-public class AuthenticationController : ApiController
+public class AuthenticationController : ApiControllerBase
 {
     private readonly ISender _sender;
 

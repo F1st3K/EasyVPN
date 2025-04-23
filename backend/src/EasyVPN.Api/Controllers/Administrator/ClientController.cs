@@ -4,11 +4,11 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers;
+namespace EasyVPN.Api.Controllers.Administrator;
 
 [Route("client")]
 [Authorize(Roles = Roles.Administrator)]
-public class ClientController : ApiController
+public class ClientController : ApiControllerBase
 {
     private readonly ISender _sender;
 

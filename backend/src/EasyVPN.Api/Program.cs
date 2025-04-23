@@ -1,5 +1,5 @@
 using EasyVPN.Api;
-using EasyVPN.Api.Controllers;
+using EasyVPN.Api.Controllers.Common;
 using EasyVPN.Application;
 using EasyVPN.Infrastructure;
 
@@ -8,9 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddCors(options =>
     {
         options.AddPolicy("AllowAll",
-            builder =>
+            policyBuilder =>
             {
-                builder.AllowAnyOrigin()
+                policyBuilder.AllowAnyOrigin()
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             });

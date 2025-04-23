@@ -35,17 +35,7 @@ public class UserRepository : IUserRepository
 
     public void Update(User user)
     {
-        if (_dbContext.Users.SingleOrDefault(u => u.Id == user.Id)
-            is not { } storedUser)
-            return;
-
-        storedUser.Login = user.Login;
-        storedUser.FirstName = user.FirstName;
-        storedUser.LastName = user.LastName;
-        storedUser.Roles = user.Roles;
-        storedUser.HashPassword = user.HashPassword;
-
-        _dbContext.Users.Update(storedUser);
+        _dbContext.Users.Update(user);
         _dbContext.SaveChanges();
     }
 }
