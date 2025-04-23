@@ -1,9 +1,12 @@
 using EasyVPN.Api.Common;
+using EasyVPN.Application.Servers.Commands.CreateServer;
+using EasyVPN.Application.Servers.Commands.UpdateServer;
 using EasyVPN.Application.Servers.Queries.GetServer;
 using EasyVPN.Application.Servers.Queries.GetServers;
 using EasyVPN.Application.Servers.Queries.TestConnection;
 using EasyVPN.Contracts.Servers;
 using EasyVPN.Domain.Common.Enums;
+using EasyVPN.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -104,17 +107,17 @@ public class ServersController : ApiController
         ));
         if (testResult.IsError) Problem(testResult.Errors);
         
-        var result = await _sender.Send(new GetServerQuery(new Guid()));
+        var result = await _sender.Send(new CreateServerCommand(
+            new ConnectionString {
+                Auth = request.Connection.Auth,
+                Endpoint = request.Connection.Endpoint
+            }, 
+            request.ProtocolId,
+            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true)
+        ));
+        
         return result.Match(
-            result => Ok(new ServerResponse(
-                result.Id,
-                new ProtocolResponse(
-                    result.Protocol.Id,
-                    result.Protocol.Name,
-                    result.Protocol.Icon
-                ),
-                result.Version.ToString()
-            )),
+            _ => Ok(),
             Problem);
     }
     
@@ -148,17 +151,18 @@ public class ServersController : ApiController
         ));
         if (testResult.IsError) Problem(testResult.Errors);
         
-        var result = await _sender.Send(new GetServerQuery(new Guid()));
+        var result = await _sender.Send(new UpdateServerCommand(
+            serverId,
+            new ConnectionString {
+                Auth = request.Connection.Auth,
+                Endpoint = request.Connection.Endpoint
+            }, 
+            request.ProtocolId,
+            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true)
+        ));
+        
         return result.Match(
-            result => Ok(new ServerResponse(
-                result.Id,
-                new ProtocolResponse(
-                    result.Protocol.Id,
-                    result.Protocol.Name,
-                    result.Protocol.Icon
-                ),
-                result.Version.ToString()
-            )),
+            _ => Ok(),
             Problem);
     }
     

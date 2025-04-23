@@ -23,4 +23,24 @@ public class ServerRepository : IServerRepository
     {
         return _dbContext.Servers.Include(s => s.Protocol);
     }
+
+    public void Add(Server server)
+    {
+        _dbContext.Servers.Add(server);
+        _dbContext.SaveChanges();
+    }
+
+    public void Update(Server server)
+    {
+        if (_dbContext.Servers.SingleOrDefault(s => s.Id == server.Id)
+            is not { } stateServer)
+            return;
+        
+        stateServer.Protocol = server.Protocol;
+        stateServer.ConnectionString = server.ConnectionString;
+        stateServer.Version = server.Version;
+        
+        _dbContext.Servers.Update(server);
+        _dbContext.SaveChanges();
+    }
 }
