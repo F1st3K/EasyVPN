@@ -1,3 +1,5 @@
+using EasyVPN.Application.Connections.Commands.AddLifetimeConnection;
+using EasyVPN.Application.Connections.Commands.CreateConnection;
 using EasyVPN.Application.Connections.Commands.ResetLifetimeConnection;
 using EasyVPN.Application.Connections.Queries.GetConfig;
 using EasyVPN.Application.Connections.Queries.GetConnection;
@@ -24,7 +26,7 @@ public class ConnectionsController : ApiControllerBase
 
 
     /// <summary>
-    /// Permanent get list connections. (administrator)
+    /// Permanent get list connections. (connection regulator)
     /// </summary>
     /// <param name="clientId">Filter connection with this client.</param>
     /// <returns>Returns OK or error.</returns>
@@ -63,7 +65,7 @@ public class ConnectionsController : ApiControllerBase
 
 
     /// <summary>
-    /// Permanent get connection by guid. (administrator, payment reviewer)
+    /// Permanent get connection by guid. (connection regulator, payment reviewer)
     /// </summary>
     /// <param name="connectionId">The guid of connection.</param>
     /// <returns>Returns information for this connection.</returns>
@@ -98,9 +100,34 @@ public class ConnectionsController : ApiControllerBase
             Problem);
     }
 
+    /// <summary>
+    /// Permanent create new connection for client. (connection regulator)
+    /// </summary>
+    /// <param name="serverId">Guid of the server to which the connection is created.</param>
+    /// <param name="clientId">Client guid for which the connection is being created.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// POST {{host}}/connections/?serverId={{serverId}}clientId={{clientId}}
+    /// </remarks>
+    [HttpPost]
+    [Authorize(Roles = nameof(RoleType.ConnectionRegulator))]
+    public async Task<IActionResult> CreateConnection(
+        [FromQuery] Guid serverId, [FromQuery] Guid clientId)
+    {
+        var createConnectionResult =
+            await _sender.Send(new CreateConnectionCommand(
+                clientId,
+                serverId));
+
+        return createConnectionResult.Match(
+            _ => Ok(),
+            Problem);
+    }
 
     /// <summary>
-    /// Permanent get config connection by guid. (administrator)
+    /// Permanent get config connection by guid. (connection regulator)
     /// </summary>
     /// <param name="connectionId">The guid of connection.</param>
     /// <returns>Returns config information for this connection.</returns>
@@ -121,7 +148,7 @@ public class ConnectionsController : ApiControllerBase
     }
 
     /// <summary>
-    /// Permanent reset lifetime connection by guid. (administrator)
+    /// Permanent reset lifetime connection by guid. (connection regulator)
     /// </summary>
     /// <param name="connectionId">The guid of connection.</param>
     /// <returns>Returns OK or error.</returns>
@@ -136,6 +163,29 @@ public class ConnectionsController : ApiControllerBase
     {
         var confirmResult = await _sender.Send(
             new ResetLifetimeConnectionCommand(connectionId));
+
+        return confirmResult.Match(
+            _ => Ok(),
+            Problem);
+    }
+
+    /// <summary>
+    /// Permanent extend lifetime connection by guid. (connection regulator)
+    /// </summary>
+    /// <param name="connectionId">The guid of connection.</param>
+    /// <param name="days">The count days connection extended.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    /// PUT {{host}}/connections/{{connectionId}}/extend?days=3
+    /// </remarks>
+    [HttpPut("{connectionId:guid}/extend")]
+    [Authorize(Roles = nameof(RoleType.ConnectionRegulator))]
+    public async Task<IActionResult> Extend([FromRoute] Guid connectionId, [FromQuery] uint days = 0)
+    {
+        var confirmResult = await _sender.Send(
+            new AddLifetimeConnectionCommand(connectionId, (int)days));
 
         return confirmResult.Match(
             _ => Ok(),
