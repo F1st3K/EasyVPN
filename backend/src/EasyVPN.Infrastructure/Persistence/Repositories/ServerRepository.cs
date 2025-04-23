@@ -32,25 +32,14 @@ public class ServerRepository : IServerRepository
 
     public void Update(Server server)
     {
-        if (_dbContext.Servers.SingleOrDefault(s => s.Id == server.Id)
-            is not { } stateServer)
-            return;
-        
-        stateServer.Protocol = server.Protocol;
-        stateServer.ConnectionString = server.ConnectionString;
-        stateServer.Version = server.Version;
-        
         _dbContext.Servers.Update(server);
         _dbContext.SaveChanges();
     }
 
     public void Remove(Guid id)
     {
-        if (_dbContext.Servers.SingleOrDefault(s => s.Id == id)
-            is not { } server)
-            return;
-        
-        _dbContext.Servers.Remove(server);
+        _dbContext.Servers.Remove(
+            _dbContext.Servers.Single(s => s.Id == id));
         _dbContext.SaveChanges();
     }
 }
