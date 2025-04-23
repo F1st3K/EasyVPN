@@ -4,6 +4,7 @@ using EasyVPN.Application.Authentication.Common;
 using EasyVPN.Application.Authentication.Queries.Login;
 using EasyVPN.Application.Users.Queries.GetUser;
 using EasyVPN.Contracts.Authentication;
+using EasyVPN.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace EasyVPN.Api.Controllers.Common;
 
 [Route("auth")]
-[AllowAnonymous]
 public class AuthenticationController : ApiControllerBase
 {
     private readonly ISender _sender;
@@ -38,6 +38,7 @@ public class AuthenticationController : ApiControllerBase
     /// }
     /// </remarks>
     [HttpPost("register")]
+    [AllowAnonymous]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
         var command = new RegisterCommand(
@@ -64,6 +65,7 @@ public class AuthenticationController : ApiControllerBase
     /// }
     /// </remarks>
     [HttpPost("login")]
+    [AllowAnonymous]
     public async Task<IActionResult> Login(LoginRequest request)
     {
         var query = new LoginQuery(request.Login, request.Password);
@@ -85,7 +87,7 @@ public class AuthenticationController : ApiControllerBase
     /// Authorization: Bearer {token}
     /// </remarks>
     [HttpGet("check")]
-    [Authorize]
+    [Authorize(Roles = nameof(RoleType.ConnectionRegulator))]
     public async Task<IActionResult> Check()
     {
         if (User.GetCurrentId() is not { } id

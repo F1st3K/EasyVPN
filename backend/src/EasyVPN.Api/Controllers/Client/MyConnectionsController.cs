@@ -8,6 +8,7 @@ using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
 using EasyVPN.Contracts.Connections;
 using EasyVPN.Contracts.Servers;
 using EasyVPN.Contracts.Users;
+using EasyVPN.Domain.Common.Enums;
 using EasyVPN.Domain.Common.Errors;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EasyVPN.Api.Controllers.Client;
 
 [Route("my/connections")]
-[Authorize(Roles = Roles.Client)]
+[Authorize(Roles = nameof(RoleType.Client))]
 public class MyConnectionsController : ApiControllerBase
 {
     private readonly ISender _sender;

@@ -1,4 +1,3 @@
-using EasyVPN.Api.Common;
 using EasyVPN.Application.Connections.Commands.ResetLifetimeConnection;
 using EasyVPN.Application.Connections.Queries.GetConfig;
 using EasyVPN.Application.Connections.Queries.GetConnection;
@@ -6,11 +5,12 @@ using EasyVPN.Application.Connections.Queries.GetConnections;
 using EasyVPN.Contracts.Connections;
 using EasyVPN.Contracts.Servers;
 using EasyVPN.Contracts.Users;
+using EasyVPN.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.Administrator;
+namespace EasyVPN.Api.Controllers.ConnectionRegulator;
 
 [Route("connections")]
 public class ConnectionsController : ApiControllerBase
@@ -34,7 +34,7 @@ public class ConnectionsController : ApiControllerBase
     /// GET {{host}}/connections?clientId={{clientId}}
     /// </remarks>
     [HttpGet]
-    [Authorize(Roles = Roles.Administrator)]
+    [Authorize(Roles = nameof(RoleType.ConnectionRegulator))]
     public async Task<IActionResult> GetConnections([FromQuery] Guid? clientId)
     {
         var getConnectionsResult =
@@ -58,14 +58,14 @@ public class ConnectionsController : ApiControllerBase
                             c.Server.Protocol.Icon),
                         c.Server.Version.ToString()),
                     c.ExpirationTime))),
-            errors => Problem(errors));
+            Problem);
     }
 
 
     /// <summary>
     /// Permanent get connection by guid. (administrator, payment reviewer)
     /// </summary>
-    /// <param name="connectionId">The guid of conneciton.</param>
+    /// <param name="connectionId">The guid of connection.</param>
     /// <returns>Returns information for this connection.</returns>
     /// <remarks>
     /// Sample request:
@@ -73,7 +73,7 @@ public class ConnectionsController : ApiControllerBase
     /// GET {{host}}/connections/{{connectionId}}
     /// </remarks>
     [HttpGet("{connectionId:guid}")]
-    [Authorize(Roles = Roles.Administrator + "," + Roles.PaymentReviewer)]
+    [Authorize(Roles = $"{nameof(RoleType.ConnectionRegulator)}, {nameof(RoleType.PaymentReviewer)})]")]
     public async Task<IActionResult> GetConnection([FromRoute] Guid connectionId)
     {
         var configResult =
@@ -95,14 +95,14 @@ public class ConnectionsController : ApiControllerBase
                             result.Server.Protocol.Icon),
                         result.Server.Version.ToString()),
                     result.ExpirationTime)),
-            errors => Problem(errors));
+            Problem);
     }
 
 
     /// <summary>
     /// Permanent get config connection by guid. (administrator)
     /// </summary>
-    /// <param name="connectionId">The guid of conneciton.</param>
+    /// <param name="connectionId">The guid of connection.</param>
     /// <returns>Returns config information for this connection.</returns>
     /// <remarks>
     /// Sample request:
@@ -110,20 +110,20 @@ public class ConnectionsController : ApiControllerBase
     /// GET {{host}}/connections/{{connectionId}}/config
     /// </remarks>
     [HttpGet("{connectionId:guid}/config")]
-    [Authorize(Roles = Roles.Administrator)]
+    [Authorize(Roles = nameof(RoleType.ConnectionRegulator))]
     public async Task<IActionResult> GetConnectionConfig([FromRoute] Guid connectionId)
     {
         var configResult =
             await _sender.Send(new GetConfigQuery(connectionId));
         return configResult.Match(
             result => Ok(new ConnectionConfigResponse(result.ClientId, result.Config)),
-            errors => Problem(errors));
+            Problem);
     }
 
     /// <summary>
-    /// Permanent reset life time connection by guid. (administrator)
+    /// Permanent reset lifetime connection by guid. (administrator)
     /// </summary>
-    /// <param name="connectionId">The guid of conneciton.</param>
+    /// <param name="connectionId">The guid of connection.</param>
     /// <returns>Returns OK or error.</returns>
     /// <remarks>
     /// Sample request:
@@ -131,7 +131,7 @@ public class ConnectionsController : ApiControllerBase
     /// PUT {{host}}/connections/{{connectionId}}/reset
     /// </remarks>
     [HttpPut("{connectionId:guid}/reset")]
-    [Authorize(Roles = Roles.Administrator)]
+    [Authorize(Roles = nameof(RoleType.ConnectionRegulator))]
     public async Task<IActionResult> Reset([FromRoute] Guid connectionId)
     {
         var confirmResult = await _sender.Send(
@@ -139,6 +139,6 @@ public class ConnectionsController : ApiControllerBase
 
         return confirmResult.Match(
             _ => Ok(),
-            errors => Problem(errors));
+            Problem);
     }
 }

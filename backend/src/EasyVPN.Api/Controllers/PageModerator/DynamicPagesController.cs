@@ -1,10 +1,10 @@
-using EasyVPN.Api.Common;
 using EasyVPN.Application.DynamicPages.Commands.CreateDynamicPage;
 using EasyVPN.Application.DynamicPages.Commands.RemoveDynamicPage;
 using EasyVPN.Application.DynamicPages.Commands.UpdateDynamicPage;
 using EasyVPN.Application.DynamicPages.Queries.GetDynamicPage;
 using EasyVPN.Application.DynamicPages.Queries.GetDynamicPages;
 using EasyVPN.Contracts.DynamicPages;
+using EasyVPN.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -53,7 +53,7 @@ public class DynamicPagesController : ApiControllerBase
             )), Problem);
     }
 
-    [Authorize(Roles = Roles.PageModerator)]
+    [Authorize(Roles = nameof(RoleType.PageModerator))]
     [HttpPost]
     public async Task<IActionResult> CreatePage([FromBody] DynamicPageRequest pageRequest)
     {
@@ -66,7 +66,7 @@ public class DynamicPagesController : ApiControllerBase
         return result.Match(r => Created(), Problem);
     }
 
-    [Authorize(Roles = Roles.PageModerator)]
+    [Authorize(Roles = nameof(RoleType.PageModerator))]
     [HttpPut("{*pageRoute}")]
     public async Task<IActionResult> UpdatePage([FromRoute] string pageRoute, [FromBody] DynamicPageRequest pageRequest)
     {
@@ -80,7 +80,7 @@ public class DynamicPagesController : ApiControllerBase
         return result.Match(r => Ok(), Problem);
     }
 
-    [Authorize(Roles = Roles.PageModerator)]
+    [Authorize(Roles = nameof(RoleType.PageModerator))]
     [HttpDelete("{*pageRoute}")]
     public async Task<IActionResult> DeletePage([FromRoute] string pageRoute)
     {

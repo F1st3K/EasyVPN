@@ -1,4 +1,3 @@
-using EasyVPN.Api.Common;
 using EasyVPN.Application.Servers.Commands.CreateServer;
 using EasyVPN.Application.Servers.Commands.RemoveServer;
 using EasyVPN.Application.Servers.Commands.UpdateServer;
@@ -98,7 +97,7 @@ public class ServersController : ApiControllerBase
     /// }
     /// </remarks>
     [HttpPost]
-    [Authorize(Roles = Roles.ServerSetuper)]
+    [Authorize(Roles = nameof(RoleType.ServerSetuper))]
     public async Task<IActionResult> SetupServer([FromBody] ServerRequest request)
     {
         var testResult = await _sender.Send(new TestConnectionQuery(
@@ -143,7 +142,7 @@ public class ServersController : ApiControllerBase
     /// }
     /// </remarks>
     [HttpPut("{serverId:guid}")]
-    [Authorize(Roles = Roles.ServerSetuper)]
+    [Authorize(Roles = nameof(RoleType.ServerSetuper))]
     public async Task<IActionResult> ConfigServer([FromRoute] Guid serverId, [FromBody] ServerRequest request)
     {
         var testResult = await _sender.Send(new TestConnectionQuery(
@@ -180,7 +179,7 @@ public class ServersController : ApiControllerBase
     /// DELETE {{host}}/servers/{{serverId}}
     /// </remarks>
     [HttpDelete("{serverId:guid}")]
-    [Authorize(Roles = Roles.ServerSetuper)]
+    [Authorize(Roles = nameof(RoleType.ServerSetuper))]
     public async Task<IActionResult> DeleteServer([FromRoute] Guid serverId)
     {
         var result = await _sender.Send(new RemoveServerCommand(serverId));
@@ -206,7 +205,7 @@ public class ServersController : ApiControllerBase
     /// }
     /// </remarks>
     [HttpPost("test/{version}")]
-    [Authorize(Roles = Roles.ServerSetuper)]
+    [Authorize(Roles = nameof(RoleType.ServerSetuper))]
     public async Task<IActionResult> TestConnection([FromRoute] string version, [FromBody] ConnectionRequest request)
     {
         var testResult = await _sender.Send(new TestConnectionQuery(

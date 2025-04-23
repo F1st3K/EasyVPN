@@ -1,13 +1,13 @@
-using EasyVPN.Api.Common;
 using EasyVPN.Application.Connections.Commands.CreateConnection;
+using EasyVPN.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.Administrator;
+namespace EasyVPN.Api.Controllers.ConnectionRegulator;
 
 [Route("client")]
-[Authorize(Roles = Roles.Administrator)]
+[Authorize(Roles = nameof(RoleType.ConnectionRegulator))]
 public class ClientController : ApiControllerBase
 {
     private readonly ISender _sender;
@@ -40,6 +40,6 @@ public class ClientController : ApiControllerBase
 
         return createConnectionResult.Match(
             _ => Ok(),
-            errors => Problem(errors));
+            Problem);
     }
 }

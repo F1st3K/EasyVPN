@@ -1,4 +1,3 @@
-using EasyVPN.Api.Common;
 using EasyVPN.Application.Users.Commands.ChangePassword;
 using EasyVPN.Application.Users.Commands.RolesUpdate;
 using EasyVPN.Application.Users.Queries.GetUser;
@@ -12,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EasyVPN.Api.Controllers.SecurityKeeper;
 
 [Route("users")]
-[Authorize(Roles = Roles.SecurityKeeper)]
+[Authorize(Roles = nameof(RoleType.SecurityKeeper))]
 public class UsersController : ApiControllerBase
 {
     private readonly ISender _sender;
