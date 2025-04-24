@@ -21,6 +21,15 @@ public class DynamicPagesController : ApiControllerBase
         _sender = sender;
     }
 
+    /// <summary>
+    /// Get pages information. (anywhere)
+    /// </summary>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/dynamic-pages
+    /// </remarks>
     [AllowAnonymous]
     [HttpGet]
     public async Task<IActionResult> GetPages()
@@ -36,6 +45,16 @@ public class DynamicPagesController : ApiControllerBase
                 ))), Problem);
     }
 
+    /// <summary>
+    /// Get page. (anywhere)
+    /// </summary>
+    /// <param name="pageRoute">Route of page.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// GET {{host}}/dynamic-pages/{{pageRoute}}
+    /// </remarks>
     [AllowAnonymous]
     [HttpGet("{*pageRoute}")]
     public async Task<IActionResult> GetPage([FromRoute] string pageRoute)
@@ -53,6 +72,16 @@ public class DynamicPagesController : ApiControllerBase
             )), Problem);
     }
 
+    /// <summary>
+    /// Create page. (page moderator)
+    /// </summary>
+    /// <param name="pageRequest">Page information.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// POST {{host}}/dynamic-pages/{{pageRoute}}
+    /// </remarks>
     [Authorize(Roles = nameof(RoleType.PageModerator))]
     [HttpPost]
     public async Task<IActionResult> CreatePage([FromBody] DynamicPageRequest pageRequest)
@@ -63,9 +92,20 @@ public class DynamicPagesController : ApiControllerBase
             pageRequest.Base64Content
         ));
 
-        return result.Match(r => Created(), Problem);
+        return result.Match(_ => Created(), Problem);
     }
 
+    /// <summary>
+    /// Update page information. (page moderator)
+    /// </summary>
+    /// <param name="pageRoute">Route of page.</param>
+    /// <param name="pageRequest">New page information.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// PUT {{host}}/dynamic-pages/{{pageRoute}}
+    /// </remarks>
     [Authorize(Roles = nameof(RoleType.PageModerator))]
     [HttpPut("{*pageRoute}")]
     public async Task<IActionResult> UpdatePage([FromRoute] string pageRoute, [FromBody] DynamicPageRequest pageRequest)
@@ -77,15 +117,25 @@ public class DynamicPagesController : ApiControllerBase
             pageRequest.Base64Content
         ));
 
-        return result.Match(r => Ok(), Problem);
+        return result.Match(_ => Ok(), Problem);
     }
 
+    /// <summary>
+    /// Remove page. (page moderator)
+    /// </summary>
+    /// <param name="pageRoute">Route of page.</param>
+    /// <returns>Returns OK or error.</returns>
+    /// <remarks>
+    /// Sample request:
+    ///
+    /// DELETE {{host}}/dynamic-pages/{{pageRoute}}
+    /// </remarks>
     [Authorize(Roles = nameof(RoleType.PageModerator))]
     [HttpDelete("{*pageRoute}")]
     public async Task<IActionResult> DeletePage([FromRoute] string pageRoute)
     {
         var result = await _sender.Send(new RemoveDynamicPageCommand(pageRoute));
 
-        return result.Match(r => Ok(), Problem);
+        return result.Match(_ => Ok(), Problem);
     }
 }

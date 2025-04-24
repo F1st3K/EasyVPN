@@ -5,11 +5,11 @@ using MediatR;
 
 namespace EasyVPN.Application.Users.Commands.RolesUpdate;
 
-public class RolesUpdateCommandHandler : IRequestHandler<RolesUpdateCommand, ErrorOr<Updated>>
+public class RolesUpdateHandler : IRequestHandler<RolesUpdateCommand, ErrorOr<Updated>>
 {
     private readonly IUserRepository _userRepository;
 
-    public RolesUpdateCommandHandler(
+    public RolesUpdateHandler(
         IUserRepository connectionRepository)
     {
         _userRepository = connectionRepository;

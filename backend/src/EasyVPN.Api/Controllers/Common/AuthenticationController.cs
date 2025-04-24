@@ -22,7 +22,7 @@ public class AuthenticationController : ApiControllerBase
     }
 
     /// <summary>
-    /// Registers a new user. (any where)
+    /// Registers a new user. (anywhere)
     /// </summary>
     /// <param name="request">The registration request containing the user's first name, last name, login, and password.</param>
     /// <returns>Returns the result of the registration.</returns>
@@ -47,11 +47,11 @@ public class AuthenticationController : ApiControllerBase
 
         return authResult.Match(
             result => Ok(MapAuthResult(result)),
-            errors => Problem(errors));
+            Problem);
     }
 
     /// <summary>
-    /// Logs in a user. (any where)
+    /// Logs in a user. (anywhere)
     /// </summary>
     /// <param name="request">The login request containing the user's login and password.</param>
     /// <returns>Returns the result of the login, including the token.</returns>
@@ -73,7 +73,7 @@ public class AuthenticationController : ApiControllerBase
 
         return authResult.Match(
             result => Ok(MapAuthResult(result)),
-            errors => Problem(errors));
+            Problem);
     }
 
     /// <summary>
@@ -87,7 +87,7 @@ public class AuthenticationController : ApiControllerBase
     /// Authorization: Bearer {token}
     /// </remarks>
     [HttpGet("check")]
-    [Authorize(Roles = nameof(RoleType.ConnectionRegulator))]
+    [Authorize]
     public async Task<IActionResult> Check()
     {
         if (User.GetCurrentId() is not { } id
@@ -99,7 +99,7 @@ public class AuthenticationController : ApiControllerBase
 
         return userResult.Match(
             result => Ok(MapAuthResult(new AuthenticationResult(result, token))),
-            errors => Problem(errors));
+            Problem);
     }
 
     private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)

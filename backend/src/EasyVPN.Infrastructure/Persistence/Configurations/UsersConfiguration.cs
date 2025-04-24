@@ -25,6 +25,7 @@ public class UsersConfiguration : IEntityTypeConfiguration<User>
             .HasMaxLength(50);
         builder.Property(u => u.LastName)
             .HasMaxLength(50);
+        builder.Property(u => u.Icon);
 
         builder.HasIndex(u => u.Login);
         builder.Property(u => u.HashPassword)

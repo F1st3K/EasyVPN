@@ -9,4 +9,4 @@ public record AuthenticationResponse(
     string Login,
     string[] Roles,
     string Token
-    ) : UserResponse(Id, FirstName, LastName, Login, Roles);
+    );
