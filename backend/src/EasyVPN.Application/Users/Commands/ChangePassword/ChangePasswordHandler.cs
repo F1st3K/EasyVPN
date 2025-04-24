@@ -6,12 +6,12 @@ using MediatR;
 
 namespace EasyVPN.Application.Users.Commands.ChangePassword;
 
-public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, ErrorOr<Updated>>
+public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, ErrorOr<Updated>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IHashGenerator _hasher;
 
-    public ChangePasswordCommandHandler(
+    public ChangePasswordHandler(
         IUserRepository connectionRepository,
         IHashGenerator hasher)
     {

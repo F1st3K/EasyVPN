@@ -8,7 +8,7 @@ namespace EasyVPN.Api.Controllers.Common;
 public class HealthController : ApiControllerBase
 {
     /// <summary>
-    /// Health api (any)
+    /// Health api (anywhere)
     /// </summary>
     [HttpGet]
     public async Task<IActionResult> Get()

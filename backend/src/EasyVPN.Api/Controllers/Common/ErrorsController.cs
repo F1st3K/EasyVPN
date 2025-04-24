@@ -9,7 +9,7 @@ public class ErrorsController : ApiControllerBase
     public const string Route = "/error";
 
     /// <summary>
-    /// Errors endpoint. (any where)
+    /// Errors endpoint. (anywhere)
     /// </summary>
     /// <returns>Returns the error information.</returns>
     /// <remarks>

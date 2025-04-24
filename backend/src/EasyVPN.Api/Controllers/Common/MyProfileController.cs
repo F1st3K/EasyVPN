@@ -1,5 +1,7 @@
 using EasyVPN.Api.Common;
+using EasyVPN.Application.Users.Commands.ChangeLogin;
 using EasyVPN.Application.Users.Commands.ChangePassword;
+using EasyVPN.Application.Users.Commands.UserInfoUpdate;
 using EasyVPN.Application.Users.Queries.GetUser;
 using EasyVPN.Contracts.Users;
 using EasyVPN.Domain.Common.Errors;
@@ -19,7 +21,7 @@ public class MyProfileController : ApiControllerBase
     {
         _sender = sender;
     }
-    
+
     /// <summary>
     /// Change profile information for current user. (any auth)
     /// </summary>
@@ -35,7 +37,7 @@ public class MyProfileController : ApiControllerBase
     {
         if (User.GetCurrentId() is not { } userId)
             return Problem(Errors.Access.NotIdentified);
-        
+
         var userResult =
             await _sender.Send(new GetUserQuery(userId));
 
@@ -50,7 +52,7 @@ public class MyProfileController : ApiControllerBase
                 )),
             Problem);
     }
-    
+
     /// <summary>
     /// Change profile information for current user. (any auth)
     /// </summary>
@@ -62,21 +64,24 @@ public class MyProfileController : ApiControllerBase
     /// PUT {{host}}/my/profile
     /// "newPassword"
     /// </remarks>
-    /*
     [HttpPut]
     public async Task<IActionResult> Change([FromBody] UserRequest request)
     {
         if (User.GetCurrentId() is not { } userId)
             return Problem(Errors.Access.NotIdentified);
-        
+
         var userResult =
-            await _sender.Send(new ChangeUserInfoCommand(userId, request));
+            await _sender.Send(new UserInfoUpdateCommand(
+                    userId,
+                    request.FirstName,
+                    request.LastName,
+                    request.Icon
+                ));
 
         return userResult.Match(
             _ => Ok(),
             Problem);
     }
-    */
 
     /// <summary>
     /// Change password for current user. (any auth)
@@ -94,7 +99,7 @@ public class MyProfileController : ApiControllerBase
     {
         if (User.GetCurrentId() is not { } userId)
             return Problem(Errors.Access.NotIdentified);
-        
+
         var userResult =
             await _sender.Send(new ChangePasswordCommand(userId, newPassword));
 
@@ -102,7 +107,7 @@ public class MyProfileController : ApiControllerBase
             _ => Ok(),
             Problem);
     }
-    
+
     /// <summary>
     /// Change login for current user. (any auth)
     /// </summary>
@@ -114,13 +119,12 @@ public class MyProfileController : ApiControllerBase
     /// PUT {{host}}/my/profile/login
     /// "newLogin"
     /// </remarks>
-    /*
     [HttpPut("login")]
     public async Task<IActionResult> ChangeLogin([FromBody] string newLogin)
     {
         if (User.GetCurrentId() is not { } userId)
             return Problem(Errors.Access.NotIdentified);
-        
+
         var userResult =
             await _sender.Send(new ChangeLoginCommand(userId, newLogin));
 
@@ -128,5 +132,4 @@ public class MyProfileController : ApiControllerBase
             _ => Ok(),
             Problem);
     }
-*/
 }

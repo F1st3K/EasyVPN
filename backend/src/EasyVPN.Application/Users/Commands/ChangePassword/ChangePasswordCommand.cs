@@ -1,4 +1,3 @@
-using EasyVPN.Domain.Common.Enums;
 using ErrorOr;
 using MediatR;
 
