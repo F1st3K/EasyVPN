@@ -50,6 +50,7 @@ public class ConnectionsController : ApiControllerBase
                         c.Client.Id,
                         c.Client.FirstName,
                         c.Client.LastName,
+                        c.Client.Icon,
                         c.Client.Login,
                         c.Client.Roles.Select(r => r.ToString()).ToArray()),
                     new ServerResponse(
@@ -87,6 +88,7 @@ public class ConnectionsController : ApiControllerBase
                         result.Client.Id,
                         result.Client.FirstName,
                         result.Client.LastName,
+                        result.Client.Icon,
                         result.Client.Login,
                         result.Client.Roles.Select(r => r.ToString()).ToArray()),
                     new ServerResponse(

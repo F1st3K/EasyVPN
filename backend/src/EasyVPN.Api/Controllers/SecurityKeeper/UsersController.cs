@@ -41,6 +41,7 @@ public class UsersController : ApiControllerBase
                     u.Id,
                     u.FirstName,
                     u.LastName,
+                    u.Icon,
                     u.Login,
                     u.Roles.Select(r => r.ToString()).ToArray()
                 ))),
@@ -68,6 +69,7 @@ public class UsersController : ApiControllerBase
                     u.Id,
                     u.FirstName,
                     u.LastName,
+                    u.Icon,
                     u.Login,
                     u.Roles.Select(r => r.ToString()).ToArray()
                 )),
