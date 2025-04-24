@@ -87,7 +87,7 @@ public class AuthenticationController : ApiControllerBase
     /// Authorization: Bearer {token}
     /// </remarks>
     [HttpGet("check")]
-    [Authorize(Roles = nameof(RoleType.ConnectionRegulator))]
+    [Authorize]
     public async Task<IActionResult> Check()
     {
         if (User.GetCurrentId() is not { } id
