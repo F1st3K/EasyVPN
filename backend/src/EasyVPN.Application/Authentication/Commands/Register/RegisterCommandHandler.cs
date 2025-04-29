@@ -36,9 +36,10 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         var user = new User
         {
             Id = userId,
-            Roles = new[] { RoleType.Client },
+            Roles = [RoleType.Client],
             FirstName = command.FirstName,
             LastName = command.LastName,
+            Icon = string.Empty,
             Login = command.Login,
             HashPassword = _hashGenerator.Hash(command.Password)
         };
