@@ -20,6 +20,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 import PaymentTicketsPage from '../pages/PaymentTicketsPage';
 import ProfilePage from '../pages/ProfilePage';
 import Root from '../pages/Root';
+import ServersControlPage from '../pages/ServersControlPage';
 import UsersControlPage from '../pages/UsersControlPage';
 
 interface ForProps {
@@ -106,7 +107,10 @@ const RoutesProvider: FC = () => {
                     <Route
                         path="servers"
                         element={
-                            <Auth with={Role.Administrator} for={<>control servers</>} />
+                            <Auth
+                                with={Role.ServerSetuper}
+                                for={<ServersControlPage />}
+                            />
                         }
                     />
                 </Route>

@@ -81,14 +81,16 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                     anchorEl={anchorAdmin}
                                     onClose={() => setAnchorAdmin(null)}
                                 >
-                                    <MenuItem
-                                        onClick={() => {
-                                            navigate('/control/connections');
-                                            setAnchorAdmin(null);
-                                        }}
-                                    >
-                                        Connections
-                                    </MenuItem>
+                                    {Is(Role.ServerSetuper) && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                navigate('/control/connections');
+                                                setAnchorAdmin(null);
+                                            }}
+                                        >
+                                            Connections
+                                        </MenuItem>
+                                    )}
                                     {Is(Role.SecurityKeeper) && (
                                         <MenuItem
                                             onClick={() => {
@@ -110,7 +112,9 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                 </PopUpMenu>
                             </>
                         )}
-                        {(Is(Role.PaymentReviewer) || Is(Role.Administrator)) && (
+                        {(Is(Role.PaymentReviewer) ||
+                            Is(Role.ServerSetuper) ||
+                            Is(Role.Administrator)) && (
                             <>
                                 <IconButton
                                     size="large"

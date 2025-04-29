@@ -4,4 +4,5 @@ export enum Role {
     PaymentReviewer = 'PaymentReviewer',
     PageModerator = 'PageModerator',
     SecurityKeeper = 'SecurityKeeper',
+    ServerSetuper = 'ServerSetuper',
 }
