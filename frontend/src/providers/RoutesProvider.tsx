@@ -11,6 +11,7 @@ import CreateConnectionModal from '../modules/CreateConnectionModal';
 import DeleteConnectionModal from '../modules/DeleteConnectionModal';
 import ExtendConnectionModal from '../modules/ExtendConnectionModal';
 import PaymentTikcetModal from '../modules/PaymentTikcetModal';
+import SetupServerModal from '../modules/SetupServerModal';
 import AuthPage from '../pages/AuthPage';
 import ClientConnectionsPage from '../pages/ClientConnectionsPage';
 import CreateDynamicPage from '../pages/CreateDynamicPage';
@@ -112,7 +113,9 @@ const RoutesProvider: FC = () => {
                                 for={<ServersControlPage />}
                             />
                         }
-                    />
+                    >
+                        <Route path="new" element={<SetupServerModal />} />
+                    </Route>
                 </Route>
                 <Route path="tickets/">
                     <Route index element={<Navigate to={'support'} />} />

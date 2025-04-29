@@ -10,14 +10,17 @@ import {
 } from '@mui/material';
 import React, { useContext } from 'react';
 import { FC } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
 import EasyVpn, { ApiError, Server } from '../../api';
 import CenterBox from '../../components/CenterBox';
+import CreateButton from '../../components/CreateButton';
 import { useRequest } from '../../hooks';
 
 const ServersControlPage: FC = () => {
     const { Auth } = useContext(Context);
+    const navigate = useNavigate();
 
     const [data, loading, error] = useRequest<Server[], ApiError>(
         () => EasyVpn.servers.getAll(Auth.getToken()).then((v) => v.data),
@@ -38,15 +41,17 @@ const ServersControlPage: FC = () => {
                         <Typography variant="h5" padding={3}>
                             Servers:
                         </Typography>
+                        <CreateButton onClick={() => navigate('./new')} />
                         <Divider sx={{ borderBottomWidth: '3px' }} />
                         <Table padding="none">
                             <TableBody>
-                                {data?.map((s, key) => <>{s.protocol}</>)}
+                                {data?.map((s, key) => <p key={key}>{s.id}</p>)}
                             </TableBody>
                         </Table>
                     </TableContainer>
                 </Paper>
             )}
+            <Outlet />
         </CenterBox>
     );
 };

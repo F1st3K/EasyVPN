@@ -5,10 +5,12 @@ import PaymentConnectionInfo from './common/PaymentConnectionInfo';
 import { ConnectionTicketStatus } from './enums/ConnectionTicketStatus';
 import { Role } from './enums/Role';
 import { VpnVersion } from './enums/VpnVersion';
+import ConnectionString from './requests/Connection';
 import CreateConnection from './requests/CreateConnection';
 import ExtendConnection from './requests/ExtendConnection';
 import Page from './requests/Page';
 import Register from './requests/Register';
+import ServerInfo from './requests/ServerInfo';
 import ApiError from './responses/ApiError';
 import Auth from './responses/Auth';
 import Connection from './responses/Connection';
@@ -118,8 +120,25 @@ const EasyVpn = {
         },
     },
     servers: {
+        test: (v: VpnVersion, request: ConnectionString, token: string) => {
+            return api.post<void>(`/servers/test/${v}`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
         getAll: (token: string) => {
             return api.get<Server[]>(`/servers`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        create: (request: ServerInfo, token: string) => {
+            return api.post<void>(`/servers`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+    },
+    protocols: {
+        getAll: (token: string) => {
+            return api.get<Protocol[]>(`/protocols`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
@@ -183,7 +202,7 @@ const EasyVpn = {
 
 export default EasyVpn;
 
-export type { PaymentConnectionInfo };
+export type { PaymentConnectionInfo, ServerInfo };
 
 export type {
     ApiError,
