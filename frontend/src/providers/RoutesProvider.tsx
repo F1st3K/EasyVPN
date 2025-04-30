@@ -7,6 +7,7 @@ import { Context } from '..';
 import { Role } from '../api';
 import ClientTicketModal from '../modules/ClientTicketModal';
 import ConfigModal from '../modules/ConfigModal';
+import ConfigureServerModal from '../modules/ConfigureServerModal';
 import CreateConnectionModal from '../modules/CreateConnectionModal';
 import DeleteConnectionModal from '../modules/DeleteConnectionModal';
 import ExtendConnectionModal from '../modules/ExtendConnectionModal';
@@ -115,6 +116,7 @@ const RoutesProvider: FC = () => {
                         }
                     >
                         <Route path="new" element={<SetupServerModal />} />
+                        <Route path=":serverId" element={<ConfigureServerModal />} />
                     </Route>
                 </Route>
                 <Route path="tickets/">

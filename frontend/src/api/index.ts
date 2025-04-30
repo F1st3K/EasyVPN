@@ -130,8 +130,23 @@ const EasyVpn = {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
+        get: (id: string, token: string) => {
+            return api.get<Server>(`/servers/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
         create: (request: ServerInfo, token: string) => {
             return api.post<void>(`/servers`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        edit: (id: string, request: ServerInfo, token: string) => {
+            return api.put<void>(`/servers/${id}`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        delete: (id: string, token: string) => {
+            return api.delete<void>(`servers/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },

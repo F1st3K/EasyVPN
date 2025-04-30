@@ -21,6 +21,11 @@ const ServerInfoForm: FC<ServerInfoFormProps> = (props) => {
     const [endpoint, setEndpoint] = useState<string>(props.server.connection.endpoint);
 
     useEffect(() => {
+        setProtocolId(props.server.protocolId);
+        setVersion(props.server.version);
+    }, [props.server]);
+
+    useEffect(() => {
         props.onChange &&
             props.onChange({ protocolId, version, connection: { auth, endpoint } });
     }, [protocolId, version, auth, endpoint]);
@@ -28,6 +33,8 @@ const ServerInfoForm: FC<ServerInfoFormProps> = (props) => {
     const [protocols] = useRequest<Protocol[], ApiError>(() =>
         EasyVpn.protocols.getAll(Auth.getToken()).then((v) => v.data),
     );
+    const protocol = protocols?.find((p) => p.id === protocolId);
+
     const [handleTest, loadingTest, errorTest] = useRequestHandler<void, ApiError>(() =>
         EasyVpn.servers
             .test(version, { auth, endpoint }, Auth.getToken())
@@ -79,8 +86,10 @@ const ServerInfoForm: FC<ServerInfoFormProps> = (props) => {
             <Autocomplete
                 autoHighlight
                 options={protocols ?? []}
-                onChange={(_, p) => p && setProtocolId(p.id)}
-                value={protocols?.find((p) => p.id === protocolId)}
+                onChange={(_, p) => {
+                    p && setProtocolId(p.id);
+                }}
+                value={protocol}
                 getOptionLabel={(o) => o.name}
                 renderOption={(p, o) => {
                     return (
@@ -103,12 +112,8 @@ const ServerInfoForm: FC<ServerInfoFormProps> = (props) => {
                                 alignItems: 'center',
                             }}
                         >
-                            <img
-                                width={40}
-                                src={protocols?.find((p) => p.id === protocolId)?.icon}
-                                alt=""
-                            />
-                            <TextField {...params} label="Choose a protocol" />
+                            <img width={40} src={protocol?.icon} alt="" />
+                            <TextField label="Choose a protocol" {...params} />
                         </Box>
                     );
                 }}
