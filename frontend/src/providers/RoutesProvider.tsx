@@ -7,10 +7,14 @@ import { Context } from '..';
 import { Role } from '../api';
 import ClientTicketModal from '../modules/ClientTicketModal';
 import ConfigModal from '../modules/ConfigModal';
+import ConfigureServerModal from '../modules/ConfigureServerModal';
 import CreateConnectionModal from '../modules/CreateConnectionModal';
+import CreateProtocolModal from '../modules/CreateProtolModal';
 import DeleteConnectionModal from '../modules/DeleteConnectionModal';
+import EditProtocolModal from '../modules/EditProtocolModal';
 import ExtendConnectionModal from '../modules/ExtendConnectionModal';
 import PaymentTikcetModal from '../modules/PaymentTikcetModal';
+import SetupServerModal from '../modules/SetupServerModal';
 import AuthPage from '../pages/AuthPage';
 import ClientConnectionsPage from '../pages/ClientConnectionsPage';
 import CreateDynamicPage from '../pages/CreateDynamicPage';
@@ -19,7 +23,9 @@ import ForbiddenPage from '../pages/ForbiddenPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import PaymentTicketsPage from '../pages/PaymentTicketsPage';
 import ProfilePage from '../pages/ProfilePage';
+import ProtocolsControlPage from '../pages/ProtocolsControlPage';
 import Root from '../pages/Root';
+import ServersControlPage from '../pages/ServersControlPage';
 import UsersControlPage from '../pages/UsersControlPage';
 
 interface ForProps {
@@ -106,9 +112,27 @@ const RoutesProvider: FC = () => {
                     <Route
                         path="servers"
                         element={
-                            <Auth with={Role.Administrator} for={<>control servers</>} />
+                            <Auth
+                                with={Role.ServerSetuper}
+                                for={<ServersControlPage />}
+                            />
                         }
-                    />
+                    >
+                        <Route path="new" element={<SetupServerModal />} />
+                        <Route path=":serverId" element={<ConfigureServerModal />} />
+                    </Route>
+                    <Route
+                        path="protocols"
+                        element={
+                            <Auth
+                                with={Role.ServerSetuper}
+                                for={<ProtocolsControlPage />}
+                            />
+                        }
+                    >
+                        <Route path="new" element={<CreateProtocolModal />} />
+                        <Route path=":protocolId" element={<EditProtocolModal />} />
+                    </Route>
                 </Route>
                 <Route path="tickets/">
                     <Route index element={<Navigate to={'support'} />} />

@@ -36,8 +36,7 @@ export default class AuthStore {
             .check(token)
             .then((r) => this.setAuth(r.data))
             .catch((e: ApiError) => {
-                if (e?.response?.data.status === HttpStatusCode.Unauthorized)
-                    this.logout();
+                if (e?.status === HttpStatusCode.Unauthorized) this.logout();
                 else throw e;
             });
     }

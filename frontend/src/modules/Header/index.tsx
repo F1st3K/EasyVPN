@@ -81,14 +81,16 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                     anchorEl={anchorAdmin}
                                     onClose={() => setAnchorAdmin(null)}
                                 >
-                                    <MenuItem
-                                        onClick={() => {
-                                            navigate('/control/connections');
-                                            setAnchorAdmin(null);
-                                        }}
-                                    >
-                                        Connections
-                                    </MenuItem>
+                                    {Is(Role.Administrator) && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                navigate('/control/connections');
+                                                setAnchorAdmin(null);
+                                            }}
+                                        >
+                                            Connections
+                                        </MenuItem>
+                                    )}
                                     {Is(Role.SecurityKeeper) && (
                                         <MenuItem
                                             onClick={() => {
@@ -99,18 +101,32 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                             Users
                                         </MenuItem>
                                     )}
-                                    <MenuItem
-                                        onClick={() => {
-                                            navigate('/control/servers');
-                                            setAnchorAdmin(null);
-                                        }}
-                                    >
-                                        Servers
-                                    </MenuItem>
+                                    {Is(Role.ServerSetuper) && (
+                                        <>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    navigate('/control/servers');
+                                                    setAnchorAdmin(null);
+                                                }}
+                                            >
+                                                Servers
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    navigate('/control/protocols');
+                                                    setAnchorAdmin(null);
+                                                }}
+                                            >
+                                                Protocols
+                                            </MenuItem>
+                                        </>
+                                    )}
                                 </PopUpMenu>
                             </>
                         )}
-                        {(Is(Role.PaymentReviewer) || Is(Role.Administrator)) && (
+                        {(Is(Role.PaymentReviewer) ||
+                            Is(Role.ServerSetuper) ||
+                            Is(Role.Administrator)) && (
                             <>
                                 <IconButton
                                     size="large"
