@@ -81,7 +81,7 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                     anchorEl={anchorAdmin}
                                     onClose={() => setAnchorAdmin(null)}
                                 >
-                                    {Is(Role.ServerSetuper) && (
+                                    {Is(Role.Administrator) && (
                                         <MenuItem
                                             onClick={() => {
                                                 navigate('/control/connections');
@@ -101,14 +101,26 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                             Users
                                         </MenuItem>
                                     )}
-                                    <MenuItem
-                                        onClick={() => {
-                                            navigate('/control/servers');
-                                            setAnchorAdmin(null);
-                                        }}
-                                    >
-                                        Servers
-                                    </MenuItem>
+                                    {Is(Role.ServerSetuper) && (
+                                        <>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    navigate('/control/servers');
+                                                    setAnchorAdmin(null);
+                                                }}
+                                            >
+                                                Servers
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    navigate('/control/protocols');
+                                                    setAnchorAdmin(null);
+                                                }}
+                                            >
+                                                Protocols
+                                            </MenuItem>
+                                        </>
+                                    )}
                                 </PopUpMenu>
                             </>
                         )}

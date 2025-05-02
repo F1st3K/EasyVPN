@@ -5,10 +5,11 @@ import PaymentConnectionInfo from './common/PaymentConnectionInfo';
 import { ConnectionTicketStatus } from './enums/ConnectionTicketStatus';
 import { Role } from './enums/Role';
 import { VpnVersion } from './enums/VpnVersion';
-import ConnectionString from './requests/Connection';
+import ConnectionString from './requests/ConnectionString';
 import CreateConnection from './requests/CreateConnection';
 import ExtendConnection from './requests/ExtendConnection';
 import Page from './requests/Page';
+import ProtocolInfo from './requests/ProtocolInfo';
 import Register from './requests/Register';
 import ServerInfo from './requests/ServerInfo';
 import ApiError from './responses/ApiError';
@@ -146,7 +147,7 @@ const EasyVpn = {
             });
         },
         delete: (id: string, token: string) => {
-            return api.delete<void>(`servers/${id}`, {
+            return api.delete<void>(`/servers/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
@@ -154,6 +155,26 @@ const EasyVpn = {
     protocols: {
         getAll: (token: string) => {
             return api.get<Protocol[]>(`/protocols`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        get: (id: string, token: string) => {
+            return api.get<Protocol>(`/protocols/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        create: (request: ProtocolInfo, token: string) => {
+            return api.post<void>(`/protocols`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        edit: (id: string, request: ProtocolInfo, token: string) => {
+            return api.put<void>(`/protocols/${id}`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        delete: (id: string, token: string) => {
+            return api.delete<void>(`/protocols/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
@@ -217,7 +238,7 @@ const EasyVpn = {
 
 export default EasyVpn;
 
-export type { PaymentConnectionInfo, ServerInfo };
+export type { PaymentConnectionInfo, ProtocolInfo, ServerInfo };
 
 export type {
     ApiError,

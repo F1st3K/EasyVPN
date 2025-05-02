@@ -9,7 +9,9 @@ import ClientTicketModal from '../modules/ClientTicketModal';
 import ConfigModal from '../modules/ConfigModal';
 import ConfigureServerModal from '../modules/ConfigureServerModal';
 import CreateConnectionModal from '../modules/CreateConnectionModal';
+import CreateProtocolModal from '../modules/CreateProtolModal';
 import DeleteConnectionModal from '../modules/DeleteConnectionModal';
+import EditProtocolModal from '../modules/EditProtocolModal';
 import ExtendConnectionModal from '../modules/ExtendConnectionModal';
 import PaymentTikcetModal from '../modules/PaymentTikcetModal';
 import SetupServerModal from '../modules/SetupServerModal';
@@ -21,6 +23,7 @@ import ForbiddenPage from '../pages/ForbiddenPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import PaymentTicketsPage from '../pages/PaymentTicketsPage';
 import ProfilePage from '../pages/ProfilePage';
+import ProtocolsControlPage from '../pages/ProtocolsControlPage';
 import Root from '../pages/Root';
 import ServersControlPage from '../pages/ServersControlPage';
 import UsersControlPage from '../pages/UsersControlPage';
@@ -117,6 +120,18 @@ const RoutesProvider: FC = () => {
                     >
                         <Route path="new" element={<SetupServerModal />} />
                         <Route path=":serverId" element={<ConfigureServerModal />} />
+                    </Route>
+                    <Route
+                        path="protocols"
+                        element={
+                            <Auth
+                                with={Role.ServerSetuper}
+                                for={<ProtocolsControlPage />}
+                            />
+                        }
+                    >
+                        <Route path="new" element={<CreateProtocolModal />} />
+                        <Route path=":protocolId" element={<EditProtocolModal />} />
                     </Route>
                 </Route>
                 <Route path="tickets/">

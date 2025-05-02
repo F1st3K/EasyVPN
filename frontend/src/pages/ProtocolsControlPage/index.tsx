@@ -16,25 +16,27 @@ import { FC } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Server } from '../../api';
+import EasyVpn, { ApiError, Protocol } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import CreateButton from '../../components/CreateButton';
 import Modal from '../../components/Modal';
 import { useRequest, useRequestHandler } from '../../hooks';
-import ServerRow from '../../modules/ServerRow';
+import ProtocolRow from '../../modules/ProtocolRow';
 
-const ServersControlPage: FC = () => {
+const ProtocolsControlPage: FC = () => {
     const { Auth } = useContext(Context);
     const navigate = useNavigate();
 
-    const [data, loading, error] = useRequest<Server[], ApiError>(
-        () => EasyVpn.servers.getAll(Auth.getToken()).then((v) => v.data),
+    const [data, loading, error] = useRequest<Protocol[], ApiError>(
+        () => EasyVpn.protocols.getAll(Auth.getToken()).then((v) => v.data),
         [location.pathname],
     );
 
-    const [removeServerId, setRemoveServerId] = useState<string>();
+    const [removeProtocolId, setRemoveProtocolId] = useState<string>();
     const [removeHandler, loadingRm, errorRm] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.servers.delete(removeServerId || '', Auth.getToken()).then((r) => r.data),
+        EasyVpn.protocols
+            .delete(removeProtocolId || '', Auth.getToken())
+            .then((r) => r.data),
     );
 
     if (loading) return <LinearProgress />;
@@ -49,18 +51,18 @@ const ServersControlPage: FC = () => {
                 <Paper sx={{ borderRadius: 2, paddingBottom: '10px' }}>
                     <TableContainer>
                         <Typography variant="h5" padding={3}>
-                            Servers:
+                            Protocols:
                         </Typography>
                         <CreateButton onClick={() => navigate('./new')} />
                         <Divider sx={{ borderBottomWidth: '3px' }} />
                         <Table padding="none">
                             <TableBody>
-                                {data?.map((s, key) => (
-                                    <ServerRow
+                                {data?.map((p, key) => (
+                                    <ProtocolRow
                                         key={key}
-                                        server={s}
+                                        protocol={p}
                                         onEdit={(id) => navigate(`./${id}`)}
-                                        onRemove={(id) => setRemoveServerId(id)}
+                                        onRemove={(id) => setRemoveProtocolId(id)}
                                     />
                                 ))}
                             </TableBody>
@@ -69,8 +71,8 @@ const ServersControlPage: FC = () => {
                 </Paper>
             )}
             <Modal
-                open={removeServerId !== undefined}
-                handleClose={() => setRemoveServerId(undefined)}
+                open={removeProtocolId !== undefined}
+                handleClose={() => setRemoveProtocolId(undefined)}
             >
                 {errorRm && (
                     <Alert severity="error" variant="outlined">
@@ -78,12 +80,12 @@ const ServersControlPage: FC = () => {
                     </Alert>
                 )}
                 <Alert
-                    onClose={() => setRemoveServerId(undefined)}
+                    onClose={() => setRemoveProtocolId(undefined)}
                     severity="warning"
                     variant="outlined"
                 >
-                    <AlertTitle>Delete server?</AlertTitle>
-                    <>Do you really want delete server {removeServerId}?</>
+                    <AlertTitle>Delete protocol?</AlertTitle>
+                    <>Do you really want delete protocol {removeProtocolId}?</>
                     <Box marginTop={1} display="flex" flexDirection="row-reverse">
                         <LoadingButton
                             color="warning"
@@ -93,14 +95,14 @@ const ServersControlPage: FC = () => {
                             onClick={() =>
                                 removeHandler(null, async () => {
                                     data?.splice(
-                                        data?.findIndex((s) => s.id === removeServerId),
+                                        data?.findIndex((s) => s.id === removeProtocolId),
                                         1,
                                     );
-                                    setRemoveServerId(undefined);
+                                    setRemoveProtocolId(undefined);
                                 })
                             }
                         >
-                            Yes, remove server
+                            Yes, remove protocol
                         </LoadingButton>
                     </Box>
                 </Alert>
@@ -109,4 +111,4 @@ const ServersControlPage: FC = () => {
         </CenterBox>
     );
 };
-export default ServersControlPage;
+export default ProtocolsControlPage;
