@@ -100,11 +100,6 @@ const EasyVpn = {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
-        connection: (connectionId: string, token: string) => {
-            return api.get<Connection>(`/connections/${connectionId}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-        },
         confirm: (ticketId: string, token: string, days?: number) => {
             return api.put<void>(
                 `/payment/tickets/${ticketId}/confirm${days ? '?days=' + days : ''}`,
@@ -118,6 +113,44 @@ const EasyVpn = {
             return api.put<void>(`/payment/tickets/${ticketId}/reject`, undefined, {
                 headers: { Authorization: `Bearer ${token}` },
             });
+        },
+    },
+    connections: {
+        get: (id: string, token: string) => {
+            return api.get<Connection>(`/connections/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        getAll: (token: string) => {
+            return api.get<Connection[]>(`/connections`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        getConfig: (id: string, token: string) => {
+            return api.get<ConnectionConfig>(`/connections/${id}/config`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        create: (serverId: string, clientId: string, token: string) => {
+            return api.post<void>(
+                `/connections?serverId=${serverId}&clientId=${clientId}`,
+                undefined,
+                { headers: { Authorization: `Bearer ${token}` } },
+            );
+        },
+        reset: (connectionId: string, token: string) => {
+            return api.put<void>(`/connections/${connectionId}/reset`, undefined, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        extend: (connectionId: string, days: number, token: string) => {
+            return api.put<void>(
+                `/connections/${connectionId}/extend?days=${days}`,
+                undefined,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                },
+            );
         },
     },
     servers: {
@@ -212,6 +245,11 @@ const EasyVpn = {
     users: {
         getAll: (token: string) => {
             return api.get<User[]>(`/users`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        getClients: (token: string) => {
+            return api.get<User[]>(`/clients`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },

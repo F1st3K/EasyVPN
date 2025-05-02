@@ -89,8 +89,8 @@ const PaymentTikcetModal: FC<PaymentTikcetModalProps> = (props) => {
                     )}
                     <ConnectionRequestItem
                         connectionPromise={() =>
-                            EasyVpn.payment
-                                .connection(ticket?.connectionId || '', Auth.getToken())
+                            EasyVpn.connections
+                                .get(ticket?.connectionId || '', Auth.getToken())
                                 .then((v) => v.data)
                         }
                     />

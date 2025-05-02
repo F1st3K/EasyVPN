@@ -10,6 +10,7 @@ import ConfigModal from '../modules/ConfigModal';
 import ConfigureServerModal from '../modules/ConfigureServerModal';
 import CreateConnectionModal from '../modules/CreateConnectionModal';
 import CreateProtocolModal from '../modules/CreateProtolModal';
+import CreateShortConnectionModal from '../modules/CreateShortConnectionModal';
 import DeleteConnectionModal from '../modules/DeleteConnectionModal';
 import EditProtocolModal from '../modules/EditProtocolModal';
 import ExtendConnectionModal from '../modules/ExtendConnectionModal';
@@ -17,6 +18,7 @@ import PaymentTikcetModal from '../modules/PaymentTikcetModal';
 import SetupServerModal from '../modules/SetupServerModal';
 import AuthPage from '../pages/AuthPage';
 import ClientConnectionsPage from '../pages/ClientConnectionsPage';
+import ConnectionsControlPage from '../pages/ConnectionsControlPage';
 import CreateDynamicPage from '../pages/CreateDynamicPage';
 import DynamicPages from '../pages/DynamicPages';
 import ForbiddenPage from '../pages/ForbiddenPage';
@@ -98,11 +100,13 @@ const RoutesProvider: FC = () => {
                         path="connections"
                         element={
                             <Auth
-                                with={Role.Administrator}
-                                for={<>control connections</>}
+                                with={Role.ConnectionRegulator}
+                                for={<ConnectionsControlPage />}
                             />
                         }
-                    />
+                    >
+                        <Route path="new" element={<CreateShortConnectionModal />} />
+                    </Route>
                     <Route
                         path="users"
                         element={
@@ -135,13 +139,6 @@ const RoutesProvider: FC = () => {
                     </Route>
                 </Route>
                 <Route path="tickets/">
-                    <Route index element={<Navigate to={'support'} />} />
-                    <Route
-                        path="support"
-                        element={
-                            <Auth with={Role.Administrator} for={<>support tickets</>} />
-                        }
-                    />
                     <Route
                         path="payment"
                         element={
