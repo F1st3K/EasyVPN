@@ -4,6 +4,7 @@ import {
     Autocomplete,
     Box,
     Button,
+    CircularProgress,
     IconButton,
     LinearProgress,
     Paper,
@@ -19,6 +20,7 @@ import EasyVpn, { ApiError, Role, User, UserInfo } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import SecretOutlinedField from '../../components/SecretOutlinedField';
 import { useRequest, useRequestHandler } from '../../hooks';
+import ProfileForm from '../../modules/ProfileForm';
 
 const ProfilePage: FC = () => {
     const { Auth } = useContext(Context);
@@ -61,7 +63,6 @@ const ProfilePage: FC = () => {
     if (loading) return <LinearProgress />;
     return (
         <CenterBox margin={2}>
-            {(loadingPf || loadingLg || loadingPwd) && <LinearProgress />}
             {error ? (
                 <Alert severity="error" variant="outlined">
                     {error.response?.data.title ?? error.message}
@@ -85,22 +86,46 @@ const ProfilePage: FC = () => {
                             alignItems: 'center',
                         }}
                     >
-                        <Typography variant="h4" padding={3}>
-                            Your profile:
-                        </Typography>
+                        <Box width="100%" display="flex" justifyContent="right">
+                            <IconButton onClick={() => setProfileDisabled((x) => !x)}>
+                                {profileDisabled ? <Edit /> : <Close />}
+                            </IconButton>
+                            {!profileDisabled && (
+                                <IconButton
+                                    onClick={() =>
+                                        profileHandler(null, () =>
+                                            setProfileDisabled(true),
+                                        )
+                                    }
+                                >
+                                    <Done />
+                                </IconButton>
+                            )}
+                        </Box>
                         <Box
                             component="img"
-                            src={data?.icon}
+                            src={profile.icon}
                             sx={{
                                 width: '30ch',
                                 height: '30ch',
                                 borderRadius: '50%',
                                 objectFit: 'cover',
+                                marginBottom: 3,
                             }}
                         />
-                        <Typography variant="h5" paddingTop={3}>
-                            {data?.firstName} {data?.lastName}
-                        </Typography>
+                        {profileDisabled ? (
+                            <Typography variant="h4">
+                                {profile.firstName} {profile.lastName}
+                            </Typography>
+                        ) : (
+                            <ProfileForm userInfo={profile} onChange={setProfile} />
+                        )}
+                        {loadingPf && <CircularProgress />}
+                        {errorPf && (
+                            <Alert severity="error" variant="outlined">
+                                {errorPf.response?.data.title ?? errorPf.message}
+                            </Alert>
+                        )}
                     </Box>
 
                     <Paper
@@ -163,6 +188,7 @@ const ProfilePage: FC = () => {
                                     </IconButton>
                                 )}
                             </Box>
+                            {loadingLg && <CircularProgress />}
                             {errorLg && (
                                 <Alert severity="error" variant="outlined">
                                     {errorLg.response?.data.title ?? errorLg.message}
@@ -197,6 +223,7 @@ const ProfilePage: FC = () => {
                                     </IconButton>
                                 )}
                             </Box>
+                            {loadingPwd && <CircularProgress />}
                             {errorPwd && (
                                 <Alert severity="error" variant="outlined">
                                     {errorPwd.response?.data.title ?? errorPwd.message}
