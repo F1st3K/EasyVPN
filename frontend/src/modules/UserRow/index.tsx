@@ -100,7 +100,6 @@ const UserRow: FC<UserRowProps> = (props: UserRowProps) => {
                 <TableCell colSpan={3} sx={{ padding: '10px' }}>
                     <Autocomplete
                         multiple
-                        id="checkboxes-tags-demo"
                         options={Object.values(Role)}
                         limitTags={3}
                         disableCloseOnSelect
