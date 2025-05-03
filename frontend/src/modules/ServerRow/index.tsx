@@ -13,10 +13,10 @@ interface ServerRowProps {
 const ServerRow: FC<ServerRowProps> = (props: ServerRowProps) => {
     return (
         <TableRow hover>
-            <TableCell rowSpan={2} sx={{ padding: '10px' }}>
+            <TableCell sx={{ padding: '10px' }}>
                 <Chip label={props.server.version} color={'secondary'} />
             </TableCell>
-            <TableCell rowSpan={2} sx={{ padding: '10px' }}>
+            <TableCell sx={{ padding: '10px' }}>
                 <img loading="lazy" width={50} src={props.server.protocol.icon} alt="" />
             </TableCell>
             <TableCell
@@ -30,7 +30,7 @@ const ServerRow: FC<ServerRowProps> = (props: ServerRowProps) => {
             >
                 {props.server.protocol.name}
             </TableCell>
-            <TableCell rowSpan={2} sx={{ padding: '10px' }}>
+            <TableCell sx={{ padding: '10px' }}>
                 <IconButton
                     sx={{ marginLeft: '5px' }}
                     onClick={() => props.onEdit?.(props.server.id)}
@@ -38,7 +38,7 @@ const ServerRow: FC<ServerRowProps> = (props: ServerRowProps) => {
                     <Edit />
                 </IconButton>
             </TableCell>
-            <TableCell rowSpan={2} sx={{ padding: '10px' }}>
+            <TableCell sx={{ padding: '10px' }}>
                 <IconButton
                     sx={{ marginLeft: '5px' }}
                     onClick={() => props.onRemove?.(props.server.id)}

@@ -1,5 +1,4 @@
 using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Common.Errors;
 using EasyVPN.Domain.Entities;
 using ErrorOr;
 using MediatR;
@@ -20,6 +19,11 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, ErrorOr<User[
     {
         await Task.CompletedTask;
 
-        return _userRepository.GetAll().ToArray();
+        var users = _userRepository.GetAll();
+
+        if (query.Role != null)
+            users = users.Where(u => u.Roles.Any(r => r == query.Role));
+
+        return users.ToArray();
     }
 }

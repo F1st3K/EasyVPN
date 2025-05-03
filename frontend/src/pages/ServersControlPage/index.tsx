@@ -82,7 +82,7 @@ const ServersControlPage: FC = () => {
                     severity="warning"
                     variant="outlined"
                 >
-                    <AlertTitle>Delete server?</AlertTitle>
+                    <AlertTitle>Delete page?</AlertTitle>
                     <>Do you really want delete server {removeServerId}?</>
                     <Box marginTop={1} display="flex" flexDirection="row-reverse">
                         <LoadingButton
@@ -100,7 +100,7 @@ const ServersControlPage: FC = () => {
                                 })
                             }
                         >
-                            Yes, remove server
+                            Yes, remove page
                         </LoadingButton>
                     </Box>
                 </Alert>

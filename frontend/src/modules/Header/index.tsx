@@ -68,7 +68,9 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                         </Box>
                     </Button>
                     <Box sx={{ flexGrow: 1 }}>
-                        {(Is(Role.Administrator) || Is(Role.SecurityKeeper)) && (
+                        {(Is(Role.ConnectionRegulator) ||
+                            Is(Role.SecurityKeeper) ||
+                            Is(Role.ServerSetuper)) && (
                             <>
                                 <IconButton
                                     size="large"
@@ -81,7 +83,7 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                     anchorEl={anchorAdmin}
                                     onClose={() => setAnchorAdmin(null)}
                                 >
-                                    {Is(Role.Administrator) && (
+                                    {Is(Role.ConnectionRegulator) && (
                                         <MenuItem
                                             onClick={() => {
                                                 navigate('/control/connections');
@@ -124,9 +126,7 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                 </PopUpMenu>
                             </>
                         )}
-                        {(Is(Role.PaymentReviewer) ||
-                            Is(Role.ServerSetuper) ||
-                            Is(Role.Administrator)) && (
+                        {Is(Role.PaymentReviewer) && (
                             <>
                                 <IconButton
                                     size="large"
@@ -139,16 +139,6 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                     anchorEl={anchorTickets}
                                     onClose={() => setAnchorTickets(null)}
                                 >
-                                    {Is(Role.Administrator) && (
-                                        <MenuItem
-                                            onClick={() => {
-                                                navigate('/tickets/support');
-                                                setAnchorTickets(null);
-                                            }}
-                                        >
-                                            Support Tickets
-                                        </MenuItem>
-                                    )}
                                     {Is(Role.PaymentReviewer) && (
                                         <MenuItem
                                             onClick={() => {

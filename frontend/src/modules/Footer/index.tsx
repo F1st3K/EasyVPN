@@ -53,6 +53,7 @@ const Footer: FC = () => {
                         underline="hover"
                     >
                         {' Copyright © '}
+                        {'2024-'}
                         {new Date().getFullYear()}
                         {' EasyVPN '}
                         {Package.version}

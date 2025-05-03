@@ -7,11 +7,11 @@ import {
     ListItemAvatar,
     ListItemText,
 } from '@mui/material';
-import { format } from 'date-fns';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Connection } from '../../api';
+import ExpireItem from '../ExpireItem';
 
 interface ConnectionShortItemProps {
     connection: Connection;
@@ -20,8 +20,6 @@ interface ConnectionShortItemProps {
 const ConnectionShortItem: FC<ConnectionShortItemProps> = (props) => {
     const navigate = useNavigate();
 
-    const expt = new Date(props.connection.validUntil);
-    const wart = new Date(new Date(expt).setDate(expt.getDate() - 3));
     return (
         <Box
             display="flex"
@@ -38,24 +36,9 @@ const ConnectionShortItem: FC<ConnectionShortItemProps> = (props) => {
                 <ListItemText
                     primary={props.connection.server.protocol.name}
                     secondary={
-                        <Chip
-                            label={
-                                <>
-                                    {new Date() > expt ? <>Expired</> : <>Expires</>}{' '}
-                                    {format(expt, 'dd.MM.yyyy') +
-                                        ' at ' +
-                                        format(expt, 'HH:mm')}
-                                </>
-                            }
-                            variant="outlined"
-                            color={
-                                new Date() > wart
-                                    ? new Date() > expt
-                                        ? 'error'
-                                        : 'warning'
-                                    : 'info'
-                            }
-                            size="small"
+                        <ExpireItem
+                            ExpireTime={new Date(props.connection.validUntil)}
+                            WarrningDaysBefore={3}
                         />
                     }
                 />
@@ -84,7 +67,10 @@ const ConnectionShortItem: FC<ConnectionShortItemProps> = (props) => {
                 <IconButton
                     aria-label="delete"
                     sx={{
-                        visibility: new Date() > expt ? 'visible' : 'hidden',
+                        visibility:
+                            new Date() > new Date(props.connection.validUntil)
+                                ? 'visible'
+                                : 'hidden',
                         marginX: 1,
                     }}
                     color="error"
