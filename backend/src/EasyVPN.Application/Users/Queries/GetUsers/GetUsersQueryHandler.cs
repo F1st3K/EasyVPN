@@ -20,7 +20,7 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, ErrorOr<User[
         await Task.CompletedTask;
 
         var users = _userRepository.GetAll();
-        
+
         if (query.Role != null)
             users = users.Where(u => u.Roles.Any(r => r == query.Role));
 
