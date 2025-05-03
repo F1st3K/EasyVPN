@@ -106,6 +106,7 @@ const RoutesProvider: FC = () => {
                         }
                     >
                         <Route path="new" element={<CreateShortConnectionModal />} />
+                        <Route path=":connectionId/config" element={<ConfigModal />} />
                     </Route>
                     <Route
                         path="users"

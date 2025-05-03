@@ -34,7 +34,7 @@ const ConnectionsControlPage: FC = () => {
     );
 
     const [resetConnectionId, setResetConnectionId] = useState<string>();
-    const [removeHandler, loadingRm, errorRm] = useRequestHandler<void, ApiError>(() =>
+    const [resetHandler, loadingRm, errorRm] = useRequestHandler<void, ApiError>(() =>
         EasyVpn.connections
             .reset(resetConnectionId || '', Auth.getToken())
             .then((r) => r.data),
@@ -77,9 +77,18 @@ const ConnectionsControlPage: FC = () => {
                                         key={key}
                                         connection={c}
                                         onExtend={(id, days) =>
-                                            extendHandler({ id, days })
+                                            extendHandler({ id, days }, () =>
+                                                data?.map((c) => {
+                                                    if (c.id === id) {
+                                                        const t = new Date(c.validUntil);
+                                                        t.setDate(t.getDate() + days);
+                                                        c.validUntil = t.toString();
+                                                    }
+                                                }),
+                                            )
                                         }
                                         onReset={(id) => setResetConnectionId(id)}
+                                        onConfig={(id) => navigate(`${id}/config`)}
                                     />
                                 ))}
                             </TableBody>
@@ -110,13 +119,12 @@ const ConnectionsControlPage: FC = () => {
                             variant="contained"
                             loading={loadingRm}
                             onClick={() =>
-                                removeHandler(null, async () => {
-                                    data?.splice(
-                                        data?.findIndex(
-                                            (s) => s.id === resetConnectionId,
-                                        ),
-                                        1,
-                                    );
+                                resetHandler(null, async () => {
+                                    data?.map((c) => {
+                                        if (c.id == resetConnectionId)
+                                            c.validUntil = new Date().toString();
+                                        return c;
+                                    });
                                     setResetConnectionId(undefined);
                                 })
                             }
