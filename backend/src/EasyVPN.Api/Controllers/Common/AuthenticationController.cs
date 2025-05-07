@@ -108,6 +108,7 @@ public class AuthenticationController : ApiControllerBase
             authResult.User.Id,
             authResult.User.FirstName,
             authResult.User.LastName,
+            authResult.User.Icon,
             authResult.User.Login,
             authResult.User.Roles.Select(r => r.ToString()).ToArray(),
             authResult.Token);

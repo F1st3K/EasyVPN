@@ -26,6 +26,9 @@ public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, Erro
         if (_userRepository.GetById(command.UserId) is not { } user)
             return Errors.User.NotFound;
 
+        if (command.OldPassword is not null && _hasher.Hash(command.OldPassword) != user.HashPassword)
+            return Errors.Authentication.InvalidCredentials;
+
         user.HashPassword = _hasher.Hash(command.NewPassword);
         _userRepository.Update(user);
 

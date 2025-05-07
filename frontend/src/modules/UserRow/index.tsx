@@ -1,6 +1,7 @@
 import { CheckBox, CheckBoxOutlineBlank, Save, SyncLock } from '@mui/icons-material';
 import {
     Autocomplete,
+    Box,
     Checkbox,
     Chip,
     IconButton,
@@ -12,6 +13,7 @@ import {
 import React, { FC, useState } from 'react';
 
 import { Role, User } from '../../api';
+import CenterBox from '../../components/CenterBox';
 
 interface UserRowProps {
     user: User;
@@ -28,14 +30,26 @@ const UserRow: FC<UserRowProps> = (props: UserRowProps) => {
         <TableRow hover>
             <TableRow>
                 <TableCell rowSpan={2} sx={{ padding: '10px' }}>
-                    <Chip
-                        label={props.user.login}
-                        color={
-                            props.currentUserId === props.user.id
-                                ? 'primary'
-                                : 'secondary'
-                        }
+                    <Box
+                        component="img"
+                        src={props.user.icon}
+                        sx={{
+                            width: '8ch',
+                            height: '8ch',
+                            borderRadius: '50%',
+                            objectFit: 'cover',
+                        }}
                     />
+                    <CenterBox>
+                        <Chip
+                            label={props.user.login}
+                            color={
+                                props.currentUserId === props.user.id
+                                    ? 'primary'
+                                    : 'secondary'
+                            }
+                        />
+                    </CenterBox>
                 </TableCell>
                 <TableCell
                     sx={{
@@ -100,7 +114,6 @@ const UserRow: FC<UserRowProps> = (props: UserRowProps) => {
                 <TableCell colSpan={3} sx={{ padding: '10px' }}>
                     <Autocomplete
                         multiple
-                        id="checkboxes-tags-demo"
                         options={Object.values(Role)}
                         limitTags={3}
                         disableCloseOnSelect

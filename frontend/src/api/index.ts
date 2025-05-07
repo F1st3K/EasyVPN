@@ -12,6 +12,7 @@ import Page from './requests/Page';
 import ProtocolInfo from './requests/ProtocolInfo';
 import Register from './requests/Register';
 import ServerInfo from './requests/ServerInfo';
+import UserInfo from './requests/UserInfo';
 import ApiError from './responses/ApiError';
 import Auth from './responses/Auth';
 import Connection from './responses/Connection';
@@ -84,6 +85,35 @@ const EasyVpn = {
             return api.get<Connection>(`/my/connections/${connectionId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
+        },
+        profile: (token: string) => {
+            return api.get<User>(`/my/profile`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        editProfile: (request: UserInfo, token: string) => {
+            return api.put<void>(`/my/profile`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        updateLogin: (login: string, token: string) => {
+            return api.put<void>(`/my/profile/login`, login, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+        },
+        updatePassword: (pwd: string, newPwd: string, token: string) => {
+            return api.put<void>(
+                `/my/profile/password`,
+                { password: pwd, newPassword: newPwd },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
         },
     },
     payment: {
@@ -276,7 +306,7 @@ const EasyVpn = {
 
 export default EasyVpn;
 
-export type { PaymentConnectionInfo, ProtocolInfo, ServerInfo };
+export type { PaymentConnectionInfo, ProtocolInfo, ServerInfo, UserInfo };
 
 export type {
     ApiError,

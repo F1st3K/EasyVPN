@@ -1,9 +1,4 @@
-import {
-    AccountCircle,
-    AdminPanelSettings,
-    SupportAgent,
-    VpnKey,
-} from '@mui/icons-material';
+import { AdminPanelSettings, SupportAgent, VpnKey } from '@mui/icons-material';
 import {
     AppBar,
     Box,
@@ -170,7 +165,6 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                             size="large"
                             color="inherit"
                             sx={{ textTransform: 'none' }}
-                            endIcon={<AccountCircle />}
                         >
                             <Box sx={{ flexDirection: 'column', textAlign: 'right' }}>
                                 <Typography fontSize="14pt">
@@ -178,6 +172,17 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                 </Typography>
                                 <Typography fontSize="9pt">{Auth.user.login}</Typography>
                             </Box>
+                            <Box
+                                marginLeft={3}
+                                component="img"
+                                src={Auth.user.icon}
+                                sx={{
+                                    width: '5ch',
+                                    height: '5ch',
+                                    borderRadius: '50%',
+                                    objectFit: 'cover',
+                                }}
+                            />
                         </Button>
                     ) : (
                         <Button onClick={() => navigate('/auth')} color="inherit">
