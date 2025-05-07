@@ -17,7 +17,10 @@ export default function useRequestHandler<
     const handler = (params: TParams, then?: (response: TResponse) => void) => {
         setLoading(true);
         request(params)
-            .then((v) => then && then(v))
+            .then((v) => {
+                setError(null);
+                then && then(v);
+            })
             .catch((e) => {
                 setError(e);
             })
