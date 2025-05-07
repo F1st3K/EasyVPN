@@ -15,17 +15,36 @@ const ConnectionItem: FC<ConnectionItemProps> = (props) => {
             flexDirection="row"
             alignItems="center"
             gap={2}
+            flexWrap="wrap"
             width={'100%'}
         >
-            {props.connection.client.firstName} {props.connection.client.lastName}
+            <Box display="flex" alignItems="center" gap={1}>
+                <Box
+                    component="img"
+                    src={props.connection.client.icon}
+                    sx={{
+                        width: '5ch',
+                        height: '5ch',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                    }}
+                />
+                {props.connection.client.firstName} {props.connection.client.lastName}
+            </Box>
             <KeyboardTab />
-            <img
-                loading="lazy"
-                width={25}
-                src={props.connection.server.protocol.icon}
-                alt=""
-            />
-            {props.connection.server.protocol.name}
+            <Box display="flex" alignItems="center" gap={1}>
+                <Box
+                    component="img"
+                    src={props.connection.server.protocol.icon}
+                    sx={{
+                        width: '5ch',
+                        height: '5ch',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                    }}
+                />
+                {props.connection.server.protocol.name}
+            </Box>
         </Box>
     );
 };

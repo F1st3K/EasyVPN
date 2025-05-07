@@ -18,65 +18,63 @@ const ConnectionRow: FC<ConnectionRowProps> = (props: ConnectionRowProps) => {
 
     return (
         <TableRow hover>
-            <TableRow>
-                <TableCell
-                    sx={{
-                        padding: '10px',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        maxWidth: 'min(calc(100vw - 50px), 70vw)',
+            <TableCell
+                sx={{
+                    padding: '10px',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: 'min(calc(100vw - 50px), 70vw)',
+                }}
+            >
+                <ConnectionItem connection={props.connection} />
+                <Box margin={1} />
+                <ExpireItem
+                    ExpireTime={new Date(props.connection.validUntil)}
+                    WarrningDaysBefore={3}
+                />
+            </TableCell>
+            <TableCell>
+                <IconButton
+                    title={'Get config'}
+                    color="info"
+                    onClick={() => props.onConfig?.(props.connection.id)}
+                >
+                    <ContentPasteSearch />
+                </IconButton>
+                <IconButton
+                    title={'Reset life time'}
+                    color="error"
+                    onClick={() => props.onReset?.(props.connection.id)}
+                >
+                    <Restore />
+                </IconButton>
+                <TextField
+                    label="days"
+                    value={Number.isInteger(days) ? days : ''}
+                    onChange={(e) => {
+                        const d = Number.parseInt(e.target.value);
+                        return setDays(d >= 0 ? d : 1);
+                    }}
+                    onFocus={(e) => e.target.select()}
+                    type="number"
+                    variant="outlined"
+                    inputMode="numeric"
+                    size="small"
+                    style={{ width: '11ch' }}
+                />
+                <IconButton
+                    disabled={days === undefined}
+                    title={'Add life time'}
+                    color="success"
+                    onClick={() => {
+                        setDays(undefined);
+                        props.onExtend?.(props.connection.id, days || 0);
                     }}
                 >
-                    <ConnectionItem connection={props.connection} />
-                    <Box margin={1} />
-                    <ExpireItem
-                        ExpireTime={new Date(props.connection.validUntil)}
-                        WarrningDaysBefore={3}
-                    />
-                </TableCell>
-                <TableCell>
-                    <IconButton
-                        title={'Get config'}
-                        color="info"
-                        onClick={() => props.onConfig?.(props.connection.id)}
-                    >
-                        <ContentPasteSearch />
-                    </IconButton>
-                    <IconButton
-                        title={'Reset life time'}
-                        color="error"
-                        onClick={() => props.onReset?.(props.connection.id)}
-                    >
-                        <Restore />
-                    </IconButton>
-                    <TextField
-                        label="days"
-                        value={Number.isInteger(days) ? days : ''}
-                        onChange={(e) => {
-                            const d = Number.parseInt(e.target.value);
-                            return setDays(d >= 0 ? d : 1);
-                        }}
-                        onFocus={(e) => e.target.select()}
-                        type="number"
-                        variant="outlined"
-                        inputMode="numeric"
-                        size="small"
-                        style={{ width: '11ch' }}
-                    />
-                    <IconButton
-                        disabled={days === undefined}
-                        title={'Add life time'}
-                        color="success"
-                        onClick={() => {
-                            setDays(undefined);
-                            props.onExtend?.(props.connection.id, days || 0);
-                        }}
-                    >
-                        <MoreTime />
-                    </IconButton>
-                </TableCell>
-            </TableRow>
+                    <MoreTime />
+                </IconButton>
+            </TableCell>
         </TableRow>
     );
 };
