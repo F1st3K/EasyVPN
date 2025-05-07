@@ -74,6 +74,8 @@ const ProfilePage: FC = () => {
                         borderRadius: 2,
                         display: 'flex',
                         flexDirection: { xs: 'column', md: 'row' },
+                        marginTop: { xs: 0, md: '10vh' },
+                        marginBottom: '10vh',
                         width: '100%',
                         overflow: 'hidden',
                     }}
