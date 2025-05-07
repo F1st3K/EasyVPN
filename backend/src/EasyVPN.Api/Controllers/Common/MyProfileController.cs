@@ -3,6 +3,7 @@ using EasyVPN.Application.Users.Commands.ChangeLogin;
 using EasyVPN.Application.Users.Commands.ChangePassword;
 using EasyVPN.Application.Users.Commands.UserInfoUpdate;
 using EasyVPN.Application.Users.Queries.GetUser;
+using EasyVPN.Contracts.Authentication;
 using EasyVPN.Contracts.Users;
 using EasyVPN.Domain.Common.Errors;
 using MediatR;
@@ -86,7 +87,7 @@ public class MyProfileController : ApiControllerBase
     /// <summary>
     /// Change password for current user. (any auth)
     /// </summary>
-    /// <param name="newPassword">New user password.</param>
+    /// <param name="request">New and current user password.</param>
     /// <returns>Returns OK or error.</returns>
     /// <remarks>
     /// Sample request:
@@ -95,13 +96,13 @@ public class MyProfileController : ApiControllerBase
     /// "newPassword"
     /// </remarks>
     [HttpPut("password")]
-    public async Task<IActionResult> ChangePassword([FromBody] string newPassword)
+    public async Task<IActionResult> ChangePassword([FromBody] PasswordChangeRequest request)
     {
         if (User.GetCurrentId() is not { } userId)
             return Problem(Errors.Access.NotIdentified);
 
         var userResult =
-            await _sender.Send(new ChangePasswordCommand(userId, newPassword));
+            await _sender.Send(new ChangePasswordCommand(userId, request.NewPassword, request.Password));
 
         return userResult.Match(
             _ => Ok(),

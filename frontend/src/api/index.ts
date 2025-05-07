@@ -104,13 +104,16 @@ const EasyVpn = {
                 },
             });
         },
-        updatePassword: (pwd: string, token: string) => {
-            return api.put<void>(`/my/profile/password`, pwd, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
+        updatePassword: (pwd: string, newPwd: string, token: string) => {
+            return api.put<void>(
+                `/my/profile/password`,
+                { password: pwd, newPassword: newPwd },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 },
-            });
+            );
         },
     },
     payment: {

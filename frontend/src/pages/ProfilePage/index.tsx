@@ -55,9 +55,10 @@ const ProfilePage: FC = () => {
     );
 
     const [pwd, setPwd] = useState('************');
+    const [newPwd, setNewPwd] = useState('');
     const [pwdDisabled, setPwdDisabled] = useState(true);
     const [pwdHandler, loadingPwd, errorPwd] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.my.updatePassword(pwd, Auth.getToken()).then((r) => r.data),
+        EasyVpn.my.updatePassword(pwd, newPwd, Auth.getToken()).then((r) => r.data),
     );
 
     if (loading) return <LinearProgress />;
@@ -205,6 +206,7 @@ const ProfilePage: FC = () => {
                                 <IconButton
                                     onClick={() => {
                                         setPwd(pwdDisabled ? '' : '************');
+                                        setNewPwd('');
                                         setPwdDisabled((x) => !x);
                                     }}
                                 >
@@ -215,6 +217,7 @@ const ProfilePage: FC = () => {
                                         onClick={() =>
                                             pwdHandler(null, () => {
                                                 setPwd('************');
+                                                setNewPwd('');
                                                 setPwdDisabled(true);
                                             })
                                         }
@@ -223,6 +226,15 @@ const ProfilePage: FC = () => {
                                     </IconButton>
                                 )}
                             </Box>
+                            {!pwdDisabled && (
+                                <SecretOutlinedField
+                                    sx={{ width: '100%' }}
+                                    label="New password"
+                                    value={newPwd}
+                                    onChange={(e) => setNewPwd(e.target.value)}
+                                    disabled={pwdDisabled}
+                                />
+                            )}
                             {loadingPwd && <CircularProgress />}
                             {errorPwd && (
                                 <Alert severity="error" variant="outlined">
