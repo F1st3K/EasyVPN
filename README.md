@@ -22,12 +22,7 @@
 
 Простое VPN + Backend + Frontend приложение на одном сервере!
 
-[
-    <h3>
-    ![System Design](.img/SystemDesign.excalidraw.svg)
-    💻 Watch
-    </h3>
-](https://www.youtube.com/watch?v=nR8FZ8_98pk)
+[![System Design](.img/SystemDesign.excalidraw.svg)**💻 Watch**](https://www.youtube.com/watch?v=nR8FZ8_98pk)
 
 ---
 
