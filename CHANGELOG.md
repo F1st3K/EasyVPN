@@ -1,5 +1,17 @@
 # Changelog
 
+## `1.0.0` (2025-05-20)
+
+### Features
+
+### Infrastructure
+
+- Update single deployment - add certbot service (for auto newelble certs)
+
+### Documentation
+
+- Performing main README
+
 ## `0.7.2` (2025-04-18)
 
 ### Hotfixes
