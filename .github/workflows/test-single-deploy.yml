@@ -72,9 +72,11 @@ jobs:
 
             if [[ "$last_exit_code" -ne 0 ]]; then
               echo "❌ $container - restarts: $restarts, exit code: $last_exit_code, last restart: $time_diff sec ago. Failing exit code the test."
+              docker logs "$container"
               error_code=1
             elif [[ "$time_diff" -lt "$valid_last_restart" ]]; then
               echo "❌ $container - restarts: $restarts, exit code: $last_exit_code, last restart: $time_diff sec ago. Failing last restart the test."
+              docker logs "$container"
               error_code=1
             else
               echo "✅ $container - restarts: $restarts, exit code: $last_exit_code, last restart: $time_diff sec ago. Sucsess."
