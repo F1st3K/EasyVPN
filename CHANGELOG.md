@@ -4,6 +4,16 @@
 
 ### Features
 
+- frontend: Create user profile, editable any auth users 
+- frontend: Create connections panel, editable ConnectionsRegulator role 
+- frontend: Create servers and protocols panel, editable ServerSetuper role 
+- frontend: Create users panel, editable SecurityKeeper role 
+- backend: Create user profile controller
+- backend: Create administrate connection controller
+- backend: Create administrate server and protocol controllers
+- backend: Create administrate user controller
+- Single Deploy: Switch proxy to HTTPS
+
 ### Infrastructure
 
 - Update single deployment - add certbot service (for auto newelble certs)
