@@ -2,6 +2,8 @@
 RELEASE_VERSION=$(head -n 1 VERSION)
 
 # Finish release by git flow
+git tag -d "$RELEASE_VERSION"
+git push origin :refs/tags/"$RELEASE_VERSION"
 git tag -a "$RELEASE_VERSION" -m "Release version $RELEASE_VERSION"
 git push origin "release/$RELEASE_VERSION"
 git push --tags
