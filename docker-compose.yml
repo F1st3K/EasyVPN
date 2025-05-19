@@ -236,10 +236,10 @@ services:
 
 
 # ╔═══ REGION: Other services ═══╗
-  bot-service:
-    image: easyvpn/bot:latest
-    container_name: bot-service
-    environment:
-      - BOT_TOKEN=${BOT_TOKEN}
-    restart: always
+  # bot-service:
+  #   image: easyvpn/bot:latest
+  #   container_name: bot-service
+  #   environment:
+  #     - BOT_TOKEN=${BOT_TOKEN}
+  #   restart: always
 # ╚═══ REGION: Other services ═══╝
