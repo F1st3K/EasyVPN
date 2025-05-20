@@ -80,4 +80,9 @@ public class VpnV1 : IVpnService
 
         return Result.Deleted;
     }
+
+    public ErrorOr<Success> TestConnect()
+    {
+        return Result.Success;
+    }
 }

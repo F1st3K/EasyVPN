@@ -19,8 +19,8 @@ services:
       dockerfile: Dockerfile
     environment:
       - API=http://backend:80
-      - DB_CONNECTION_STRING=postgresql://${MAIN_DB_USER}@database:5432
-      - DB_PASSWORD=${MAIN_DB_PASSWORD}
+      - DB_CONNECTION_STRING=postgresql://${DB_USER}@database:5432
+      - DB_PASSWORD=${DB_PASSWORD}
       - CREATE_SECURITY_KEEPER=${INIT_SECURITY_KEEPER:-NO}
       - CREATE_DYNAMIC_PAGES=${INIT_DYNAMIC_PAGES:-NO}
     restart: no
@@ -32,13 +32,13 @@ services:
     image: postgres:16
     container_name: database
     environment:
-      - POSTGRES_USER=${MAIN_DB_USER}
-      - POSTGRES_PASSWORD=${MAIN_DB_PASSWORD}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
       - "5432"
     restart: always 
     volumes:
-      - ${MAIN_DB_VOLUME}:/var/lib/postgresql/data
+      - ${DB_VOLUME}:/var/lib/postgresql/data
     networks:
       - easy-vpn
 
@@ -56,7 +56,8 @@ services:
       - HashSettings__Secret=${BACK_HASH_SECRET}
       - JwtSettings__Secret=${BACK_AUTH_SECRET}
       - JwtSettings__ExpiryMinutes=${BACK_AUTH_EXPIRE}
-      - ConnectionStrings__Postgres=User ID=${MAIN_DB_USER};Password=${MAIN_DB_PASSWORD};Host=database;Port=5432;
+      - ExpireSettings__CheckMinutes=${BACK_TASK_EXPIRE}
+      - ConnectionStrings__Postgres=User ID=${DB_USER};Password=${DB_PASSWORD};Host=database;Port=5432;
       - ASPNETCORE_URLS=http://+:80
     restart: always
     networks:
@@ -79,36 +80,97 @@ services:
     networks:
       - easy-vpn
 
+  easy-vpn-certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ${CERT_VOLUME}:/etc/letsencrypt
+      - ${CERT_WEBROOT_VOLUME}:/var/www/certbot
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >
+        if [ "$CERT_DOMAIN" = "localhost" ]; then
+          echo "📜 Generating self-signed certificate for localhost...";
+          mkdir -p /etc/letsencrypt/live/localhost;
+          openssl req -x509 -nodes -newkey rsa:2048 \
+            -days 365 \
+            -subj "/CN=localhost" \
+            -keyout /etc/letsencrypt/live/localhost/privkey.pem \
+            -out /etc/letsencrypt/live/localhost/fullchain.pem;
+          tail -f /dev/null;
+        elif [ -f "/etc/letsencrypt/live/$CERT_DOMAIN/fullchain.pem" ]; then
+          echo "✅ Certificate already exists — skipping generation.";
+        else
+          echo "🔐 Requesting new certificate from Let's Encrypt...";
+          certbot certonly --webroot \
+            --webroot-path=/var/www/certbot \
+            --email $CERT_EMAIL \
+            --agree-tos \
+            --no-eff-email \
+            -d $CERT_DOMAIN;
+        fi;
+
+        echo "🔄 Starting auto-renewal loop...";
+        while true; do
+          certbot renew --webroot --webroot-path=/var/www/certbot --quiet;
+          sleep 12h;
+        done
+    restart: always
+
   easy-vpn-proxy:
     image: nginx:mainline
     depends_on:
       - easy-vpn-backend
       - easy-vpn-frontend
+      - easy-vpn-certbot
     container_name: proxy
     ports:
-      - "${MAIN_PORT}:${MAIN_PORT}"
+      - "${HTTP_PORT}:80"
+      - "${HTTPS_PORT}:443"
+    volumes:
+      - ${CERT_VOLUME}:/etc/nginx/ssl
+      - ${CERT_WEBROOT_VOLUME}:/var/www/webroot
     command: >
       /bin/sh -c "
         echo 'worker_processes 4;
 
         events {
-            worker_connections 1024;
+          worker_connections 1024;
         }
 
         http {
-            server {
-                listen ${MAIN_PORT};
+          server {
+            listen 80;
+            server_name ${CERT_DOMAIN};
 
-                location / {
-                    proxy_pass http://frontend:3000;
-                }
+            location /.well-known/acme-challenge/ {
+                root /var/www/webroot;
+            }
 
-                location /api/ {
-                    rewrite ^/api/(.*)$ /$1 break;
-                    proxy_pass http://backend:80;
+            location / {
+                return 301 https://$$host$$request_uri;
             }
+          }
+
+          server {
+            listen 443 ssl;
+            server_name ${CERT_DOMAIN};
+            ssl_certificate /etc/nginx/ssl/live/${CERT_DOMAIN}/fullchain.pem;
+            ssl_certificate_key /etc/nginx/ssl/live/${CERT_DOMAIN}/privkey.pem;
+
+            location / {
+                proxy_pass http://frontend:3000;
             }
-        }' > /etc/nginx/nginx.conf && nginx -g 'daemon off;'
+
+            location /api/ {
+                rewrite ^/api/(.*)$ /$1 break;
+                proxy_pass http://backend:80;
+            }
+          }
+        }
+        ' > /etc/nginx/nginx.conf && \
+        (while true; do sleep 24h; nginx -s reload; done) &
+        nginx -g 'daemon off;'
       "
     restart: always
     networks:
@@ -172,12 +234,11 @@ services:
 # ╚═══ REGION: VPN services ═══╝
 
 
-
 # ╔═══ REGION: Other services ═══╗
-  bot-service:
-    image: easyvpn/bot:latest
-    container_name: bot-service
-    environment:
-      - BOT_TOKEN=${BOT_TOKEN}
-    restart: always
+  # bot-service:
+  #   image: easyvpn/bot:latest
+  #   container_name: bot-service
+  #   environment:
+  #     - BOT_TOKEN=${BOT_TOKEN}
+  #   restart: always
 # ╚═══ REGION: Other services ═══╝

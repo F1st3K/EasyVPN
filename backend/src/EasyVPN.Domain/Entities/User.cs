@@ -8,6 +8,7 @@ public class User
     public IEnumerable<RoleType> Roles { get; set; } = null!;
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
+    public string Icon { get; set; } = null!;
     public string Login { get; set; } = null!;
     public string HashPassword { get; set; } = null!;
 }

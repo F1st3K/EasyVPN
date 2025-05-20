@@ -7,8 +7,26 @@
 [readme-en-url]: README.en_EN.md
 
 
+<div align="center">
+
+![Logo](.img/EasyVPN-logo.png)
+
 # EasyVPN
+
+[![Build](https://github.com/F1st3K/EasyVPN/actions/workflows/test-single-deploy.yml/badge.svg)](https://github.com/F1st3K/EasyVPN/actions/workflows/test-single-deploy.yml) 
+
+[![GitHub Release](https://img.shields.io/github/v/release/F1st3K/EasyVPN)](https://hub.docker.com/u/easyvpn)
+[![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
+[![GitHub contributors](https://img.shields.io/github/contributors/F1st3K/EasyVPN)](https://GitHub.com/F1st3K/EasyVPN/graphs/contributors/) 
+[![GitHub Stars](https://img.shields.io/github/stars/F1st3K/EasyVPN.svg)](https://github.com/F1st3K/EasyVPN/stargazers) 
+
 Простое VPN + Backend + Frontend приложение на одном сервере!
+
+[![System Design](.img/SystemDesign.excalidraw.svg)**💻 Watch**](https://www.youtube.com/watch?v=nR8FZ8_98pk)
+
+---
+
+</div>
 
 ## Single Deploy (docker-compose)
 Для развертывания `EasyVPN` на одном единственном сервере используйте `Docker Compose` :

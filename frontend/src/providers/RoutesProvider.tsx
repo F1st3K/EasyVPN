@@ -7,19 +7,28 @@ import { Context } from '..';
 import { Role } from '../api';
 import ClientTicketModal from '../modules/ClientTicketModal';
 import ConfigModal from '../modules/ConfigModal';
+import ConfigureServerModal from '../modules/ConfigureServerModal';
 import CreateConnectionModal from '../modules/CreateConnectionModal';
+import CreateProtocolModal from '../modules/CreateProtolModal';
+import CreateShortConnectionModal from '../modules/CreateShortConnectionModal';
 import DeleteConnectionModal from '../modules/DeleteConnectionModal';
+import EditProtocolModal from '../modules/EditProtocolModal';
 import ExtendConnectionModal from '../modules/ExtendConnectionModal';
 import PaymentTikcetModal from '../modules/PaymentTikcetModal';
+import SetupServerModal from '../modules/SetupServerModal';
 import AuthPage from '../pages/AuthPage';
 import ClientConnectionsPage from '../pages/ClientConnectionsPage';
+import ConnectionsControlPage from '../pages/ConnectionsControlPage';
 import CreateDynamicPage from '../pages/CreateDynamicPage';
 import DynamicPages from '../pages/DynamicPages';
 import ForbiddenPage from '../pages/ForbiddenPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import PaymentTicketsPage from '../pages/PaymentTicketsPage';
 import ProfilePage from '../pages/ProfilePage';
+import ProtocolsControlPage from '../pages/ProtocolsControlPage';
 import Root from '../pages/Root';
+import ServersControlPage from '../pages/ServersControlPage';
+import UsersControlPage from '../pages/UsersControlPage';
 
 interface ForProps {
     for: ReactElement;
@@ -91,32 +100,46 @@ const RoutesProvider: FC = () => {
                         path="connections"
                         element={
                             <Auth
-                                with={Role.Administrator}
-                                for={<>control connections</>}
+                                with={Role.ConnectionRegulator}
+                                for={<ConnectionsControlPage />}
                             />
                         }
-                    />
+                    >
+                        <Route path="new" element={<CreateShortConnectionModal />} />
+                        <Route path=":connectionId/config" element={<ConfigModal />} />
+                    </Route>
                     <Route
                         path="users"
                         element={
-                            <Auth with={Role.Administrator} for={<>control users</>} />
+                            <Auth with={Role.SecurityKeeper} for={<UsersControlPage />} />
                         }
                     />
                     <Route
                         path="servers"
                         element={
-                            <Auth with={Role.Administrator} for={<>control servers</>} />
+                            <Auth
+                                with={Role.ServerSetuper}
+                                for={<ServersControlPage />}
+                            />
                         }
-                    />
+                    >
+                        <Route path="new" element={<SetupServerModal />} />
+                        <Route path=":serverId" element={<ConfigureServerModal />} />
+                    </Route>
+                    <Route
+                        path="protocols"
+                        element={
+                            <Auth
+                                with={Role.ServerSetuper}
+                                for={<ProtocolsControlPage />}
+                            />
+                        }
+                    >
+                        <Route path="new" element={<CreateProtocolModal />} />
+                        <Route path=":protocolId" element={<EditProtocolModal />} />
+                    </Route>
                 </Route>
                 <Route path="tickets/">
-                    <Route index element={<Navigate to={'support'} />} />
-                    <Route
-                        path="support"
-                        element={
-                            <Auth with={Role.Administrator} for={<>support tickets</>} />
-                        }
-                    />
                     <Route
                         path="payment"
                         element={

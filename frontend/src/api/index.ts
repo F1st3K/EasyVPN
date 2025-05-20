@@ -5,10 +5,14 @@ import PaymentConnectionInfo from './common/PaymentConnectionInfo';
 import { ConnectionTicketStatus } from './enums/ConnectionTicketStatus';
 import { Role } from './enums/Role';
 import { VpnVersion } from './enums/VpnVersion';
+import ConnectionString from './requests/ConnectionString';
 import CreateConnection from './requests/CreateConnection';
 import ExtendConnection from './requests/ExtendConnection';
 import Page from './requests/Page';
+import ProtocolInfo from './requests/ProtocolInfo';
 import Register from './requests/Register';
+import ServerInfo from './requests/ServerInfo';
+import UserInfo from './requests/UserInfo';
 import ApiError from './responses/ApiError';
 import Auth from './responses/Auth';
 import Connection from './responses/Connection';
@@ -82,6 +86,35 @@ const EasyVpn = {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
+        profile: (token: string) => {
+            return api.get<User>(`/my/profile`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        editProfile: (request: UserInfo, token: string) => {
+            return api.put<void>(`/my/profile`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        updateLogin: (login: string, token: string) => {
+            return api.put<void>(`/my/profile/login`, login, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+        },
+        updatePassword: (pwd: string, newPwd: string, token: string) => {
+            return api.put<void>(
+                `/my/profile/password`,
+                { password: pwd, newPassword: newPwd },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                },
+            );
+        },
     },
     payment: {
         tickets: (token: string, clientId?: string) => {
@@ -94,11 +127,6 @@ const EasyVpn = {
         },
         ticket: (ticketId: string, token: string) => {
             return api.get<ConnectionTicket>(`/payment/tickets/${ticketId}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-        },
-        connection: (connectionId: string, token: string) => {
-            return api.get<Connection>(`/connections/${connectionId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
@@ -117,9 +145,99 @@ const EasyVpn = {
             });
         },
     },
+    connections: {
+        get: (id: string, token: string) => {
+            return api.get<Connection>(`/connections/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        getAll: (token: string) => {
+            return api.get<Connection[]>(`/connections`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        getConfig: (id: string, token: string) => {
+            return api.get<ConnectionConfig>(`/connections/${id}/config`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        create: (serverId: string, clientId: string, token: string) => {
+            return api.post<void>(
+                `/connections?serverId=${serverId}&clientId=${clientId}`,
+                undefined,
+                { headers: { Authorization: `Bearer ${token}` } },
+            );
+        },
+        reset: (connectionId: string, token: string) => {
+            return api.put<void>(`/connections/${connectionId}/reset`, undefined, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        extend: (connectionId: string, days: number, token: string) => {
+            return api.put<void>(
+                `/connections/${connectionId}/extend?days=${days}`,
+                undefined,
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                },
+            );
+        },
+    },
     servers: {
+        test: (v: VpnVersion, request: ConnectionString, token: string) => {
+            return api.post<void>(`/servers/test/${v}`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
         getAll: (token: string) => {
             return api.get<Server[]>(`/servers`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        get: (id: string, token: string) => {
+            return api.get<Server>(`/servers/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        create: (request: ServerInfo, token: string) => {
+            return api.post<void>(`/servers`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        edit: (id: string, request: ServerInfo, token: string) => {
+            return api.put<void>(`/servers/${id}`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        delete: (id: string, token: string) => {
+            return api.delete<void>(`/servers/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+    },
+    protocols: {
+        getAll: (token: string) => {
+            return api.get<Protocol[]>(`/protocols`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        get: (id: string, token: string) => {
+            return api.get<Protocol>(`/protocols/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        create: (request: ProtocolInfo, token: string) => {
+            return api.post<void>(`/protocols`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        edit: (id: string, request: ProtocolInfo, token: string) => {
+            return api.put<void>(`/protocols/${id}`, request, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        delete: (id: string, token: string) => {
+            return api.delete<void>(`/protocols/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
         },
@@ -154,11 +272,41 @@ const EasyVpn = {
             });
         },
     },
+    users: {
+        getAll: (token: string) => {
+            return api.get<User[]>(`/users`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        getClients: (token: string) => {
+            return api.get<User[]>(`/clients`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        get: (id: string, token: string) => {
+            return api.get<User>(`/users/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        updateRoles: (roles: Role[], id: string, token: string) => {
+            return api.put<void>(`/users/${id}/roles`, roles, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        },
+        updatePassword: (pwd: string, id: string, token: string) => {
+            return api.put<void>(`/users/${id}/password`, pwd, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+        },
+    },
 };
 
 export default EasyVpn;
 
-export type { PaymentConnectionInfo };
+export type { PaymentConnectionInfo, ProtocolInfo, ServerInfo, UserInfo };
 
 export type {
     ApiError,

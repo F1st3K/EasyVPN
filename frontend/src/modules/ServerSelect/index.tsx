@@ -25,7 +25,6 @@ const ServerSelect: FC<ServerSelectProps> = (props) => {
 
     return (
         <Autocomplete
-            sx={{ width: '23ch' }}
             autoHighlight
             options={servers ?? []}
             onChange={(_, s) => props.onChange && props.onChange(s)}

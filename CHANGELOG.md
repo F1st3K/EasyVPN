@@ -1,5 +1,27 @@
 # Changelog
 
+## `1.0.0` (2025-05-20)
+
+### Features
+
+- frontend: Create user profile, editable any auth users 
+- frontend: Create connections panel, editable ConnectionsRegulator role 
+- frontend: Create servers and protocols panel, editable ServerSetuper role 
+- frontend: Create users panel, editable SecurityKeeper role 
+- backend: Create user profile controller
+- backend: Create administrate connection controller
+- backend: Create administrate server and protocol controllers
+- backend: Create administrate user controller
+- Single Deploy: Switch proxy to HTTPS
+
+### Infrastructure
+
+- Update single deployment - add certbot service (for auto newelble certs)
+
+### Documentation
+
+- Performing main README
+
 ## `0.7.2` (2025-04-18)
 
 ### Hotfixes

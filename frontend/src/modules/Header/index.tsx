@@ -1,9 +1,4 @@
-import {
-    AccountCircle,
-    AdminPanelSettings,
-    SupportAgent,
-    VpnKey,
-} from '@mui/icons-material';
+import { AdminPanelSettings, SupportAgent, VpnKey } from '@mui/icons-material';
 import {
     AppBar,
     Box,
@@ -68,7 +63,9 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                         </Box>
                     </Button>
                     <Box sx={{ flexGrow: 1 }}>
-                        {Is(Role.Administrator) && (
+                        {(Is(Role.ConnectionRegulator) ||
+                            Is(Role.SecurityKeeper) ||
+                            Is(Role.ServerSetuper)) && (
                             <>
                                 <IconButton
                                     size="large"
@@ -81,34 +78,50 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                     anchorEl={anchorAdmin}
                                     onClose={() => setAnchorAdmin(null)}
                                 >
-                                    <MenuItem
-                                        onClick={() => {
-                                            navigate('/control/connections');
-                                            setAnchorAdmin(null);
-                                        }}
-                                    >
-                                        Connections
-                                    </MenuItem>
-                                    <MenuItem
-                                        onClick={() => {
-                                            navigate('/control/users');
-                                            setAnchorAdmin(null);
-                                        }}
-                                    >
-                                        Users
-                                    </MenuItem>
-                                    <MenuItem
-                                        onClick={() => {
-                                            navigate('/control/servers');
-                                            setAnchorAdmin(null);
-                                        }}
-                                    >
-                                        Servers
-                                    </MenuItem>
+                                    {Is(Role.ConnectionRegulator) && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                navigate('/control/connections');
+                                                setAnchorAdmin(null);
+                                            }}
+                                        >
+                                            Connections
+                                        </MenuItem>
+                                    )}
+                                    {Is(Role.SecurityKeeper) && (
+                                        <MenuItem
+                                            onClick={() => {
+                                                navigate('/control/users');
+                                                setAnchorAdmin(null);
+                                            }}
+                                        >
+                                            Users
+                                        </MenuItem>
+                                    )}
+                                    {Is(Role.ServerSetuper) && (
+                                        <>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    navigate('/control/servers');
+                                                    setAnchorAdmin(null);
+                                                }}
+                                            >
+                                                Servers
+                                            </MenuItem>
+                                            <MenuItem
+                                                onClick={() => {
+                                                    navigate('/control/protocols');
+                                                    setAnchorAdmin(null);
+                                                }}
+                                            >
+                                                Protocols
+                                            </MenuItem>
+                                        </>
+                                    )}
                                 </PopUpMenu>
                             </>
                         )}
-                        {(Is(Role.PaymentReviewer) || Is(Role.Administrator)) && (
+                        {Is(Role.PaymentReviewer) && (
                             <>
                                 <IconButton
                                     size="large"
@@ -121,16 +134,6 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                     anchorEl={anchorTickets}
                                     onClose={() => setAnchorTickets(null)}
                                 >
-                                    {Is(Role.Administrator) && (
-                                        <MenuItem
-                                            onClick={() => {
-                                                navigate('/tickets/support');
-                                                setAnchorTickets(null);
-                                            }}
-                                        >
-                                            Support Tickets
-                                        </MenuItem>
-                                    )}
                                     {Is(Role.PaymentReviewer) && (
                                         <MenuItem
                                             onClick={() => {
@@ -162,7 +165,6 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                             size="large"
                             color="inherit"
                             sx={{ textTransform: 'none' }}
-                            endIcon={<AccountCircle />}
                         >
                             <Box sx={{ flexDirection: 'column', textAlign: 'right' }}>
                                 <Typography fontSize="14pt">
@@ -170,6 +172,17 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                 </Typography>
                                 <Typography fontSize="9pt">{Auth.user.login}</Typography>
                             </Box>
+                            <Box
+                                marginLeft={3}
+                                component="img"
+                                src={Auth.user.icon}
+                                sx={{
+                                    width: '5ch',
+                                    height: '5ch',
+                                    borderRadius: '50%',
+                                    objectFit: 'cover',
+                                }}
+                            />
                         </Button>
                     ) : (
                         <Button onClick={() => navigate('/auth')} color="inherit">

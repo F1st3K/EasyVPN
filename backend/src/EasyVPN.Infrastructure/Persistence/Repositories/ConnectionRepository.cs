@@ -38,22 +38,14 @@ public class ConnectionRepository : IConnectionRepository
 
     public void Remove(Guid id)
     {
-        if (_dbContext.Connections.SingleOrDefault(ct => ct.Id == id)
-            is not { } connection)
-            return;
-
-        _dbContext.Connections.Remove(connection);
+        _dbContext.Connections.Remove(
+            _dbContext.Connections.Single(ct => ct.Id == id));
         _dbContext.SaveChanges();
     }
 
     public void Update(Connection connection)
     {
-        if (_dbContext.Connections.SingleOrDefault(c => c.Id == connection.Id)
-            is not { } stateConnection)
-            return;
-
-        stateConnection.ExpirationTime = connection.ExpirationTime;
-        _dbContext.Connections.Update(stateConnection);
+        _dbContext.Connections.Update(connection);
         _dbContext.SaveChanges();
     }
 }

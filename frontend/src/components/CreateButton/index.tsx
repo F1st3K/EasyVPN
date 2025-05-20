@@ -5,7 +5,7 @@ import React, { FC, ReactNode } from 'react';
 import CenterBox from '../CenterBox';
 
 interface CreateButtonProps extends BoxProps {
-    description: ReactNode;
+    description?: ReactNode;
     onClick?: () => void;
 }
 

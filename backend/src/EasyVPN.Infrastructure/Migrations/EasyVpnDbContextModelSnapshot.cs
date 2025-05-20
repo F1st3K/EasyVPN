@@ -174,6 +174,10 @@ namespace EasyVPN.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
