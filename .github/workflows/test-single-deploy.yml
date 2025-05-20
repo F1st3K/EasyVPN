@@ -85,13 +85,13 @@ jobs:
           exit $error_code
 
       - name: Docker Logs
+        continue-on-error: true
         run: |
           containers=$(docker ps -a --format "{{.Names}}")
           for container in $containers; do
             docker ps | grep "$container"
             docker logs "$container"
           done
-          exit 0
 
       - name: Stop Docker Compose
         run: |
