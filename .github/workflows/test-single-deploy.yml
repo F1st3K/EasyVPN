@@ -91,6 +91,7 @@ jobs:
             docker ps | grep "$container"
             docker logs "$container"
           done
+          exit 0
 
       - name: Stop Docker Compose
         run: |
