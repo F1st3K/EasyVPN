@@ -89,8 +89,9 @@ jobs:
         run: |
           containers=$(docker ps -a --format "{{.Names}}")
           for container in $containers; do
-            docker ps | grep "$container"
-            docker logs "$container"
+            docker ps | grep "$container" || true
+            docker logs "$container" || true
+            echo ""
           done
 
       - name: Stop Docker Compose
