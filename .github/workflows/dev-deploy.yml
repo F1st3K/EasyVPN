@@ -1,0 +1,25 @@
+name: Dev deploy (self-hosted)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Подтверди установку в dev'
+        required: true
+        default: 'dev'
+
+jobs:
+  deploy:
+    if: github.actor == 'F1st3K'
+    runs-on: [self-hosted, linux, dev]
+    steps:
+    - name: Pull latest compose
+      run: |
+        cd /opt/EasyVPN.dev 
+        curl -L -o docker-compose.yml https://raw.githubusercontent.com/F1st3K/EasyVPN/refs/heads/main/docker-compose.yml
+
+    - name: Restart Docker Compose
+      run: |
+        cd /opt/EasyVPN.dev 
+        docker-compose pull
+        docker-compose --profile init up -d
