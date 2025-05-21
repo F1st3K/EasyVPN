@@ -1,23 +1,27 @@
 name: Dev deploy (self-hosted)
-
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        description: 'Подтверди установку в dev'
+      confirm_secret:
+        description: 'Confirm deploy in **DEV**'
         required: true
-        default: 'dev'
 
 jobs:
   deploy:
-    if: github.actor == 'F1st3K'
     runs-on: [self-hosted, linux, dev]
     steps:
+    - name: Secret check
+      run: |
+        if [ "${{ github.event.inputs.confirm_secret }}" != "${{ secrets.PROD_DEPLOY_SECRET }}" ]; then
+          echo "❌ Invlid secret. Stoping."
+          exit 1
+        fi
+      shell: bash
+
     - name: Pull latest compose
       run: |
         cd /opt/EasyVPN.dev 
         curl -L -o docker-compose.yml https://raw.githubusercontent.com/F1st3K/EasyVPN/refs/heads/main/docker-compose.yml
-
     - name: Restart Docker Compose
       run: |
         cd /opt/EasyVPN.dev 
