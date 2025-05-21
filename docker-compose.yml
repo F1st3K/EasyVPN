@@ -234,7 +234,6 @@ services:
 # ╚═══ REGION: VPN services ═══╝
 
 
-
 # ╔═══ REGION: Other services ═══╗
   # bot-service:
   #   image: easyvpn/bot:latest
