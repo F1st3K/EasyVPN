@@ -57,6 +57,7 @@ services:
       - JwtSettings__Secret=${BACK_AUTH_SECRET}
       - JwtSettings__ExpiryMinutes=${BACK_AUTH_EXPIRE}
       - ExpireSettings__CheckMinutes=${BACK_TASK_EXPIRE}
+      - Features__UseDocumentationEndpoint=${BACK_DOCS_ENABLED:-true}
       - ConnectionStrings__Postgres=User ID=${DB_USER};Password=${DB_PASSWORD};Host=database;Port=5432;
       - ASPNETCORE_URLS=http://+:80
     restart: always

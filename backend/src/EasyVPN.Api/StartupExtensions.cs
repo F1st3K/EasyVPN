@@ -7,7 +7,7 @@ namespace EasyVPN.Api;
 
 public static class StartupExtensions
 {
-    public static IApplicationBuilder CreateDocumentationEndpoint(this IApplicationBuilder app)
+    public static IApplicationBuilder UseDocumentationEndpoint(this IApplicationBuilder app)
     {
         app.UseSwagger();
         app.UseSwaggerUI();
