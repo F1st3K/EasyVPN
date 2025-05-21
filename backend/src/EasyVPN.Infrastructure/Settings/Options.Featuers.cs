@@ -6,10 +6,10 @@ public static partial class Options
     {
         public const string SectionName = "Featuers";
 
-        public bool UseDocumentationEndpoint { get; init; } = true;
-        public bool UseExceptionHandler { get; init; } = true;
-        public bool UseCors { get; init; } = true;
-        public bool MigrateDatabase { get; init; } = true;
-        public bool AddScheduledTasks { get; init; } = true;
+        public bool UseDocumentationEndpoint { get; init; }
+        public bool UseExceptionHandler { get; init; }
+        public bool UseCors { get; init; }
+        public bool MigrateDatabase { get; init; }
+        public bool AddScheduledTasks { get; init; }
     }
 }

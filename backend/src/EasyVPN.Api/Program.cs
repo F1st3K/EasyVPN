@@ -21,7 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    var f = app.Services.GetRequiredService<IOptions<Options.Featuers>>().Value;
+    var f = new Options.Featuers();
+    app.Configuration.Bind(Options.Featuers.SectionName, f);
 
     if (f.UseDocumentationEndpoint)
         app.UseDocumentationEndpoint();

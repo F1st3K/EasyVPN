@@ -15,8 +15,6 @@ public class HealthController : ApiControllerBase
         .Version?
         .ToString(3) ?? "unknown";
     
-    private static readonly Stopwatch Uptime = Stopwatch.StartNew();
-    
     /// <summary>
     /// Health api (anywhere)
     /// </summary>
@@ -28,7 +26,6 @@ public class HealthController : ApiControllerBase
         {
             status = "Healthy",
             version = Version,
-            uptime = Uptime.Elapsed.ToString(@"dd\.hh\:mm\:ss")
         });
     }
 }
