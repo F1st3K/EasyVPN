@@ -21,7 +21,7 @@ jobs:
     - name: Pull latest compose
       run: |
         cd /opt/EasyVPN.dev
-        docker-compose pull
+        docker-compose --profile init pull
         
     - name: Restart Docker Compose
       run: |
