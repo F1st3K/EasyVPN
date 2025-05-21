@@ -1,23 +1,12 @@
 name: Dev deploy (self-hosted)
 on:
-  workflow_dispatch:
-    inputs:
-      confirm_secret:
-        description: 'Confirm deploy in **DEV**'
-        required: true
+  release:
+    types: [published]
 
 jobs:
   deploy:
     runs-on: [self-hosted, Linux, dev]
     steps:
-    - name: Secret check
-      run: |
-        if [ "${{ github.event.inputs.confirm_secret }}" != "${{ secrets.PROD_DEPLOY_SECRET }}" ]; then
-          echo "❌ Invlid secret. Stoping."
-          exit 1
-        fi
-      shell: bash
-
     - name: Pull latest compose
       run: |
         cd /opt/EasyVPN.dev
