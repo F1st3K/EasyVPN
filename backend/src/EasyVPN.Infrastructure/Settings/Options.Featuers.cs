@@ -2,9 +2,9 @@ namespace EasyVPN.Infrastructure.Settings;
 
 public static partial class Options
 {
-    public class Featuers
+    public class Features
     {
-        public const string SectionName = "Featuers";
+        public const string SectionName = "Features";
 
         public bool UseDocumentationEndpoint { get; init; }
         public bool UseExceptionHandler { get; init; }
