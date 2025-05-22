@@ -1,6 +1,5 @@
 using System.Reflection;
 using EasyVPN.Api.Common.Errors;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.OpenApi.Models;
 

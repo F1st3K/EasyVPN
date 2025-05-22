@@ -2,19 +2,16 @@ using EasyVPN.Api;
 using EasyVPN.Api.Controllers.Common;
 using EasyVPN.Application;
 using EasyVPN.Infrastructure;
+using Microsoft.Extensions.Options;
+using Options = EasyVPN.Infrastructure.Settings.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddCors(options =>
-    {
-        options.AddPolicy("AllowAll",
-            policyBuilder =>
-            {
-                policyBuilder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            });
-    });
+        options.AddPolicy("AllowAll", policy =>
+            policy.AllowAnyOrigin()
+                  .AllowAnyMethod()
+                  .AllowAnyHeader()));
 
     builder.Services
         .AddPresentation()
@@ -24,22 +21,29 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    app.CreateDocumentationEndpoint();
-    app.UseExceptionHandler(ErrorsController.Route);
-    app.UseCors("AllowAll");
+    var f = new Options.Featuers();
+    app.Configuration.Bind(Options.Featuers.SectionName, f);
+
+    if (f.UseDocumentationEndpoint)
+        app.UseDocumentationEndpoint();
+
+    if (f.UseExceptionHandler)
+        app.UseExceptionHandler(ErrorsController.Route);
+
+    if (f.UseCors)
+        app.UseCors("AllowAll");
 
     app.UseHttpsRedirection();
     app.UseAuthentication();
     app.UseAuthorization();
+
     app.MapControllers();
 
-    app.MigrateDatabase();
-    app.AddScheduledTasks();
+    if (f.MigrateDatabase)
+        app.MigrateDatabase();
+
+    if (f.AddScheduledTasks)
+        app.AddScheduledTasks();
 
     app.Run();
 }
-
-
-
-
-
