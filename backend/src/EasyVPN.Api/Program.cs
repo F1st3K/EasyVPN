@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.Configure<Options.Features>(
         builder.Configuration.GetSection(Options.Features.SectionName));
-    
+
     builder.Services.AddCors(options =>
         options.AddPolicy("AllowAll", policy =>
             policy.AllowAnyOrigin()
