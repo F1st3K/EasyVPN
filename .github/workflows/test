@@ -1,0 +1,12 @@
+name: Release Debug
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print debug
+        run: echo "Release published!"
