@@ -4,16 +4,15 @@ networks:
 
 services:
 
-  easy-vpn-init:
+  init:
     image: easyvpn/init:latest
     profiles:
       - init
     depends_on:
-      - easy-vpn-database
-      - easy-vpn-backend
+      - database
+      - backend
       - wireguard-vpn-service
       - amneziawg-vpn-service
-    container_name: init
     build:
       context: init/
       dockerfile: Dockerfile
@@ -28,25 +27,23 @@ services:
       - easy-vpn
 
 # ╔═══ REGION: Base infractructure services ═══╗
-  easy-vpn-database:
+  database:
     image: postgres:16
-    container_name: database
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
       - "5432"
-    restart: always 
+    restart: always
     volumes:
       - ${DB_VOLUME}:/var/lib/postgresql/data
     networks:
       - easy-vpn
 
-  easy-vpn-backend:
+  backend:
     image: easyvpn/backend:latest
     depends_on:
-      - easy-vpn-database
-    container_name: backend
+      - database
     ports:
       - "80"
     build:
@@ -57,17 +54,17 @@ services:
       - JwtSettings__Secret=${BACK_AUTH_SECRET}
       - JwtSettings__ExpiryMinutes=${BACK_AUTH_EXPIRE}
       - ExpireSettings__CheckMinutes=${BACK_TASK_EXPIRE}
+      - Features__UseDocumentationEndpoint=${BACK_DOCS_ENABLED:-true}
       - ConnectionStrings__Postgres=User ID=${DB_USER};Password=${DB_PASSWORD};Host=database;Port=5432;
       - ASPNETCORE_URLS=http://+:80
     restart: always
     networks:
       - easy-vpn
 
-  easy-vpn-frontend:
+  frontend:
     image: easyvpn/frontend:latest
     depends_on:
-      - easy-vpn-backend
-    container_name: frontend
+      - backend
     ports:
       - "3000"
     build:
@@ -80,56 +77,13 @@ services:
     networks:
       - easy-vpn
 
-  easy-vpn-certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes:
-      - ${CERT_VOLUME}:/etc/letsencrypt
-      - ${CERT_WEBROOT_VOLUME}:/var/www/certbot
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - >
-        if [ "$CERT_DOMAIN" = "localhost" ]; then
-          echo "📜 Generating self-signed certificate for localhost...";
-          mkdir -p /etc/letsencrypt/live/localhost;
-          openssl req -x509 -nodes -newkey rsa:2048 \
-            -days 365 \
-            -subj "/CN=localhost" \
-            -keyout /etc/letsencrypt/live/localhost/privkey.pem \
-            -out /etc/letsencrypt/live/localhost/fullchain.pem;
-          tail -f /dev/null;
-        elif [ -f "/etc/letsencrypt/live/$CERT_DOMAIN/fullchain.pem" ]; then
-          echo "✅ Certificate already exists — skipping generation.";
-        else
-          echo "🔐 Requesting new certificate from Let's Encrypt...";
-          certbot certonly --webroot \
-            --webroot-path=/var/www/certbot \
-            --email $CERT_EMAIL \
-            --agree-tos \
-            --no-eff-email \
-            -d $CERT_DOMAIN;
-        fi;
-
-        echo "🔄 Starting auto-renewal loop...";
-        while true; do
-          certbot renew --webroot --webroot-path=/var/www/certbot --quiet;
-          sleep 12h;
-        done
-    restart: always
-
-  easy-vpn-proxy:
+  reverse-proxy:
     image: nginx:mainline
     depends_on:
-      - easy-vpn-backend
-      - easy-vpn-frontend
-      - easy-vpn-certbot
-    container_name: proxy
+      - backend
+      - frontend
     ports:
-      - "${HTTP_PORT}:80"
-      - "${HTTPS_PORT}:443"
-    volumes:
-      - ${CERT_VOLUME}:/etc/nginx/ssl
-      - ${CERT_WEBROOT_VOLUME}:/var/www/webroot
+      - "${PORT}:80"
     command: >
       /bin/sh -c "
         echo 'worker_processes 4;
@@ -139,24 +93,9 @@ services:
         }
 
         http {
+          
           server {
             listen 80;
-            server_name ${CERT_DOMAIN};
-
-            location /.well-known/acme-challenge/ {
-                root /var/www/webroot;
-            }
-
-            location / {
-                return 301 https://$$host$$request_uri;
-            }
-          }
-
-          server {
-            listen 443 ssl;
-            server_name ${CERT_DOMAIN};
-            ssl_certificate /etc/nginx/ssl/live/${CERT_DOMAIN}/fullchain.pem;
-            ssl_certificate_key /etc/nginx/ssl/live/${CERT_DOMAIN}/privkey.pem;
 
             location / {
                 proxy_pass http://frontend:3000;
@@ -168,9 +107,7 @@ services:
             }
           }
         }
-        ' > /etc/nginx/nginx.conf && \
-        (while true; do sleep 24h; nginx -s reload; done) &
-        nginx -g 'daemon off;'
+        ' > /etc/nginx/nginx.conf && nginx -g 'daemon off;'
       "
     restart: always
     networks:
@@ -182,7 +119,6 @@ services:
 # ╔═══ REGION: VPN services ═══╗
   wireguard-vpn-service:
     image: easyvpn/wireguard-vpn:latest
-    container_name: wireguard-vpn-service
     build:
       context: services/WireguardVpn
       dockerfile: Dockerfile
@@ -207,7 +143,6 @@ services:
 
   amneziawg-vpn-service:
     image: easyvpn/amneziawg-vpn:latest
-    container_name: amneziawg-vpn-service
     build:
       context: services/AmneziaWgVpn
       dockerfile: Dockerfile
@@ -237,7 +172,6 @@ services:
 # ╔═══ REGION: Other services ═══╗
   # bot-service:
   #   image: easyvpn/bot:latest
-  #   container_name: bot-service
   #   environment:
   #     - BOT_TOKEN=${BOT_TOKEN}
   #   restart: always
