@@ -7,6 +7,9 @@ using Options = EasyVPN.Infrastructure.Settings.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 {
+    builder.Services.Configure<Options.Features>(
+        builder.Configuration.GetSection(Options.Features.SectionName));
+    
     builder.Services.AddCors(options =>
         options.AddPolicy("AllowAll", policy =>
             policy.AllowAnyOrigin()
@@ -21,8 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    var f = new Options.Featuers();
-    app.Configuration.Bind(Options.Featuers.SectionName, f);
+    var f = app.Services.GetRequiredService<IOptions<Options.Features>>().Value;
 
     if (f.UseDocumentationEndpoint)
         app.UseDocumentationEndpoint();
