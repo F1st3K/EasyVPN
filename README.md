@@ -13,12 +13,18 @@
 
 # EasyVPN
 
-[![Build](https://github.com/F1st3K/EasyVPN/actions/workflows/test-single-deploy.yml/badge.svg)](https://github.com/F1st3K/EasyVPN/actions/workflows/test-single-deploy.yml) 
-
 [![GitHub Release](https://img.shields.io/github/v/release/F1st3K/EasyVPN)](https://hub.docker.com/u/easyvpn)
+
+[![Build](https://github.com/F1st3K/EasyVPN/actions/workflows/test-single-deploy.yml/badge.svg)](https://github.com/F1st3K/EasyVPN/actions/workflows/test-single-deploy.yml) 
+[![DEV](https://img.shields.io/badge/dynamic/json?label=DEV&url=https%3A%2F%2Fdev.easy-vpn.f1st3k.tw1.su%2Fapi%2Fhealth&query=%24.version&color=yellowgreen)](https://dev.easy-vpn.f1st3k.tw1.su)
+[![PROD](https://img.shields.io/badge/dynamic/json?label=PROD&url=https%3A%2F%2Feasy-vpn.f1st3k.tw1.su%2Fapi%2Fhealth&query=%24.version&color=brightgreen)](https://easy-vpn.f1st3k.tw1.su)
+
+
+
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 [![GitHub contributors](https://img.shields.io/github/contributors/F1st3K/EasyVPN)](https://GitHub.com/F1st3K/EasyVPN/graphs/contributors/) 
 [![GitHub Stars](https://img.shields.io/github/stars/F1st3K/EasyVPN.svg)](https://github.com/F1st3K/EasyVPN/stargazers) 
+
 
 Простое VPN + Backend + Frontend приложение на одном сервере!
 
