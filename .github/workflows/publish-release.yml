@@ -55,7 +55,7 @@ jobs:
 
       - name: Configure release note 
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
           gh release create $(cat VERSION) \
             --repo="$GITHUB_REPOSITORY" \
