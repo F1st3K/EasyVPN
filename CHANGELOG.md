@@ -1,5 +1,14 @@
 # Changelog
 
+## `1.1.0` (2025-05-22)
+
+### Features
+
+- backend: Hide swagger documentation by env variable
+- backend: Add version for response health
+- Single Deploy: Reject HTTPS in app
+- Single Deploy: Add deployment for dev and prod enviroment by workflow 
+
 ## `1.0.0` (2025-05-20)
 
 ### Features
