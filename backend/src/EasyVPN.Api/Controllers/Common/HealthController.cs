@@ -14,7 +14,7 @@ public class HealthController : ApiControllerBase
         .GetName()
         .Version?
         .ToString(3) ?? "unknown";
-    
+
     /// <summary>
     /// Health api (anywhere)
     /// </summary>
