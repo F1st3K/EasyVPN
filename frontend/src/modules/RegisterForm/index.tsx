@@ -68,7 +68,7 @@ const RegisterForm: FC = () => {
             <SecretOutlinedField
                 sx={{ width: '25ch' }}
                 error={remPassword !== password}
-                label="Repit password"
+                label="Repeat password"
                 onChange={(e) => setRemPassword(e.target.value)}
                 value={remPassword}
             />
