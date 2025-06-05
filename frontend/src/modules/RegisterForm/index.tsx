@@ -29,8 +29,15 @@ const RegisterForm: FC = () => {
         Auth.register({ firstName, lastName, login, password }),
     );
 
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (remPassword === password) {
+            registerHandler(null, () => customNavigate(prevPage ?? '/'));
+        }
+    };
+
     return (
-        <Box className="register-form">
+        <Box component="form" onSubmit={handleSubmit} className="register-form">
             <TextField
                 sx={{ width: '25ch' }}
                 label="First name"
@@ -70,9 +77,7 @@ const RegisterForm: FC = () => {
                 disabled={remPassword !== password}
                 variant="contained"
                 size="large"
-                onClick={() =>
-                    registerHandler(null, () => customNavigate(prevPage ?? '/'))
-                }
+                type="submit"
                 loading={loading}
             >
                 Sign Up
