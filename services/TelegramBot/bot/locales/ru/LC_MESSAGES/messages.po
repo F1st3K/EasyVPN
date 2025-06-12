@@ -1,19 +1,18 @@
-# Russian translations for messages..
-# Copyright (C) 2025 ORGANIZATION
-# This file is distributed under the same license as the messages. project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# Russian translations for messages.
+# Copyright (C) 2025 EasyVPN
+# This file is distributed under the same license as the messages project.
+# Alex Poryadin sw1pr0g.dev@gmail.com, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: messages. VERSION\n"
+"Project-Id-Version: messages VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-04-05 23:28+0300\n"
 "PO-Revision-Date: 2025-04-05 23:28+0300\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Alex Poryadin sw1pr0g.dev@gmail.com\n"
 "Language: ru\n"
 "Language-Team: ru <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,5 +20,17 @@ msgstr ""
 
 #: bot/handlers/start.py:13
 msgid "first message"
-msgstr "Привет! Это EasyVPN бот. Здесь ты сможешь быстро получать уведомления и следить за состоянием своих VPN-подключений."
+msgstr ""
+"Привет! Это бот EasyVPN. Здесь ты можешь получать уведомления и следить за "
+"статусом своих VPN-подключений. Чтобы начать, авторизуйся: "
+"/auth `логин` `пароль`. Для справки используй: /help"
 
+#: bot/handlers/help.py:13
+msgid "help message"
+msgstr ""
+"/start - Начать работу с ботом\n"
+"/auth `логин` `пароль` - Авторизация\n"
+"/status - Проверить статус сервиса\n"
+"/connections - Посмотреть информацию о своих VPN-подключениях\n"
+"/logout - Выйти\n"
+"/help - Показать эту справку"
