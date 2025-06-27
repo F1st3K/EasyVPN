@@ -28,8 +28,13 @@ const LoginForm: FC = () => {
         Auth.login(login, password),
     );
 
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        loginHandler(null, () => customNavigate(prevPage ?? '/'));
+    };
+
     return (
-        <Box className="login-form">
+        <Box component="form" onSubmit={handleSubmit} className="login-form">
             <TextField
                 sx={{ width: '25ch', my: 1 }}
                 label="Login"
@@ -47,7 +52,7 @@ const LoginForm: FC = () => {
                 sx={{ my: 1 }}
                 variant="contained"
                 size="large"
-                onClick={() => loginHandler(null, () => customNavigate(prevPage ?? '/'))}
+                type="submit"
                 loading={loading}
             >
                 Sign In
