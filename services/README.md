@@ -23,9 +23,9 @@
 
 ### Сервисы управляющие своими vpn соеденениями, имеющие общее версионируемое `vpn-api`:
 
-1. **WireguardVpn - `wireguard-vpn-service`** - vpn-сервис на **GO**, работающий на протаколе **WireGuard**.
+1. **WireguardVpn - `wireguard-vpn-service`** - vpn-сервис на **GO**, работающий на протоколе **WireGuard**.
 
-2. **AmneziaWgVpn - `amneziawg-vpn-service`** - vpn-сервис на **GO**, работающий на протаколе **AmneziaWG** (улучшенный WireGuard).
+2. **AmneziaWgVpn - `amneziawg-vpn-service`** - vpn-сервис на **GO**, работающий на протоколе **AmneziaWG** (улучшенный WireGuard).
 
 
 ### Таблица потдержки версий `vpn-api`:
