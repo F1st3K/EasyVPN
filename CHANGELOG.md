@@ -1,5 +1,12 @@
 # Changelog
 
+## `1.1.1` (2025-06-27)
+
+### Fixes
+
+- frontend: Fix login on press enter
+- backend: Fix error 405 on update dynamic pages
+
 ## `1.1.0` (2025-05-22)
 
 ### Features
