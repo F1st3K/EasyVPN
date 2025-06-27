@@ -35,7 +35,7 @@ public class UpdateDynamicPageCommandHandler : IRequestHandler<UpdateDynamicPage
         else
         {
             _dynamicPageRepository.Remove(page.Route);
-            
+
             page.Route = command.NewRoute;
             _dynamicPageRepository.Add(page);
         }
