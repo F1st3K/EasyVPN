@@ -1,21 +1,19 @@
-FROM python:3.12-alpine
+FROM ghcr.io/astral-sh/uv:0.5-python3.13-alpine
 
-ENV POETRY_NO_INTERACTION=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=1 \
-    POETRY_VIRTUALENVS_CREATE=0 \
-    POETRY_HOME="/etc/poetry" \
-    POETRY_CACHE_DIR="/tmp/poetry_cache" \
-    POETRY_VERSION=2.0.1
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    PATH="/usr/src/app/.venv/bin:$PATH"
 
-WORKDIR /usr/src/bot
+WORKDIR /usr/src/app
 
 COPY . .
 
-RUN pip install --no-cache-dir "poetry==$POETRY_VERSION" \
-    && poetry install --without dev --no-root \
-    && pip uninstall -y poetry \
-    && pybabel compile -d bot/locales \
-    && rm -rf /home/bot/.cache \
-    && rm -rf $POETRY_CACHE_DIR
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-install-project --group bot --no-group admin --no-group dev \
+    && pybabel compile -d ./bot/locales \
+    && adduser -D appuser \
+    && chown -R appuser:appuser .
+
+USER appuser
 
 CMD ["python", "-m", "bot"]

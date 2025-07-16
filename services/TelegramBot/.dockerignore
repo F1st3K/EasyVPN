@@ -4,5 +4,6 @@
 # exclusion
 !/bot/
 
-!/poetry.lock
+!/alembic.ini
 !/pyproject.toml
+!/uv.lock
