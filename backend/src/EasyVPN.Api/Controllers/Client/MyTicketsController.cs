@@ -1,15 +1,15 @@
-using EasyVPN.Api.Common;
-using EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTicket;
-using EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTickets;
-using EasyVPN.Contracts.ConnectionTickets;
-using EasyVPN.Contracts.Users;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Common.Errors;
+using EasyZsV.Api.Common;
+using EasyZsV.Application.ConnectionTickets.Queries.GetConnectionTicket;
+using EasyZsV.Application.ConnectionTickets.Queries.GetConnectionTickets;
+using EasyZsV.Contracts.ConnectionTickets;
+using EasyZsV.Contracts.Users;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Common.Errors;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.Client;
+namespace EasyZsV.Api.Controllers.Client;
 
 [Route("my/tickets")]
 [Authorize(Roles = nameof(RoleType.Client))]

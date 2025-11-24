@@ -1,9 +1,9 @@
-using EasyVPN.Application.Authentication.Common;
-using EasyVPN.Application.Authentication.Queries.Login;
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Authentication.Common;
+using EasyZsV.Application.Authentication.Queries.Login;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Application.UnitTests.Authentication.Queries.Login;
+namespace EasyZsV.Application.UnitTests.Authentication.Queries.Login;
 
 public static class LoginUtils
 {

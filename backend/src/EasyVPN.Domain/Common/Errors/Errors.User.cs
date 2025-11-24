@@ -1,4 +1,4 @@
-namespace EasyVPN.Domain.Common.Errors;
+namespace EasyZsV.Domain.Common.Errors;
 using ErrorOr;
 
 public static partial class Errors

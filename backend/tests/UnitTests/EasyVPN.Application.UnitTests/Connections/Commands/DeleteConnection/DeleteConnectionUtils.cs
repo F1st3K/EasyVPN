@@ -1,9 +1,9 @@
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Application.Connections.Commands.CreateConnection;
-using EasyVPN.Application.Connections.Commands.DeleteConnection;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Application.Connections.Commands.CreateConnection;
+using EasyZsV.Application.Connections.Commands.DeleteConnection;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Application.UnitTests.Connections.Commands.DeleteConnection;
+namespace EasyZsV.Application.UnitTests.Connections.Commands.DeleteConnection;
 
 public static class DeleteConnectionUtils
 {

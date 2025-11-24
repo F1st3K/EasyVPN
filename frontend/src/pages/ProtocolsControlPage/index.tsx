@@ -16,7 +16,7 @@ import { FC } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Protocol } from '../../api';
+import EasyZsv, { ApiError, Protocol } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import CreateButton from '../../components/CreateButton';
 import Modal from '../../components/Modal';
@@ -28,13 +28,13 @@ const ProtocolsControlPage: FC = () => {
     const navigate = useNavigate();
 
     const [data, loading, error] = useRequest<Protocol[], ApiError>(
-        () => EasyVpn.protocols.getAll(Auth.getToken()).then((v) => v.data),
+        () => EasyZsv.protocols.getAll(Auth.getToken()).then((v) => v.data),
         [location.pathname],
     );
 
     const [removeProtocolId, setRemoveProtocolId] = useState<string>();
     const [removeHandler, loadingRm, errorRm] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.protocols
+        EasyZsv.protocols
             .delete(removeProtocolId || '', Auth.getToken())
             .then((r) => r.data),
     );

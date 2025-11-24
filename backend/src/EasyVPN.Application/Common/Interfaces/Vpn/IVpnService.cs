@@ -1,8 +1,8 @@
 using ErrorOr;
 
-namespace EasyVPN.Application.Common.Interfaces.Vpn;
+namespace EasyZsV.Application.Common.Interfaces.Zsv;
 
-public interface IVpnService
+public interface IZsvService
 {
     public ErrorOr<string> GetConfig(Guid connectionId);
     public ErrorOr<Created> CreateClient(Guid connectionId);

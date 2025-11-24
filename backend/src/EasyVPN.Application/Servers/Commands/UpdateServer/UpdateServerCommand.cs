@@ -1,13 +1,13 @@
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Servers.Commands.UpdateServer;
+namespace EasyZsV.Application.Servers.Commands.UpdateServer;
 
 public record UpdateServerCommand(
     Guid ServerId,
     ConnectionString ConnectionString,
     Guid ProtocolId,
-    VpnVersion Version
+    ZsvVersion Version
     ) : IRequest<ErrorOr<Created>>;

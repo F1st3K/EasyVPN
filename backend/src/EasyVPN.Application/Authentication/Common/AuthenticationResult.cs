@@ -1,7 +1,7 @@
-using EasyVPN.Domain.Entities;
-using EasyVPN.Domain.Common.Enums;
+using EasyZsV.Domain.Entities;
+using EasyZsV.Domain.Common.Enums;
 
-namespace EasyVPN.Application.Authentication.Common;
+namespace EasyZsV.Application.Authentication.Common;
 
 public record AuthenticationResult(
     User User,

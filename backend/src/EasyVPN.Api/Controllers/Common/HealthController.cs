@@ -3,7 +3,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.Common;
+namespace EasyZsV.Api.Controllers.Common;
 
 [Route("health")]
 [AllowAnonymous]

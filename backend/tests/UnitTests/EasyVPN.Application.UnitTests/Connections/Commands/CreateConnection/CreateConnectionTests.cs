@@ -1,11 +1,11 @@
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Common.Errors;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Common.Errors;
+using EasyZsV.Domain.Entities;
 using FluentAssertions;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.Connections.Commands.CreateConnection;
+namespace EasyZsV.Application.UnitTests.Connections.Commands.CreateConnection;
 
 public class CreateConnectionTests
 {
@@ -30,9 +30,9 @@ public class CreateConnectionTests
                 => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
 
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
+        _mocks.ZsvServiceFactory.Setup(x =>
+                x.GetZsvService(It.IsAny<Server>()))
+            .Returns(_mocks.ZsvService.Object);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -43,12 +43,12 @@ public class CreateConnectionTests
 
         _mocks.ConnectionRepository.Verify(x =>
             x.Add(It.Is<Connection>(connection => connection.IsValid())));
-        _mocks.VpnService.Verify(x =>
+        _mocks.ZsvService.Verify(x =>
             x.CreateClient(It.IsAny<Guid>()));
     }
 
     [Fact]
-    public async Task HandleCreateConnectionCommand_WhenVpnServiceError_Error()
+    public async Task HandleCreateConnectionCommand_WhenZsvServiceError_Error()
     {
         //Arrange
         var command = CreateConnectionUtils.CreateCommand();
@@ -66,13 +66,13 @@ public class CreateConnectionTests
                 => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
 
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
+        _mocks.ZsvServiceFactory.Setup(x =>
+                x.GetZsvService(It.IsAny<Server>()))
+            .Returns(_mocks.ZsvService.Object);
 
-        _mocks.VpnService.Setup(x
+        _mocks.ZsvService.Setup(x
                 => x.CreateClient(It.IsAny<Guid>()))
-            .Returns(Constants.Connection.VpnServiceError);
+            .Returns(Constants.Connection.ZsvServiceError);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -80,7 +80,7 @@ public class CreateConnectionTests
 
         //Assert
         result.IsError.Should().BeTrue(result.FirstError.ToString());
-        result.FirstError.Should().Be(Constants.Connection.VpnServiceError);
+        result.FirstError.Should().Be(Constants.Connection.ZsvServiceError);
     }
 
     [Fact]
@@ -97,9 +97,9 @@ public class CreateConnectionTests
                 => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
 
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
+        _mocks.ZsvServiceFactory.Setup(x =>
+                x.GetZsvService(It.IsAny<Server>()))
+            .Returns(_mocks.ZsvService.Object);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -127,9 +127,9 @@ public class CreateConnectionTests
                 => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
 
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
+        _mocks.ZsvServiceFactory.Setup(x =>
+                x.GetZsvService(It.IsAny<Server>()))
+            .Returns(_mocks.ZsvService.Object);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -157,9 +157,9 @@ public class CreateConnectionTests
                 => x.Get(Constants.Server.Id))
             .Returns(() => null);
 
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
+        _mocks.ZsvServiceFactory.Setup(x =>
+                x.GetZsvService(It.IsAny<Server>()))
+            .Returns(_mocks.ZsvService.Object);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -170,7 +170,7 @@ public class CreateConnectionTests
     }
 
     [Fact]
-    public async Task HandleCreateConnectionCommand_WhenGetVpnServiceFailed_Error()
+    public async Task HandleCreateConnectionCommand_WhenGetZsvServiceFailed_Error()
     {
         //Arrange
         var command = CreateConnectionUtils.CreateCommand();
@@ -187,8 +187,8 @@ public class CreateConnectionTests
                 => x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
 
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
+        _mocks.ZsvServiceFactory.Setup(x =>
+                x.GetZsvService(It.IsAny<Server>()))
             .Returns(() => null);
 
         //Act

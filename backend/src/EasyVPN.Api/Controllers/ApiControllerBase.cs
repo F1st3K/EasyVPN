@@ -1,9 +1,9 @@
-using EasyVPN.Api.Common.Http;
+using EasyZsV.Api.Common.Http;
 using ErrorOr;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers;
+namespace EasyZsV.Api.Controllers;
 
 [ApiController]
 [Authorize]

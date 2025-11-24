@@ -1,15 +1,15 @@
-using EasyVPN.Api.Common;
-using EasyVPN.Application.Authentication.Commands.Register;
-using EasyVPN.Application.Authentication.Common;
-using EasyVPN.Application.Authentication.Queries.Login;
-using EasyVPN.Application.Users.Queries.GetUser;
-using EasyVPN.Contracts.Authentication;
-using EasyVPN.Domain.Common.Enums;
+using EasyZsV.Api.Common;
+using EasyZsV.Application.Authentication.Commands.Register;
+using EasyZsV.Application.Authentication.Common;
+using EasyZsV.Application.Authentication.Queries.Login;
+using EasyZsV.Application.Users.Queries.GetUser;
+using EasyZsV.Contracts.Authentication;
+using EasyZsV.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.Common;
+namespace EasyZsV.Api.Controllers.Common;
 
 [Route("auth")]
 public class AuthenticationController : ApiControllerBase

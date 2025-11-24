@@ -20,5 +20,5 @@ msgstr ""
 
 #: bot/handlers/start.py:13
 msgid "first message"
-msgstr "Hi! This is the EasyVPN bot. Here you can quickly receive notifications and monitor the status of your VPN connections."
+msgstr "Hi! This is the EasyZsV bot. Here you can quickly receive notifications and monitor the status of your ZSV connections."
 

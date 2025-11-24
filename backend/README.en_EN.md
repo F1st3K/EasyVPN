@@ -6,11 +6,11 @@
 [readme-en-shield]: https://img.shields.io/badge/en-blue
 [readme-en-url]: README.en_EN.md
 
-# EasyVPN backend
+# EasyZsV backend
 A business logic application with a clear rest-api. (C# + ASP.NET Core)
 
 ## Configuration
-> Web interface configuration is in [`appsettings.json`](./src/EasyVPN.Api/appsettings.json):
+> Web interface configuration is in [`appsettings.json`](./src/EasyZsV.Api/appsettings.json):
 
 `"Logging": { ... },` - logging settings
 
@@ -21,11 +21,11 @@ A business logic application with a clear rest-api. (C# + ASP.NET Core)
 - `"Secret": "super-puper-mega-secret-key-solo",` - secret protecting tokens
 - `"ExpiryMinutes": 60,` - lifetime of each individual token after its creation
 
-- `"Issuer": "EasyVPN",` and `"Audience": "EasyVPN"` - signature by whom and for whom tokens are issued
+- `"Issuer": "EasyZsV",` and `"Audience": "EasyZsV"` - signature by whom and for whom tokens are issued
 
 `"HashSettings": { "Secret": "super-puper-mega-hash-soltt-solo" },` - secret used when hashing passwords
 
-`"ExpireSettings": { "CheckMinutes": 1 },` - frequency in minutes, for checking expired objects (authorization token, vpn connections, etc.)
+`"ExpireSettings": { "CheckMinutes": 1 },` - frequency in minutes, for checking expired objects (authorization token, zsv connections, etc.)
 
 `"ConnectionStrings": { "Postgres": "User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;" }` - Database connection strings
 (the main and necessary for PostgreSQL, if the connection attempt fails, the application will not start)
@@ -42,7 +42,7 @@ docker run -d \
 -e POSTGRES_USER=postgres `#your db user`\
 -e POSTGRES_PASSWORD=mysecretpassword `#your db password`\
 -p 5432:5432 `#your port`\
--v easyvpn_database_data:/var/lib/postgresql/data \
+-v easyzsv_database_data:/var/lib/postgresql/data \
 postgres:latest
 ```
 
@@ -52,8 +52,8 @@ docker run -d \
 --name backend \
 -e ConnectionStrings__Postgres='User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;' \
 -p 80:80 `#your port`\
-easyvpn/backend:latest
+easyzsv/backend:latest
 ```
 
-## EasyVPN API
+## EasyZsV API
 To explore the API, you need to run the business logic application and navigate to the [`/swagger/`](http://localhost/swagger/) interface.

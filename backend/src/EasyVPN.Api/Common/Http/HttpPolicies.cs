@@ -1,4 +1,4 @@
-namespace EasyVPN.Api.Common.Http;
+namespace EasyZsV.Api.Common.Http;
 
 public static class HttpPolicies
 {

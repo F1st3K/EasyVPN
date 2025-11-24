@@ -1,10 +1,10 @@
 using System.Security.Cryptography;
 using System.Text;
-using EasyVPN.Application.Common.Interfaces.Authentication;
+using EasyZsV.Application.Common.Interfaces.Authentication;
 using Microsoft.Extensions.Options;
-using Options = EasyVPN.Infrastructure.Settings.Options;
+using Options = EasyZsV.Infrastructure.Settings.Options;
 
-namespace EasyVPN.Infrastructure.Authentication;
+namespace EasyZsV.Infrastructure.Authentication;
 
 public class HashGenerator : IHashGenerator
 {

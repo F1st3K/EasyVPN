@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"WireguardVpn/pkg/entities"
+	"WireguardZsv/pkg/entities"
 	"fmt"
 	"log"
 	"os"

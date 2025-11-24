@@ -1,4 +1,4 @@
-package wireguardvpn
+package wireguardzsv
 
 import (
 	"context"

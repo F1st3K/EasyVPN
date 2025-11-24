@@ -1,18 +1,18 @@
 networks:
-  easy-vpn:
+  easy-zsv:
     driver: bridge
 
 services:
 
   init:
-    image: easyvpn/init:latest
+    image: easyzsv/init:latest
     profiles:
       - init
     depends_on:
       - database
       - backend
-      - wireguard-vpn-service
-      - amneziawg-vpn-service
+      - wireguard-zsv-service
+      - amneziawg-zsv-service
     build:
       context: init/
       dockerfile: Dockerfile
@@ -24,7 +24,7 @@ services:
       - CREATE_DYNAMIC_PAGES=${INIT_DYNAMIC_PAGES:-NO}
     restart: no
     networks:
-      - easy-vpn
+      - easy-zsv
 
 # ╔═══ REGION: Base infractructure services ═══╗
   database:
@@ -38,10 +38,10 @@ services:
     volumes:
       - ${DB_VOLUME}:/var/lib/postgresql/data
     networks:
-      - easy-vpn
+      - easy-zsv
 
   backend:
-    image: easyvpn/backend:latest
+    image: easyzsv/backend:latest
     depends_on:
       - database
     ports:
@@ -59,10 +59,10 @@ services:
       - ASPNETCORE_URLS=http://+:80
     restart: always
     networks:
-      - easy-vpn
+      - easy-zsv
 
   frontend:
-    image: easyvpn/frontend:latest
+    image: easyzsv/frontend:latest
     depends_on:
       - backend
     ports:
@@ -75,7 +75,7 @@ services:
       - AUTH_CHECK_MINUTES=${FRONT_CHECK_AUTH}
     restart: always
     networks:
-      - easy-vpn
+      - easy-zsv
 
   reverse-proxy:
     image: nginx:mainline
@@ -111,25 +111,25 @@ services:
       "
     restart: always
     networks:
-      - easy-vpn
+      - easy-zsv
 # ╚═══ REGION: Base infractructure services ═══╝
 
 
 
-# ╔═══ REGION: VPN services ═══╗
-  wireguard-vpn-service:
-    image: easyvpn/wireguard-vpn:latest
+# ╔═══ REGION: ZSV services ═══╗
+  wireguard-zsv-service:
+    image: easyzsv/wireguard-zsv:latest
     build:
-      context: services/WireguardVpn
+      context: services/WireguardZsv
       dockerfile: Dockerfile
     environment:
-      - SERVICE_HOST=${VPN_IP}  # your host address
-      - SERVICE_USER=${VPN_USER}            # your user name for auth
-      - SERVICE_PASSWORD=${VPN_PASSWORD}      # your password for auth
-      - VPN_PORT=${WG_VPN_PORT}
+      - SERVICE_HOST=${ZSV_IP}  # your host address
+      - SERVICE_USER=${ZSV_USER}            # your user name for auth
+      - SERVICE_PASSWORD=${ZSV_PASSWORD}      # your password for auth
+      - ZSV_PORT=${WG_ZSV_PORT}
       - API_PORT=${WG_API_PORT}
     ports:
-      - "${WG_VPN_PORT}:${WG_VPN_PORT}/udp"  # wireguard port
+      - "${WG_ZSV_PORT}:${WG_ZSV_PORT}/udp"  # wireguard port
       - "${WG_API_PORT}:${WG_API_PORT}/tcp"    # http-api port
     volumes:
       - ${WG_VOLUME}:/etc/wireguard
@@ -141,19 +141,19 @@ services:
       - net.ipv4.ip_forward=1
     restart: always
 
-  amneziawg-vpn-service:
-    image: easyvpn/amneziawg-vpn:latest
+  amneziawg-zsv-service:
+    image: easyzsv/amneziawg-zsv:latest
     build:
-      context: services/AmneziaWgVpn
+      context: services/AmneziaWgZsv
       dockerfile: Dockerfile
     environment:
-      - SERVICE_HOST=${VPN_IP}  # your host address
-      - SERVICE_USER=${VPN_USER}            # your user name for auth
-      - SERVICE_PASSWORD=${VPN_PASSWORD}      # your password for auth
-      - VPN_PORT=${AWG_VPN_PORT}
+      - SERVICE_HOST=${ZSV_IP}  # your host address
+      - SERVICE_USER=${ZSV_USER}            # your user name for auth
+      - SERVICE_PASSWORD=${ZSV_PASSWORD}      # your password for auth
+      - ZSV_PORT=${AWG_ZSV_PORT}
       - API_PORT=${AWG_API_PORT}
     ports:
-      - "${AWG_VPN_PORT}:${AWG_VPN_PORT}/udp"  # amnezia wg port
+      - "${AWG_ZSV_PORT}:${AWG_ZSV_PORT}/udp"  # amnezia wg port
       - "${AWG_API_PORT}:${AWG_API_PORT}/tcp"    # http-api port
     volumes:
       - ${AWG_VOLUME}:/etc/amnezia
@@ -166,12 +166,12 @@ services:
     devices:
       - "/dev/net/tun:/dev/net/tun"  # device mapping for TUN interface
     restart: always
-# ╚═══ REGION: VPN services ═══╝
+# ╚═══ REGION: ZSV services ═══╝
 
 
 # ╔═══ REGION: Other services ═══╗
   # bot-service:
-  #   image: easyvpn/bot:latest
+  #   image: easyzsv/bot:latest
   #   environment:
   #     - BOT_TOKEN=${BOT_TOKEN}
   #   restart: always

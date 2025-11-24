@@ -1,4 +1,4 @@
-namespace EasyVPN.Application.Common.Interfaces.Authentication;
+namespace EasyZsV.Application.Common.Interfaces.Authentication;
 
 public interface IHashGenerator
 {

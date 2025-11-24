@@ -1,9 +1,9 @@
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyVPN.Infrastructure.Persistence;
+namespace EasyZsV.Infrastructure.Persistence;
 
-public class EasyVpnDbContext : DbContext
+public class EasyZsvDbContext : DbContext
 {
     public DbSet<User> Users { get; private set; } = null!;
     public DbSet<Server> Servers { get; private set; } = null!;
@@ -12,7 +12,7 @@ public class EasyVpnDbContext : DbContext
     public DbSet<ConnectionTicket> ConnectionTickets { get; private set; } = null!;
     public DbSet<DynamicPage> DynamicPages { get; private set; } = null!;
 
-    public EasyVpnDbContext(DbContextOptions<EasyVpnDbContext> options)
+    public EasyZsvDbContext(DbContextOptions<EasyZsvDbContext> options)
         : base(options)
     {
 
@@ -21,7 +21,7 @@ public class EasyVpnDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .ApplyConfigurationsFromAssembly(typeof(EasyVpnDbContext).Assembly);
+            .ApplyConfigurationsFromAssembly(typeof(EasyZsvDbContext).Assembly);
 
         base.OnModelCreating(modelBuilder);
     }

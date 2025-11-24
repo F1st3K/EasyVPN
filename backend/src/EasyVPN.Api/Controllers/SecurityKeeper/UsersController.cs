@@ -1,14 +1,14 @@
-using EasyVPN.Application.Users.Commands.ChangePassword;
-using EasyVPN.Application.Users.Commands.RolesUpdate;
-using EasyVPN.Application.Users.Queries.GetUser;
-using EasyVPN.Application.Users.Queries.GetUsers;
-using EasyVPN.Contracts.Users;
-using EasyVPN.Domain.Common.Enums;
+using EasyZsV.Application.Users.Commands.ChangePassword;
+using EasyZsV.Application.Users.Commands.RolesUpdate;
+using EasyZsV.Application.Users.Queries.GetUser;
+using EasyZsV.Application.Users.Queries.GetUsers;
+using EasyZsV.Contracts.Users;
+using EasyZsV.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.SecurityKeeper;
+namespace EasyZsV.Api.Controllers.SecurityKeeper;
 
 [Route("users")]
 [Authorize(Roles = nameof(RoleType.SecurityKeeper))]

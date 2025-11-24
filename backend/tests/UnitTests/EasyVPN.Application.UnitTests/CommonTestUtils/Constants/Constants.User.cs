@@ -1,6 +1,6 @@
-using EasyVPN.Domain.Common.Enums;
+using EasyZsV.Domain.Common.Enums;
 
-namespace EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
+namespace EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
 
 public static partial class Constants
 {

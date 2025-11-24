@@ -1,20 +1,20 @@
-using EasyVPN.Api.Common;
-using EasyVPN.Application.Connections.Commands.CreateConnection;
-using EasyVPN.Application.Connections.Commands.DeleteConnection;
-using EasyVPN.Application.Connections.Queries.GetConfig;
-using EasyVPN.Application.Connections.Queries.GetConnection;
-using EasyVPN.Application.Connections.Queries.GetConnections;
-using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
-using EasyVPN.Contracts.Connections;
-using EasyVPN.Contracts.Servers;
-using EasyVPN.Contracts.Users;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Common.Errors;
+using EasyZsV.Api.Common;
+using EasyZsV.Application.Connections.Commands.CreateConnection;
+using EasyZsV.Application.Connections.Commands.DeleteConnection;
+using EasyZsV.Application.Connections.Queries.GetConfig;
+using EasyZsV.Application.Connections.Queries.GetConnection;
+using EasyZsV.Application.Connections.Queries.GetConnections;
+using EasyZsV.Application.ConnectionTickets.Commands.CreateConnectionTicket;
+using EasyZsV.Contracts.Connections;
+using EasyZsV.Contracts.Servers;
+using EasyZsV.Contracts.Users;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Common.Errors;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.Client;
+namespace EasyZsV.Api.Controllers.Client;
 
 [Route("my/connections")]
 [Authorize(Roles = nameof(RoleType.Client))]

@@ -1,11 +1,11 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Application.Connections.Queries.GetConnections;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Zsv;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Application.Connections.Queries.GetConnections;
+using EasyZsV.Domain.Entities;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.Connections.Queries.GetConnections;
+namespace EasyZsV.Application.UnitTests.Connections.Queries.GetConnections;
 
 public class GetConnectionsMocks
 {

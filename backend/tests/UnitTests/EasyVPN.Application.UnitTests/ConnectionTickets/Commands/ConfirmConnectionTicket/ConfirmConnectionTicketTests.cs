@@ -1,11 +1,11 @@
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Common.Errors;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Common.Errors;
+using EasyZsV.Domain.Entities;
 using FluentAssertions;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.ConnectionTickets.Commands.ConfirmConnectionTicket;
+namespace EasyZsV.Application.UnitTests.ConnectionTickets.Commands.ConfirmConnectionTicket;
 
 public class ConfirmConnectionTicketTests
 {

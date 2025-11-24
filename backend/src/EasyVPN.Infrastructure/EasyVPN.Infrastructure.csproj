@@ -6,7 +6,7 @@
     <Version>1.1.1</Version>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EasyVPN.Application\EasyVPN.Application.csproj" />
+    <ProjectReference Include="..\EasyZsV.Application\EasyZsV.Application.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />

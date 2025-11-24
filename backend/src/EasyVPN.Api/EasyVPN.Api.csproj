@@ -8,9 +8,9 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EasyVPN.Contracts\EasyVPN.Contracts.csproj" />
-    <ProjectReference Include="..\EasyVPN.Application\EasyVPN.Application.csproj" />
-    <ProjectReference Include="..\EasyVPN.Infrastructure\EasyVPN.Infrastructure.csproj" />
+    <ProjectReference Include="..\EasyZsV.Contracts\EasyZsV.Contracts.csproj" />
+    <ProjectReference Include="..\EasyZsV.Application\EasyZsV.Application.csproj" />
+    <ProjectReference Include="..\EasyZsV.Infrastructure\EasyZsV.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">

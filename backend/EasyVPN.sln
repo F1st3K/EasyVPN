@@ -5,21 +5,21 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CFABD92F-DAC9-4FDF-B835-B87358E3B6DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Api", "src\EasyVPN.Api\EasyVPN.Api.csproj", "{00D7C943-6A66-478F-814B-B1D56A5C363C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyZsV.Api", "src\EasyZsV.Api\EasyZsV.Api.csproj", "{00D7C943-6A66-478F-814B-B1D56A5C363C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Application", "src\EasyVPN.Application\EasyVPN.Application.csproj", "{B8432D75-6E32-4D9B-932F-E3B9607A7137}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyZsV.Application", "src\EasyZsV.Application\EasyZsV.Application.csproj", "{B8432D75-6E32-4D9B-932F-E3B9607A7137}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Contracts", "src\EasyVPN.Contracts\EasyVPN.Contracts.csproj", "{A59D9CB3-8946-43B1-A97B-AB7A638195E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyZsV.Contracts", "src\EasyZsV.Contracts\EasyZsV.Contracts.csproj", "{A59D9CB3-8946-43B1-A97B-AB7A638195E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Domain", "src\EasyVPN.Domain\EasyVPN.Domain.csproj", "{25270F18-8356-433A-91E9-5A96090C1278}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyZsV.Domain", "src\EasyZsV.Domain\EasyZsV.Domain.csproj", "{25270F18-8356-433A-91E9-5A96090C1278}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Infrastructure", "src\EasyVPN.Infrastructure\EasyVPN.Infrastructure.csproj", "{0F2992C2-4325-41A4-A7D1-550C63A269F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyZsV.Infrastructure", "src\EasyZsV.Infrastructure\EasyZsV.Infrastructure.csproj", "{0F2992C2-4325-41A4-A7D1-550C63A269F6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A71909E3-5D7A-443C-8FC2-689BAC76AFAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{F03EF153-1344-48CA-B08E-CE8593D41693}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyVPN.Application.UnitTests", "tests\UnitTests\EasyVPN.Application.UnitTests\EasyVPN.Application.UnitTests.csproj", "{03FA3C02-AB50-4D1D-A903-9615ED0C210F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyZsV.Application.UnitTests", "tests\UnitTests\EasyZsV.Application.UnitTests\EasyZsV.Application.UnitTests.csproj", "{03FA3C02-AB50-4D1D-A903-9615ED0C210F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

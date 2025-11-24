@@ -1,7 +1,7 @@
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Application.Common.Interfaces.Authentication;
+namespace EasyZsV.Application.Common.Interfaces.Authentication;
 
 public interface IJwtTokenGenerator
 {

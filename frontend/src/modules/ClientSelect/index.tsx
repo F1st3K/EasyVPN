@@ -2,7 +2,7 @@ import { Autocomplete, Box, TextField } from '@mui/material';
 import React, { FC, useContext, useEffect } from 'react';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, User } from '../../api';
+import EasyZsv, { ApiError, User } from '../../api';
 import { useRequest } from '../../hooks';
 
 interface ClientSelectProps {
@@ -14,7 +14,7 @@ const ClientSelect: FC<ClientSelectProps> = (props) => {
     const { Auth } = useContext(Context);
 
     const [clients, loading] = useRequest<User[], ApiError>(() =>
-        EasyVpn.users.getClients(Auth.getToken()).then((v) => v.data),
+        EasyZsv.users.getClients(Auth.getToken()).then((v) => v.data),
     );
 
     const client = clients?.find((u) => u.id == props.clientId) || null;

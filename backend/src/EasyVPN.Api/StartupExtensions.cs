@@ -1,9 +1,9 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Connections.Commands.DisableConnection;
-using EasyVPN.Infrastructure.Persistence;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Connections.Commands.DisableConnection;
+using EasyZsV.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyVPN.Api;
+namespace EasyZsV.Api;
 
 public static class StartupExtensions
 {
@@ -18,7 +18,7 @@ public static class StartupExtensions
     public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();
-        using var appContext = scope.ServiceProvider.GetRequiredService<EasyVpnDbContext>();
+        using var appContext = scope.ServiceProvider.GetRequiredService<EasyZsvDbContext>();
 
         appContext.Database.Migrate();
 

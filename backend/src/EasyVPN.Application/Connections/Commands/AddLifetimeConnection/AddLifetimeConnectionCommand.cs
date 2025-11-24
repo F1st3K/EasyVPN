@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Connections.Commands.AddLifetimeConnection;
+namespace EasyZsV.Application.Connections.Commands.AddLifetimeConnection;
 
 public record AddLifetimeConnectionCommand(
     Guid ConnectionId,

@@ -1,4 +1,4 @@
-import { AdminPanelSettings, SupportAgent, VpnKey } from '@mui/icons-material';
+import { AdminPanelSettings, SupportAgent, ZsvKey } from '@mui/icons-material';
 import {
     AppBar,
     Box,
@@ -58,7 +58,7 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                                 fontSize="18pt"
                                 component="div"
                             >
-                                EasyVPN
+                                EasyZsV
                             </Typography>
                         </Box>
                     </Button>
@@ -151,7 +151,7 @@ const Header = (props: { isMobile: () => boolean; toggleNav: () => void }) => {
                             <Button
                                 size="large"
                                 color="inherit"
-                                startIcon={<VpnKey />}
+                                startIcon={<ZsvKey />}
                                 onClick={() => navigate('/connections')}
                             >
                                 Connections

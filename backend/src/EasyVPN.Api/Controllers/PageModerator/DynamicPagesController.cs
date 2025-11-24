@@ -1,15 +1,15 @@
-using EasyVPN.Application.DynamicPages.Commands.CreateDynamicPage;
-using EasyVPN.Application.DynamicPages.Commands.RemoveDynamicPage;
-using EasyVPN.Application.DynamicPages.Commands.UpdateDynamicPage;
-using EasyVPN.Application.DynamicPages.Queries.GetDynamicPage;
-using EasyVPN.Application.DynamicPages.Queries.GetDynamicPages;
-using EasyVPN.Contracts.DynamicPages;
-using EasyVPN.Domain.Common.Enums;
+using EasyZsV.Application.DynamicPages.Commands.CreateDynamicPage;
+using EasyZsV.Application.DynamicPages.Commands.RemoveDynamicPage;
+using EasyZsV.Application.DynamicPages.Commands.UpdateDynamicPage;
+using EasyZsV.Application.DynamicPages.Queries.GetDynamicPage;
+using EasyZsV.Application.DynamicPages.Queries.GetDynamicPages;
+using EasyZsV.Contracts.DynamicPages;
+using EasyZsV.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.PageModerator;
+namespace EasyZsV.Api.Controllers.PageModerator;
 
 [Route("dynamic-pages")]
 public class DynamicPagesController : ApiControllerBase

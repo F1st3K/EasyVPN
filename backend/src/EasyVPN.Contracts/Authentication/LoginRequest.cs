@@ -1,4 +1,4 @@
-namespace EasyVPN.Contracts.Authentication;
+namespace EasyZsV.Contracts.Authentication;
 
 public record LoginRequest(
     string Login,

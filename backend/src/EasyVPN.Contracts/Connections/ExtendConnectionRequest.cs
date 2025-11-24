@@ -1,4 +1,4 @@
-namespace EasyVPN.Contracts.Connections;
+namespace EasyZsV.Contracts.Connections;
 
 public record ExtendConnectionRequest(
     Guid ConnectionId,

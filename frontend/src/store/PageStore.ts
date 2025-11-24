@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-import EasyVpn from '../api';
+import EasyZsv from '../api';
 import { PageRoutes } from '../api/common/PageRoutes';
 import PageInfo from '../api/responses/PageInfo';
 
@@ -18,7 +18,7 @@ export default class PageStore {
     }
 
     public async sync() {
-        this.routes = this.buildRoutes(await EasyVpn.pages.getAll().then((r) => r.data));
+        this.routes = this.buildRoutes(await EasyZsv.pages.getAll().then((r) => r.data));
     }
 
     private buildRoutes(pages: PageInfo[]): PageRoutes[] {

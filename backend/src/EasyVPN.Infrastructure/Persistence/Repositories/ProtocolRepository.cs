@@ -1,13 +1,13 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Infrastructure.Persistence.Repositories;
+namespace EasyZsV.Infrastructure.Persistence.Repositories;
 
 public class ProtocolRepository : IProtocolRepository
 {
-    private readonly EasyVpnDbContext _dbContext;
+    private readonly EasyZsvDbContext _dbContext;
 
-    public ProtocolRepository(EasyVpnDbContext dbContext)
+    public ProtocolRepository(EasyZsvDbContext dbContext)
     {
         _dbContext = dbContext;
     }

@@ -16,7 +16,7 @@ import React, { useEffect, useState } from 'react';
 import { FC, useContext } from 'react';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Role, User, UserInfo } from '../../api';
+import EasyZsv, { ApiError, Role, User, UserInfo } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import SecretOutlinedField from '../../components/SecretOutlinedField';
 import { useRequest, useRequestHandler } from '../../hooks';
@@ -26,7 +26,7 @@ const ProfilePage: FC = () => {
     const { Auth } = useContext(Context);
 
     const [data, loading, error] = useRequest<User, ApiError>(
-        () => EasyVpn.my.profile(Auth.getToken()).then((v) => v.data),
+        () => EasyZsv.my.profile(Auth.getToken()).then((v) => v.data),
         [location.pathname],
     );
     useEffect(() => {
@@ -45,20 +45,20 @@ const ProfilePage: FC = () => {
     });
     const [profileDisabled, setProfileDisabled] = useState(true);
     const [profileHandler, loadingPf, errorPf] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.my.editProfile(profile, Auth.getToken()).then((r) => r.data),
+        EasyZsv.my.editProfile(profile, Auth.getToken()).then((r) => r.data),
     );
 
     const [login, setLogin] = useState('');
     const [loginDisabled, setLoginDisabled] = useState(true);
     const [loginHandler, loadingLg, errorLg] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.my.updateLogin(login, Auth.getToken()).then((r) => r.data),
+        EasyZsv.my.updateLogin(login, Auth.getToken()).then((r) => r.data),
     );
 
     const [pwd, setPwd] = useState('************');
     const [newPwd, setNewPwd] = useState('');
     const [pwdDisabled, setPwdDisabled] = useState(true);
     const [pwdHandler, loadingPwd, errorPwd] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.my.updatePassword(pwd, newPwd, Auth.getToken()).then((r) => r.data),
+        EasyZsv.my.updatePassword(pwd, newPwd, Auth.getToken()).then((r) => r.data),
     );
 
     if (loading) return <LinearProgress />;

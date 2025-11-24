@@ -6,7 +6,7 @@
 [readme-en-shield]: https://img.shields.io/badge/en-blue
 [readme-en-url]: README.en_EN.md
 
-# Service AmneziaWgVpn
+# Service AmneziaWgZsv
 A service application for working with AmneziaWG connections that has a simple http-api. (Golang + gin)
 
 ## Configuration
@@ -14,7 +14,7 @@ A service application for working with AmneziaWG connections that has a simple h
 
 `api: port: "8010"` - the port on which the http-api will work (or via the env variable API_PORT)
 
-`wg: port: "51840"` - the port through which the Amnezia WireGuard connection is established (or via the env variable VPN_PORT)
+`wg: port: "51840"` - the port through which the Amnezia WireGuard connection is established (or via the env variable ZSV_PORT)
 
 > Also, for the service to work, the enviroment variables listed in [.env.example](./cmd/.env.example) are additionally required:
 
@@ -26,18 +26,18 @@ A service application for working with AmneziaWG connections that has a simple h
 To run the service in a docker container, use the following command:
 ```bash
 docker run -d\
- --name amneziawg-vpn-service\
+ --name amneziawg-zsv-service\
  -e SERVICE_HOST=89.191.226.158 `#your host address` \
  -e SERVICE_USER=user `#your user name for auth` \
  -e SERVICE_PASSWORD=passwd `#your password for auth` \
  -p 51840:51840/udp `# amnezia wg port` \
  -p 8010:8010/tcp `#http-api port` \
- -v ~/.AmneziaWgVpn:/etc/amnezia \
+ -v ~/.AmneziaWgZsv:/etc/amnezia \
  --cap-add=NET_ADMIN \
  --cap-add=SYS_MODULE \
  --sysctl="net.ipv4.conf.all.src_valid_mark=1" \
  --sysctl="net.ipv4.ip_forward=1" \
  --device /dev/net/tun:/dev/net/tun \
  --restart unless-stopped \
- easyvpn/amneziawg-vpn:latest
+ easyzsv/amneziawg-zsv:latest
 ```

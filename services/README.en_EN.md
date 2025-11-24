@@ -6,9 +6,9 @@
 [readme-en-shield]: https://img.shields.io/badge/en-blue
 [readme-en-url]: README.en_EN.md
 
-# EasyVPN services
+# EasyZsV services
 
-### This section contains VPN, as well as other separate project services.
+### This section contains ZSV, as well as other separate project services.
 
 ## Other services:
 
@@ -16,23 +16,23 @@
 
 1. **TelegramBot - `bot-service`** - telegram bot on **Python**, for more convenient interaction and notification of users.
 
-## VPN services
+## ZSV services
 
-### Services managing their VPN connections, having a common versioned `vpn-api`:
+### Services managing their ZSV connections, having a common versioned `zsv-api`:
 
-1. **WireguardVpn - `wireguard-vpn-service`** - VPN service on **GO**, working on the **WireGuard** protocol.
+1. **WireguardZsv - `wireguard-zsv-service`** - ZSV service on **GO**, working on the **WireGuard** protocol.
 
-2. **AmneziaWgVpn - `amneziawg-vpn-service`** - VPN service on **GO**, working on the **AmneziaWG** protocol (improved WireGuard).
+2. **AmneziaWgZsv - `amneziawg-zsv-service`** - ZSV service on **GO**, working on the **AmneziaWG** protocol (improved WireGuard).
 
-### Table of `vpn-api` versions support:
+### Table of `zsv-api` versions support:
 | ***🧩 Service / Version*** | **`V1`** |
 |--------------------------|:--------:|
-| `wireguard-vpn-service` | ✅ |
-| `amneziawg-vpn-service` | ✅ |
+| `wireguard-zsv-service` | ✅ |
+| `amneziawg-zsv-service` | ✅ |
 
 -------------------------------------------------------------------
 
-## VPN-API `V1`
+## ZSV-API `V1`
 
 ### Authorization of actions
 > All endpoints to the service api are available only via Basic Authorization

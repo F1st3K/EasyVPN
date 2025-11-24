@@ -1,7 +1,7 @@
 import { HttpStatusCode } from 'axios';
 import { makeAutoObservable } from 'mobx';
 
-import EasyVpn, { ApiError, Auth, Register, Role, User } from '../api';
+import EasyZsv, { ApiError, Auth, Register, Role, User } from '../api';
 
 export default class AuthStore {
     private readonly tokenName = 'token';
@@ -18,11 +18,11 @@ export default class AuthStore {
     }
 
     public async register(info: Register) {
-        await EasyVpn.auth.register(info).then((r) => this.setAuth(r.data));
+        await EasyZsv.auth.register(info).then((r) => this.setAuth(r.data));
     }
 
     public async login(username: string, password: string) {
-        await EasyVpn.auth.login(username, password).then((r) => this.setAuth(r.data));
+        await EasyZsv.auth.login(username, password).then((r) => this.setAuth(r.data));
     }
 
     public async checkAuth() {
@@ -32,7 +32,7 @@ export default class AuthStore {
             return;
         }
 
-        await EasyVpn.auth
+        await EasyZsv.auth
             .check(token)
             .then((r) => this.setAuth(r.data))
             .catch((e: ApiError) => {

@@ -13,7 +13,7 @@ import React, { FC, useContext } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, ConnectionTicket } from '../../api';
+import EasyZsv, { ApiError, ConnectionTicket } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import { useRequest } from '../../hooks';
 import ConnectionTicketRow from '../../modules/ConnectionTicketRow';
@@ -24,7 +24,7 @@ const PaymentTicketsPage: FC = () => {
     const location = useLocation();
 
     const [data, loading, error] = useRequest<ConnectionTicket[], ApiError>(
-        () => EasyVpn.payment.tickets(store.Auth.getToken()).then((v) => v.data),
+        () => EasyZsv.payment.tickets(store.Auth.getToken()).then((v) => v.data),
         [location.pathname],
     );
 

@@ -9,18 +9,18 @@
 
 <div align="center">
 
-![Logo](.img/EasyVPN-logo.png)
+![Logo](.img/EasyZsV-logo.png)
 
-# EasyVPN
+# EasyZsV
 
-[![Build](https://github.com/F1st3K/EasyVPN/actions/workflows/test-single-deploy.yml/badge.svg)](https://github.com/F1st3K/EasyVPN/actions/workflows/test-single-deploy.yml) 
+[![Build](https://github.com/F1st3K/EasyZsV/actions/workflows/test-single-deploy.yml/badge.svg)](https://github.com/F1st3K/EasyZsV/actions/workflows/test-single-deploy.yml) 
 
-[![GitHub Release](https://img.shields.io/github/v/release/F1st3K/EasyVPN)](https://hub.docker.com/u/easyvpn)
+[![GitHub Release](https://img.shields.io/github/v/release/F1st3K/EasyZsV)](https://hub.docker.com/u/easyzsv)
 [![License: CC BY-NC 4.0](https://img.shields.io/badge/License-CC_BY--NC_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
-[![GitHub contributors](https://img.shields.io/github/contributors/F1st3K/EasyVPN)](https://GitHub.com/F1st3K/EasyVPN/graphs/contributors/) 
-[![GitHub Stars](https://img.shields.io/github/stars/F1st3K/EasyVPN.svg)](https://github.com/F1st3K/EasyVPN/stargazers) 
+[![GitHub contributors](https://img.shields.io/github/contributors/F1st3K/EasyZsV)](https://GitHub.com/F1st3K/EasyZsV/graphs/contributors/) 
+[![GitHub Stars](https://img.shields.io/github/stars/F1st3K/EasyZsV.svg)](https://github.com/F1st3K/EasyZsV/stargazers) 
 
-A simple VPN + Backend + Frontend application on one server!
+EasyZsV - Easy Zooming secure Velocity!
 
 [
     <h3>
@@ -34,13 +34,13 @@ A simple VPN + Backend + Frontend application on one server!
 </div>
 
 ## Single Deploy (docker-compose)
-To deploy `EasyVPN` on a single server, use `Docker Compose`:
+To deploy `EasyZsV` on a single server, use `Docker Compose`:
 
 ### Production enviroment:
 
 ```bash
-curl -L -o docker-compose.yml https://raw.githubusercontent.com/F1st3K/EasyVPN/refs/heads/main/docker-compose.yml && \
-curl -L -o .env https://raw.githubusercontent.com/F1st3K/EasyVPN/refs/heads/main/.env.dev
+curl -L -o docker-compose.yml https://raw.githubusercontent.com/F1st3K/EasyZsV/refs/heads/main/docker-compose.yml && \
+curl -L -o .env https://raw.githubusercontent.com/F1st3K/EasyZsV/refs/heads/main/.env.dev
 ```
 
 > It is recommended to change variables in `.env`
@@ -57,7 +57,7 @@ docker-compose up
 ### Develop environment:
 
 ```bash
-git clone https://github.com/F1st3K/EasyVPN
+git clone https://github.com/F1st3K/EasyZsV
 ```
 
 ```bash
@@ -69,5 +69,5 @@ docker-compose --env-file .env.dev --profile init up --build
 docker-compose --env-file .env.dev up --build
 ```
 
-Also for independent deployment of the components of the `EasyVPN` web application, you can use the documentation for each service:
-[EasyVPN backend](backend/README.md), [EasyVPN frontend](/frontend/README.md), [EasyVPN init](/init/README.md), as well as others [EasyVPN services](/services/README.md).
+Also for independent deployment of the components of the `EasyZsV` web application, you can use the documentation for each service:
+[EasyZsV backend](backend/README.md), [EasyZsV frontend](/frontend/README.md), [EasyZsV init](/init/README.md), as well as others [EasyZsV services](/services/README.md).

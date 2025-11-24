@@ -7,9 +7,9 @@
 [readme-en-url]: README.en_EN.md
 
 
-# EasyVPN services 
+# EasyZsV services 
 
-### В этом разделе находятся VPN, а также другие отделенные сервисы проекта.
+### В этом разделе находятся ZSV, а также другие отделенные сервисы проекта.
 
 
 ## Other services:
@@ -19,25 +19,25 @@
 1. **TelegramBot - `bot-service`** - телеграм бот на **Python**, для более удобного взаимодействия и нотификации пользователей.
 
 
-## VPN services
+## ZSV services
 
-### Сервисы управляющие своими vpn соеденениями, имеющие общее версионируемое `vpn-api`:
+### Сервисы управляющие своими zsv соеденениями, имеющие общее версионируемое `zsv-api`:
 
-1. **WireguardVpn - `wireguard-vpn-service`** - vpn-сервис на **GO**, работающий на протоколе **WireGuard**.
+1. **WireguardZsv - `wireguard-zsv-service`** - zsv-сервис на **GO**, работающий на протоколе **WireGuard**.
 
-2. **AmneziaWgVpn - `amneziawg-vpn-service`** - vpn-сервис на **GO**, работающий на протоколе **AmneziaWG** (улучшенный WireGuard).
+2. **AmneziaWgZsv - `amneziawg-zsv-service`** - zsv-сервис на **GO**, работающий на протоколе **AmneziaWG** (улучшенный WireGuard).
 
 
-### Таблица потдержки версий `vpn-api`:
+### Таблица потдержки версий `zsv-api`:
 | ***🧩 Сервис / Версия*** | **`V1`** |
 |--------------------------|:--------:|
-| `wireguard-vpn-service`  |    ✅    |
-| `amneziawg-vpn-service`  |    ✅    |
+| `wireguard-zsv-service`  |    ✅    |
+| `amneziawg-zsv-service`  |    ✅    |
 
 -------------------------------------------------------------------
 
 
-## VPN-API `V1`
+## ZSV-API `V1`
 
 ### Авторизация действий
 > Все конечные точки к api сервиса доступны только по Basic Authorization

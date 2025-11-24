@@ -1,9 +1,9 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Common.Errors;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Users.Commands.RolesUpdate;
+namespace EasyZsV.Application.Users.Commands.RolesUpdate;
 
 public class RolesUpdateHandler : IRequestHandler<RolesUpdateCommand, ErrorOr<Updated>>
 {

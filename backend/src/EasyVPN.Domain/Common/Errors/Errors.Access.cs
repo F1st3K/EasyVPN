@@ -1,6 +1,6 @@
 using ErrorOr;
 
-namespace EasyVPN.Domain.Common.Errors;
+namespace EasyZsV.Domain.Common.Errors;
 
 public static partial class Errors
 {

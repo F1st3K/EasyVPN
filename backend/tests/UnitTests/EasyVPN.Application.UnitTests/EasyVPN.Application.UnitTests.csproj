@@ -22,7 +22,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\EasyVPN.Application\EasyVPN.Application.csproj" />
-    <ProjectReference Include="..\..\..\src\EasyVPN.Domain\EasyVPN.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\EasyZsV.Application\EasyZsV.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\EasyZsV.Domain\EasyZsV.Domain.csproj" />
   </ItemGroup>
 </Project>

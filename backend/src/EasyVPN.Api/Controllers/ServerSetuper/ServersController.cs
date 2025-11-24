@@ -1,17 +1,17 @@
-using EasyVPN.Application.Servers.Commands.CreateServer;
-using EasyVPN.Application.Servers.Commands.RemoveServer;
-using EasyVPN.Application.Servers.Commands.UpdateServer;
-using EasyVPN.Application.Servers.Queries.GetServer;
-using EasyVPN.Application.Servers.Queries.GetServers;
-using EasyVPN.Application.Servers.Queries.TestConnection;
-using EasyVPN.Contracts.Servers;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Servers.Commands.CreateServer;
+using EasyZsV.Application.Servers.Commands.RemoveServer;
+using EasyZsV.Application.Servers.Commands.UpdateServer;
+using EasyZsV.Application.Servers.Queries.GetServer;
+using EasyZsV.Application.Servers.Queries.GetServers;
+using EasyZsV.Application.Servers.Queries.TestConnection;
+using EasyZsV.Contracts.Servers;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.ServerSetuper;
+namespace EasyZsV.Api.Controllers.ServerSetuper;
 
 [Route("servers")]
 public class ServersController : ApiControllerBase
@@ -91,7 +91,7 @@ public class ServersController : ApiControllerBase
     ///     "protocolId": "0e9e6fd7-c73e-4961-93a1-1406fdec51ed",
     ///     "connection": {
     ///         "auth": "username:password",
-    ///         "endpoint": "http://easyvpn.host.com:8000/v1/"
+    ///         "endpoint": "http://easyzsv.host.com:8000/v1/"
     ///     },
     ///     "version": "V1"
     /// }
@@ -103,7 +103,7 @@ public class ServersController : ApiControllerBase
         var testResult = await _sender.Send(new TestConnectionQuery(
             request.Connection.Auth,
             request.Connection.Endpoint,
-            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true)
+            Enum.Parse<ZsvVersion>(request.Version, ignoreCase: true)
         ));
         if (testResult.IsError) Problem(testResult.Errors);
 
@@ -114,7 +114,7 @@ public class ServersController : ApiControllerBase
                 Endpoint = request.Connection.Endpoint
             },
             request.ProtocolId,
-            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true)
+            Enum.Parse<ZsvVersion>(request.Version, ignoreCase: true)
         ));
 
         return result.Match(
@@ -136,7 +136,7 @@ public class ServersController : ApiControllerBase
     ///     "protocolId": "0e9e6fd7-c73e-4961-93a1-1406fdec51ed",
     ///     "connection": {
     ///         "auth": "username:password",
-    ///         "endpoint": "http://easyvpn.host.com:8000/v1/"
+    ///         "endpoint": "http://easyzsv.host.com:8000/v1/"
     ///     },
     ///     "version": "V1"
     /// }
@@ -148,7 +148,7 @@ public class ServersController : ApiControllerBase
         var testResult = await _sender.Send(new TestConnectionQuery(
             request.Connection.Auth,
             request.Connection.Endpoint,
-            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true)
+            Enum.Parse<ZsvVersion>(request.Version, ignoreCase: true)
         ));
         if (testResult.IsError) Problem(testResult.Errors);
 
@@ -160,7 +160,7 @@ public class ServersController : ApiControllerBase
                 Endpoint = request.Connection.Endpoint
             },
             request.ProtocolId,
-            Enum.Parse<VpnVersion>(request.Version, ignoreCase: true)
+            Enum.Parse<ZsvVersion>(request.Version, ignoreCase: true)
         ));
 
         return result.Match(
@@ -201,7 +201,7 @@ public class ServersController : ApiControllerBase
     /// GET {{host}}/servers/test/{{version}}
     /// {
     ///     "auth": "username:password",
-    ///     "endpoint": "http://easyvpn.host.com:8000/v1/"
+    ///     "endpoint": "http://easyzsv.host.com:8000/v1/"
     /// }
     /// </remarks>
     [HttpPost("test/{version}")]
@@ -211,7 +211,7 @@ public class ServersController : ApiControllerBase
         var testResult = await _sender.Send(new TestConnectionQuery(
             request.Auth,
             request.Endpoint,
-            Enum.Parse<VpnVersion>(version, ignoreCase: true)
+            Enum.Parse<ZsvVersion>(version, ignoreCase: true)
         ));
 
 

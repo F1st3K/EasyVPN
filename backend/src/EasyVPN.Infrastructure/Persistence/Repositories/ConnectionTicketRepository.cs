@@ -1,14 +1,14 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EasyVPN.Infrastructure.Persistence.Repositories;
+namespace EasyZsV.Infrastructure.Persistence.Repositories;
 
 public class ConnectionTicketRepository : IConnectionTicketRepository
 {
-    private readonly EasyVpnDbContext _dbContext;
+    private readonly EasyZsvDbContext _dbContext;
 
-    public ConnectionTicketRepository(EasyVpnDbContext dbContext)
+    public ConnectionTicketRepository(EasyZsvDbContext dbContext)
     {
         _dbContext = dbContext;
     }

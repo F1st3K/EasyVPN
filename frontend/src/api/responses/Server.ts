@@ -1,8 +1,8 @@
-import { VpnVersion } from '../enums/VpnVersion';
+import { ZsvVersion } from '../enums/ZsvVersion';
 import Protocol from './Protocol';
 
 export default interface Server {
     id: string;
     protocol: Protocol;
-    version: VpnVersion;
+    version: ZsvVersion;
 }

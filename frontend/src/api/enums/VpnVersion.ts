@@ -1,3 +1,3 @@
-export enum VpnVersion {
+export enum ZsvVersion {
     V1 = 'V1',
 }

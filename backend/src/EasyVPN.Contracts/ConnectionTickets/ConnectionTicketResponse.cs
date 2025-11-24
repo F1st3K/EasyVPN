@@ -1,6 +1,6 @@
-using EasyVPN.Contracts.Users;
+using EasyZsV.Contracts.Users;
 
-namespace EasyVPN.Contracts.ConnectionTickets;
+namespace EasyZsV.Contracts.ConnectionTickets;
 
 public record ConnectionTicketResponse(
     Guid Id,

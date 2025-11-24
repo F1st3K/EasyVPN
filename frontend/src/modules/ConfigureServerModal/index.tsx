@@ -4,7 +4,7 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Server, ServerInfo, VpnVersion } from '../../api';
+import EasyZsv, { ApiError, Server, ServerInfo, ZsvVersion } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequest, useRequestHandler } from '../../hooks';
@@ -23,13 +23,13 @@ const ConfigureServerModal: FC<ConfigureServerModalProps> = (props) => {
 
     const serverId = props.serverId || useParams().serverId || '';
     const [server, loading, error] = useRequest<Server, ApiError>(() =>
-        EasyVpn.servers.get(serverId, Auth.getToken()).then((s) => s.data),
+        EasyZsv.servers.get(serverId, Auth.getToken()).then((s) => s.data),
     );
     useEffect(() => {
         console.log(server);
         setServerInfo((s) => {
             s.protocolId = server?.protocol.id || '';
-            s.version = server?.version || VpnVersion.V1;
+            s.version = server?.version || ZsvVersion.V1;
             return s;
         });
         return;
@@ -37,7 +37,7 @@ const ConfigureServerModal: FC<ConfigureServerModalProps> = (props) => {
 
     const [serverInfo, setServerInfo] = useState<ServerInfo>({
         protocolId: searchParams.get('protocolId') || '',
-        version: VpnVersion.V1,
+        version: ZsvVersion.V1,
         connection: { auth: '', endpoint: '' },
     });
 
@@ -47,7 +47,7 @@ const ConfigureServerModal: FC<ConfigureServerModalProps> = (props) => {
     };
     const [editHandler, loadingEdit, errorEdit] = useRequestHandler<void, ApiError>(() =>
         serverInfo
-            ? EasyVpn.servers
+            ? EasyZsv.servers
                   .edit(serverId, serverInfo, Auth.getToken())
                   .then((v) => v.data)
             : Promise.reject(new Error('Server information is not filled!')),

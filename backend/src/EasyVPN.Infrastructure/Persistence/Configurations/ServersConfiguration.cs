@@ -1,9 +1,9 @@
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EasyVPN.Infrastructure.Persistence.Configurations;
+namespace EasyZsV.Infrastructure.Persistence.Configurations;
 
 public class ServersConfiguration : IEntityTypeConfiguration<Server>
 {
@@ -16,7 +16,7 @@ public class ServersConfiguration : IEntityTypeConfiguration<Server>
         builder.Property(s => s.Version)
             .HasConversion(
                 v => v.ToString(),
-                s => Enum.Parse<VpnVersion>(s))
+                s => Enum.Parse<ZsvVersion>(s))
             .HasMaxLength(32);
 
 

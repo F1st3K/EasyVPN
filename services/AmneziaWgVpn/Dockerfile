@@ -9,14 +9,14 @@ RUN go mod download
 
 # Build:
 COPY ./ ./
-RUN go build -o ./bin/AmneziaWgVpn cmd/main.go
+RUN go build -o ./bin/AmneziaWgZsv cmd/main.go
 
-FROM amneziavpn/amneziawg-go AS runner
+FROM amneziazsv/amneziawg-go AS runner
 
 # RUN apk --no-cache add amneziawg iptables
 WORKDIR /usr/local/src
 
-# Run AmneziaWgVpn service:
-COPY --from=builder /usr/local/src/bin/AmneziaWgVpn ./
+# Run AmneziaWgZsv service:
+COPY --from=builder /usr/local/src/bin/AmneziaWgZsv ./
 COPY cmd/config.yml cmd/.env.example ./
-CMD ["./AmneziaWgVpn"]
+CMD ["./AmneziaWgZsv"]

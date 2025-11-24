@@ -1,6 +1,6 @@
-using EasyVPN.Domain.Common.Enums;
+using EasyZsV.Domain.Common.Enums;
 
-namespace EasyVPN.Domain.Entities;
+namespace EasyZsV.Domain.Entities;
 
 public class SupportTicket
 {

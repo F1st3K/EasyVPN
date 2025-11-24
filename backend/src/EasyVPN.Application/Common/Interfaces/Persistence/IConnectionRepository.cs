@@ -1,7 +1,7 @@
 using System.Collections;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Application.Common.Interfaces.Persistence;
+namespace EasyZsV.Application.Common.Interfaces.Persistence;
 
 public interface IConnectionRepository
 {

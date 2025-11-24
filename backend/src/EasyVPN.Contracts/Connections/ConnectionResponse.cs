@@ -1,7 +1,7 @@
-using EasyVPN.Contracts.Servers;
-using EasyVPN.Contracts.Users;
+using EasyZsV.Contracts.Servers;
+using EasyZsV.Contracts.Users;
 
-namespace EasyVPN.Contracts.Connections;
+namespace EasyZsV.Contracts.Connections;
 
 public record ConnectionResponse(
     Guid Id,

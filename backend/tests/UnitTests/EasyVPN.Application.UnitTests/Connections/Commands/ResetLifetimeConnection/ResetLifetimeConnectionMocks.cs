@@ -1,11 +1,11 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Services;
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Application.Connections.Commands.ResetLifetimeConnection;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Services;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Application.Connections.Commands.ResetLifetimeConnection;
 using MediatR;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.Connections.Commands.ResetLifetimeConnection;
+namespace EasyZsV.Application.UnitTests.Connections.Commands.ResetLifetimeConnection;
 
 public class ResetLifetimeConnectionMocks
 {

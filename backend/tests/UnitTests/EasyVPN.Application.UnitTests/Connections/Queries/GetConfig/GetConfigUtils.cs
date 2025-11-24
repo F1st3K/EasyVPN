@@ -1,7 +1,7 @@
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Application.Connections.Queries.GetConfig;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Application.Connections.Queries.GetConfig;
 
-namespace EasyVPN.Application.UnitTests.Connections.Queries.GetConfig;
+namespace EasyZsV.Application.UnitTests.Connections.Queries.GetConfig;
 
 public static class GetConfigUtils
 {

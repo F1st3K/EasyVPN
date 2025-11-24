@@ -1,13 +1,13 @@
-using EasyVPN.Application.Authentication.Common;
-using EasyVPN.Application.Common.Interfaces.Authentication;
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Common.Errors;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Authentication.Common;
+using EasyZsV.Application.Common.Interfaces.Authentication;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Common.Errors;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Authentication.Commands.Register;
+namespace EasyZsV.Application.Authentication.Commands.Register;
 
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
 {

@@ -1,8 +1,8 @@
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Connections.Commands.CreateConnection;
+namespace EasyZsV.Application.Connections.Commands.CreateConnection;
 
 public record CreateConnectionCommand(
     Guid ClientId,

@@ -1,8 +1,8 @@
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Application.Connections.Commands.DisableConnection;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Application.Connections.Commands.DisableConnection;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Application.UnitTests.Connections.Commands.DisableConnection;
+namespace EasyZsV.Application.UnitTests.Connections.Commands.DisableConnection;
 
 public static class DisableConnectionUtils
 {

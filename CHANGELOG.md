@@ -61,7 +61,7 @@
 - Performing repository
 - All missing documentation added
 - Add EN to all documention
-- VPN API versions has been created and moved to a separate document. 
+- ZSV API versions has been created and moved to a separate document. 
 
 ## `0.7.0` (2025-04-11)
 
@@ -83,13 +83,13 @@
 
 ### Features
 
-- services: Create new Amnezia WG vpn-service (wireguard based)
+- services: Create new Amnezia WG zsv-service (wireguard based)
 - services: Update documentation
 
 ### Bug fixes
 
 - services: Fix reload wireguard to resync configuration (fasted)
-- services: Fix env variables with ports (WG_PORT -> VPN_PORT)
+- services: Fix env variables with ports (WG_PORT -> ZSV_PORT)
 
 ## `0.5.1` (2024-12-08)
 
@@ -152,8 +152,8 @@
 
 ### Features
 
-- backend: Improved work with different (and adding new) versions of VPN services
-- services/WireguardVpn: Version moved to new route (`/ -> /v1/`)
+- backend: Improved work with different (and adding new) versions of ZSV services
+- services/WireguardZsv: Version moved to new route (`/ -> /v1/`)
 
 ### Documentation
 
@@ -163,12 +163,12 @@
 
 ### Features
 
-- Create swagger endpoint in EasyVPN.Api
+- Create swagger endpoint in EasyZsV.Api
 
 ### Documentation
 
-- Create & refactoring README.md files (backend, frontend, services/WireguardVpn)
-- Transferred EasyVPN.Api documention to swagger
+- Create & refactoring README.md files (backend, frontend, services/WireguardZsv)
+- Transferred EasyZsV.Api documention to swagger
 - Simplifictaion main README.md
 
 ## `0.1.2`

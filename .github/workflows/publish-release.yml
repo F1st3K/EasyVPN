@@ -20,8 +20,8 @@ jobs:
           { name: "backend", path: "./backend/" },
           { name: "frontend", path: "./frontend/" },
           { name: "init", path: "./init/" },
-          { name: "wireguard-vpn", path: "./services/WireguardVpn/" },
-          { name: "amneziawg-vpn", path: "./services/AmneziaWgVpn/" },
+          { name: "wireguard-zsv", path: "./services/WireguardZsv/" },
+          { name: "amneziawg-zsv", path: "./services/AmneziaWgZsv/" },
           { name: "bot", path: "./services/TelegramBot/" },
         ]
 
@@ -37,10 +37,10 @@ jobs:
 
       - name: Publish
         run: |
-          docker build -t easyvpn/${{ matrix.service.name }} ${{ matrix.service.path }}
-          docker tag easyvpn/${{ matrix.service.name }} easyvpn/${{ matrix.service.name }}:$(cat VERSION)
-          docker push easyvpn/${{ matrix.service.name }}:$(cat VERSION)
-          docker push easyvpn/${{ matrix.service.name }}
+          docker build -t easyzsv/${{ matrix.service.name }} ${{ matrix.service.path }}
+          docker tag easyzsv/${{ matrix.service.name }} easyzsv/${{ matrix.service.name }}:$(cat VERSION)
+          docker push easyzsv/${{ matrix.service.name }}:$(cat VERSION)
+          docker push easyzsv/${{ matrix.service.name }}
 
   publish_github_release:
     name: GitHub release publish

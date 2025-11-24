@@ -1,10 +1,10 @@
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Common.Errors;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Domain.Common.Errors;
+using EasyZsV.Domain.Entities;
 using FluentAssertions;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.Connections.Commands.DisableConnection;
+namespace EasyZsV.Application.UnitTests.Connections.Commands.DisableConnection;
 
 public class DisableConnectionTests
 {
@@ -25,9 +25,9 @@ public class DisableConnectionTests
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 
-        _mocks.VpnServiceFactory.Setup(x
-                => x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
+        _mocks.ZsvServiceFactory.Setup(x
+                => x.GetZsvService(It.IsAny<Server>()))
+            .Returns(_mocks.ZsvService.Object);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -36,11 +36,11 @@ public class DisableConnectionTests
         //Assert
         result.IsError.Should().BeFalse(result.FirstError.ToString());
 
-        _mocks.VpnService.Verify(x => x.DisableClient(Constants.Connection.Id));
+        _mocks.ZsvService.Verify(x => x.DisableClient(Constants.Connection.Id));
     }
 
     [Fact]
-    public async Task HandleDisableConnectionCommand_WhenVpnServiceError_Error()
+    public async Task HandleDisableConnectionCommand_WhenZsvServiceError_Error()
     {
         //Arrange
         var command = DisableConnectionUtils.CreateCommand();
@@ -54,13 +54,13 @@ public class DisableConnectionTests
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 
-        _mocks.VpnServiceFactory.Setup(x
-                => x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
+        _mocks.ZsvServiceFactory.Setup(x
+                => x.GetZsvService(It.IsAny<Server>()))
+            .Returns(_mocks.ZsvService.Object);
 
-        _mocks.VpnService.Setup(x
+        _mocks.ZsvService.Setup(x
                 => x.DisableClient(Constants.Connection.Id))
-            .Returns(Constants.Connection.VpnServiceError);
+            .Returns(Constants.Connection.ZsvServiceError);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -68,7 +68,7 @@ public class DisableConnectionTests
 
         //Assert
         result.IsError.Should().BeTrue(result.FirstError.ToString());
-        result.FirstError.Should().Be(Constants.Connection.VpnServiceError);
+        result.FirstError.Should().Be(Constants.Connection.ZsvServiceError);
     }
 
     [Fact]
@@ -81,9 +81,9 @@ public class DisableConnectionTests
                 => x.Get(Constants.Connection.Id))
             .Returns(() => null);
 
-        _mocks.VpnServiceFactory.Setup(x
-                => x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
+        _mocks.ZsvServiceFactory.Setup(x
+                => x.GetZsvService(It.IsAny<Server>()))
+            .Returns(_mocks.ZsvService.Object);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -108,8 +108,8 @@ public class DisableConnectionTests
                 ExpirationTime = Constants.Connection.ExpirationTime
             });
 
-        _mocks.VpnServiceFactory.Setup(x
-            => x.GetVpnService(It.IsAny<Server>())).Returns(() => null);
+        _mocks.ZsvServiceFactory.Setup(x
+            => x.GetZsvService(It.IsAny<Server>())).Returns(() => null);
 
         //Act
         var handler = _mocks.CreateHandler();

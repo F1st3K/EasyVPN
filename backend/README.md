@@ -7,12 +7,12 @@
 [readme-en-url]: README.en_EN.md
 
 
-# EasyVPN backend
+# EasyZsV backend
 Приложение бизнес-логики, имеющее понятное rest-api. (C# + ASP.NET Core)
 
 
 ## Configuration
-> Конфигурация web-интерфейса находится в [`appsettings.json`](./src/EasyVPN.Api/appsettings.json):
+> Конфигурация web-интерфейса находится в [`appsettings.json`](./src/EasyZsV.Api/appsettings.json):
 
 `"Logging": { ... },` - настройки логгирования
 
@@ -23,11 +23,11 @@
  - `"Secret": "super-puper-mega-secret-key-solo",` - секрет защищающий токены
  - `"ExpiryMinutes": 60,` - срок жизни каждого отдельного токена после его создания
 
- - `"Issuer": "EasyVPN",` и `"Audience": "EasyVPN"` - подпись кем и для кого выпускаются токены
+ - `"Issuer": "EasyZsV",` и `"Audience": "EasyZsV"` - подпись кем и для кого выпускаются токены
 
 `"HashSettings": { "Secret": "super-puper-mega-hash-soltt-solo" },` - секрет использующийся при хэшировании паролей
 
-`"ExpireSettings": { "CheckMinutes": 1 },` - переодичность в минутах, для проверки истекших обьектов (токен авторизации, vpn-подключений и т.п.)
+`"ExpireSettings": { "CheckMinutes": 1 },` - переодичность в минутах, для проверки истекших обьектов (токен авторизации, zsv-подключений и т.п.)
 
 `"ConnectionStrings": { "Postgres": "User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;" }` - Строки подключения к базам данных
 (главная и необходимая к PostgreSQL, при не удачной попытке подключения приложение не поднимется)
@@ -45,7 +45,7 @@ docker run -d \
   -e POSTGRES_USER=postgres `#your db user`\
   -e POSTGRES_PASSWORD=mysecretpassword `#your db password`\
   -p 5432:5432 `#your port`\
-  -v easyvpn_database_data:/var/lib/postgresql/data \
+  -v easyzsv_database_data:/var/lib/postgresql/data \
   postgres:latest
 ```
 
@@ -55,8 +55,8 @@ docker run -d \
   --name backend \
   -e ConnectionStrings__Postgres='User ID=postgres;Password=mysecretpassword;Host=localhost;Port=5432;' \
   -p 80:80 `#your port`\
-  easyvpn/backend:latest
+  easyzsv/backend:latest
 ```
 
-## EasyVPN API
+## EasyZsV API
 Для изучения API вам нужно запустить приложение бизнес-логики и перейти в интерфейс [`/swagger/`](http://localhost/swagger/).

@@ -4,7 +4,7 @@ import React, { FC, useContext, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, ServerInfo, VpnVersion } from '../../api';
+import EasyZsv, { ApiError, ServerInfo, ZsvVersion } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
@@ -23,7 +23,7 @@ const SetupServerModal: FC<SetupServerModalProps> = (props) => {
     const protocolId = props.protocolId || searchParams.get('protocolId') || '';
     const [serverInfo, setServerInfo] = useState<ServerInfo>({
         protocolId,
-        version: VpnVersion.V1,
+        version: ZsvVersion.V1,
         connection: { auth: '', endpoint: '' },
     });
 
@@ -33,7 +33,7 @@ const SetupServerModal: FC<SetupServerModalProps> = (props) => {
     };
     const [createHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
         serverInfo
-            ? EasyVpn.servers.create(serverInfo, Auth.getToken()).then((v) => v.data)
+            ? EasyZsv.servers.create(serverInfo, Auth.getToken()).then((v) => v.data)
             : Promise.reject(new Error('Server information is not filled!')),
     );
 

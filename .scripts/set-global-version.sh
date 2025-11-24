@@ -33,16 +33,16 @@ cat "$TMP_FILE" > "init.sh"
 head -2 "init.sh"
 cd ../
 
-# Set version services/WireguardVpn:
-echo "--- Set version services/WireguardVpn --------------------------"
-cd ./services/WireguardVpn
+# Set version services/WireguardZsv:
+echo "--- Set version services/WireguardZsv --------------------------"
+cd ./services/WireguardZsv
 yq -i ".service.version = \"$NEW_VERSION\"" ./cmd/config.yml
 yq ".service.version" ./cmd/config.yml
 cd ../../
 
-# Set version services/AmneziaWgVpn:
-echo "--- Set version services/AmneziaWgVpn --------------------------"
-cd ./services/AmneziaWgVpn
+# Set version services/AmneziaWgZsv:
+echo "--- Set version services/AmneziaWgZsv --------------------------"
+cd ./services/AmneziaWgZsv
 yq -i ".service.version = \"$NEW_VERSION\"" ./cmd/config.yml
 yq ".service.version" ./cmd/config.yml
 cd ../../

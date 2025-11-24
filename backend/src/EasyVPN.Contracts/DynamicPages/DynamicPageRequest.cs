@@ -1,4 +1,4 @@
-namespace EasyVPN.Contracts.DynamicPages;
+namespace EasyZsV.Contracts.DynamicPages;
 
 public record DynamicPageRequest(
         string Route,

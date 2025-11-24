@@ -1,9 +1,9 @@
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EasyVPN.Infrastructure.Persistence.Configurations;
+namespace EasyZsV.Infrastructure.Persistence.Configurations;
 
 public class ProtocolsConfiguration : IEntityTypeConfiguration<Protocol>
 {

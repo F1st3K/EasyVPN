@@ -51,7 +51,7 @@ poetry run python -m bot
 docker run -d \
   --name bot-service \
   -e BOT_TOKEN=YOUR_BOT_TOKEN \
-  easyvpn/bot
+  easyzsv/bot
 ```
 
 ---

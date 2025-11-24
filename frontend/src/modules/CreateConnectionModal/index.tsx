@@ -4,7 +4,7 @@ import React, { FC, useContext, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, PaymentConnectionInfo, Server } from '../../api';
+import EasyZsv, { ApiError, PaymentConnectionInfo, Server } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
@@ -31,7 +31,7 @@ const CreateConnectionModal: FC<CreateConnectionModalProps> = (props) => {
     };
     const [createHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
         server && payInfo
-            ? EasyVpn.my
+            ? EasyZsv.my
                   .createConnection({ serverId: server.id, ...payInfo }, Auth.getToken())
                   .then((v) => v.data)
             : Promise.reject(new Error('Server or payment information is not filled!')),

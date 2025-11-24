@@ -13,7 +13,7 @@ import React, { useContext } from 'react';
 import { FC } from 'react';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Role, User } from '../../api';
+import EasyZsv, { ApiError, Role, User } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import { useRequest, useRequestHandler } from '../../hooks';
 import UserRow from '../../modules/UserRow';
@@ -22,7 +22,7 @@ const UsersControlPage: FC = () => {
     const { Auth } = useContext(Context);
 
     const [data, loading, error] = useRequest<User[], ApiError>(
-        () => EasyVpn.users.getAll(Auth.getToken()).then((v) => v.data),
+        () => EasyZsv.users.getAll(Auth.getToken()).then((v) => v.data),
         [location.pathname],
     );
     const [rolesHandler, rolesLoading, rolesError] = useRequestHandler<
@@ -30,14 +30,14 @@ const UsersControlPage: FC = () => {
         ApiError,
         { roles: Role[]; id: string }
     >(({ roles, id }) =>
-        EasyVpn.users.updateRoles(roles, id, Auth.getToken()).then((v) => v.data),
+        EasyZsv.users.updateRoles(roles, id, Auth.getToken()).then((v) => v.data),
     );
     const [pwdHandler, pwdLoading, pwdError] = useRequestHandler<
         void,
         ApiError,
         { pwd: string; id: string }
     >(({ pwd, id }) =>
-        EasyVpn.users.updatePassword(pwd, id, Auth.getToken()).then((v) => v.data),
+        EasyZsv.users.updatePassword(pwd, id, Auth.getToken()).then((v) => v.data),
     );
 
     if (loading) return <LinearProgress />;

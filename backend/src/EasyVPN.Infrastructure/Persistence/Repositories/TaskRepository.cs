@@ -1,8 +1,8 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Persistence;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Infrastructure.Persistence.Repositories;
+namespace EasyZsV.Infrastructure.Persistence.Repositories;
 
 public class TaskRepository : ITaskRepository
 {

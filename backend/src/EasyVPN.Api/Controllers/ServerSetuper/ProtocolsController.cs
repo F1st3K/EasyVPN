@@ -1,15 +1,15 @@
-using EasyVPN.Application.Protocols.Commands.CreateProtocol;
-using EasyVPN.Application.Protocols.Commands.RemoveProtocol;
-using EasyVPN.Application.Protocols.Commands.UpdateProtocol;
-using EasyVPN.Application.Protocols.Queries.GetProtocol;
-using EasyVPN.Application.Protocols.Queries.GetProtocols;
-using EasyVPN.Contracts.Servers;
-using EasyVPN.Domain.Common.Enums;
+using EasyZsV.Application.Protocols.Commands.CreateProtocol;
+using EasyZsV.Application.Protocols.Commands.RemoveProtocol;
+using EasyZsV.Application.Protocols.Commands.UpdateProtocol;
+using EasyZsV.Application.Protocols.Queries.GetProtocol;
+using EasyZsV.Application.Protocols.Queries.GetProtocols;
+using EasyZsV.Contracts.Servers;
+using EasyZsV.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.ServerSetuper;
+namespace EasyZsV.Api.Controllers.ServerSetuper;
 
 [Route("protocols")]
 public class ProtocolsController : ApiControllerBase

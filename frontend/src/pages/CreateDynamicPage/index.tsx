@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Role } from '../../api';
+import EasyZsv, { ApiError, Role } from '../../api';
 import Page from '../../api/requests/Page';
 import { useRequestHandler } from '../../hooks';
 import MarkDownX from '../../modules/MarkDownX';
@@ -37,7 +37,7 @@ const CreateDynamicPage: FC = () => {
     const { Pages } = useContext(Context);
 
     const [createHandler, loading, error] = useRequestHandler<void, ApiError, Page>(
-        (params) => EasyVpn.pages.create(params, Auth.getToken()).then((r) => r.data),
+        (params) => EasyZsv.pages.create(params, Auth.getToken()).then((r) => r.data),
     );
 
     return (

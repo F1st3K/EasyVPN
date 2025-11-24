@@ -1,7 +1,7 @@
 using MediatR;
 using ErrorOr;
 
-namespace EasyVPN.Application.Common.Interfaces.Persistence;
+namespace EasyZsV.Application.Common.Interfaces.Persistence;
 
 public interface ITaskRepository
 {

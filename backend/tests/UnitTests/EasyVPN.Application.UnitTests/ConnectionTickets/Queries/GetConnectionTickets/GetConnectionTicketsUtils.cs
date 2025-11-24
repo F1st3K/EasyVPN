@@ -1,7 +1,7 @@
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Entities;
 using FluentAssertions;
 
-namespace EasyVPN.Application.UnitTests.ConnectionTickets.Queries.GetConnectionTickets;
+namespace EasyZsV.Application.UnitTests.ConnectionTickets.Queries.GetConnectionTickets;
 
 public static class GetConnectionTicketsUtils
 {

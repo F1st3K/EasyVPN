@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "easy-vpn-telegram-bot"
+name = "easy-zsv-telegram-bot"
 version = "1.1.1"
-description = "Telegram Notification Bot for Easy VPN"
+description = "Telegram Notification Bot for Easy ZSV"
 authors = ["Alex Poryadin (sw1pr0g) <alex.poryadih@gmail.com>"]
 license = "MIT"
 readme = "README.md"

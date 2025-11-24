@@ -4,7 +4,7 @@ import React, { FC, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError } from '../../api';
+import EasyZsv, { ApiError } from '../../api';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
 import ConnectionRequestItem from '../ConnectionRequestItem';
@@ -20,7 +20,7 @@ const DeleteConnectionModal: FC<DeleteConnectionModalProps> = (props) => {
 
     const { Auth } = useContext(Context);
     const [deleteHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.my.deleteConnection(connectionId, Auth.getToken()).then((v) => v.data),
+        EasyZsv.my.deleteConnection(connectionId, Auth.getToken()).then((v) => v.data),
     );
 
     return (
@@ -40,7 +40,7 @@ const DeleteConnectionModal: FC<DeleteConnectionModalProps> = (props) => {
                     <>Do you really want delete connection?</>
                     <ConnectionRequestItem
                         connectionPromise={() =>
-                            EasyVpn.my
+                            EasyZsv.my
                                 .connection(connectionId, Auth.getToken())
                                 .then((c) => c.data)
                         }

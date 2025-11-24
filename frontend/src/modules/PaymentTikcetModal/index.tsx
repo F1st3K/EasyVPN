@@ -5,7 +5,7 @@ import React, { FC, useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, ConnectionTicket, ConnectionTicketStatus } from '../../api';
+import EasyZsv, { ApiError, ConnectionTicket, ConnectionTicketStatus } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequest, useRequestHandler } from '../../hooks';
@@ -25,19 +25,19 @@ const PaymentTikcetModal: FC<PaymentTikcetModalProps> = (props) => {
     const [days, setDays] = useState<number>(0);
 
     const [ticket, loading, error] = useRequest<ConnectionTicket, ApiError>(() =>
-        EasyVpn.payment.ticket(ticketId, Auth.getToken()).then((v) => v.data),
+        EasyZsv.payment.ticket(ticketId, Auth.getToken()).then((v) => v.data),
     );
     const [confirmHandler, confLoading, confError] = useRequestHandler<void, ApiError>(
         () =>
             ticket && days > 0
-                ? EasyVpn.payment
+                ? EasyZsv.payment
                       .confirm(ticket.id, Auth.getToken(), days)
                       .then((v) => v.data)
                 : Promise.reject(new Error('Confirm ticket information is not valid!')),
     );
     const [rejectHandler, rejLoading, rejError] = useRequestHandler<void, ApiError>(() =>
         ticket
-            ? EasyVpn.payment.reject(ticket.id, Auth.getToken()).then((v) => v.data)
+            ? EasyZsv.payment.reject(ticket.id, Auth.getToken()).then((v) => v.data)
             : Promise.reject(new Error('Reject ticket information is not valid!')),
     );
 
@@ -89,7 +89,7 @@ const PaymentTikcetModal: FC<PaymentTikcetModalProps> = (props) => {
                     )}
                     <ConnectionRequestItem
                         connectionPromise={() =>
-                            EasyVpn.connections
+                            EasyZsv.connections
                                 .get(ticket?.connectionId || '', Auth.getToken())
                                 .then((v) => v.data)
                         }

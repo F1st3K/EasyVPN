@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace EasyVPN.Application;
+namespace EasyZsV.Application;
 
 public static class DependencyInjection
 {

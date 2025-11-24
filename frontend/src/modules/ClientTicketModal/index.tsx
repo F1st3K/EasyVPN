@@ -4,7 +4,7 @@ import React, { FC, useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, ConnectionTicket, ConnectionTicketStatus } from '../../api';
+import EasyZsv, { ApiError, ConnectionTicket, ConnectionTicketStatus } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequest } from '../../hooks';
@@ -24,7 +24,7 @@ const ClientTicketModal: FC<ClientTicketModalProps> = (props) => {
     const ticketId = props.ticketId || useParams().ticketId || '';
 
     const [ticket, loading, error] = useRequest<ConnectionTicket, ApiError>(
-        () => EasyVpn.my.ticket(ticketId, Auth.getToken()).then((v) => v.data),
+        () => EasyZsv.my.ticket(ticketId, Auth.getToken()).then((v) => v.data),
         [props.about],
     );
 
@@ -76,7 +76,7 @@ const ClientTicketModal: FC<ClientTicketModalProps> = (props) => {
                     )}
                     <ConnectionRequestItem
                         connectionPromise={() =>
-                            EasyVpn.my
+                            EasyZsv.my
                                 .connection(ticket?.connectionId || '', Auth.getToken())
                                 .then((v) => v.data)
                         }

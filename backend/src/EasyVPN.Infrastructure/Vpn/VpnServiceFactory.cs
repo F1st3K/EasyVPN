@@ -1,19 +1,19 @@
-using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Entities;
-using EasyVPN.Infrastructure.Vpn.Versions;
+using EasyZsV.Application.Common.Interfaces.Zsv;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Entities;
+using EasyZsV.Infrastructure.Zsv.Versions;
 
-namespace EasyVPN.Infrastructure.Vpn;
+namespace EasyZsV.Infrastructure.Zsv;
 
-public class VpnServiceFactory : IVpnServiceFactory
+public class ZsvServiceFactory : IZsvServiceFactory
 {
-    public IVpnService? GetVpnService(Server server)
+    public IZsvService? GetZsvService(Server server)
     {
         return server.Version switch
         {
-            VpnVersion.V1 => VpnV1.GetService(server.ConnectionString),
+            ZsvVersion.V1 => ZsvV1.GetService(server.ConnectionString),
             _ => throw new NotSupportedException(
-                $"Unsupported {nameof(VpnVersion)}: {server.Version.ToString()}")
+                $"Unsupported {nameof(ZsvVersion)}: {server.Version.ToString()}")
         };
     }
 }

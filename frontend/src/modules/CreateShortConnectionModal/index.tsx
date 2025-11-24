@@ -4,7 +4,7 @@ import React, { FC, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Server, User } from '../../api';
+import EasyZsv, { ApiError, Server, User } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
@@ -25,7 +25,7 @@ const CreateShortConnectionModal: FC<CreateShortConnectionModalProps> = (props) 
 
     const [createHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
         server && client
-            ? EasyVpn.connections
+            ? EasyZsv.connections
                   .create(server.id, client.id, Auth.getToken())
                   .then((v) => v.data)
             : Promise.reject(new Error('Server or client information is not filled!')),

@@ -1,8 +1,8 @@
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Application.Connections.Commands.AddLifetimeConnection;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Application.Connections.Commands.AddLifetimeConnection;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Application.UnitTests.Connections.Commands.AddLifetimeConnection;
+namespace EasyZsV.Application.UnitTests.Connections.Commands.AddLifetimeConnection;
 
 public static class AddLifetimeConnectionUtils
 {

@@ -1,8 +1,8 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTickets;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.ConnectionTickets.Queries.GetConnectionTickets;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.ConnectionTickets.Queries.GetConnectionTickets;
+namespace EasyZsV.Application.UnitTests.ConnectionTickets.Queries.GetConnectionTickets;
 
 public class GetConnectionTicketsMocks
 {

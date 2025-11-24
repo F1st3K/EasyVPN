@@ -1,8 +1,8 @@
 package main
 
 import (
-	"WireguardVpn/config"
-	"WireguardVpn/internal/service"
+	"WireguardZsv/config"
+	"WireguardZsv/internal/service"
 	"log"
 )
 

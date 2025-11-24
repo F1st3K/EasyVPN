@@ -1,14 +1,14 @@
 using System.Net.Http.Headers;
 using System.Text;
-using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Common.Interfaces.Zsv;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 
-namespace EasyVPN.Infrastructure.Vpn.Versions;
+namespace EasyZsV.Infrastructure.Zsv.Versions;
 
-public class VpnV1 : IVpnService
+public class ZsvV1 : IZsvService
 {
-    public static VpnV1? GetService(ConnectionString connectionString)
+    public static ZsvV1? GetService(ConnectionString connectionString)
     {
         try
         {
@@ -20,7 +20,7 @@ public class VpnV1 : IVpnService
             request.Headers.Authorization = basicAuth;
 
             var test = client.Send(request);
-            return test.IsSuccessStatusCode ? new VpnV1(client, basicAuth) : null;
+            return test.IsSuccessStatusCode ? new ZsvV1(client, basicAuth) : null;
         }
         catch (Exception)
         {
@@ -31,7 +31,7 @@ public class VpnV1 : IVpnService
     private readonly HttpClient _client;
     private readonly AuthenticationHeaderValue _auth;
 
-    private VpnV1(HttpClient client, AuthenticationHeaderValue auth)
+    private ZsvV1(HttpClient client, AuthenticationHeaderValue auth)
     {
         _client = client;
         _auth = auth;

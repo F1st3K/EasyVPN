@@ -1,11 +1,11 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Services;
-using EasyVPN.Application.Connections.Commands.DisableConnection;
-using EasyVPN.Domain.Common.Errors;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Services;
+using EasyZsV.Application.Connections.Commands.DisableConnection;
+using EasyZsV.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Servers.Commands.RemoveServer;
+namespace EasyZsV.Application.Servers.Commands.RemoveServer;
 
 public class RemoveServerHandler : IRequestHandler<RemoveServerCommand, ErrorOr<Deleted>>
 {

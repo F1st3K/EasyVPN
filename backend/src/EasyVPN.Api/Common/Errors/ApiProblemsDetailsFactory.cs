@@ -1,12 +1,12 @@
 using System.Diagnostics;
-using EasyVPN.Api.Common.Http;
+using EasyZsV.Api.Common.Http;
 using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
-namespace EasyVPN.Api.Common.Errors;
+namespace EasyZsV.Api.Common.Errors;
 
 public class ApiProblemsDetailsFactory : ProblemDetailsFactory
 {

@@ -4,7 +4,7 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Protocol, ProtocolInfo } from '../../api';
+import EasyZsv, { ApiError, Protocol, ProtocolInfo } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequest, useRequestHandler } from '../../hooks';
@@ -21,7 +21,7 @@ const EditProtocolModal: FC<EditProtocolModalProps> = (props) => {
 
     const protocolId = props.protocolId || useParams().protocolId || '';
     const [protocol, loading, error] = useRequest<Protocol, ApiError>(() =>
-        EasyVpn.protocols.get(protocolId, Auth.getToken()).then((s) => s.data),
+        EasyZsv.protocols.get(protocolId, Auth.getToken()).then((s) => s.data),
     );
     useEffect(() => {
         setProtocolInfo((p) => {
@@ -39,7 +39,7 @@ const EditProtocolModal: FC<EditProtocolModalProps> = (props) => {
 
     const [editHandler, loadingEdit, errorEdit] = useRequestHandler<void, ApiError>(() =>
         protocolInfo
-            ? EasyVpn.protocols
+            ? EasyZsv.protocols
                   .edit(protocolId, protocolInfo, Auth.getToken())
                   .then((v) => v.data)
             : Promise.reject(new Error('Protocol information is not filled!')),

@@ -4,7 +4,7 @@ import React, { FC, useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, PaymentConnectionInfo } from '../../api';
+import EasyZsv, { ApiError, PaymentConnectionInfo } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import Modal from '../../components/Modal';
 import { useRequestHandler } from '../../hooks';
@@ -25,7 +25,7 @@ const ExtendConnectionModal: FC<ExtendConnectionModalProps> = (props) => {
 
     const [extendHandler, loading, error] = useRequestHandler<void, ApiError>(() =>
         payInfo
-            ? EasyVpn.my
+            ? EasyZsv.my
                   .extendConnection(
                       { connectionId: connectionId, ...payInfo },
                       Auth.getToken(),
@@ -60,7 +60,7 @@ const ExtendConnectionModal: FC<ExtendConnectionModalProps> = (props) => {
                             <Typography>Extend connection:</Typography>
                             <ConnectionRequestItem
                                 connectionPromise={() =>
-                                    EasyVpn.my
+                                    EasyZsv.my
                                         .connection(connectionId, Auth.getToken())
                                         .then((c) => c.data)
                                 }

@@ -1,4 +1,4 @@
-namespace EasyVPN.Contracts.Users;
+namespace EasyZsV.Contracts.Users;
 
 public record UserResponse(
     Guid Id,

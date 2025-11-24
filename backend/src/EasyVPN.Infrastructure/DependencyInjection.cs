@@ -1,13 +1,13 @@
 using System.Text;
-using EasyVPN.Application.Common.Interfaces.Authentication;
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Services;
-using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Infrastructure.Authentication;
-using EasyVPN.Infrastructure.Persistence;
-using EasyVPN.Infrastructure.Persistence.Repositories;
-using EasyVPN.Infrastructure.Services;
-using EasyVPN.Infrastructure.Vpn;
+using EasyZsV.Application.Common.Interfaces.Authentication;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Services;
+using EasyZsV.Application.Common.Interfaces.Zsv;
+using EasyZsV.Infrastructure.Authentication;
+using EasyZsV.Infrastructure.Persistence;
+using EasyZsV.Infrastructure.Persistence.Repositories;
+using EasyZsV.Infrastructure.Services;
+using EasyZsV.Infrastructure.Zsv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace EasyVPN.Infrastructure;
+namespace EasyZsV.Infrastructure;
 
 public static class DependencyInjection
 {
@@ -37,7 +37,7 @@ public static class DependencyInjection
         var connectionStrings = new Settings.Options.ConnectionStrings();
         configuration.Bind(Settings.Options.ConnectionStrings.SectionName, connectionStrings);
 
-        services.AddDbContext<EasyVpnDbContext>(options =>
+        services.AddDbContext<EasyZsvDbContext>(options =>
             options.UseNpgsql(connectionStrings.Postgres));
 
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
@@ -49,7 +49,7 @@ public static class DependencyInjection
         services.AddScoped<IConnectionTicketRepository, ConnectionTicketRepository>();
         services.AddScoped<IDynamicPageRepository, DynamicPageRepository>();
 
-        services.AddScoped<IVpnServiceFactory, VpnServiceFactory>();
+        services.AddScoped<IZsvServiceFactory, ZsvServiceFactory>();
 
         return services;
     }

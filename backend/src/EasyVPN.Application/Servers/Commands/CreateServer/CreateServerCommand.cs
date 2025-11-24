@@ -1,12 +1,12 @@
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Servers.Commands.CreateServer;
+namespace EasyZsV.Application.Servers.Commands.CreateServer;
 
 public record CreateServerCommand(
     ConnectionString ConnectionString,
     Guid ProtocolId,
-    VpnVersion Version
+    ZsvVersion Version
     ) : IRequest<ErrorOr<Created>>;

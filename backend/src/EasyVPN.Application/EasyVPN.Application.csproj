@@ -6,7 +6,7 @@
     <Version>1.1.1</Version>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EasyVPN.Domain\EasyVPN.Domain.csproj" />
+    <ProjectReference Include="..\EasyZsV.Domain\EasyZsV.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="11.1.0" />

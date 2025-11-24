@@ -1,18 +1,18 @@
-using EasyVPN.Application.Connections.Commands.AddLifetimeConnection;
-using EasyVPN.Application.Connections.Commands.CreateConnection;
-using EasyVPN.Application.Connections.Commands.ResetLifetimeConnection;
-using EasyVPN.Application.Connections.Queries.GetConfig;
-using EasyVPN.Application.Connections.Queries.GetConnection;
-using EasyVPN.Application.Connections.Queries.GetConnections;
-using EasyVPN.Contracts.Connections;
-using EasyVPN.Contracts.Servers;
-using EasyVPN.Contracts.Users;
-using EasyVPN.Domain.Common.Enums;
+using EasyZsV.Application.Connections.Commands.AddLifetimeConnection;
+using EasyZsV.Application.Connections.Commands.CreateConnection;
+using EasyZsV.Application.Connections.Commands.ResetLifetimeConnection;
+using EasyZsV.Application.Connections.Queries.GetConfig;
+using EasyZsV.Application.Connections.Queries.GetConnection;
+using EasyZsV.Application.Connections.Queries.GetConnections;
+using EasyZsV.Contracts.Connections;
+using EasyZsV.Contracts.Servers;
+using EasyZsV.Contracts.Users;
+using EasyZsV.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.ConnectionRegulator;
+namespace EasyZsV.Api.Controllers.ConnectionRegulator;
 
 [Route("connections")]
 public class ConnectionsController : ApiControllerBase

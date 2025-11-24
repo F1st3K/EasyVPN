@@ -1,4 +1,4 @@
-namespace EasyVPN.Domain.Common.Enums;
+namespace EasyZsV.Domain.Common.Enums;
 
 public enum ConnectionTicketStatus
 {

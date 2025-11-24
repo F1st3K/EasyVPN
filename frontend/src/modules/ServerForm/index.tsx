@@ -3,7 +3,7 @@ import { Alert, Autocomplete, Box, TextField } from '@mui/material';
 import React, { FC, useContext, useEffect, useState } from 'react';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Protocol, ServerInfo, VpnVersion } from '../../api';
+import EasyZsv, { ApiError, Protocol, ServerInfo, ZsvVersion } from '../../api';
 import SecretOutlinedField from '../../components/SecretOutlinedField';
 import { useRequest, useRequestHandler } from '../../hooks';
 
@@ -16,7 +16,7 @@ const ServerInfoForm: FC<ServerInfoFormProps> = (props) => {
     const { Auth } = useContext(Context);
 
     const [protocolId, setProtocolId] = useState<string>(props.server.protocolId);
-    const [version, setVersion] = useState<VpnVersion>(props.server.version);
+    const [version, setVersion] = useState<ZsvVersion>(props.server.version);
     const [auth, setAuth] = useState<string>(props.server.connection.auth);
     const [endpoint, setEndpoint] = useState<string>(props.server.connection.endpoint);
 
@@ -31,12 +31,12 @@ const ServerInfoForm: FC<ServerInfoFormProps> = (props) => {
     }, [protocolId, version, auth, endpoint]);
 
     const [protocols] = useRequest<Protocol[], ApiError>(() =>
-        EasyVpn.protocols.getAll(Auth.getToken()).then((v) => v.data),
+        EasyZsv.protocols.getAll(Auth.getToken()).then((v) => v.data),
     );
     const protocol = protocols?.find((p) => p.id === protocolId);
 
     const [handleTest, loadingTest, errorTest] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.servers
+        EasyZsv.servers
             .test(version, { auth, endpoint }, Auth.getToken())
             .then((v) => v.data),
     );
@@ -46,12 +46,12 @@ const ServerInfoForm: FC<ServerInfoFormProps> = (props) => {
             <Box display="flex" flexDirection="row" gap={2}>
                 <Autocomplete
                     disablePortal
-                    options={Object.values(VpnVersion)}
+                    options={Object.values(ZsvVersion)}
                     value={version}
                     onChange={(_, v) => v && setVersion(v)}
                     style={{ width: '15ch' }}
                     renderInput={(params) => (
-                        <TextField {...params} label="VPN API Version" />
+                        <TextField {...params} label="ZSV API Version" />
                     )}
                 />
                 <LoadingButton

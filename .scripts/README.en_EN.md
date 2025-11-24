@@ -6,7 +6,7 @@
 [readme-en-shield]: https://img.shields.io/badge/en-blue
 [readme-en-url]: README.en_EN.md
 
-## EasyVPN.Develop scripts
+## EasyZsV.Develop scripts
 
 ### This section contains scripts for development, they will be replenished during the life of the project:
 

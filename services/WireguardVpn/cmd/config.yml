@@ -1,7 +1,7 @@
 service:
-  name: 'wireguard-vpn'
+  name: 'wireguard-zsv'
   version: '1.1.1'
 api:
   port: "8000"
-vpn:
+zsv:
   port: "51820"

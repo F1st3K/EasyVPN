@@ -1,9 +1,9 @@
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Application.Connections.Queries.GetConnections;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Application.Connections.Queries.GetConnections;
+using EasyZsV.Domain.Entities;
 using FluentAssertions;
 
-namespace EasyVPN.Application.UnitTests.Connections.Queries.GetConnections;
+namespace EasyZsV.Application.UnitTests.Connections.Queries.GetConnections;
 
 public class GetConnectionsTests
 {

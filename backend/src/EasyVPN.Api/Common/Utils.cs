@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace EasyVPN.Api.Common;
+namespace EasyZsV.Api.Common;
 
 public static class Utils
 {

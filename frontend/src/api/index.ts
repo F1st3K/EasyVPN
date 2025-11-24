@@ -4,7 +4,7 @@ import config from '../config';
 import PaymentConnectionInfo from './common/PaymentConnectionInfo';
 import { ConnectionTicketStatus } from './enums/ConnectionTicketStatus';
 import { Role } from './enums/Role';
-import { VpnVersion } from './enums/VpnVersion';
+import { ZsvVersion } from './enums/ZsvVersion';
 import ConnectionString from './requests/ConnectionString';
 import CreateConnection from './requests/CreateConnection';
 import ExtendConnection from './requests/ExtendConnection';
@@ -28,7 +28,7 @@ const api = axios.create({
     baseURL: config.ApiUrl,
 });
 
-const EasyVpn = {
+const EasyZsv = {
     auth: {
         login: (login: string, password: string) => {
             return api.post<Auth>(`/auth/login`, {
@@ -184,7 +184,7 @@ const EasyVpn = {
         },
     },
     servers: {
-        test: (v: VpnVersion, request: ConnectionString, token: string) => {
+        test: (v: ZsvVersion, request: ConnectionString, token: string) => {
             return api.post<void>(`/servers/test/${v}`, request, {
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -304,7 +304,7 @@ const EasyVpn = {
     },
 };
 
-export default EasyVpn;
+export default EasyZsv;
 
 export type { PaymentConnectionInfo, ProtocolInfo, ServerInfo, UserInfo };
 
@@ -321,4 +321,4 @@ export type {
 
 export type { CreateConnection, ExtendConnection, Register };
 
-export { ConnectionTicketStatus, Role, VpnVersion };
+export { ConnectionTicketStatus, Role, ZsvVersion };

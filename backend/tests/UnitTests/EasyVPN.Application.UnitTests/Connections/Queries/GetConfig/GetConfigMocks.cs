@@ -1,22 +1,22 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Application.Connections.Queries.GetConfig;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Zsv;
+using EasyZsV.Application.Connections.Queries.GetConfig;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.Connections.Queries.GetConfig;
+namespace EasyZsV.Application.UnitTests.Connections.Queries.GetConfig;
 
 public class GetConfigMocks
 {
 
     public readonly Mock<IServerRepository> ServerRepository = new();
     public readonly Mock<IConnectionRepository> ConnectionRepository = new();
-    public readonly Mock<IVpnServiceFactory> VpnServiceFactory = new();
-    public readonly Mock<IVpnService> VpnService = new();
+    public readonly Mock<IZsvServiceFactory> ZsvServiceFactory = new();
+    public readonly Mock<IZsvService> ZsvService = new();
 
     public GetConfigQueryHandler CreateHandler()
     {
         return new GetConfigQueryHandler(
             ConnectionRepository.Object,
-            VpnServiceFactory.Object);
+            ZsvServiceFactory.Object);
     }
 }

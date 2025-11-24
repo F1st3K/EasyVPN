@@ -1,22 +1,22 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Application.Connections.Commands.DisableConnection;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Zsv;
+using EasyZsV.Application.Connections.Commands.DisableConnection;
+using EasyZsV.Domain.Entities;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.Connections.Commands.DisableConnection;
+namespace EasyZsV.Application.UnitTests.Connections.Commands.DisableConnection;
 
 public class DisableConnectionMocks
 {
     public readonly Mock<IConnectionRepository> ConnectionRepository = new();
-    public readonly Mock<IVpnServiceFactory> VpnServiceFactory = new();
-    public readonly Mock<IVpnService> VpnService = new();
+    public readonly Mock<IZsvServiceFactory> ZsvServiceFactory = new();
+    public readonly Mock<IZsvService> ZsvService = new();
 
     public DisableConnectionCommandHandler CreateHandler()
     {
         return new DisableConnectionCommandHandler(
             ConnectionRepository.Object,
-            VpnServiceFactory.Object
+            ZsvServiceFactory.Object
         );
     }
 }

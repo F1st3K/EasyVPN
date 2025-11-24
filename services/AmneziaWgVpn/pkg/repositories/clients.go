@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"WireguardVpn/pkg/entities"
+	"WireguardZsv/pkg/entities"
 	"log"
 	"os"
 	"strings"

@@ -1,11 +1,11 @@
-using EasyVPN.Domain.Common.Enums;
+using EasyZsV.Domain.Common.Enums;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Servers.Queries.TestConnection;
+namespace EasyZsV.Application.Servers.Queries.TestConnection;
 
 public record TestConnectionQuery(
     string Auth,
     string Endpoint,
-    VpnVersion Version
+    ZsvVersion Version
     ) : IRequest<ErrorOr<Success>>;

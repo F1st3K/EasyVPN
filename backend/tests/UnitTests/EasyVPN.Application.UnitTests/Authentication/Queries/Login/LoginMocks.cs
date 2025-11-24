@@ -1,12 +1,12 @@
-using EasyVPN.Application.Authentication.Queries.Login;
-using EasyVPN.Application.Common.Interfaces.Authentication;
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Authentication.Queries.Login;
+using EasyZsV.Application.Common.Interfaces.Authentication;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Entities;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.Authentication.Queries.Login;
+namespace EasyZsV.Application.UnitTests.Authentication.Queries.Login;
 
 public class LoginMocks
 {

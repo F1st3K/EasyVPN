@@ -6,7 +6,7 @@
 [readme-en-shield]: https://img.shields.io/badge/en-gray
 [readme-en-url]: README.en_EN.md
 
-# EasyVPN init
+# EasyZsV init
 Серивис инициализации данных, очень простой и быстрый, который лазит в api и db (bash + SQL)
 
 ## Configuration
@@ -27,5 +27,5 @@ docker run -d \
   -e API=http//localhost:80/api \
   -e DB_CONNECTION_STRING=postgresql://postgres:mysecretpassword@localhost:5432 \
   -e CREATE_SECURITY_KEEPER=admin:admin \
-  easyvpn/init
+  easyzsv/init
 ```

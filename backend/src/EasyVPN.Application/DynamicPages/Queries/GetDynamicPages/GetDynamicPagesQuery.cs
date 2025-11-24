@@ -1,7 +1,7 @@
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.DynamicPages.Queries.GetDynamicPages;
+namespace EasyZsV.Application.DynamicPages.Queries.GetDynamicPages;
 
 public record GetDynamicPagesQuery() : IRequest<ErrorOr<List<DynamicPage>>>;

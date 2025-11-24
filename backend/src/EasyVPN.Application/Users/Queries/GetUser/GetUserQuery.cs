@@ -1,8 +1,8 @@
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Users.Queries.GetUser;
+namespace EasyZsV.Application.Users.Queries.GetUser;
 
 public record GetUserQuery(
     Guid UserId

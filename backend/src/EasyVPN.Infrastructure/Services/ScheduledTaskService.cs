@@ -1,14 +1,14 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Services;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ErrorOr;
 using MediatR;
 using Microsoft.Extensions.Options;
-using Options = EasyVPN.Infrastructure.Settings.Options;
+using Options = EasyZsV.Infrastructure.Settings.Options;
 
-namespace EasyVPN.Infrastructure.Services;
+namespace EasyZsV.Infrastructure.Services;
 
 public class ScheduledTaskService(
     IOptions<Options.Expiration> expirationOptions,

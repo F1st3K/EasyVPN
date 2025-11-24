@@ -1,12 +1,12 @@
-using EasyVPN.Application.Connections.Commands.DisableConnection;
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Common.Errors;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Connections.Commands.DisableConnection;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Domain.Common.Errors;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using FluentAssertions;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.Connections.Commands.ResetLifetimeConnection;
+namespace EasyZsV.Application.UnitTests.Connections.Commands.ResetLifetimeConnection;
 
 public class ResetLifetimeConnectionTests
 {
@@ -64,7 +64,7 @@ public class ResetLifetimeConnectionTests
                 => x.Send(It.Is<DisableConnectionCommand>(c
                     => c.ConnectionId == Constants.Connection.Id),
                     It.IsAny<CancellationToken>()))
-            .Returns(Task.Run<ErrorOr<Updated>>(() => Constants.Connection.VpnServiceError));
+            .Returns(Task.Run<ErrorOr<Updated>>(() => Constants.Connection.ZsvServiceError));
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -72,7 +72,7 @@ public class ResetLifetimeConnectionTests
 
         //Assert
         result.IsError.Should().BeTrue(result.FirstError.ToString());
-        result.FirstError.Should().Be(Constants.Connection.VpnServiceError);
+        result.FirstError.Should().Be(Constants.Connection.ZsvServiceError);
     }
 
     [Fact]

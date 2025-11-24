@@ -1,18 +1,18 @@
-using EasyVPN.Application.Common.Interfaces.Vpn;
-using EasyVPN.Domain.Common.Errors;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Common.Interfaces.Zsv;
+using EasyZsV.Domain.Common.Errors;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Servers.Queries.TestConnection;
+namespace EasyZsV.Application.Servers.Queries.TestConnection;
 
 public class TestConnectionHandler : IRequestHandler<TestConnectionQuery, ErrorOr<Success>>
 {
-    private readonly IVpnServiceFactory _vpnServiceFactory;
+    private readonly IZsvServiceFactory _zsvServiceFactory;
 
-    public TestConnectionHandler(IVpnServiceFactory vpnServiceFactory)
+    public TestConnectionHandler(IZsvServiceFactory zsvServiceFactory)
     {
-        _vpnServiceFactory = vpnServiceFactory;
+        _zsvServiceFactory = zsvServiceFactory;
     }
 
     public async Task<ErrorOr<Success>> Handle(TestConnectionQuery query, CancellationToken cancellationToken)
@@ -29,9 +29,9 @@ public class TestConnectionHandler : IRequestHandler<TestConnectionQuery, ErrorO
             },
         };
 
-        if (_vpnServiceFactory.GetVpnService(testServer) is not { } vpnService)
+        if (_zsvServiceFactory.GetZsvService(testServer) is not { } zsvService)
             return Errors.Server.FailedGetService;
 
-        return vpnService.TestConnect();
+        return zsvService.TestConnect();
     }
 }

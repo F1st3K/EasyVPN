@@ -1,12 +1,12 @@
-name: "AmneziaWgVpn"
+name: "AmneziaWgZsv"
 
 on:
   pull_request:
-    paths: [ "services/AmneziaWgVpn/**" ]
+    paths: [ "services/AmneziaWgZsv/**" ]
     branches: [ "main", "develop" ]
 
 jobs:
-  build_amneziawgvpn:
+  build_amneziawgzsv:
     name: Build and Test
     
     runs-on: ubuntu-latest
@@ -21,9 +21,9 @@ jobs:
 
     - name: Replace service source
       run: |
-          cp -r ./services/AmneziaWgVpn /tmp/AmneziaWgVpn 
+          cp -r ./services/AmneziaWgZsv /tmp/AmneziaWgZsv 
           rm -rf .[^.]* ..?* *
-          cp -r /tmp/AmneziaWgVpn/. ./ 
+          cp -r /tmp/AmneziaWgZsv/. ./ 
 
     - name: Restore dependencies
       run: go mod download 

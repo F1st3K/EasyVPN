@@ -30,7 +30,7 @@ const Footer: FC = () => {
                     </Link>
                     {' · '}
                     <Link
-                        href="https://github.com/F1st3K/EasyVPN/graphs/contributors"
+                        href="https://github.com/F1st3K/EasyZsV/graphs/contributors"
                         color="text.secondary"
                         underline="hover"
                     >
@@ -38,7 +38,7 @@ const Footer: FC = () => {
                     </Link>
                     {' · '}
                     <Link
-                        href="https://github.com/F1st3K/EasyVPN"
+                        href="https://github.com/F1st3K/EasyZsV"
                         color="text.secondary"
                         underline="hover"
                     >
@@ -55,7 +55,7 @@ const Footer: FC = () => {
                         {' Copyright © '}
                         {'2024-'}
                         {new Date().getFullYear()}
-                        {' EasyVPN '}
+                        {' EasyZsV '}
                         {Package.version}
                     </Link>
                 </Typography>

@@ -1,11 +1,11 @@
-using EasyVPN.Application.Users.Queries.GetUsers;
-using EasyVPN.Contracts.Users;
-using EasyVPN.Domain.Common.Enums;
+using EasyZsV.Application.Users.Queries.GetUsers;
+using EasyZsV.Contracts.Users;
+using EasyZsV.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.ConnectionRegulator;
+namespace EasyZsV.Api.Controllers.ConnectionRegulator;
 
 [Route("clients")]
 public class ClientsController : ApiControllerBase

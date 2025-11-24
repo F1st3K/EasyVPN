@@ -20,11 +20,11 @@ jobs:
 
     - name: Pull latest compose
       run: |
-        cd /opt/EasyVPN
-        curl -L -o docker-compose.yml https://raw.githubusercontent.com/F1st3K/EasyVPN/refs/heads/main/docker-compose.yml
+        cd /opt/EasyZsV
+        curl -L -o docker-compose.yml https://raw.githubusercontent.com/F1st3K/EasyZsV/refs/heads/main/docker-compose.yml
         docker-compose pull
         
     - name: Restart Docker Compose
       run: |
-        cd /opt/EasyVPN
+        cd /opt/EasyZsV
         docker-compose up -d

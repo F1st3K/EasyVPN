@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace EasyVPN.Infrastructure.Migrations
+namespace EasyZsV.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class AddUserIcon : Migration

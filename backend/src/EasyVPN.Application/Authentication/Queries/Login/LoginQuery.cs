@@ -1,8 +1,8 @@
-using EasyVPN.Application.Authentication.Common;
+using EasyZsV.Application.Authentication.Common;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Authentication.Queries.Login;
+namespace EasyZsV.Application.Authentication.Queries.Login;
 
 public record LoginQuery(
     string Login,

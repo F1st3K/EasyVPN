@@ -1,11 +1,11 @@
-using EasyVPN.Application.Authentication.Common;
-using EasyVPN.Application.Common.Interfaces.Authentication;
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Common.Errors;
+using EasyZsV.Application.Authentication.Common;
+using EasyZsV.Application.Common.Interfaces.Authentication;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Domain.Common.Errors;
 using MediatR;
 using ErrorOr;
 
-namespace EasyVPN.Application.Authentication.Queries.Login;
+namespace EasyZsV.Application.Authentication.Queries.Login;
 
 public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
 {

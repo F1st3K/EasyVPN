@@ -10,7 +10,7 @@ import React, { FC, useContext } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Connection, ConnectionTicket } from '../../api';
+import EasyZsv, { ApiError, Connection, ConnectionTicket } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import CollapsedListItem from '../../components/CollapsedListItem';
 import CreateButton from '../../components/CreateButton';
@@ -24,12 +24,12 @@ const ClientConnectionsPage: FC = () => {
     const location = useLocation();
 
     const [data, loading, error] = useRequest<Connection[], ApiError>(
-        () => EasyVpn.my.connections(store.Auth.getToken()).then((v) => v.data),
+        () => EasyZsv.my.connections(store.Auth.getToken()).then((v) => v.data),
         [location.pathname],
     );
 
     const [tdata, tloading, terror] = useRequest<ConnectionTicket[], ApiError>(
-        () => EasyVpn.my.tickets(store.Auth.getToken()).then((v) => v.data),
+        () => EasyZsv.my.tickets(store.Auth.getToken()).then((v) => v.data),
         [location.pathname],
     );
 

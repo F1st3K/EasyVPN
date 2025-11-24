@@ -1,9 +1,9 @@
-using EasyVPN.Application.Authentication.Commands.Register;
-using EasyVPN.Application.Authentication.Common;
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Authentication.Commands.Register;
+using EasyZsV.Application.Authentication.Common;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Application.UnitTests.Authentication.Commands.Register;
+namespace EasyZsV.Application.UnitTests.Authentication.Commands.Register;
 
 public static class RegisterUtils
 {

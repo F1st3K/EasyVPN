@@ -6,7 +6,7 @@ import QRCode from 'react-qr-code';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError } from '../../api';
+import EasyZsv, { ApiError } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import CopyButton from '../../components/CopyButton';
 import Modal from '../../components/Modal';
@@ -23,7 +23,7 @@ const ConfigModal: FC<ConfigModalProps> = (props) => {
 
     const { Auth } = useContext(Context);
     const [config, loading, error] = useRequest<string, ApiError>(() =>
-        EasyVpn.my
+        EasyZsv.my
             .configConnection(connectionId, Auth.getToken())
             .then((v) => v.data.config),
     );

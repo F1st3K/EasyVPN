@@ -1,10 +1,10 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Services;
-using EasyVPN.Domain.Common.Errors;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Services;
+using EasyZsV.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.DynamicPages.Commands.UpdateDynamicPage;
+namespace EasyZsV.Application.DynamicPages.Commands.UpdateDynamicPage;
 
 public class UpdateDynamicPageCommandHandler : IRequestHandler<UpdateDynamicPageCommand, ErrorOr<Updated>>
 {

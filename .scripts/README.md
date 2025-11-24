@@ -7,7 +7,7 @@
 [readme-en-url]: README.en_EN.md
 
 
-## EasyVPN.Develop scripts 
+## EasyZsV.Develop scripts 
 
 ### В этом разделе находятся скрипты для разработки, в процессе жизни проекта они будут пополнятся:
 

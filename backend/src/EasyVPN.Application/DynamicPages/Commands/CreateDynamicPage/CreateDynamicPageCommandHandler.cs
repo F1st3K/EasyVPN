@@ -1,11 +1,11 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Services;
-using EasyVPN.Domain.Common.Errors;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Services;
+using EasyZsV.Domain.Common.Errors;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.DynamicPages.Commands.CreateDynamicPage;
+namespace EasyZsV.Application.DynamicPages.Commands.CreateDynamicPage;
 
 public class CreateDynamicPageCommandHandler : IRequestHandler<CreateDynamicPageCommand, ErrorOr<Created>>
 {

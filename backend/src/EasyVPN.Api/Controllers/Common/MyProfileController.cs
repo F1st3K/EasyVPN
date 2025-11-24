@@ -1,16 +1,16 @@
-using EasyVPN.Api.Common;
-using EasyVPN.Application.Users.Commands.ChangeLogin;
-using EasyVPN.Application.Users.Commands.ChangePassword;
-using EasyVPN.Application.Users.Commands.UserInfoUpdate;
-using EasyVPN.Application.Users.Queries.GetUser;
-using EasyVPN.Contracts.Authentication;
-using EasyVPN.Contracts.Users;
-using EasyVPN.Domain.Common.Errors;
+using EasyZsV.Api.Common;
+using EasyZsV.Application.Users.Commands.ChangeLogin;
+using EasyZsV.Application.Users.Commands.ChangePassword;
+using EasyZsV.Application.Users.Commands.UserInfoUpdate;
+using EasyZsV.Application.Users.Queries.GetUser;
+using EasyZsV.Contracts.Authentication;
+using EasyZsV.Contracts.Users;
+using EasyZsV.Domain.Common.Errors;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.Common;
+namespace EasyZsV.Api.Controllers.Common;
 
 [Route("my/profile")]
 [Authorize]

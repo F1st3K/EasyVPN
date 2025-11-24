@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
+namespace EasyZsV.Application.ConnectionTickets.Commands.CreateConnectionTicket;
 
 public record CreateConnectionTicketCommand(
     Guid ConnectionId,

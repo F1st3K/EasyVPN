@@ -1,12 +1,12 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Services;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Common.Errors;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Services;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Common.Errors;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
+namespace EasyZsV.Application.ConnectionTickets.Commands.CreateConnectionTicket;
 
 public class CreateConnectionTicketCommandHandler : IRequestHandler<CreateConnectionTicketCommand, ErrorOr<Created>>
 {

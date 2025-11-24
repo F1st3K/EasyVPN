@@ -1,6 +1,6 @@
-using EasyVPN.Contracts.Users;
+using EasyZsV.Contracts.Users;
 
-namespace EasyVPN.Contracts.Authentication;
+namespace EasyZsV.Contracts.Authentication;
 
 public record AuthenticationResponse(
     Guid Id,

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.Common;
+namespace EasyZsV.Api.Controllers.Common;
 
 public class ErrorsController : ApiControllerBase
 {

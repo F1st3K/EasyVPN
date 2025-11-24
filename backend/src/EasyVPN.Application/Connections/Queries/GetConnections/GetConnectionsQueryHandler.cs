@@ -1,9 +1,9 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Connections.Queries.GetConnections;
+namespace EasyZsV.Application.Connections.Queries.GetConnections;
 
 public class GetConnectionsQueryHandler : IRequestHandler<GetConnectionsQuery, ErrorOr<List<Connection>>>
 {

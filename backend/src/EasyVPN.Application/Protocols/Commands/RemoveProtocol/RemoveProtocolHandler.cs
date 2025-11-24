@@ -1,9 +1,9 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Common.Errors;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Protocols.Commands.RemoveProtocol;
+namespace EasyZsV.Application.Protocols.Commands.RemoveProtocol;
 
 public class RemoveProtocolsHandler : IRequestHandler<RemoveProtocolCommand, ErrorOr<Deleted>>
 {

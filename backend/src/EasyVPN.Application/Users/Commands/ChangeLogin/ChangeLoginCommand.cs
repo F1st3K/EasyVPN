@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Users.Commands.ChangeLogin;
+namespace EasyZsV.Application.Users.Commands.ChangeLogin;
 
 public record ChangeLoginCommand(
         Guid UserId,

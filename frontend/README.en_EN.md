@@ -6,7 +6,7 @@
 [readme-en-shield]: https://img.shields.io/badge/en-blue
 [readme-en-url]: README.en_EN.md
 
-# EasyVPN frontend
+# EasyZsV frontend
 
 A web interface application with a simple UI. (TypeScript + React)
 
@@ -14,7 +14,7 @@ A web interface application with a simple UI. (TypeScript + React)
 
 > The web interface configuration is located in [`config.ts`](./src/config.ts), substituted by enviroment variables:
 
-`REACT_APP_API_URL=https://localhost:80/api/` - URL to the deployed [`EasyVPN backend`](../backend/README.md), with which the web interface communicates
+`REACT_APP_API_URL=https://localhost:80/api/` - URL to the deployed [`EasyZsV backend`](../backend/README.md), with which the web interface communicates
 
 `REACT_APP_AUTH_CHECK_MINUTES=15` - frequency in minutes with which authorization is automatically checked
 (authorization is also automatically checked when navigation changes)
@@ -29,5 +29,5 @@ docker run -d \
 -p 3000:3000 `#your port` \
 -e REACT_APP_API_URL=https://localhost:80/api/ \
  -e REACT_APP_AUTH_CHECK_MINUTES=15 \
- easyvpn/frontend:latest
+ easyzsv/frontend:latest
 ```

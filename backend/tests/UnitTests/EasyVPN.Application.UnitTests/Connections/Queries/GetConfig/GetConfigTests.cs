@@ -1,10 +1,10 @@
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Common.Errors;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Domain.Common.Errors;
+using EasyZsV.Domain.Entities;
 using FluentAssertions;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.Connections.Queries.GetConfig;
+namespace EasyZsV.Application.UnitTests.Connections.Queries.GetConfig;
 
 public class GetConfigTests
 {
@@ -29,11 +29,11 @@ public class GetConfigTests
                 x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
 
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
+        _mocks.ZsvServiceFactory.Setup(x =>
+                x.GetZsvService(It.IsAny<Server>()))
+            .Returns(_mocks.ZsvService.Object);
 
-        _mocks.VpnService.Setup(x =>
+        _mocks.ZsvService.Setup(x =>
                 x.GetConfig(It.IsAny<Guid>()))
             .Returns(Constants.Connection.Config);
 
@@ -47,7 +47,7 @@ public class GetConfigTests
     }
 
     [Fact]
-    public async Task HandleGetConfigQuery_WhenVpnServiceError_Error()
+    public async Task HandleGetConfigQuery_WhenZsvServiceError_Error()
     {
         //Arrange
         var query = GetConfigUtils.CreateQuery();
@@ -65,13 +65,13 @@ public class GetConfigTests
                 x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
 
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
+        _mocks.ZsvServiceFactory.Setup(x =>
+                x.GetZsvService(It.IsAny<Server>()))
+            .Returns(_mocks.ZsvService.Object);
 
-        _mocks.VpnService.Setup(x
+        _mocks.ZsvService.Setup(x
                 => x.GetConfig(Constants.Connection.Id))
-            .Returns(Constants.Connection.VpnServiceError);
+            .Returns(Constants.Connection.ZsvServiceError);
 
         //Act
         var handler = _mocks.CreateHandler();
@@ -79,10 +79,10 @@ public class GetConfigTests
 
         //Assert
 
-        _mocks.VpnService.Verify(x
+        _mocks.ZsvService.Verify(x
             => x.GetConfig(Constants.Connection.Id));
         result.IsError.Should().BeTrue(result.FirstError.ToString());
-        result.FirstError.Should().Be(Constants.Connection.VpnServiceError);
+        result.FirstError.Should().Be(Constants.Connection.ZsvServiceError);
     }
 
     [Fact]
@@ -99,11 +99,11 @@ public class GetConfigTests
                 x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
 
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
-            .Returns(_mocks.VpnService.Object);
+        _mocks.ZsvServiceFactory.Setup(x =>
+                x.GetZsvService(It.IsAny<Server>()))
+            .Returns(_mocks.ZsvService.Object);
 
-        _mocks.VpnService.Setup(x =>
+        _mocks.ZsvService.Setup(x =>
                 x.GetConfig(It.IsAny<Guid>()))
             .Returns(Constants.Connection.Config);
 
@@ -117,7 +117,7 @@ public class GetConfigTests
     }
 
     [Fact]
-    public async Task HandleGetConfigQuery_WhenGetVpnServiceFailed_Error()
+    public async Task HandleGetConfigQuery_WhenGetZsvServiceFailed_Error()
     {
         //Arrange
         var query = GetConfigUtils.CreateQuery();
@@ -135,11 +135,11 @@ public class GetConfigTests
                 x.Get(Constants.Server.Id))
             .Returns(new Server() { Id = Constants.Server.Id });
 
-        _mocks.VpnServiceFactory.Setup(x =>
-                x.GetVpnService(It.IsAny<Server>()))
+        _mocks.ZsvServiceFactory.Setup(x =>
+                x.GetZsvService(It.IsAny<Server>()))
             .Returns(() => null);
 
-        _mocks.VpnService.Setup(x =>
+        _mocks.ZsvService.Setup(x =>
                 x.GetConfig(It.IsAny<Guid>()))
             .Returns(Constants.Connection.Config);
 

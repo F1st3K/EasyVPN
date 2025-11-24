@@ -1,9 +1,9 @@
-using EasyVPN.Api;
-using EasyVPN.Api.Controllers.Common;
-using EasyVPN.Application;
-using EasyVPN.Infrastructure;
+using EasyZsV.Api;
+using EasyZsV.Api.Controllers.Common;
+using EasyZsV.Application;
+using EasyZsV.Infrastructure;
 using Microsoft.Extensions.Options;
-using Options = EasyVPN.Infrastructure.Settings.Options;
+using Options = EasyZsV.Infrastructure.Settings.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 {

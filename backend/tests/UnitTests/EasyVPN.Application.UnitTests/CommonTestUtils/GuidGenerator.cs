@@ -1,4 +1,4 @@
-namespace EasyVPN.Application.UnitTests.CommonTestUtils;
+namespace EasyZsV.Application.UnitTests.CommonTestUtils;
 
 public static class GuidGenerator
 {

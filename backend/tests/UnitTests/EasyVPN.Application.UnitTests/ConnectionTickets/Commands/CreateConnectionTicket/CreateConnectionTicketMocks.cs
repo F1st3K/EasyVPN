@@ -1,10 +1,10 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Application.Common.Interfaces.Services;
-using EasyVPN.Application.ConnectionTickets.Commands.CreateConnectionTicket;
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Application.Common.Interfaces.Services;
+using EasyZsV.Application.ConnectionTickets.Commands.CreateConnectionTicket;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
 using Moq;
 
-namespace EasyVPN.Application.UnitTests.ConnectionTickets.Commands.CreateConnectionTicket;
+namespace EasyZsV.Application.UnitTests.ConnectionTickets.Commands.CreateConnectionTicket;
 
 public class CreateConnectionTicketMocks
 {

@@ -1,8 +1,8 @@
-using EasyVPN.Application.Authentication.Common;
+using EasyZsV.Application.Authentication.Common;
 using MediatR;
 using ErrorOr;
 
-namespace EasyVPN.Application.Authentication.Commands.Register;
+namespace EasyZsV.Application.Authentication.Commands.Register;
 
 public record RegisterCommand(
     string FirstName,

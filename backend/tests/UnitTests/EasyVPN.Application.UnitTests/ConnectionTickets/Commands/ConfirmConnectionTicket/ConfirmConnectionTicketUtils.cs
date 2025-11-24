@@ -1,9 +1,9 @@
-using EasyVPN.Application.ConnectionTickets.Commands.ConfirmConnectionTicket;
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.ConnectionTickets.Commands.ConfirmConnectionTicket;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Application.UnitTests.ConnectionTickets.Commands.ConfirmConnectionTicket;
+namespace EasyZsV.Application.UnitTests.ConnectionTickets.Commands.ConfirmConnectionTicket;
 
 public static class ConfirmConnectionTicketUtils
 {

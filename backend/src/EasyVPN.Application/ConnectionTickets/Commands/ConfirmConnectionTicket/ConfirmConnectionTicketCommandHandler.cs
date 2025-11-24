@@ -1,10 +1,10 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Common.Enums;
-using EasyVPN.Domain.Common.Errors;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Domain.Common.Enums;
+using EasyZsV.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.ConnectionTickets.Commands.ConfirmConnectionTicket;
+namespace EasyZsV.Application.ConnectionTickets.Commands.ConfirmConnectionTicket;
 
 public class ConfirmConnectionTicketCommandHandler : IRequestHandler<ConfirmConnectionTicketCommand, ErrorOr<Success>>
 {

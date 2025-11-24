@@ -1,7 +1,7 @@
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Users.Commands.UserInfoUpdate;
+namespace EasyZsV.Application.Users.Commands.UserInfoUpdate;
 
 public record UserInfoUpdateCommand(
         Guid UserId,

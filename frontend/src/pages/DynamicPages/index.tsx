@@ -7,7 +7,7 @@ import { FC } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Role } from '../../api';
+import EasyZsv, { ApiError, Role } from '../../api';
 import Page from '../../api/requests/Page';
 import PageWithDates from '../../api/responses/PageWithDates';
 import Modal from '../../components/Modal';
@@ -20,7 +20,7 @@ const DyncamicPages: FC = () => {
     const location = useLocation();
     const [data, loading, error] = useRequest<PageWithDates, ApiError>(
         () =>
-            EasyVpn.pages
+            EasyZsv.pages
                 .get('/'.concat(location.pathname.split('/').slice(2).join('/')))
                 .then((r) => r.data),
         [location.pathname],
@@ -31,14 +31,14 @@ const DyncamicPages: FC = () => {
 
     const [updateHandler, loadingUp, errorUp] = useRequestHandler<void, ApiError, Page>(
         (page) =>
-            EasyVpn.pages
+            EasyZsv.pages
                 .update(data?.route ?? page.route, page, Auth.getToken())
                 .then((r) => r.data),
     );
 
     const [removeModal, setRemoveModal] = useState<boolean>(false);
     const [removeHandler, loadingRm, errorRm] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.pages.delete(data?.route ?? '', Auth.getToken()).then((r) => r.data),
+        EasyZsv.pages.delete(data?.route ?? '', Auth.getToken()).then((r) => r.data),
     );
 
     if (loading) return <LinearProgress />;

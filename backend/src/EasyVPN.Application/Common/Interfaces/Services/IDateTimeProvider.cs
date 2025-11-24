@@ -1,4 +1,4 @@
-namespace EasyVPN.Application.Common.Interfaces.Services;
+namespace EasyZsV.Application.Common.Interfaces.Services;
 
 public interface IDateTimeProvider
 {

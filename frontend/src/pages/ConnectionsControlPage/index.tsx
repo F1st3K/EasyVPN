@@ -17,7 +17,7 @@ import { FC } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Connection } from '../../api';
+import EasyZsv, { ApiError, Connection } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import CreateButton from '../../components/CreateButton';
 import Modal from '../../components/Modal';
@@ -29,13 +29,13 @@ const ConnectionsControlPage: FC = () => {
     const navigate = useNavigate();
 
     const [data, loading, error] = useRequest<Connection[], ApiError>(
-        () => EasyVpn.connections.getAll(Auth.getToken()).then((v) => v.data),
+        () => EasyZsv.connections.getAll(Auth.getToken()).then((v) => v.data),
         [location.pathname],
     );
 
     const [resetConnectionId, setResetConnectionId] = useState<string>();
     const [resetHandler, loadingRm, errorRm] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.connections
+        EasyZsv.connections
             .reset(resetConnectionId || '', Auth.getToken())
             .then((r) => r.data),
     );
@@ -45,7 +45,7 @@ const ConnectionsControlPage: FC = () => {
         ApiError,
         { id: string; days: number }
     >((p) =>
-        EasyVpn.connections.extend(p.id, p.days, Auth.getToken()).then((r) => r.data),
+        EasyZsv.connections.extend(p.id, p.days, Auth.getToken()).then((r) => r.data),
     );
 
     if (loading) return <LinearProgress />;

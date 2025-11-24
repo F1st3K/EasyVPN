@@ -1,6 +1,6 @@
-namespace EasyVPN.Domain.Common.Enums;
+namespace EasyZsV.Domain.Common.Enums;
 
-public enum VpnVersion
+public enum ZsvVersion
 {
     V1
 }

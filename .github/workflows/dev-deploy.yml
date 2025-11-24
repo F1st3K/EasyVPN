@@ -9,10 +9,10 @@ jobs:
     steps:
     - name: Pull latest compose
       run: |
-        cd /opt/EasyVPN.dev
+        cd /opt/EasyZsV.dev
         docker-compose --profile init pull
         
     - name: Restart Docker Compose
       run: |
-        cd /opt/EasyVPN.dev 
+        cd /opt/EasyZsV.dev 
         docker-compose --profile init up -d

@@ -1,4 +1,4 @@
-namespace EasyVPN.Application.Connections.Queries.GetConfig;
+namespace EasyZsV.Application.Connections.Queries.GetConfig;
 
 public record GetConfigResult(
     Guid ClientId,

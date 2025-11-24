@@ -1,7 +1,7 @@
-package wireguardvpn
+package wireguardzsv
 
 import (
-	"WireguardVpn/pkg/entities"
+	"WireguardZsv/pkg/entities"
 
 	"github.com/gin-gonic/gin"
 )

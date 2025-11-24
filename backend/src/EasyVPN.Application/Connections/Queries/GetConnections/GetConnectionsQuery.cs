@@ -1,8 +1,8 @@
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Connections.Queries.GetConnections;
+namespace EasyZsV.Application.Connections.Queries.GetConnections;
 
 public record GetConnectionsQuery(
     Guid? ClientId = null

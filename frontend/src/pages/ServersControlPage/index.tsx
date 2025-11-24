@@ -16,7 +16,7 @@ import { FC } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { Context } from '../..';
-import EasyVpn, { ApiError, Server } from '../../api';
+import EasyZsv, { ApiError, Server } from '../../api';
 import CenterBox from '../../components/CenterBox';
 import CreateButton from '../../components/CreateButton';
 import Modal from '../../components/Modal';
@@ -28,13 +28,13 @@ const ServersControlPage: FC = () => {
     const navigate = useNavigate();
 
     const [data, loading, error] = useRequest<Server[], ApiError>(
-        () => EasyVpn.servers.getAll(Auth.getToken()).then((v) => v.data),
+        () => EasyZsv.servers.getAll(Auth.getToken()).then((v) => v.data),
         [location.pathname],
     );
 
     const [removeServerId, setRemoveServerId] = useState<string>();
     const [removeHandler, loadingRm, errorRm] = useRequestHandler<void, ApiError>(() =>
-        EasyVpn.servers.delete(removeServerId || '', Auth.getToken()).then((r) => r.data),
+        EasyZsv.servers.delete(removeServerId || '', Auth.getToken()).then((r) => r.data),
     );
 
     if (loading) return <LinearProgress />;

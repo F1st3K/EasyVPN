@@ -1,8 +1,8 @@
-using EasyVPN.Domain.Entities;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Application.Common.Interfaces.Vpn;
+namespace EasyZsV.Application.Common.Interfaces.Zsv;
 
-public interface IVpnServiceFactory
+public interface IZsvServiceFactory
 {
-    public IVpnService? GetVpnService(Server server);
+    public IZsvService? GetZsvService(Server server);
 }

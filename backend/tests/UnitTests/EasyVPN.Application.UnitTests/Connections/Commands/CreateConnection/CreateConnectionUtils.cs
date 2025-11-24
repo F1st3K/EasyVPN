@@ -1,8 +1,8 @@
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Application.Connections.Commands.CreateConnection;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Application.Connections.Commands.CreateConnection;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Application.UnitTests.Connections.Commands.CreateConnection;
+namespace EasyZsV.Application.UnitTests.Connections.Commands.CreateConnection;
 
 public static class CreateConnectionUtils
 {

@@ -1,16 +1,16 @@
-using EasyVPN.Application.Connections.Commands.AddLifetimeConnection;
-using EasyVPN.Application.ConnectionTickets.Commands.ConfirmConnectionTicket;
-using EasyVPN.Application.ConnectionTickets.Commands.RejectConnectionTicket;
-using EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTicket;
-using EasyVPN.Application.ConnectionTickets.Queries.GetConnectionTickets;
-using EasyVPN.Contracts.ConnectionTickets;
-using EasyVPN.Contracts.Users;
-using EasyVPN.Domain.Common.Enums;
+using EasyZsV.Application.Connections.Commands.AddLifetimeConnection;
+using EasyZsV.Application.ConnectionTickets.Commands.ConfirmConnectionTicket;
+using EasyZsV.Application.ConnectionTickets.Commands.RejectConnectionTicket;
+using EasyZsV.Application.ConnectionTickets.Queries.GetConnectionTicket;
+using EasyZsV.Application.ConnectionTickets.Queries.GetConnectionTickets;
+using EasyZsV.Contracts.ConnectionTickets;
+using EasyZsV.Contracts.Users;
+using EasyZsV.Domain.Common.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EasyVPN.Api.Controllers.PaymentReviewer;
+namespace EasyZsV.Api.Controllers.PaymentReviewer;
 
 [Route("payment/tickets")]
 [Authorize(Roles = nameof(RoleType.PaymentReviewer))]

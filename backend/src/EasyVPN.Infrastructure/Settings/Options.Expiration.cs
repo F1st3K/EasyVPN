@@ -1,4 +1,4 @@
-namespace EasyVPN.Infrastructure.Settings;
+namespace EasyZsV.Infrastructure.Settings;
 
 public static partial class Options
 {

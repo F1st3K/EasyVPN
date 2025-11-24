@@ -1,12 +1,12 @@
-name: "WireguardVpn"
+name: "WireguardZsv"
 
 on:
   pull_request:
-    paths: [ "services/WireguardVpn/**" ]
+    paths: [ "services/WireguardZsv/**" ]
     branches: [ "main", "develop" ]
 
 jobs:
-  build_wireguardvpn:
+  build_wireguardzsv:
     name: Build and Test
     
     runs-on: ubuntu-latest
@@ -21,9 +21,9 @@ jobs:
 
     - name: Replace service source
       run: |
-          cp -r ./services/WireguardVpn /tmp/WireguardVpn 
+          cp -r ./services/WireguardZsv /tmp/WireguardZsv 
           rm -rf .[^.]* ..?* *
-          cp -r /tmp/WireguardVpn/. ./ 
+          cp -r /tmp/WireguardZsv/. ./ 
 
     - name: Restore dependencies
       run: go mod download 

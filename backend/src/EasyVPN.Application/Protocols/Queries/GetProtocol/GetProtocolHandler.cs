@@ -1,10 +1,10 @@
-using EasyVPN.Application.Common.Interfaces.Persistence;
-using EasyVPN.Domain.Common.Errors;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.Common.Interfaces.Persistence;
+using EasyZsV.Domain.Common.Errors;
+using EasyZsV.Domain.Entities;
 using ErrorOr;
 using MediatR;
 
-namespace EasyVPN.Application.Protocols.Queries.GetProtocol;
+namespace EasyZsV.Application.Protocols.Queries.GetProtocol;
 
 public class GetProtocolsHandler : IRequestHandler<GetProtocolQuery, ErrorOr<Protocol>>
 {

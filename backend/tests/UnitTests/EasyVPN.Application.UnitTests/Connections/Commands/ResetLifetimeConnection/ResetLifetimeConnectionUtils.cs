@@ -1,8 +1,8 @@
-using EasyVPN.Application.UnitTests.CommonTestUtils.Constants;
-using EasyVPN.Application.Connections.Commands.ResetLifetimeConnection;
-using EasyVPN.Domain.Entities;
+using EasyZsV.Application.UnitTests.CommonTestUtils.Constants;
+using EasyZsV.Application.Connections.Commands.ResetLifetimeConnection;
+using EasyZsV.Domain.Entities;
 
-namespace EasyVPN.Application.UnitTests.Connections.Commands.ResetLifetimeConnection;
+namespace EasyZsV.Application.UnitTests.Connections.Commands.ResetLifetimeConnection;
 
 public static class ResetLifetimeConnectionUtils
 {

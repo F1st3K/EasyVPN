@@ -1,4 +1,4 @@
-namespace EasyVPN.Domain.Entities;
+namespace EasyZsV.Domain.Entities;
 
 public class ConnectionString
 {

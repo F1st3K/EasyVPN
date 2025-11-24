@@ -1,9 +1,9 @@
 using System.Reflection;
-using EasyVPN.Api.Common.Errors;
+using EasyZsV.Api.Common.Errors;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.OpenApi.Models;
 
-namespace EasyVPN.Api;
+namespace EasyZsV.Api;
 
 public static class DependencyInjection
 {
