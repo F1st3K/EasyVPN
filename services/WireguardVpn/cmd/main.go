@@ -1,9 +1,10 @@
 package main
 
 import (
-	"WireguardVpn/config"
-	"WireguardVpn/internal/service"
 	"log"
+
+	"wireguardvpn/internal/service"
+	"wireguardvpn/pkg/config"
 )
 
 func main() {

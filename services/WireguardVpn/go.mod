@@ -1,4 +1,4 @@
-module WireguardVpn
+module wireguardvpn
 
 go 1.22.0
 
