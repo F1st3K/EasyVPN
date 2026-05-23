@@ -910,3 +910,6 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,aspnetcore,dotnetcore,react,rider,visualstudio,visualstudiocode,webstorm
 
+services/VLESSProxy/data/db.sqlite
+services/VLESSProxy/data/keys.json
+services/VLESSProxy/data/singbox.json
