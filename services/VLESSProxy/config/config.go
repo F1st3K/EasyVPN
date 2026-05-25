@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"log"
 	"os"
 )
 
@@ -15,19 +16,21 @@ type Config struct {
 	AdminUser      string
 	AdminPassword  string
 	KeyPath        string
+	SingBoxPort    string
 }
 
 func Load() (*Config, error) {
 	cfg := &Config{
 		SingBoxCfgPath: os.Getenv("SINGBOX_CFG_PATH"),
-		ServerDomain:   os.Getenv("SERVER_DOMAIN"),
+		ServerDomain:   os.Getenv("SERVER_HOST"),
 		ServerName:     os.Getenv("SERVER_NAME"),
-		Port:           os.Getenv("PORT"),
+		Port:           os.Getenv("API_PORT"),
 		DBPath:         os.Getenv("DB_PATH"),
 		ShortID:        os.Getenv("SHORT_ID"),
-		AdminUser:      os.Getenv("ADMIN_USER"),
-		AdminPassword:  os.Getenv("ADMIN_PASSWORD"),
+		AdminUser:      os.Getenv("SERVICE_USER"),
+		AdminPassword:  os.Getenv("SERVICE_PASSWORD"),
 		KeyPath:        os.Getenv("KEY_PATH"),
+		SingBoxPort:    os.Getenv("SING_BOX_PORT"),
 	}
 
 	if cfg.SingBoxCfgPath == "" {
@@ -35,7 +38,7 @@ func Load() (*Config, error) {
 	}
 
 	if cfg.ServerDomain == "" {
-		return nil, errors.New("SERVER_DOMAIN is required")
+		return nil, errors.New("SERVER_HOST is required")
 	}
 
 	if cfg.ServerName == "" {
@@ -45,6 +48,7 @@ func Load() (*Config, error) {
 	if cfg.Port == "" {
 		cfg.Port = "8080"
 	}
+	log.Println("Запущен на :", cfg.Port)
 
 	if cfg.DBPath == "" {
 		cfg.DBPath = "./db.sqlite"
@@ -55,16 +59,19 @@ func Load() (*Config, error) {
 	}
 
 	if cfg.AdminUser == "" {
-		return nil, errors.New("ADMIN_USER is required")
+		return nil, errors.New("SERVICE_USER is required")
 	}
 
 	if cfg.AdminPassword == "" {
-		return nil, errors.New("ADMIN_PASSWORD is required")
+		return nil, errors.New("SERVICE_PASSWORD is required")
 	}
 
 	if cfg.KeyPath == "" {
 		return nil, errors.New("KEY_PATH is required")
 	}
-
+	if cfg.SingBoxPort == "" {
+		cfg.SingBoxPort = "444"
+	}
+	log.Println("Sing-box запущен на :", cfg.SingBoxPort)
 	return cfg, nil
 }

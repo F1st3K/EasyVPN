@@ -6,11 +6,10 @@ type Config struct {
 	ListenPort string
 }
 
-func NewConfig( short, server, port string) Config {
+func NewConfig(short, server, port string) Config {
 	return Config{
 		ShortID:    short,
 		ServerName: server,
 		ListenPort: port,
 	}
 }
-
