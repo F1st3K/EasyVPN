@@ -46,9 +46,10 @@ func (o *Orchestrator) UpdateConfigAndReload(userUUID []string) error {
 
 func (o *Orchestrator) CreateLink(userUUID string) string {
 	return fmt.Sprintf(
-		"vless://%s@%s:443?security=reality&sid=%s&sni=%s&fp=chrome&pbk=%s&type=tcp&flow=xtls-rprx-vision",
+		"vless://%s@%s:%s?security=reality&sid=%s&sni=%s&fp=chrome&pbk=%s&type=tcp&flow=xtls-rprx-vision",
 		userUUID,
 		o.MainConfig.ServerDomain,
+		o.MainConfig.SingBoxPort,
 		o.sbconfig.ShortID,
 		o.sbconfig.ServerName,
 		o.Keys.Public,
