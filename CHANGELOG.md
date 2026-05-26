@@ -1,5 +1,12 @@
 # Changelog
 
+## `1.2.0` (2026-05-26)
+
+### Fixes
+
+- services: Create new vpn-service - VLESSProxy
+
+
 ## `1.1.1` (2025-06-27)
 
 ### Fixes
