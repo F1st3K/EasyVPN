@@ -33,7 +33,7 @@ func NewOrchestrator(MainConfig *config.Config) *Orchestrator {
 func (o *Orchestrator) UpdateConfigAndReload(userUUID []string) error {
 	o.mu.Lock()
 	defer o.mu.Unlock()
-	cfg, err := NewSingBoxConfig(o.Keys.Private, o.sbconfig.ShortID, o.sbconfig.ServerName, userUUID)
+	cfg, err := NewSingBoxConfig(o.Keys.Private, o.sbconfig.ShortID, o.sbconfig.ServerName, o.MainConfig.SingBoxPort, userUUID)
 	if err != nil {
 		return err
 	}

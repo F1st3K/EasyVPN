@@ -63,7 +63,7 @@ type Rule struct {
 	Protocol []string `json:"protocol"`
 }
 
-func NewSingBoxConfig(pri, sid, server string, usersUUID []string) ([]byte, error) {
+func NewSingBoxConfig(pri, sid, server string, listenPort int, usersUUID []string) ([]byte, error) {
 	var users []User
 
 	for _, s := range usersUUID {
@@ -77,7 +77,7 @@ func NewSingBoxConfig(pri, sid, server string, usersUUID []string) ([]byte, erro
 				Type:       "vless",
 				Tag:        "vless-reality",
 				Listen:     "::",
-				ListenPort: 443,
+				ListenPort: listenPort,
 				Users:      users,
 				TLS: &TLS{
 					Enabled:    true,

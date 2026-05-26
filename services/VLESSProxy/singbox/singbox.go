@@ -50,12 +50,12 @@ func RunSingBox(cfgpath string) (*exec.Cmd, error) {
 		"-c",
 		cfgpath,
 	)
-	log.Println("Запущено!")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Start(); err != nil {
 		return nil, err
 	}
+	log.Println("Запущено!")
 
 	return cmd, nil
 }

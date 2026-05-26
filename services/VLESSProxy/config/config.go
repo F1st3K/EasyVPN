@@ -14,7 +14,7 @@ type Config struct {
 	KeyPath        string `env:"KEY_PATH" env-default:"/etc/vlessproxy/keys.json"`
 	SingBoxCfgPath string `env:"SINGBOX_CFG_PATH" env-default:"/etc/vlessproxy/singbox.json"`
 	Port           string `env:"API_PORT" env-default:"8080"`
-	SingBoxPort    string `env:"SINGBOX_PORT" env-default:"443"`
+	SingBoxPort    int    `env:"SINGBOX_PORT" env-default:"443"`
 	ShortID        string `env:"SHORT_ID" env-default:"single"`
 	ServerName     string `env:"MASK_DOMAIN" env-default:"ya.ru"`
 	ServerDomain   string `env:"SERVICE_HOST" env-required:"true"`
