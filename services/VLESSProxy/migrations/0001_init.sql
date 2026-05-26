@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS connections (
+    id TEXT PRIMARY KEY,
+    uuid TEXT NOT NULL UNIQUE,
+    enabled BOOLEAN NOT NULL
+);

@@ -22,6 +22,7 @@ jobs:
           { name: "init", path: "./init/" },
           { name: "wireguard-vpn", path: "./services/WireguardVpn/" },
           { name: "amneziawg-vpn", path: "./services/AmneziaWgVpn/" },
+          { name: "vlessproxy-vpn", path: "./services/VLESSProxy/" },
           { name: "bot", path: "./services/TelegramBot/" },
         ]
 

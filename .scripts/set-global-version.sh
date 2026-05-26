@@ -47,6 +47,10 @@ yq -i ".service.version = \"$NEW_VERSION\"" ./cmd/config.yml
 yq ".service.version" ./cmd/config.yml
 cd ../../
 
+# Set version services/VLESSProxy:
+echo "--- Set version services/VLESSProxy --------------------------"
+echo $NEW_VERSION > services/VLESSProxy/VERSION
+
 # Set version services/TelegramBot:
 echo "--- Set version services/TelegramBot --------------------------"
 cd ./services/TelegramBot
