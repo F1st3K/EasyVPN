@@ -1,77 +1,48 @@
 package config
 
 import (
-	"errors"
 	"log"
-	"os"
+
+	"github.com/ilyakaznacheev/cleanenv"
+	"github.com/joho/godotenv"
 )
 
+var Version = "dev"
+
 type Config struct {
-	SingBoxCfgPath string
-	ServerDomain   string
-	ServerName     string
-	Port           string
-	DBPath         string
-	ShortID        string
-	AdminUser      string
-	AdminPassword  string
-	KeyPath        string
-	SingBoxPort    string
+	DBPath         string `env:"DB_PATH" env-default:"/etc/vlessproxy/db.sqlite"`
+	KeyPath        string `env:"KEY_PATH" env-default:"/etc/vlessproxy/keys.json"`
+	SingBoxCfgPath string `env:"SINGBOX_CFG_PATH" env-default:"/etc/vlessproxy/singbox.json"`
+	Port           string `env:"API_PORT" env-default:"8080"`
+	SingBoxPort    string `env:"SINGBOX_PORT" env-default:"443"`
+	ShortID        string `env:"SHORT_ID" env-default:"single"`
+	ServerName     string `env:"MASK_DOMAIN" env-default:"ya.ru"`
+	ServerDomain   string `env:"SERVICE_HOST" env-required:"true"`
+	AdminUser      string `env:"SERVICE_USER" env-required:"true"`
+	AdminPassword  string `env:"SERVICE_PASSWORD" env-required:"true"`
+	Version        string
 }
 
 func Load() (*Config, error) {
-	cfg := &Config{
-		SingBoxCfgPath: os.Getenv("SINGBOX_CFG_PATH"),
-		ServerDomain:   os.Getenv("SERVER_HOST"),
-		ServerName:     os.Getenv("SERVER_NAME"),
-		Port:           os.Getenv("API_PORT"),
-		DBPath:         os.Getenv("DB_PATH"),
-		ShortID:        os.Getenv("SHORT_ID"),
-		AdminUser:      os.Getenv("SERVICE_USER"),
-		AdminPassword:  os.Getenv("SERVICE_PASSWORD"),
-		KeyPath:        os.Getenv("KEY_PATH"),
-		SingBoxPort:    os.Getenv("SING_BOX_PORT"),
-	}
+	_ = godotenv.Load()
 
-	if cfg.SingBoxCfgPath == "" {
-		return nil, errors.New("SINGBOX_CFG_PATH is required")
-	}
+	cfg := &Config{}
 
-	if cfg.ServerDomain == "" {
-		return nil, errors.New("SERVER_HOST is required")
+	if err := cleanenv.ReadEnv(cfg); err != nil {
+		return nil, err
 	}
+	cfg.Version = Version
 
-	if cfg.ServerName == "" {
-		return nil, errors.New("SERVER_NAME is required")
-	}
+	log.Printf(
+		"VLESSProxy version: %s, api http server started on port: %s",
+		cfg.Version,
+		cfg.Port,
+	)
 
-	if cfg.Port == "" {
-		cfg.Port = "8080"
-	}
-	log.Println("Запущен на :", cfg.Port)
+	log.Printf(
+		"Sing-box started on port: %s",
+		cfg.SingBoxPort,
+	)
 
-	if cfg.DBPath == "" {
-		cfg.DBPath = "./db.sqlite"
-	}
-
-	if cfg.ShortID == "" {
-		return nil, errors.New("SHORT_ID is required")
-	}
-
-	if cfg.AdminUser == "" {
-		return nil, errors.New("SERVICE_USER is required")
-	}
-
-	if cfg.AdminPassword == "" {
-		return nil, errors.New("SERVICE_PASSWORD is required")
-	}
-
-	if cfg.KeyPath == "" {
-		return nil, errors.New("KEY_PATH is required")
-	}
-	if cfg.SingBoxPort == "" {
-		cfg.SingBoxPort = "444"
-	}
-	log.Println("Sing-box запущен на :", cfg.SingBoxPort)
 	return cfg, nil
 }

@@ -166,6 +166,33 @@ services:
     devices:
       - "/dev/net/tun:/dev/net/tun"  # device mapping for TUN interface
     restart: always
+
+  vlessproxy-vpn-service:
+    image: easyvpn/vlessproxy-vpn:latest
+    build:
+      context: services/VLESSProxy
+      dockerfile: Dockerfile
+    environment:
+      - SERVICE_HOST=${VPN_IP}  # your host address
+      - SERVICE_USER=${VPN_USER}            # your user name for auth
+      - SERVICE_PASSWORD=${VPN_PASSWORD}      # your password for auth
+      - SINGBOX_PORT=${VLP_VPN_PORT}
+      - API_PORT=${VLP_API_PORT}
+      - MASK_DOMAIN=${VLP_MASK_DOMAIN}
+    ports:
+      - "${VLP_VPN_PORT}:${VLP_VPN_PORT}/udp"  # amnezia wg port
+      - "${VLP_API_PORT}:${VLP_API_PORT}/tcp"    # http-api port
+    volumes:
+      - ${VLP_VOLUME}:/etc/vlessproxy
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.ip_forward=1
+    devices:
+      - "/dev/net/tun:/dev/net/tun"  # device mapping for TUN interface
+    restart: always
 # ╚═══ REGION: VPN services ═══╝
 
 
