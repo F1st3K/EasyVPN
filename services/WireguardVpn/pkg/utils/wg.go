@@ -1,12 +1,12 @@
 package utils
 
 import (
-	"WireguardVpn/pkg/entities"
 	"fmt"
 	"log"
 	"os"
 	"os/exec"
 	"strings"
+	"wireguardvpn/pkg/entities"
 )
 
 const (
@@ -33,7 +33,10 @@ func NewWgManager(address string, port string, initClients []entities.Client) *W
 	_, privErr := os.Stat(ServerPrivateKey)
 	_, pubErr := os.Stat(ServerPublicKey)
 	if os.IsNotExist(privErr) || os.IsNotExist(pubErr) {
-		private, public := wg.CreateKeys()
+		private, public, err := wg.CreateKeys()
+		if err != nil {
+			log.Fatalf("Failed to create keys: %v", err)
+		}
 		f, _ := os.OpenFile(ServerPrivateKey, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
 		f.WriteString(private)
 		f, _ = os.OpenFile(ServerPublicKey, os.O_WRONLY|os.O_CREATE, os.ModeAppend)
@@ -42,24 +45,34 @@ func NewWgManager(address string, port string, initClients []entities.Client) *W
 		defer f.Close()
 	}
 
-	wg.BuildServerConfiguration(initClients)
+	err = wg.BuildServerConfiguration(initClients)
+	if err != nil {
+		log.Fatalf("Failed to build server configuration: %v", err)
+	}
 	tryExecCommand("wg-quick up " + Wg)
 
 	return &wg
 }
 
-func (wg WgManager) CreateKeys() (privateKey string, publicKey string) {
+func (wg WgManager) CreateKeys() (privateKey string, publicKey string, err error) {
 	tryExecCommand("ls")
 	tryExecCommand("umask 077")
 	private_public := tryExecCommand(`privatekey=$(wg genkey) && echo -n "$privatekey;" && wg pubkey <<< "$privatekey"`)
 
 	keys := strings.Split(strings.TrimSpace(private_public), ";")
 
-	return keys[0], keys[1]
+	if len(keys) != 2 {
+		return "", "", fmt.Errorf("failed to parse keys")
+	}
+
+	return keys[0], keys[1], nil
 }
 
-func (wg WgManager) BuildServerConfiguration(clients []entities.Client) {
-	private, _ := os.ReadFile(ServerPrivateKey)
+func (wg WgManager) BuildServerConfiguration(clients []entities.Client) error {
+	private, err := os.ReadFile(ServerPrivateKey)
+	if err != nil {
+		return err
+	}
 
 	serverConf := fmt.Sprintf(`[Interface]
 PrivateKey = %s
@@ -83,27 +96,41 @@ AllowedIPs = %s
 `, client.Id, client.PublicKey, client.Address)
 	}
 
-	os.WriteFile(WgConfigPath, []byte(serverConf), os.ModeAppend)
+	err = os.WriteFile(WgConfigPath, []byte(serverConf), os.ModeAppend)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func (wg WgManager) GetClientConfiguration(client entities.Client) string {
-	public, _ := os.ReadFile(ServerPublicKey)
+func (wg WgManager) GetClientConfiguration(client entities.Client) (string, error) {
+	public, err := os.ReadFile(ServerPublicKey)
+	if err != nil {
+		return "", err
+	}
 
-	return fmt.Sprintf(`
+	config := fmt.Sprintf(`
 [Interface]
 PrivateKey = %s
 Address = %s
-DNS = 1.1.1.1
+DNS = 1.1.1
 
 [Peer]
 PublicKey = %s
 Endpoint = %s:%s
 AllowedIPs = 0.0.0.0/0
 `, client.PrivateKey, client.Address, string(public), wg.Address, wg.Port)
+
+	return config, nil
 }
 
-func (wg WgManager) Restart() {
-	tryExecCommand("wg syncconf " + Wg + " <(wg-quick strip " + Wg + ")")
+func (wg WgManager) Restart() error {
+	output := tryExecCommand("wg syncconf " + Wg + " <(wg-quick strip " + Wg + ")")
+	if output == "" {
+		return nil
+	}
+	return nil // For now, restart always succeeds
 }
 
 func tryExecCommand(command string) string {

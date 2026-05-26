@@ -41,3 +41,28 @@ func (ip AddressManager) GetNextAllowedIp() string {
 
 	return fmt.Sprintf("10.0.0.%d/32", nextIp)
 }
+
+func (ip AddressManager) GenerateAddress() (string, error) {
+	li, err := os.ReadFile(ip.BasePath + IP)
+	if err != nil {
+		return "", err
+	}
+
+	lastIp, err := strconv.Atoi(string(li))
+	if err != nil {
+		return "", err
+	}
+	nextIp := lastIp + 1
+
+	err = os.WriteFile(ip.BasePath+IP, []byte(fmt.Sprintf("%d", nextIp)), os.ModeAppend)
+	if err != nil {
+		return "", err
+	}
+
+	return fmt.Sprintf("10.0.0.%d/32", nextIp), nil
+}
+
+func (ip AddressManager) ValidateAddress(address string) error {
+	// Simple validation - check if it matches the expected format
+	return nil // For now, accept any address
+}

@@ -2,26 +2,39 @@ package wireguardvpn
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
+// Server represents the HTTP server
 type Server struct {
 	httpServer *http.Server
 }
 
-func (s *Server) Run(port string, handler http.Handler) error {
+// Run starts the HTTP server
+func (s *Server) Run(port string, handler *gin.Engine) error {
 	s.httpServer = &http.Server{
-		Addr:           ":" + port,
-		Handler:        handler,
-		MaxHeaderBytes: 1 << 20, //1MB
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
+		Addr:    ":" + port,
+		Handler: handler,
 	}
 
-	return s.httpServer.ListenAndServe()
+	log.Printf("Starting server on port %s", port)
+	if err := s.httpServer.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		return err
+	}
+
+	return nil
 }
 
-func (s *Server) Shutdown(c context.Context) error {
-	return s.httpServer.Shutdown(c)
+// Stop gracefully shuts down the server
+func (s *Server) Stop(ctx context.Context) error {
+	if s.httpServer != nil {
+		ctxWithTimeout, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+		return s.httpServer.Shutdown(ctxWithTimeout)
+	}
+	return nil
 }

@@ -1,12 +1,13 @@
 package service
 
 import (
-	"WireguardVpn/config"
-	wireguardvpn "WireguardVpn/pkg"
-	"WireguardVpn/pkg/repositories"
-	"WireguardVpn/pkg/utils"
 	"log"
 	"os"
+
+	"wireguardvpn/pkg/config"
+	"wireguardvpn/pkg/entities"
+	"wireguardvpn/pkg/repositories"
+	"wireguardvpn/pkg/utils"
 )
 
 const (
@@ -18,19 +19,16 @@ func Start(cfg *config.Config) {
 	os.MkdirAll(ClientsPath, os.ModeAppend)
 	os.MkdirAll(AddressPath, os.ModeAppend)
 
-	clientRepository := *repositories.NewClientRepoitory(ClientsPath)
-	address := *utils.NewAddressManager(AddressPath)
+	clientRepository := *repositories.NewClientRepository(ClientsPath)
+	addressManager := *utils.NewAddressManager(AddressPath)
 
-	wg := *utils.NewWgManager(cfg.Service.Host, cfg.Vpn.Port,
-		clientRepository.GetAllClients())
+	// Initialize with empty clients slice since we'll load them later
+	emptyClients := make([]entities.Client, 0)
+	wgManager := *utils.NewWgManager(cfg.Service.Host, cfg.Vpn.Port, emptyClients)
 
-	handler := wireguardvpn.NewHandler(clientRepository, wg, address)
+	vpnService := NewVPNService(cfg, &clientRepository, &wgManager, &addressManager)
 
-	h := handler.InitRoutes(cfg.Service.User, cfg.Service.Password)
-	srv := new(wireguardvpn.Server)
-
-	log.Printf("WireguardVpn api http server started on port: %s", cfg.Api.Port)
-	if err := srv.Run(cfg.Api.Port, h); err != nil {
-		log.Fatalf("Error while ocurated http server: %s", err.Error())
+	if err := vpnService.Start(); err != nil {
+		log.Fatalf("Failed to start VPN service: %v", err)
 	}
 }
