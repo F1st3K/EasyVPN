@@ -2,6 +2,7 @@ package singbox
 
 import (
 	"encoding/json"
+	"log"
 	"os"
 )
 
@@ -63,7 +64,7 @@ type Rule struct {
 	Protocol []string `json:"protocol"`
 }
 
-func NewSingBoxConfig(pri, sid, server string, usersUUID []string) ([]byte, error) {
+func NewSingBoxConfig(pri, sid, server, logLevel string, usersUUID []string) ([]byte, error) {
 	var users []User
 
 	for _, s := range usersUUID {
@@ -71,7 +72,7 @@ func NewSingBoxConfig(pri, sid, server string, usersUUID []string) ([]byte, erro
 	}
 
 	config := SingBoxConfig{
-		Log: Log{Level: "info"},
+		Log: Log{Level: logLevel},
 		Inbounds: []Inbound{
 			{
 				Type:       "vless",
@@ -106,10 +107,10 @@ func NewSingBoxConfig(pri, sid, server string, usersUUID []string) ([]byte, erro
 	}
 
 	b, err := json.MarshalIndent(config, "", "  ")
-
 	if err != nil {
 		return nil, err
 	}
+	log.Println("Config created")
 	return b, nil
 }
 

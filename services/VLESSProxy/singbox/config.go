@@ -3,10 +3,10 @@ package singbox
 type Config struct {
 	ShortID    string
 	ServerName string
-	ListenPort string
+	ListenPort int
 }
 
-func NewConfig(short, server, port string) Config {
+func NewConfig(short, server string, port int) Config {
 	return Config{
 		ShortID:    short,
 		ServerName: server,

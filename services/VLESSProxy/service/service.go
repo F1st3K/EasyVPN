@@ -16,6 +16,8 @@ func NewService(orch *singbox.Orchestrator,
 	return &Service{orch: orch, repo: repo}
 }
 
+
+
 func (s *Service) GetConfig(ctx context.Context, id string) (string, error) {
 	uuid, err := s.repo.GetUUID(ctx, id)
 	if err != nil {
