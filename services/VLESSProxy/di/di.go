@@ -6,6 +6,7 @@ import (
 	"VlessProxy/repository"
 	"VlessProxy/service"
 	"VlessProxy/singbox"
+	"context"
 	"database/sql"
 )
 
@@ -37,6 +38,7 @@ func (d *DI) GetDB() *sql.DB {
 	cfg := d.GetConfig()
 	db := repository.NewDB(cfg.DBPath)
 	d.DB = db
+	repository.InitDB(d.DB)
 	return d.DB
 }
 
@@ -54,7 +56,12 @@ func (d *DI) GetOrch() *singbox.Orchestrator {
 		return d.Orch
 	}
 	cfg := d.GetConfig()
-	orch := singbox.NewOrchestrator(cfg)
+	storage := d.GetStorage()
+	uuids, err := storage.ListConnections(context.Background())
+	if err != nil {
+		panic(err)
+	}
+	orch := singbox.NewOrchestrator(cfg, uuids)
 	d.Orch = orch
 	return d.Orch
 }
@@ -65,6 +72,7 @@ func (d *DI) GetService() *service.Service {
 	}
 	service := service.NewService(d.GetOrch(), d.GetStorage())
 	d.Service = service
+
 	return d.Service
 }
 
